@@ -89,7 +89,7 @@ class DumpReader:
         self.ndim = ndim  # dimension
         self.filetype = filetype  # trajectory type from different MD engines
         self.moltypes = moltypes  # molecule type for lammps molecular trajectories
-        self.snapshots: Snapshots = None 
+        self.snapshots: Snapshots = None
 
     def read_onefile(self):
         """ Read all snapshots from one dump file
@@ -110,8 +110,10 @@ class DumpReader:
             The simulation box is centered at 0 by default for
             'x' and 'xs' coordinates of 'lammps' & 'lammpscenter'
         """
-        logger.info(f"Start Reading file {self.filename} of type {self.filetype}")
-        self.snapshots = FILE_TYPE_MAP_READER[self.filetype](self.filename, self.ndim, self.moltypes)
+        logger.info(
+            f"Start Reading file {self.filename} of type {self.filetype}")
+        self.snapshots = FILE_TYPE_MAP_READER[self.filetype](
+            self.filename, self.ndim, self.moltypes)
         logger.info(f"Completed Reading file {self.filename}")
 
 

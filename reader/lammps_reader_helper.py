@@ -8,7 +8,7 @@ from reader.reader_utils import DumpFileType, SingleSnapshot, Snapshots
 logger = get_logger_handle(__name__)
 
 
-def read_lammps_wrapper(file_name: str, ndim: int) -> Snapshots:
+def read_lammps_wrapper(file_name: str, ndim: int, **kwargs) -> Snapshots:
     logger.info('--------Start Reading LAMMPS Atomic Dump---------')
     f = open(file_name, 'r')
     snapshots = []
@@ -252,8 +252,8 @@ def read_centertype(f: Any,
                                                for j in item[2: ndim + 2]]
                 # MoleculeType[int(item[0]) - 1] = int(item[-1])
 
-            conditions = [True if atomtype in moltypes.keys(
-            ) else False for atomtype in ParticleType]
+            conditions = [True if atomtype in moltypes.keys()
+                          else False for atomtype in ParticleType]
             positions = positions[conditions]
             ParticleType = pd.Series(
                 ParticleType[conditions]).map(
@@ -267,8 +267,8 @@ def read_centertype(f: Any,
                                                for j in item[2: ndim + 2]]
                 # MoleculeType[int(item[0]) - 1] = int(item[-1])
 
-            conditions = [True if atomtype in moltypes.keys(
-            ) else False for atomtype in ParticleType]
+            conditions = [True if atomtype in moltypes.keys()
+                          else False for atomtype in ParticleType]
             positions = positions[conditions]
             ParticleType = pd.Series(
                 ParticleType[conditions]).map(
