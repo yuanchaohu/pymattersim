@@ -22,18 +22,18 @@ class DumpFileType(Enum):
     GSD_DCD = 4
 
 
-@dataclass
+@dataclass(frozen=True)
 class SingleSnapshot:
     """
-    A class to hold system snaptshot
-    timestep:        simulation timestep at each snapshot
-    ParticleNumber:  particle number from each snapshot
-    ParticleType:    particle type in array in each snapshot
-    Positions:       particle coordinates in array in each snapshot
-    Boxlength:       box length in array in each snapshot
-    Boxbounds:       box boundaries in array in each snapshot
-    RealBounds:      real box bounds of a triclinic box
-    hmatrix:         h-matrix of the cells in each snapshot
+    A frozen data class to hold system snaptshot
+    timestep:         simulation timestep at each snapshot
+    particle_number:  particle number from each snapshot
+    particle_type:    particle type in array in each snapshot
+    positions:        particle coordinates in array in each snapshot
+    boxlength:        box length in array in each snapshot
+    boxbounds:        box boundaries in array in each snapshot
+    realbounds:       real box bounds of a triclinic box
+    hmatrix:          h-matrix of the cells in each snapshot
     """
     timestep: int
     particle_number: int
@@ -45,10 +45,10 @@ class SingleSnapshot:
     hmatrix: npt.NDArray
 
 
-@dataclass
+@dataclass(frozen=True)
 class Snapshots:
     """
-    A data class to hold all system snapshots
+    A frozen data class to hold all system snapshots
     """
     snapshots_number: int
     snapshots: List[SingleSnapshot]

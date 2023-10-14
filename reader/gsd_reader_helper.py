@@ -5,13 +5,13 @@ import numpy as np
 
 from typing import Dict, Any
 from mdtraj.formats import DCDTrajectoryFile
-from utils.logging_utils import get_logger_handle, log_table
+from utils.logging_utils import get_logger_handle
 from reader.reader_utils import DumpFileType, SingleSnapshot, Snapshots
 
 logger = get_logger_handle(__name__)
 
 
-def read_gsd_wrapper(file_name: str, ndim: int, **kwargs) -> Snapshots:
+def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
     logger.info('---------Start reading GSD file reading -----------')
     f = gsd.hoomd.open(file_name, mode='rb')
     snapshots = read_gsd(f, ndim)
@@ -19,7 +19,7 @@ def read_gsd_wrapper(file_name: str, ndim: int, **kwargs) -> Snapshots:
     return snapshots
 
 
-def read_gsd_dcd_wrapper(file_name: str, ndim: int, **kwargs) -> Snapshots:
+def read_gsd_dcd_wrapper(file_name: str, ndim: int) -> Snapshots:
     logger.info('---------Start reading GSD & DCD file -----------')
     gsd_filename = file_name
     gsd_filepath = os.path.dirname(gsd_filename)
@@ -42,7 +42,7 @@ def read_gsd(f: Any, ndim: int) -> Snapshots:
     if f[0].configuration.dimensions != ndim:
         logger.error("---*Warning*: Wrong dimension information given---")
 
-    snapshots = Snapshots(snapshots_number=len(f), snapshots=[])
+    snapshots = []
     for onesnapshot in f:
         # ------------configuration information---------------
         boxlength = onesnapshot.configuration.box[:ndim]
@@ -65,8 +65,7 @@ def read_gsd(f: Any, ndim: int) -> Snapshots:
             hmatrix=hmatrix,
         )
         snapshots.append(snapshot)
-
-    return snapshots
+    return Snapshots(snapshots_number=len(f), snapshots=snapshots)
 
 
 def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
@@ -82,7 +81,7 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
     if f_gsd[0].configuration.dimensions != ndim:
         logger.info("---*Warning*: Wrong dimension information given---")
     # -----------------read gsd file-------------------------
-    snapshots = Snapshots(snapshots_number=len(f_gsd), snapshots=[])
+    snapshots = []
     for onesnapshot in f_gsd:
         # ------------configuration information---------------
         boxlength = onesnapshot.configuration.box[:ndim]
@@ -119,4 +118,4 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
     for i in range(positions.shape[0]):
         snapshots[i].positions = positions[i][:, :ndim]
 
-    return snapshots
+    return Snapshots(snapshots_number=len(f_gsd), snapshots=snapshots)

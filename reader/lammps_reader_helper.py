@@ -2,41 +2,46 @@ import numpy as np
 import pandas as pd
 
 from typing import Dict, Any
-from utils.logging_utils import get_logger_handle, log_table
+from utils.logging_utils import get_logger_handle
 from reader.reader_utils import DumpFileType, SingleSnapshot, Snapshots
 
 logger = get_logger_handle(__name__)
 
 
-def read_lammps_wrapper(file_name: str, ndim: int, **kwargs) -> Snapshots:
+def read_lammps_wrapper(file_name: str, ndim: int) -> Snapshots:
+    """
+    Wrapper function around read lammps
+    """
     logger.info('--------Start Reading LAMMPS Atomic Dump---------')
     f = open(file_name, 'r')
+    snapshots_number = 0
     snapshots = []
     while True:
         snapshot = read_lammps(f, ndim)
         if not snapshot:
             break
-        snapshots.snapshots.append(snapshot)
-        snapshots.snapshots_number += 1
+        snapshots.append(snapshot)
+        snapshots_number += 1
     f.close()
     logger.info('-------LAMMPS Atomic Dump Reading Completed--------')
-    return snapshots
+    return Snapshots(snapshots_number=snapshots_number, snapshots=snapshots)
 
 
 def read_centertype_wrapper(
         file_name: str, ndim: int, moltypes: Dict[int, int]) -> Snapshots:
     logger.info('-----Start Reading LAMMPS Molecule Center Dump-----')
     f = open(file_name, 'r')
+    snapshots_number = 0
     snapshots = []
     while True:
         snapshot = read_centertype(f, ndim, moltypes)
         if not snapshot:
             break
-        snapshots.snapshots.append(snapshot)
-        snapshots.snapshots_number += 1
+        snapshots.append(snapshot)
+        snapshots_number += 1
     f.close()
     logger.info('---LAMMPS Molecule Center Dump Reading Completed---')
-    return snapshots
+    return Snapshots(snapshots_number=snapshots_number, snapshots=snapshots)
 
 
 def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
@@ -44,6 +49,10 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
 
     try:
         item = f.readline()
+        # End of file:
+        if not item:
+            logger.info("Reach end of file.")
+            return
         timestep = int(f.readline().split()[0])
         item = f.readline()
         ParticleNumber = int(f.readline())
@@ -69,7 +78,7 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
             item = f.readline().split()
             names = item[2:]
             positions = np.zeros((ParticleNumber, ndim))
-            ParticleType = np.zeros(ParticleNumber, dtype=np.int)
+            ParticleType = np.zeros(ParticleNumber, dtype=int)
 
             if 'xu' in names:
                 for i in range(ParticleNumber):
@@ -162,7 +171,7 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
             item = f.readline().split()
             names = item[2:]
             positions = np.zeros((ParticleNumber, ndim))
-            ParticleType = np.zeros(ParticleNumber, dtype=np.int)
+            ParticleType = np.zeros(ParticleNumber, dtype=int)
             if 'x' in names:
                 for i in range(ParticleNumber):
                     item = f.readline().split()
@@ -219,6 +228,10 @@ def read_centertype(f: Any,
 
     try:
         item = f.readline()
+        # End of file:
+        if not item:
+            logger.info("Reach end of file.")
+            return
         timestep = int(f.readline().split()[0])
         item = f.readline()
         ParticleNumber = int(f.readline())
@@ -240,9 +253,9 @@ def read_centertype(f: Any,
 
         item = f.readline().split()
         names = item[2:]
-        ParticleType = np.zeros(ParticleNumber, dtype=np.int)
+        ParticleType = np.zeros(ParticleNumber, dtype=int)
         positions = np.zeros((ParticleNumber, ndim))
-        # MoleculeType = np.zeros(ParticleNumber, dtype=np.int)
+        # MoleculeType = np.zeros(ParticleNumber, dtype=int)
 
         if 'xu' in names:
             for i in range(ParticleNumber):
@@ -317,3 +330,24 @@ def read_centertype(f: Any,
     except BaseException:
         logger.error("Exception when reading file.")
         return None
+
+
+def read_additions(dumpfile, SnapshotNumber, ParticleNumber, ncol):
+    """read additional columns in the dump file
+
+    ncol is the column number starting from 0
+    return in numpy array as [particlenumber, snapshotnumber] in float
+    """
+
+    results = np.zeros((ParticleNumber, SnapshotNumber))
+
+    f = open(dumpfile)
+    for n in range(SnapshotNumber):
+        for i in range(9):
+            f.readline()
+        for i in range(ParticleNumber):
+            item = f.readline().split()
+            results[int(item[0]) - 1, n] = float(item[ncol])
+    f.close()
+
+    return results
