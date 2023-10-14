@@ -72,5 +72,3 @@ class TestLammpsReaderHelper(unittest.TestCase):
             np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
             np.testing.assert_almost_equal(
                 snapshot.positions, old_d.Positions[i])
-
-

@@ -19,7 +19,7 @@ class TestDumpReader(unittest.TestCase):
     def setUp(self) -> None:
         super().setUp()
         self.test_file_lammps_2d = f"{READ_TEST_FILE_PATH}/dump_2D_test.atom"
-        self.test_file_lammps_3d = f"{READ_TEST_FILE_PATH}/glass.IS.n22.atom"    
+        self.test_file_lammps_3d = f"{READ_TEST_FILE_PATH}/glass.IS.n22.atom"
         self.test_file_gsd_3d = f"{READ_TEST_FILE_PATH}/glass.IS.n22.atom"
 
     def test_dump_reader_lammps_2d(self) -> None:
@@ -80,14 +80,15 @@ class TestDumpReader(unittest.TestCase):
             np.testing.assert_almost_equal(
                 snapshot.positions, old_d.Positions[i])
 
-
-
     def Xtest_dump_reader_gsd_3d(self) -> None:
         """
         Test dump reader works properly for 3D gsd
         """
         logger.info(f"Starting test using {self.test_file_gsd_3d}...")
-        reader = DumpReader(self.test_file_gsd_3d, ndim=3, filetype=DumpFileType.GSD)
+        reader = DumpReader(
+            self.test_file_gsd_3d,
+            ndim=3,
+            filetype=DumpFileType.GSD)
         reader.read_onefile()
         self.assertEqual(1, reader.snapshots.snapshots_number)
 
