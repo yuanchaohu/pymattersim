@@ -3,7 +3,7 @@ import gsd.hoomd
 import os
 import numpy as np
 
-from typing import Dict, Any
+from typing import Any
 from mdtraj.formats import DCDTrajectoryFile
 from utils.logging_utils import get_logger_handle
 from reader.reader_utils import DumpFileType, SingleSnapshot, Snapshots

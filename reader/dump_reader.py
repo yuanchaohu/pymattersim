@@ -2,8 +2,6 @@
 # coding = utf-8
 # This module is part of an analysis package
 
-import pandas as pd
-import numpy as np
 from utils.logging_utils import get_logger_handle
 from reader.reader_utils import DumpFileType, Snapshots
 from reader.lammps_reader_helper import read_lammps_wrapper, read_centertype_wrapper
