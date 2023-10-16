@@ -140,7 +140,7 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
                 for i in range(3 - ndim):
                     item = f.readline().split()
                     boxbounds = np.vstack(
-                        (boxbounds, np.array(item[:3], dtype=np.float)))
+                        (boxbounds, np.array(item[:3], dtype=np.float64)))
 
             xlo_bound, xhi_bound, xy = boxbounds[0, :]
             ylo_bound, yhi_bound, xz = boxbounds[1, :]

@@ -73,7 +73,7 @@ class readdump:
             import gsd.hoomd
             import gsd
 
-            f = gsd.hoomd.open(self.filename, mode='rb')
+            f = gsd.hoomd.open(self.filename, mode='r')
             self.read_gsd(f)
             print('---------GSD file reading over-----------')
 
@@ -89,7 +89,7 @@ class readdump:
             dcd_filename = gsd_filepath + '/' + \
                 os.path.basename(gsd_filename)[:-3] + 'dcd'
 
-            f_gsd = gsd.hoomd.open(gsd_filename, mode='rb')
+            f_gsd = gsd.hoomd.open(gsd_filename, mode='r')
             f_dcd = DCDTrajectoryFile(dcd_filename, 'r')
             self.read_gsd_dcd(f_gsd, f_dcd)
             f_dcd.close()
@@ -187,7 +187,7 @@ class readdump:
                     for i in range(3 - self.ndim):
                         item = f.readline().split()
                         boxbounds = np.vstack(
-                            (boxbounds, np.array(item[:3], dtype=np.float)))
+                            (boxbounds, np.array(item[:3], dtype=np.float64)))
 
                 xlo_bound, xhi_bound, xy = boxbounds[0, :]
                 ylo_bound, yhi_bound, xz = boxbounds[1, :]

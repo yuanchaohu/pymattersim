@@ -19,6 +19,8 @@ class TestLammpsReaderHelper(unittest.TestCase):
         super().setUp()
         self.test_file_2d = f"{READ_TEST_FILE_PATH}/dump_2D_test.atom"
         self.test_file_3d = f"{READ_TEST_FILE_PATH}/glass.IS.n22.atom"
+        self.test_file_triclinic = f"{READ_TEST_FILE_PATH}/2d_triclinic.atom"
+        self.test_file_xu = f"{READ_TEST_FILE_PATH}/test_xu.dump"
 
     def test_read_lammps_wrapper_2d(self) -> None:
         """
@@ -48,7 +50,7 @@ class TestLammpsReaderHelper(unittest.TestCase):
 
     def test_read_lammps_wrapper_3d(self) -> None:
         """
-        Test read lammps wrapper gives expecte results for 2D data
+        Test read lammps wrapper gives expecte results for 3D data
         """
         logger.info(f"Starting test using {self.test_file_3d}...")
         snapshots = read_lammps_wrapper(self.test_file_3d, ndim=3)
@@ -56,6 +58,60 @@ class TestLammpsReaderHelper(unittest.TestCase):
 
         # Comparison with old dump, will delete once fully tested
         old_d = readdump(self.test_file_3d, ndim=3)
+        old_d.read_onefile()
+
+        logger.info(old_d.TimeStep)
+        self.assertEqual(snapshots.snapshots_number, old_d.SnapshotNumber)
+        for i, snapshot in enumerate(snapshots.snapshots):
+            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
+            self.assertEqual(snapshot.particle_number, old_d.ParticleNumber[i])
+            np.testing.assert_almost_equal(
+                snapshot.particle_type, old_d.ParticleType[i])
+            np.testing.assert_almost_equal(
+                snapshot.particle_type, old_d.ParticleType[i])
+            np.testing.assert_almost_equal(
+                snapshot.boxlength, old_d.Boxlength[i])
+            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
+            np.testing.assert_almost_equal(
+                snapshot.positions, old_d.Positions[i])
+
+    def test_read_lammps_wrapper_triclinic(self) -> None:
+        """
+        Test read lammps wrapper gives expecte results for triclinic data
+        """
+        logger.info(f"Starting test using {self.test_file_triclinic}...")
+        snapshots = read_lammps_wrapper(self.test_file_triclinic, ndim=2)
+        self.assertEqual(1, snapshots.snapshots_number)
+
+        # Comparison with old dump, will delete once fully tested
+        old_d = readdump(self.test_file_triclinic, ndim=2)
+        old_d.read_onefile()
+
+        logger.info(old_d.TimeStep)
+        self.assertEqual(snapshots.snapshots_number, old_d.SnapshotNumber)
+        for i, snapshot in enumerate(snapshots.snapshots):
+            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
+            self.assertEqual(snapshot.particle_number, old_d.ParticleNumber[i])
+            np.testing.assert_almost_equal(
+                snapshot.particle_type, old_d.ParticleType[i])
+            np.testing.assert_almost_equal(
+                snapshot.particle_type, old_d.ParticleType[i])
+            np.testing.assert_almost_equal(
+                snapshot.boxlength, old_d.Boxlength[i])
+            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
+            np.testing.assert_almost_equal(
+                snapshot.positions, old_d.Positions[i])
+
+    def test_read_lammps_wrapper_xu(self) -> None:
+        """
+        Test read lammps wrapper gives expecte results for 3D-xu data
+        """
+        logger.info(f"Starting test using {self.test_file_xu}...")
+        snapshots = read_lammps_wrapper(self.test_file_xu, ndim=3)
+        self.assertEqual(1, snapshots.snapshots_number)
+
+        # Comparison with old dump, will delete once fully tested
+        old_d = readdump(self.test_file_xu, ndim=3)
         old_d.read_onefile()
 
         logger.info(old_d.TimeStep)

@@ -13,7 +13,7 @@ logger = get_logger_handle(__name__)
 
 def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
     logger.info('---------Start reading GSD file reading -----------')
-    f = gsd.hoomd.open(file_name, mode='rb')
+    f = gsd.hoomd.open(file_name, mode='r')
     snapshots = read_gsd(f, ndim)
     logger.info('---------GSD file reading completed -----------')
     return snapshots
@@ -26,7 +26,7 @@ def read_gsd_dcd_wrapper(file_name: str, ndim: int) -> Snapshots:
     dcd_filename = gsd_filepath + '/' + \
         os.path.basename(gsd_filename)[:-3] + 'dcd'
 
-    f_gsd = gsd.hoomd.open(gsd_filename, mode='rb')
+    f_gsd = gsd.hoomd.open(gsd_filename, mode='r')
     f_dcd = DCDTrajectoryFile(dcd_filename, 'r')
     snapshots = read_gsd_dcd(f_gsd, f_dcd, ndim)
     f_dcd.close()
