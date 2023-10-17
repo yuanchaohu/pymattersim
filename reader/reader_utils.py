@@ -26,7 +26,7 @@ class SingleSnapshot:
     """
     A frozen data class to hold system snaptshot
     timestep:         simulation timestep at each snapshot
-    particle_number:  particle number from each snapshot
+    nparticle:  particle number from each snapshot
     particle_type:    particle type in array in each snapshot
     positions:        particle coordinates in array in each snapshot
     boxlength:        box length in array in each snapshot
@@ -35,7 +35,7 @@ class SingleSnapshot:
     hmatrix:          h-matrix of the cells in each snapshot
     """
     timestep: int
-    particle_number: int
+    nparticle: int
     particle_type: npt.NDArray
     positions: npt.NDArray
     boxlength: npt.NDArray
@@ -49,5 +49,5 @@ class Snapshots:
     """
     A frozen data class to hold all system snapshots
     """
-    snapshots_number: int
+    nsnapshots: int
     snapshots: List[SingleSnapshot]

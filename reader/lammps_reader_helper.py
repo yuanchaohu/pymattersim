@@ -14,34 +14,34 @@ def read_lammps_wrapper(file_name: str, ndim: int) -> Snapshots:
     """
     logger.info('--------Start Reading LAMMPS Atomic Dump---------')
     f = open(file_name, 'r')
-    snapshots_number = 0
+    nsnapshots = 0
     snapshots = []
     while True:
         snapshot = read_lammps(f, ndim)
         if not snapshot:
             break
         snapshots.append(snapshot)
-        snapshots_number += 1
+        nsnapshots += 1
     f.close()
     logger.info('-------LAMMPS Atomic Dump Reading Completed--------')
-    return Snapshots(snapshots_number=snapshots_number, snapshots=snapshots)
+    return Snapshots(nsnapshots=nsnapshots, snapshots=snapshots)
 
 
-def read_centertype_wrapper(
+def read_lammps_centertype_wrapper(
         file_name: str, ndim: int, moltypes: Dict[int, int]) -> Snapshots:
     logger.info('-----Start Reading LAMMPS Molecule Center Dump-----')
     f = open(file_name, 'r')
-    snapshots_number = 0
+    nsnapshots = 0
     snapshots = []
     while True:
-        snapshot = read_centertype(f, ndim, moltypes)
+        snapshot = read_lammps_centertype(f, ndim, moltypes)
         if not snapshot:
             break
         snapshots.append(snapshot)
-        snapshots_number += 1
+        nsnapshots += 1
     f.close()
     logger.info('---LAMMPS Molecule Center Dump Reading Completed---')
-    return Snapshots(snapshots_number=snapshots_number, snapshots=snapshots)
+    return Snapshots(nsnapshots=nsnapshots, snapshots=snapshots)
 
 
 def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
@@ -83,9 +83,9 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
             if 'xu' in names:
                 for i in range(ParticleNumber):
                     item = f.readline().split()
-                    ParticleType[int(item[0]) - 1] = int(item[1])
+                    ParticleType[int(item[0]) - 1] = int(item[1])    # store particle type and sort particle by ID
                     positions[int(item[0]) - 1] = [float(j)
-                                                   for j in item[2: ndim + 2]]
+                                                   for j in item[2: ndim + 2]]    # store particle positions and sort particle by ID
 
             elif 'x' in names:
                 for i in range(ParticleNumber):
@@ -95,9 +95,9 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
                                                    for j in item[2: ndim + 2]]
 
                 positions = np.where(
-                    positions < boxbounds[:, 0], positions + boxlength, positions)
+                    positions < boxbounds[:, 0], positions + boxlength, positions)    # Moving particles outside the box back into the box while applying periodic boundary conditions
                 positions = np.where(
-                    positions > boxbounds[:, 1], positions - boxlength, positions)
+                    positions > boxbounds[:, 1], positions - boxlength, positions)    # Moving particles outside the box back into the box while applying periodic boundary conditions
                 # positions = positions - shiftfactors[np.newaxis, :]
                 # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
 
@@ -118,7 +118,7 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
 
             snapshot = SingleSnapshot(
                 timestep=timestep,
-                particle_number=ParticleNumber,
+                nparticle=ParticleNumber,
                 particle_type=ParticleType,
                 positions=positions,
                 boxlength=boxlength,
@@ -197,7 +197,7 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
 
             snapshot = SingleSnapshot(
                 timestep=timestep,
-                particle_number=ParticleNumber,
+                nparticle=ParticleNumber,
                 particle_type=ParticleType,
                 positions=positions,
                 boxlength=reallength,
@@ -212,7 +212,7 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
         return None
 
 
-def read_centertype(f: Any,
+def read_lammps_centertype(f: Any,
                     ndim: int,
                     moltypes: Dict[int,
                                    int]) -> SingleSnapshot:
@@ -317,7 +317,7 @@ def read_centertype(f: Any,
 
         snapshot = SingleSnapshot(
             timestep=timestep,
-            particle_number=ParticleType.shape[0],
+            nparticle=ParticleType.shape[0],
             particle_type=ParticleType,
             positions=positions,
             boxlength=boxlength,
@@ -332,22 +332,55 @@ def read_centertype(f: Any,
         return None
 
 
-def read_additions(dumpfile, SnapshotNumber, ParticleNumber, ncol):
-    """read additional columns in the dump file
+def read_additions(dumpfile, ncol):
+    """read additional columns in the lammps dump file
 
-    ncol is the column number starting from 0
-    return in numpy array as [particlenumber, snapshotnumber] in float
+    ncol: int, specifying the column number starting from 0 (zero-based)
+    return in numpy array as [particlenumber, snapshotnumber] in float, sort particle by ID
     """
 
-    results = np.zeros((ParticleNumber, SnapshotNumber))
+    with open(dumpfile) as f:
+        content = f.readlines()
 
-    f = open(dumpfile)
-    for n in range(SnapshotNumber):
-        for i in range(9):
-            f.readline()
-        for i in range(ParticleNumber):
-            item = f.readline().split()
-            results[int(item[0]) - 1, n] = float(item[ncol])
-    f.close()
+    nparticle = int(content[3])
+    nsnapshots = int(len(content)/(nparticle+9))
+
+    results = np.zeros((nparticle, nsnapshots))
+
+    for n in range(nsnapshots):
+        items = content[n*nparticle+(n+1)*9:(n+1)*(nparticle+9)]
+        for i in range(nparticle):
+            item = items[i].split()
+            item = np.array([float(_) for _ in item])
+            results[int(item[0])-1, n] = item[ncol]   # sort particle by ID
 
     return results
+
+
+def read_lammpslog(filename):
+    """extract the thermodynamic quantities from lammp log file"""
+
+    with open(filename, 'r') as f:
+        data = f.readlines()
+
+    #----get how many sections are there----
+    start = [i for i, val in enumerate(data) if val.startswith('Step ')]
+    end   = [i for i, val in enumerate(data) if val.startswith('Loop time of ')]
+
+    if data[-1] != '\n':
+        if data[-1].split()[0].isnumeric(): #incomplete log file
+            end.append(len(data) - 2)
+    
+    start   = np.array(start)
+    end     = np.array(end)
+    linenum = end - start - 1
+    print ('Section Number: %d' %len(linenum), '    Line Numbers: ' + str(linenum))
+    del data 
+
+    final = []
+    for i in range(len(linenum)):
+        data = pd.read_csv(filename, sep = '\s+', skiprows = start[i], nrows = linenum[i])
+        final.append(data)
+        del data
+
+    return final

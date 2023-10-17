@@ -2,17 +2,23 @@
 # coding = utf-8
 # This module is part of an analysis package
 
+try:
+    import gsd, mdtraj
+except ImportError:
+    try:
+        import subprocess
+        import sys
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "gsd"])
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "mdtraj"])
+        import gsd, mdtraj
+    except Exception as e:
+        print(f"An error occurred while installing gsd or mdtraj: {str(e)}")
+
 from utils.logging_utils import get_logger_handle
 from reader.reader_utils import DumpFileType, Snapshots
-from reader.lammps_reader_helper import read_lammps_wrapper, read_centertype_wrapper
+from reader.lammps_reader_helper import read_lammps_wrapper, read_lammps_centertype_wrapper
 from reader.gsd_reader_helper import read_gsd_wrapper, read_gsd_dcd_wrapper
 
-
-Authorinfo = """
-             ------------------Name: Yuan-Chao Hu--------------
-             --------------Email: ychu0213@gmail.com-----------
-             ----------Web: https://yuanchaohu.github.io/------
-             """
 
 Docstr = """
             Reading partcles' positions from snapshots of molecular simulations
@@ -21,14 +27,15 @@ Docstr = """
             To run the code, dump file format (id type x y z ...) are needed
             It supports three types of coordinates now x, xs, xu
             To obtain the dump information, use
-            ********************* from dump import DumpReader*********************
-            ******************** d = DumpReader(filename, ndim) ******************
-            ************************ d.read_onefile() **************************
+            ********************from reader.dump import DumpReader****************
+            ***************from reader.reader_utils import DumpFileType***********
+            *****reader=DumpReader(filename, ndim=3, filetype=DumpFileType(1))****
+            *********************** reader.read_onefile() ************************
 
-            d.snapshots: stores a list of snapshot, which consisits:
+            reader.snapshots: stores a list of snapshot, which consisits:
 
                 snapshot.timestep:         simulation timestep at each snapshot
-                snapshot.particle_number:  particle number from each snapshot
+                snapshot.nparticle:  particle number from each snapshot
                 snapshot.particle_type:    particle type in array in each snapshot
                 snapshot.positions:        particle coordinates in array in each snapshot
                 snapshot.boxlength:        box length in array in each snapshot
@@ -69,7 +76,7 @@ logger = get_logger_handle(__name__)
 
 FILE_TYPE_MAP_READER = {
     DumpFileType.LAMMPS: read_lammps_wrapper,
-    DumpFileType.LAMMPSCENTER: read_centertype_wrapper,
+    DumpFileType.LAMMPSCENTER: read_lammps_centertype_wrapper,
     DumpFileType.GSD: read_gsd_wrapper,
     DumpFileType.GSD_DCD: read_gsd_dcd_wrapper,
 }
@@ -83,7 +90,7 @@ class DumpReader:
             filename: str,
             ndim: int,
             filetype: DumpFileType = DumpFileType.LAMMPS,
-            moltypes: str = '') -> None:
+            moltypes: dict=None) -> None:
 
         self.filename = filename  # input snapshots
         self.ndim = ndim  # dimension

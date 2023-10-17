@@ -56,7 +56,7 @@ def read_gsd(f: Any, ndim: int) -> Snapshots:
 
         snapshot = SingleSnapshot(
             timestep=onesnapshot.configuration.step,
-            particle_number=onesnapshot.particles.N,
+            nparticle=onesnapshot.particles.N,
             particle_type=onesnapshot.particles.typeid + 1,
             positions=positions,
             boxlength=boxlength,
@@ -65,7 +65,7 @@ def read_gsd(f: Any, ndim: int) -> Snapshots:
             hmatrix=hmatrix,
         )
         snapshots.append(snapshot)
-    return Snapshots(snapshots_number=len(f), snapshots=snapshots)
+    return Snapshots(nsnapshots=len(f), snapshots=snapshots)
 
 
 def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
@@ -94,7 +94,7 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
                 axis=0)))
         snapshot = SingleSnapshot(
             timestep=onesnapshot.configuration.step,
-            particle_number=onesnapshot.particles.N,
+            nparticle=onesnapshot.particles.N,
             particle_type=onesnapshot.particles.typeid + 1,
             positions=None,
             boxlength=boxlength,
@@ -107,15 +107,15 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
     # -----------------read dcd file-------------------------
     positions = f_dcd.read()[0]
     # ----------------gsd and dcd should be consistent--------
-    if snapshots.snapshots_number != positions.shape[0]:
+    if snapshots.nsnapshots != positions.shape[0]:
         logger.error(
             "---*Warning*: Inconsistent configuration in gsd and dcd files---")
 
-    if snapshots[0].particle_number != positions[0].shape[0]:
+    if snapshots[0].nparticle != positions[0].shape[0]:
         logger.error(
             "---*Warning*: Inconsistent particle number in gsd and dcd files---")
 
     for i in range(positions.shape[0]):
         snapshots[i].positions = positions[i][:, :ndim]
 
-    return Snapshots(snapshots_number=len(f_gsd), snapshots=snapshots)
+    return Snapshots(nsnapshots=len(f_gsd), snapshots=snapshots)
