@@ -1,0 +1,1 @@
+find  . -type f -name '*.py' -not -path "./venv/*" -exec autopep8 --in-place --aggressive --aggressive '{}' \;
