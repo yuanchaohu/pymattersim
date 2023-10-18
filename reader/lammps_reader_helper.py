@@ -9,9 +9,7 @@ logger = get_logger_handle(__name__)
 
 
 def read_lammps_wrapper(file_name: str, ndim: int) -> Snapshots:
-    """
-    Wrapper function around read lammps
-    """
+    # Wrapper function around read lammps atomistic system
     logger.info('--------Start Reading LAMMPS Atomic Dump---------')
     f = open(file_name, 'r')
     nsnapshots = 0
@@ -29,6 +27,7 @@ def read_lammps_wrapper(file_name: str, ndim: int) -> Snapshots:
 
 def read_lammps_centertype_wrapper(
         file_name: str, ndim: int, moltypes: Dict[int, int]) -> Snapshots:
+    # Wrapper function around read lammps molecular system
     logger.info('-----Start Reading LAMMPS Molecule Center Dump-----')
     f = open(file_name, 'r')
     nsnapshots = 0
@@ -45,8 +44,7 @@ def read_lammps_centertype_wrapper(
 
 
 def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
-    """ Read a snapshot at one time from LAMMPS """
-
+    """ Read a snapshot at one time from LAMMPS atomistic system"""
     try:
         item = f.readline()
         # End of file:

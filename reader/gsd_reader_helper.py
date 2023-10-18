@@ -12,6 +12,7 @@ logger = get_logger_handle(__name__)
 
 
 def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
+    # Wrapper function around read gsd file
     logger.info('---------Start reading GSD file reading -----------')
     f = gsd.hoomd.open(file_name, mode='r')
     snapshots = read_gsd(f, ndim)
@@ -20,6 +21,7 @@ def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
 
 
 def read_gsd_dcd_wrapper(file_name: str, ndim: int) -> Snapshots:
+    # Wrapper function around read gsd and dcd file
     logger.info('---------Start reading GSD & DCD file -----------')
     gsd_filename = file_name
     gsd_filepath = os.path.dirname(gsd_filename)
