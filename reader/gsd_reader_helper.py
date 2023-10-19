@@ -1,18 +1,22 @@
+"""This module provide helper functions to read gsd files"""
+import os
+from typing import Any
+
 import gsd
 import gsd.hoomd
-import os
 import numpy as np
 
-from typing import Any
 from mdtraj.formats import DCDTrajectoryFile
 from utils.logging_utils import get_logger_handle
-from reader.reader_utils import DumpFileType, SingleSnapshot, Snapshots
+from reader.reader_utils import SingleSnapshot, Snapshots
 
 logger = get_logger_handle(__name__)
 
 
 def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
-    # Wrapper function around read gsd file
+    """
+    Wrapper function around read gsd file
+    """
     logger.info('---------Start reading GSD file reading -----------')
     f = gsd.hoomd.open(file_name, mode='r')
     snapshots = read_gsd(f, ndim)
@@ -21,7 +25,9 @@ def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
 
 
 def read_gsd_dcd_wrapper(file_name: str, ndim: int) -> Snapshots:
-    # Wrapper function around read gsd and dcd file
+    """
+    Wrapper function around read gsd and dcd file
+    """
     logger.info('---------Start reading GSD & DCD file -----------')
     gsd_filename = file_name
     gsd_filepath = os.path.dirname(gsd_filename)
@@ -37,7 +43,8 @@ def read_gsd_dcd_wrapper(file_name: str, ndim: int) -> Snapshots:
 
 
 def read_gsd(f: Any, ndim: int) -> Snapshots:
-    """Read gsd file from HOOMD-blue
+    """
+    Read gsd file from HOOMD-blue
     gsd file provides all the configuration information
     ref: https://gsd.readthedocs.io/en/stable/hoomd-examples.html
     """
@@ -71,9 +78,11 @@ def read_gsd(f: Any, ndim: int) -> Snapshots:
 
 
 def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
-    """Read gsd and dcd file from HOOMD-blue
-    gsd file provides all the configuration information except positions with periodic boundary conditions
-    dcd file provides the unwrap positions without periodic boundary conditions
+    """
+    Read gsd and dcd file from HOOMD-blue
+        1. gsd file provides all the configuration information except positions 
+            with periodic boundary conditions;
+        2. dcd file provides the unwrap positions without periodic boundary conditions.
     gsd is to get static information about the trajectory
     dcd is to get the absolute displacement to calculate dynamics
     ref: https://gsd.readthedocs.io/en/stable/hoomd-examples.html
@@ -109,7 +118,7 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
     # -----------------read dcd file-------------------------
     positions = f_dcd.read()[0]
     # ----------------gsd and dcd should be consistent--------
-    if snapshots.nsnapshots != positions.shape[0]:
+    if len(snapshots) != positions.shape[0]:
         logger.error(
             "---*Warning*: Inconsistent configuration in gsd and dcd files---")
 

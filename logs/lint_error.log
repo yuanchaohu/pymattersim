@@ -1,23 +1,9 @@
-************* Module pymattersim.reader.gsd_reader_helper
-reader/gsd_reader_helper.py:75:0: C0301: Line too long (106/100) (line-too-long)
-reader/gsd_reader_helper.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-reader/gsd_reader_helper.py:8:0: E0401: Unable to import 'utils.logging_utils' (import-error)
-reader/gsd_reader_helper.py:9:0: E0401: Unable to import 'reader.reader_utils' (import-error)
-reader/gsd_reader_helper.py:14:0: C0116: Missing function or method docstring (missing-function-docstring)
-reader/gsd_reader_helper.py:23:0: C0116: Missing function or method docstring (missing-function-docstring)
-reader/gsd_reader_helper.py:112:7: E1101: Instance of 'list' has no 'nsnapshots' member (no-member)
-reader/gsd_reader_helper.py:3:0: C0411: standard import "import os" should be placed before "import gsd" (wrong-import-order)
-reader/gsd_reader_helper.py:6:0: C0411: standard import "from typing import Any" should be placed before "import gsd" (wrong-import-order)
-reader/gsd_reader_helper.py:9:0: W0611: Unused DumpFileType imported from reader.reader_utils (unused-import)
-************* Module pymattersim.reader.dump_reader
+************* Module reader.dump_reader
 reader/dump_reader.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-reader/dump_reader.py:6:0: E0401: Unable to import 'utils.logging_utils' (import-error)
-reader/dump_reader.py:7:0: E0401: Unable to import 'reader.reader_utils' (import-error)
-reader/dump_reader.py:8:0: E0401: Unable to import 'reader.lammps_reader_helper' (import-error)
-reader/dump_reader.py:9:0: E0401: Unable to import 'reader.gsd_reader_helper' (import-error)
 reader/dump_reader.py:12:0: C0103: Constant name "Docstr" doesn't conform to UPPER_CASE naming style (invalid-name)
 reader/dump_reader.py:80:0: C0115: Missing class docstring (missing-class-docstring)
 reader/dump_reader.py:94:4: C0116: Missing function or method docstring (missing-function-docstring)
+reader/dump_reader.py:95:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
 reader/dump_reader.py:105:16: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
 reader/dump_reader.py:106:16: C0415: Import outside toplevel (mdtraj) (import-outside-toplevel)
 reader/dump_reader.py:117:23: W0718: Catching too general exception Exception (broad-exception-caught)
@@ -25,13 +11,12 @@ reader/dump_reader.py:109:20: C0415: Import outside toplevel (subprocess) (impor
 reader/dump_reader.py:110:20: C0415: Import outside toplevel (sys) (import-outside-toplevel)
 reader/dump_reader.py:115:20: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
 reader/dump_reader.py:116:20: C0415: Import outside toplevel (mdtraj) (import-outside-toplevel)
+reader/dump_reader.py:123:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
 reader/dump_reader.py:105:16: W0611: Unused import gsd (unused-import)
 reader/dump_reader.py:106:16: W0611: Unused import mdtraj (unused-import)
 reader/dump_reader.py:80:0: R0903: Too few public methods (1/2) (too-few-public-methods)
-************* Module pymattersim.reader.lammps_reader_helper
+************* Module reader.lammps_reader_helper
 reader/lammps_reader_helper.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-reader/lammps_reader_helper.py:5:0: E0401: Unable to import 'utils.logging_utils' (import-error)
-reader/lammps_reader_helper.py:6:0: E0401: Unable to import 'reader.reader_utils' (import-error)
 reader/lammps_reader_helper.py:11:0: C0116: Missing function or method docstring (missing-function-docstring)
 reader/lammps_reader_helper.py:14:8: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
 reader/lammps_reader_helper.py:14:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
@@ -67,328 +52,23 @@ reader/lammps_reader_helper.py:382:8: C0209: Formatting a regular string which c
 reader/lammps_reader_helper.py:389:4: C0200: Consider using enumerate instead of iterating with range and len (consider-using-enumerate)
 reader/lammps_reader_helper.py:4:0: C0411: standard import "from typing import Dict, Any" should be placed before "import numpy as np" (wrong-import-order)
 reader/lammps_reader_helper.py:6:0: W0611: Unused DumpFileType imported from reader.reader_utils (unused-import)
-************* Module pymattersim.reader.reader_utils
+************* Module reader.reader_utils
 reader/reader_utils.py:13:0: C0301: Line too long (107/100) (line-too-long)
 reader/reader_utils.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-reader/reader_utils.py:6:0: E0401: Unable to import 'utils.logging_utils' (import-error)
 reader/reader_utils.py:25:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
 reader/reader_utils.py:3:0: C0411: standard import "from typing import List" should be placed before "import numpy.typing as npt" (wrong-import-order)
 reader/reader_utils.py:4:0: C0411: standard import "from dataclasses import dataclass" should be placed before "import numpy.typing as npt" (wrong-import-order)
 reader/reader_utils.py:5:0: C0411: standard import "from enum import Enum" should be placed before "import numpy.typing as npt" (wrong-import-order)
-************* Module pymattersim.tests.reader.gsd_reader_helper_test
-tests/reader/gsd_reader_helper_test.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-tests/reader/gsd_reader_helper_test.py:3:0: E0401: Unable to import 'reader.gsd_reader_helper' (import-error)
-tests/reader/gsd_reader_helper_test.py:4:0: E0401: Unable to import 'tests.reader.old_dump' (import-error)
-tests/reader/gsd_reader_helper_test.py:4:0: E0611: No name 'reader' in module 'tests' (no-name-in-module)
-tests/reader/gsd_reader_helper_test.py:6:0: E0401: Unable to import 'utils.logging_utils' (import-error)
-************* Module pymattersim.tests.reader.dump_reader_test
-tests/reader/dump_reader_test.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-tests/reader/dump_reader_test.py:3:0: E0401: Unable to import 'reader.dump_reader' (import-error)
-tests/reader/dump_reader_test.py:4:0: E0401: Unable to import 'reader.reader_utils' (import-error)
-tests/reader/dump_reader_test.py:5:0: E0401: Unable to import 'tests.reader.old_dump' (import-error)
-tests/reader/dump_reader_test.py:5:0: E0611: No name 'reader' in module 'tests' (no-name-in-module)
-tests/reader/dump_reader_test.py:7:0: E0401: Unable to import 'utils.logging_utils' (import-error)
-************* Module pymattersim.tests.reader.old_dump
-tests/reader/old_dump.py:394:0: C0301: Line too long (110/100) (line-too-long)
-tests/reader/old_dump.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-tests/reader/old_dump.py:9:0: C0103: Class name "readdump" doesn't conform to PascalCase naming style (invalid-name)
-tests/reader/old_dump.py:15:8: C0103: Attribute name "TimeStep" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:16:8: C0103: Attribute name "ParticleNumber" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:17:8: C0103: Attribute name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:18:8: C0103: Attribute name "Positions" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:19:8: C0103: Attribute name "SnapshotNumber" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:20:8: C0103: Attribute name "Boxlength" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:21:8: C0103: Attribute name "Boxbounds" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:22:8: C0103: Attribute name "Realbounds" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:9:0: R0902: Too many instance attributes (13/7) (too-many-instance-attributes)
-tests/reader/old_dump.py:12:4: W1113: Keyword argument before variable positional arguments list in the definition of __init__ function (keyword-arg-before-vararg)
-tests/reader/old_dump.py:12:0: W0613: Unused argument 'arg' (unused-argument)
-tests/reader/old_dump.py:49:16: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-tests/reader/old_dump.py:49:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-tests/reader/old_dump.py:61:16: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-tests/reader/old_dump.py:73:12: C0415: Import outside toplevel (gsd.hoomd) (import-outside-toplevel)
-tests/reader/old_dump.py:74:12: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
-tests/reader/old_dump.py:82:12: C0415: Import outside toplevel (gsd.hoomd) (import-outside-toplevel)
-tests/reader/old_dump.py:83:12: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
-tests/reader/old_dump.py:84:12: C0415: Import outside toplevel (os) (import-outside-toplevel)
-tests/reader/old_dump.py:85:12: C0415: Import outside toplevel (mdtraj.formats.DCDTrajectoryFile) (import-outside-toplevel)
-tests/reader/old_dump.py:61:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-tests/reader/old_dump.py:98:4: E0211: Method 'read_multiple' has no argument (no-method-argument)
-tests/reader/old_dump.py:100:8: W0107: Unnecessary pass statement (unnecessary-pass)
-tests/reader/old_dump.py:102:4: R0914: Too many local variables (37/15) (too-many-locals)
-tests/reader/old_dump.py:252:15: W0718: Catching too general exception BaseException (broad-exception-caught)
-tests/reader/old_dump.py:110:12: C0103: Variable name "ParticleNumber" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:115:12: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
-tests/reader/old_dump.py:136:16: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:225:16: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:102:4: R0912: Too many branches (21/12) (too-many-branches)
-tests/reader/old_dump.py:102:4: R0915: Too many statements (101/50) (too-many-statements)
-tests/reader/old_dump.py:127:16: W0612: Unused variable 'shiftfactors' (unused-variable)
-tests/reader/old_dump.py:360:15: W0718: Catching too general exception BaseException (broad-exception-caught)
-tests/reader/old_dump.py:272:12: C0103: Variable name "ParticleNumber" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:293:12: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:305:30: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
-tests/reader/old_dump.py:308:16: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:320:30: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
-tests/reader/old_dump.py:323:16: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:341:30: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
-tests/reader/old_dump.py:344:16: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:256:4: R0915: Too many statements (54/50) (too-many-statements)
-tests/reader/old_dump.py:285:12: W0612: Unused variable 'shiftfactors' (unused-variable)
-tests/reader/old_dump.py:437:29: C0103: Argument name "SnapshotNumber" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:437:45: C0103: Argument name "ParticleNumber" doesn't conform to snake_case naming style (invalid-name)
-tests/reader/old_dump.py:446:8: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-tests/reader/old_dump.py:446:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-tests/reader/old_dump.py:448:12: W0612: Unused variable 'i' (unused-variable)
-************* Module pymattersim.tests.reader.lammps_reader_helper_test
-tests/reader/lammps_reader_helper_test.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-tests/reader/lammps_reader_helper_test.py:3:0: E0401: Unable to import 'reader.lammps_reader_helper' (import-error)
-tests/reader/lammps_reader_helper_test.py:4:0: E0401: Unable to import 'tests.reader.old_dump' (import-error)
-tests/reader/lammps_reader_helper_test.py:4:0: E0611: No name 'reader' in module 'tests' (no-name-in-module)
-tests/reader/lammps_reader_helper_test.py:6:0: E0401: Unable to import 'utils.logging_utils' (import-error)
-************* Module pymattersim.utils.logging_utils
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[144:166]
-==pymattersim.tests.reader.old_dump:[187:209]
-                        item = f.readline().split()
-                        boxbounds = np.vstack(
-                            (boxbounds, np.array(item[:3], dtype=np.float64)))
-
-                xlo_bound, xhi_bound, xy = boxbounds[0, :]
-                ylo_bound, yhi_bound, xz = boxbounds[1, :]
-                zlo_bound, zhi_bound, yz = boxbounds[2, :]
-                xlo = xlo_bound - min((0.0, xy, xz, xy + xz))
-                xhi = xhi_bound - max((0.0, xy, xz, xy + xz))
-                ylo = ylo_bound - min((0.0, yz))
-                yhi = yhi_bound - max((0.0, yz))
-                zlo = zlo_bound
-                zhi = zhi_bound
-                h0 = xhi - xlo
-                h1 = yhi - ylo
-                h2 = zhi - zlo
-                h3 = yz
-                h4 = xz
-                h5 = xy
-
-                realbounds = np.array(
-                    [xlo, xhi, ylo, yhi, zlo, zhi]).reshape((3, 2)) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.tests.reader.gsd_reader_helper_test:[31:46]
-==pymattersim.tests.reader.lammps_reader_helper_test:[34:54]
-        old_d.read_onefile()
-
-        self.assertEqual(snapshots.nsnapshots, old_d.SnapshotNumber)
-        for i, snapshot in enumerate(snapshots.snapshots):
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i])
-
-    def test_read_lammps_wrapper_3d(self) -> None:
-        """
-        Test read lammps wrapper gives expecte results for 3D data
-        """ (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.tests.reader.dump_reader_test:[102:113]
-==pymattersim.tests.reader.lammps_reader_helper_test:[64:80]
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i]) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.tests.reader.dump_reader_test:[70:86]
-==pymattersim.tests.reader.lammps_reader_helper_test:[38:54]
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i])
-
-    def test_read_lammps_wrapper_3d(self) -> None:
-        """
-        Test read lammps wrapper gives expecte results for 3D data
-        """ (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.tests.reader.dump_reader_test:[41:57]
-==pymattersim.tests.reader.gsd_reader_helper_test:[35:46]
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i])
-
-    def test_dump_reader_lammps_3d(self) -> None:
-        """
-        Test dump reader works properly for 3D lammps
-        """ (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[292:304]
-==pymattersim.tests.reader.old_dump:[325:337]
-            positions = np.where(
-                positions < boxbounds[:, 0], positions + boxlength, positions)
-            positions = np.where(
-                positions > boxbounds[:, 1], positions - boxlength, positions)
-            # positions = positions - shiftfactors[np.newaxis, :]
-            # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
-
-        elif 'xs' in names:
-            for i in range(ParticleNumber):
-                item = f.readline().split()
-                ParticleType[int(item[0]) - 1] = int(item[1])
-                positions[int(item[0]) - 1] = [float(j) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[98:112]
-==pymattersim.tests.reader.old_dump:[151:163]
-                    positions = np.where(
-                        positions < boxbounds[:, 0], positions + boxlength, positions)
-                    positions = np.where(
-                        positions > boxbounds[:, 1], positions - boxlength, positions)
-                    # positions = positions - shiftfactors[np.newaxis, :]
-                    # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
-
-                elif 'xs' in names:
-                    for i in range(ParticleNumber):
-                        item = f.readline().split()
-                        ParticleType[int(item[0]) - 1] = int(item[1])
-                        positions[int(item[0]) - 1] = [float(j) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[177:183]
-==pymattersim.tests.reader.old_dump:[224:230]
-                ParticleType = np.zeros(ParticleNumber, dtype=int)
-                if 'x' in names:
-                    for i in range(ParticleNumber):
-                        item = f.readline().split()
-                        ParticleType[int(item[0]) - 1] = int(item[1])
-                        positions[int(item[0]) - 1] = [float(j) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[78:87]
-==pymattersim.tests.reader.old_dump:[135:142]
-            ParticleType = np.zeros(ParticleNumber, dtype=int)
-
-            if 'xu' in names:
-                for i in range(ParticleNumber):
-                    item = f.readline().split()
-                    # store particle type and sort particle by ID
-                    ParticleType[int(item[0]) - 1] = int(item[1])
-                    # store particle positions and sort particle by ID
-                    positions[int(item[0]) - 1] = [float(j) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.gsd_reader_helper:[62:68]
-==pymattersim.reader.lammps_reader_helper:[126:132]
+reader/reader_utils.py:1:0: R0801: Similar lines in 2 files
+==reader.gsd_reader_helper:[69:75]
+==reader.lammps_reader_helper:[126:132]
             positions=positions,
             boxlength=boxlength,
             boxbounds=boxbounds,
             realbounds=None,
             hmatrix=hmatrix,
         ) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[191:196]
-==pymattersim.tests.reader.old_dump:[238:243]
-                        positions[pid, 0] = xlo_bound + float(item[2]) * h0 + float(
-                            item[3]) * h5 + float(item[4]) * h4
-                        positions[pid, 1] = ylo_bound + \
-                            float(item[3]) * h1 + float(item[4]) * h3
-                        positions[pid, 2] = zlo_bound + float(item[4]) * h2 (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[185:190]
-==pymattersim.tests.reader.old_dump:[232:237]
-                elif 'xs' in names:
-                    for i in range(ParticleNumber):
-                        item = f.readline().split()
-                        pid = int(item[0]) - 1
-                        ParticleType[pid] = int(item[1]) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[313:321]
-==pymattersim.tests.reader.old_dump:[346:354]
-                positions += boxbounds[:, 0]
-                positions = np.where(
-                    positions < boxbounds[:, 0], positions + boxlength, positions)
-                positions = np.where(
-                    positions > boxbounds[:, 1], positions - boxlength, positions)
-                # positions = positions - shiftfactors[np.newaxis, :]
-                # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
- (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[114:122]
-==pymattersim.tests.reader.old_dump:[165:173]
-                    positions += boxbounds[:, 0]
-                    positions = np.where(
-                        positions < boxbounds[:, 0], positions + boxlength, positions)
-                    positions = np.where(
-                        positions > boxbounds[:, 1], positions - boxlength, positions)
-                    # positions = positions - shiftfactors[np.newaxis, :]
-                    # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
- (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[278:283]
-==pymattersim.tests.reader.old_dump:[311:316]
-        elif 'x' in names:
-            for i in range(ParticleNumber):
-                item = f.readline().split()
-                ParticleType[int(item[0]) - 1] = int(item[1])
-                positions[int(item[0]) - 1] = [float(j) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[89:94]
-==pymattersim.tests.reader.old_dump:[144:149]
-                elif 'x' in names:
-                    for i in range(ParticleNumber):
-                        item = f.readline().split()
-                        ParticleType[int(item[0]) - 1] = int(item[1])
-                        positions[int(item[0]) - 1] = [float(j) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[263:268]
-==pymattersim.tests.reader.old_dump:[137:142]
-                if 'xu' in names:
-                    for i in range(ParticleNumber):
-                        item = f.readline().split()
-                        ParticleType[int(item[0]) - 1] = int(item[1])
-                        positions[int(item[0]) - 1] = [float(j) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.lammps_reader_helper:[80:87]
-==pymattersim.tests.reader.old_dump:[296:301]
-            if 'xu' in names:
-                for i in range(ParticleNumber):
-                    item = f.readline().split()
-                    # store particle type and sort particle by ID
-                    ParticleType[int(item[0]) - 1] = int(item[1])
-                    # store particle positions and sort particle by ID
-                    positions[int(item[0]) - 1] = [float(j) (duplicate-code)
-utils/logging_utils.py:1:0: R0801: Similar lines in 2 files
-==pymattersim.reader.gsd_reader_helper:[26:32]
-==pymattersim.tests.reader.old_dump:[87:93]
-    gsd_filepath = os.path.dirname(gsd_filename)
-    dcd_filename = gsd_filepath + '/' + \
-        os.path.basename(gsd_filename)[:-3] + 'dcd'
-
-    f_gsd = gsd.hoomd.open(gsd_filename, mode='r')
-    f_dcd = DCDTrajectoryFile(dcd_filename, 'r') (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 6.80/10 (previous run: 6.80/10, +0.00)
+Your code has been rated at 8.29/10 (previous run: 8.09/10, +0.20)
 

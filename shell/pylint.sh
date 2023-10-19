@@ -1,2 +1,2 @@
 
-pylint ../pymattersim &> logs/lint_error.log
+pylint reader &> logs/lint_error.log
