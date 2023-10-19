@@ -81,9 +81,11 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
             if 'xu' in names:
                 for i in range(ParticleNumber):
                     item = f.readline().split()
-                    ParticleType[int(item[0]) - 1] = int(item[1])    # store particle type and sort particle by ID
+                    # store particle type and sort particle by ID
+                    ParticleType[int(item[0]) - 1] = int(item[1])
+                    # store particle positions and sort particle by ID
                     positions[int(item[0]) - 1] = [float(j)
-                                                   for j in item[2: ndim + 2]]    # store particle positions and sort particle by ID
+                                                   for j in item[2: ndim + 2]]
 
             elif 'x' in names:
                 for i in range(ParticleNumber):
@@ -92,10 +94,14 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
                     positions[int(item[0]) - 1] = [float(j)
                                                    for j in item[2: ndim + 2]]
 
+                # Moving particles outside the box back into the box while
+                # applying periodic boundary conditions
                 positions = np.where(
-                    positions < boxbounds[:, 0], positions + boxlength, positions)    # Moving particles outside the box back into the box while applying periodic boundary conditions
+                    positions < boxbounds[:, 0], positions + boxlength, positions)
+                # Moving particles outside the box back into the box while
+                # applying periodic boundary conditions
                 positions = np.where(
-                    positions > boxbounds[:, 1], positions - boxlength, positions)    # Moving particles outside the box back into the box while applying periodic boundary conditions
+                    positions > boxbounds[:, 1], positions - boxlength, positions)
                 # positions = positions - shiftfactors[np.newaxis, :]
                 # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
 
@@ -211,9 +217,9 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
 
 
 def read_lammps_centertype(f: Any,
-                    ndim: int,
-                    moltypes: Dict[int,
-                                   int]) -> SingleSnapshot:
+                           ndim: int,
+                           moltypes: Dict[int,
+                                          int]) -> SingleSnapshot:
     """ Read a snapshot of molecules at one time from LAMMPS
 
         moltypes is a dict mapping atomic type to molecular type
@@ -341,16 +347,16 @@ def read_additions(dumpfile, ncol):
         content = f.readlines()
 
     nparticle = int(content[3])
-    nsnapshots = int(len(content)/(nparticle+9))
+    nsnapshots = int(len(content) / (nparticle + 9))
 
     results = np.zeros((nparticle, nsnapshots))
 
     for n in range(nsnapshots):
-        items = content[n*nparticle+(n+1)*9:(n+1)*(nparticle+9)]
+        items = content[n * nparticle + (n + 1) * 9:(n + 1) * (nparticle + 9)]
         for i in range(nparticle):
             item = items[i].split()
             item = np.array([float(_) for _ in item])
-            results[int(item[0])-1, n] = item[ncol]   # sort particle by ID
+            results[int(item[0]) - 1, n] = item[ncol]   # sort particle by ID
 
     return results
 
@@ -361,23 +367,31 @@ def read_lammpslog(filename):
     with open(filename, 'r') as f:
         data = f.readlines()
 
-    #----get how many sections are there----
+    # ----get how many sections are there----
     start = [i for i, val in enumerate(data) if val.startswith('Step ')]
-    end   = [i for i, val in enumerate(data) if val.startswith('Loop time of ')]
+    end = [i for i, val in enumerate(data) if val.startswith('Loop time of ')]
 
     if data[-1] != '\n':
-        if data[-1].split()[0].isnumeric(): #incomplete log file
+        if data[-1].split()[0].isnumeric():  # incomplete log file
             end.append(len(data) - 2)
-    
-    start   = np.array(start)
-    end     = np.array(end)
+
+    start = np.array(start)
+    end = np.array(end)
     linenum = end - start - 1
-    print ('Section Number: %d' %len(linenum), '    Line Numbers: ' + str(linenum))
-    del data 
+    print(
+        'Section Number: %d' %
+        len(linenum),
+        '    Line Numbers: ' +
+        str(linenum))
+    del data
 
     final = []
     for i in range(len(linenum)):
-        data = pd.read_csv(filename, sep = '\s+', skiprows = start[i], nrows = linenum[i])
+        data = pd.read_csv(
+            filename,
+            sep='\\s+',
+            skiprows=start[i],
+            nrows=linenum[i])
         final.append(data)
         del data
 

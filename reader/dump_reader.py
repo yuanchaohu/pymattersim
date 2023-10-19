@@ -83,7 +83,7 @@ class DumpReader:
             filename: str,
             ndim: int,
             filetype: DumpFileType = DumpFileType.LAMMPS,
-            moltypes: dict=None) -> None:
+            moltypes: dict = None) -> None:
 
         self.filename = filename
         self.ndim = ndim
@@ -94,7 +94,7 @@ class DumpReader:
     def read_onefile(self):
         logger.info(
             f"Start Reading file {self.filename} of type {self.filetype}")
-        
+
         reader_inputs = {"file_name": self.filename, "ndim": self.ndim}
 
         if self.filetype == DumpFileType.LAMMPSCENTER:
@@ -102,17 +102,22 @@ class DumpReader:
 
         if self.filetype == DumpFileType.GSD or DumpFileType.GSD_DCD:
             try:
-                import gsd, mdtraj
+                import gsd
+                import mdtraj
             except ImportError:
                 try:
                     import subprocess
                     import sys
-                    subprocess.check_call([sys.executable, "-m", "pip", "install", "gsd"])
-                    subprocess.check_call([sys.executable, "-m", "pip", "install", "mdtraj"])
-                    import gsd, mdtraj
+                    subprocess.check_call(
+                        [sys.executable, "-m", "pip", "install", "gsd"])
+                    subprocess.check_call(
+                        [sys.executable, "-m", "pip", "install", "mdtraj"])
+                    import gsd
+                    import mdtraj
                 except Exception as e:
-                    print(f"An error occurred while installing gsd or mdtraj: {str(e)}")
+                    print(
+                        f"An error occurred while installing gsd or mdtraj: {str(e)}")
 
         self.snapshots = FILE_TYPE_MAP_READER[self.filetype](**reader_inputs)
-        
+
         logger.info(f"Completed Reading file {self.filename}")
