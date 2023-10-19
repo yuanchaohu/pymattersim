@@ -22,53 +22,39 @@ reader/dump_reader.py:111:16: W0611: Unused import gsd (unused-import)
 reader/dump_reader.py:112:16: W0611: Unused import mdtraj (unused-import)
 reader/dump_reader.py:80:0: R0903: Too few public methods (1/2) (too-few-public-methods)
 ************* Module reader.lammps_reader_helper
-reader/lammps_reader_helper.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-reader/lammps_reader_helper.py:11:0: C0116: Missing function or method docstring (missing-function-docstring)
-reader/lammps_reader_helper.py:14:8: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-reader/lammps_reader_helper.py:14:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-reader/lammps_reader_helper.py:28:0: C0116: Missing function or method docstring (missing-function-docstring)
-reader/lammps_reader_helper.py:32:8: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-reader/lammps_reader_helper.py:32:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-reader/lammps_reader_helper.py:46:0: R0914: Too many local variables (38/15) (too-many-locals)
-reader/lammps_reader_helper.py:214:11: W0718: Catching too general exception BaseException (broad-exception-caught)
-reader/lammps_reader_helper.py:56:8: C0103: Variable name "ParticleNumber" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:60:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
-reader/lammps_reader_helper.py:79:12: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:178:12: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:46:0: R0912: Too many branches (22/12) (too-many-branches)
-reader/lammps_reader_helper.py:46:0: R0915: Too many statements (94/50) (too-many-statements)
-reader/lammps_reader_helper.py:46:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-reader/lammps_reader_helper.py:72:12: W0612: Unused variable 'shiftfactors' (unused-variable)
-reader/lammps_reader_helper.py:219:0: R0914: Too many local variables (16/15) (too-many-locals)
-reader/lammps_reader_helper.py:334:11: W0718: Catching too general exception BaseException (broad-exception-caught)
-reader/lammps_reader_helper.py:241:8: C0103: Variable name "ParticleNumber" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:260:8: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:272:26: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
-reader/lammps_reader_helper.py:275:12: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:287:26: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
-reader/lammps_reader_helper.py:290:12: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:308:26: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
-reader/lammps_reader_helper.py:311:12: C0103: Variable name "ParticleType" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:219:0: R0915: Too many statements (51/50) (too-many-statements)
-reader/lammps_reader_helper.py:219:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-reader/lammps_reader_helper.py:254:8: W0612: Unused variable 'shiftfactors' (unused-variable)
-reader/lammps_reader_helper.py:346:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-reader/lammps_reader_helper.py:367:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-reader/lammps_reader_helper.py:382:8: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-reader/lammps_reader_helper.py:389:4: C0200: Consider using enumerate instead of iterating with range and len (consider-using-enumerate)
-reader/lammps_reader_helper.py:4:0: C0411: standard import "from typing import Dict, Any" should be placed before "import numpy as np" (wrong-import-order)
-reader/lammps_reader_helper.py:6:0: W0611: Unused DumpFileType imported from reader.reader_utils (unused-import)
+reader/lammps_reader_helper.py:15:8: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+reader/lammps_reader_helper.py:15:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+reader/lammps_reader_helper.py:33:8: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+reader/lammps_reader_helper.py:33:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+reader/lammps_reader_helper.py:47:0: R0914: Too many local variables (38/15) (too-many-locals)
+reader/lammps_reader_helper.py:215:11: W0718: Catching too general exception BaseException (broad-exception-caught)
+reader/lammps_reader_helper.py:61:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+reader/lammps_reader_helper.py:47:0: R0912: Too many branches (22/12) (too-many-branches)
+reader/lammps_reader_helper.py:47:0: R0915: Too many statements (94/50) (too-many-statements)
+reader/lammps_reader_helper.py:47:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+reader/lammps_reader_helper.py:73:12: W0612: Unused variable 'shiftfactors' (unused-variable)
+reader/lammps_reader_helper.py:220:0: R0914: Too many local variables (16/15) (too-many-locals)
+reader/lammps_reader_helper.py:335:11: W0718: Catching too general exception BaseException (broad-exception-caught)
+reader/lammps_reader_helper.py:273:26: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
+reader/lammps_reader_helper.py:288:26: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
+reader/lammps_reader_helper.py:309:26: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
+reader/lammps_reader_helper.py:220:0: R0915: Too many statements (51/50) (too-many-statements)
+reader/lammps_reader_helper.py:220:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+reader/lammps_reader_helper.py:255:8: W0612: Unused variable 'shiftfactors' (unused-variable)
+reader/lammps_reader_helper.py:347:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+reader/lammps_reader_helper.py:368:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+reader/lammps_reader_helper.py:386:4: C0200: Consider using enumerate instead of iterating with range and len (consider-using-enumerate)
 ************* Module reader.reader_utils
 reader/reader_utils.py:1:0: R0801: Similar lines in 2 files
 ==reader.gsd_reader_helper:[69:75]
-==reader.lammps_reader_helper:[126:132]
-            positions=positions,
-            boxlength=boxlength,
-            boxbounds=boxbounds,
-            realbounds=None,
-            hmatrix=hmatrix,
-        ) (duplicate-code)
+==reader.lammps_reader_helper:[127:133]
+                positions=positions,
+                boxlength=boxlength,
+                boxbounds=boxbounds,
+                realbounds=None,
+                hmatrix=hmatrix,
+            ) (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 8.29/10 (previous run: 8.26/10, +0.03)
+Your code has been rated at 8.70/10 (previous run: 8.67/10, +0.03)
 
