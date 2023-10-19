@@ -11,7 +11,6 @@ reader/dump_reader.py:46:0: C0301: Line too long (137/100) (line-too-long)
 reader/dump_reader.py:54:0: C0301: Line too long (153/100) (line-too-long)
 reader/dump_reader.py:55:0: C0301: Line too long (148/100) (line-too-long)
 reader/dump_reader.py:57:0: C0301: Line too long (141/100) (line-too-long)
-reader/dump_reader.py:101:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
 reader/dump_reader.py:111:16: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
 reader/dump_reader.py:112:16: C0415: Import outside toplevel (mdtraj) (import-outside-toplevel)
 reader/dump_reader.py:123:23: W0718: Catching too general exception Exception (broad-exception-caught)
@@ -19,7 +18,6 @@ reader/dump_reader.py:115:20: C0415: Import outside toplevel (subprocess) (impor
 reader/dump_reader.py:116:20: C0415: Import outside toplevel (sys) (import-outside-toplevel)
 reader/dump_reader.py:121:20: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
 reader/dump_reader.py:122:20: C0415: Import outside toplevel (mdtraj) (import-outside-toplevel)
-reader/dump_reader.py:129:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
 reader/dump_reader.py:111:16: W0611: Unused import gsd (unused-import)
 reader/dump_reader.py:112:16: W0611: Unused import mdtraj (unused-import)
 reader/dump_reader.py:80:0: R0903: Too few public methods (1/2) (too-few-public-methods)
@@ -73,5 +71,5 @@ reader/reader_utils.py:1:0: R0801: Similar lines in 2 files
             ) (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 8.20/10 (previous run: 8.17/10, +0.03)
+Your code has been rated at 8.26/10 (previous run: 8.20/10, +0.06)
 
