@@ -11,7 +11,7 @@ logger = get_logger_handle(__name__)
 class DumpFileType(Enum):
     """
     An Enum class holds dump file type:
-    1. lammps: default, for more information see 
+    1. lammps: default, for more information see
        'http://lammps.sandia.gov/doc/Section_howto.html#howto-12'
     2. lammpscenter: lammps molecular dump with known atom type of each molecule center
     3. gsd: HOOMD-blue standard output for static properties

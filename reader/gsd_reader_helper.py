@@ -80,7 +80,7 @@ def read_gsd(f: Any, ndim: int) -> Snapshots:
 def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
     """
     Read gsd and dcd file from HOOMD-blue
-        1. gsd file provides all the configuration information except positions 
+        1. gsd file provides all the configuration information except positions
             with periodic boundary conditions;
         2. dcd file provides the unwrap positions without periodic boundary conditions.
     gsd is to get static information about the trajectory

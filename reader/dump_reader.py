@@ -65,8 +65,6 @@ from reader.lammps_reader_helper import read_lammps_wrapper, read_lammps_centert
 from reader.gsd_reader_helper import read_gsd_wrapper, read_gsd_dcd_wrapper
 
 
-
-
 logger = get_logger_handle(__name__)
 
 FILE_TYPE_MAP_READER = {
@@ -81,6 +79,7 @@ class DumpReader:
     """
     A class to read dump file. For more details check the module docstring.
     """
+
     def __init__(
             self,
             filename: str,
