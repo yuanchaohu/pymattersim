@@ -1,0 +1,60 @@
+************* Module reader.dump_reader
+reader/dump_reader.py:7:0: C0301: Line too long (129/100) (line-too-long)
+reader/dump_reader.py:8:0: C0301: Line too long (146/100) (line-too-long)
+reader/dump_reader.py:9:0: C0301: Line too long (135/100) (line-too-long)
+reader/dump_reader.py:10:0: C0301: Line too long (158/100) (line-too-long)
+reader/dump_reader.py:16:0: C0301: Line too long (110/100) (line-too-long)
+reader/dump_reader.py:17:0: C0301: Line too long (146/100) (line-too-long)
+reader/dump_reader.py:18:0: C0301: Line too long (168/100) (line-too-long)
+reader/dump_reader.py:45:0: C0301: Line too long (166/100) (line-too-long)
+reader/dump_reader.py:46:0: C0301: Line too long (137/100) (line-too-long)
+reader/dump_reader.py:54:0: C0301: Line too long (153/100) (line-too-long)
+reader/dump_reader.py:55:0: C0301: Line too long (148/100) (line-too-long)
+reader/dump_reader.py:57:0: C0301: Line too long (141/100) (line-too-long)
+reader/dump_reader.py:111:16: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
+reader/dump_reader.py:112:16: C0415: Import outside toplevel (mdtraj) (import-outside-toplevel)
+reader/dump_reader.py:123:23: W0718: Catching too general exception Exception (broad-exception-caught)
+reader/dump_reader.py:115:20: C0415: Import outside toplevel (subprocess) (import-outside-toplevel)
+reader/dump_reader.py:116:20: C0415: Import outside toplevel (sys) (import-outside-toplevel)
+reader/dump_reader.py:121:20: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
+reader/dump_reader.py:122:20: C0415: Import outside toplevel (mdtraj) (import-outside-toplevel)
+reader/dump_reader.py:111:16: W0611: Unused import gsd (unused-import)
+reader/dump_reader.py:112:16: W0611: Unused import mdtraj (unused-import)
+reader/dump_reader.py:80:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module reader.lammps_reader_helper
+reader/lammps_reader_helper.py:15:8: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+reader/lammps_reader_helper.py:15:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+reader/lammps_reader_helper.py:33:8: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+reader/lammps_reader_helper.py:33:8: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+reader/lammps_reader_helper.py:47:0: R0914: Too many local variables (38/15) (too-many-locals)
+reader/lammps_reader_helper.py:215:11: W0718: Catching too general exception BaseException (broad-exception-caught)
+reader/lammps_reader_helper.py:61:8: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+reader/lammps_reader_helper.py:47:0: R0912: Too many branches (22/12) (too-many-branches)
+reader/lammps_reader_helper.py:47:0: R0915: Too many statements (94/50) (too-many-statements)
+reader/lammps_reader_helper.py:47:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+reader/lammps_reader_helper.py:73:12: W0612: Unused variable 'shiftfactors' (unused-variable)
+reader/lammps_reader_helper.py:220:0: R0914: Too many local variables (16/15) (too-many-locals)
+reader/lammps_reader_helper.py:335:11: W0718: Catching too general exception BaseException (broad-exception-caught)
+reader/lammps_reader_helper.py:273:26: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
+reader/lammps_reader_helper.py:288:26: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
+reader/lammps_reader_helper.py:309:26: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
+reader/lammps_reader_helper.py:220:0: R0915: Too many statements (51/50) (too-many-statements)
+reader/lammps_reader_helper.py:220:0: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+reader/lammps_reader_helper.py:255:8: W0612: Unused variable 'shiftfactors' (unused-variable)
+reader/lammps_reader_helper.py:347:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+reader/lammps_reader_helper.py:368:9: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+reader/lammps_reader_helper.py:386:4: C0200: Consider using enumerate instead of iterating with range and len (consider-using-enumerate)
+************* Module reader.reader_utils
+reader/reader_utils.py:1:0: R0801: Similar lines in 2 files
+==reader.gsd_reader_helper:[69:75]
+==reader.lammps_reader_helper:[127:133]
+                positions=positions,
+                boxlength=boxlength,
+                boxbounds=boxbounds,
+                realbounds=None,
+                hmatrix=hmatrix,
+            ) (duplicate-code)
+
+------------------------------------------------------------------
+Your code has been rated at 8.70/10 (previous run: 8.67/10, +0.03)
+

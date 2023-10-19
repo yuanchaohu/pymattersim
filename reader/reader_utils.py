@@ -1,8 +1,9 @@
-import numpy.typing as npt
-
+"""This module defines immutable data structure for storing snapshots."""
 from typing import List
 from dataclasses import dataclass
 from enum import Enum
+import numpy.typing as npt
+
 from utils.logging_utils import get_logger_handle
 logger = get_logger_handle(__name__)
 
@@ -10,7 +11,8 @@ logger = get_logger_handle(__name__)
 class DumpFileType(Enum):
     """
     An Enum class holds dump file type:
-    1. lammps: default, for more information see 'http://lammps.sandia.gov/doc/Section_howto.html#howto-12'
+    1. lammps: default, for more information see
+       'http://lammps.sandia.gov/doc/Section_howto.html#howto-12'
     2. lammpscenter: lammps molecular dump with known atom type of each molecule center
     3. gsd: HOOMD-blue standard output for static properties
     4. gsd_dcd: HOOMD-blue outputs for static and dynamic properties
@@ -34,6 +36,7 @@ class SingleSnapshot:
     realbounds:       real box bounds of a triclinic box
     hmatrix:          h-matrix of the cells in each snapshot
     """
+    # pylint: disable=too-many-instance-attributes
     timestep: int
     nparticle: int
     particle_type: npt.NDArray
