@@ -1,42 +1,42 @@
-2023-10-18 17:29:34,041 INFO dump_reader_test Starting test using tests/reader/sample_test_data/example.gsd...
-2023-10-18 17:29:34,041 INFO reader.dump_reader Start Reading file tests/reader/sample_test_data/example.gsd of type DumpFileType.GSD
-2023-10-18 17:29:34,041 INFO reader.gsd_reader_helper ---------Start reading GSD file reading -----------
-2023-10-18 17:29:34,041 INFO reader.gsd_reader_helper ---------GSD file reading completed -----------
-2023-10-18 17:29:34,041 INFO reader.dump_reader Completed Reading file tests/reader/sample_test_data/example.gsd
-.2023-10-18 17:29:34,041 INFO dump_reader_test Starting test using tests/reader/sample_test_data/dump_2D_test.atom...
-2023-10-18 17:29:34,041 INFO reader.dump_reader Start Reading file tests/reader/sample_test_data/dump_2D_test.atom of type DumpFileType.LAMMPS
-2023-10-18 17:29:34,041 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-10-18 17:29:34,135 INFO reader.lammps_reader_helper Reach end of file.
-2023-10-18 17:29:34,135 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-10-18 17:29:34,135 INFO reader.dump_reader Completed Reading file tests/reader/sample_test_data/dump_2D_test.atom
-.2023-10-18 17:29:34,213 INFO dump_reader_test Starting test using tests/reader/sample_test_data/glass.IS.n22.atom...
-2023-10-18 17:29:34,213 INFO reader.dump_reader Start Reading file tests/reader/sample_test_data/glass.IS.n22.atom of type DumpFileType.LAMMPS
-2023-10-18 17:29:34,213 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-10-18 17:29:34,229 INFO reader.lammps_reader_helper Reach end of file.
-2023-10-18 17:29:34,229 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-10-18 17:29:34,229 INFO reader.dump_reader Completed Reading file tests/reader/sample_test_data/glass.IS.n22.atom
-.2023-10-18 17:29:34,245 INFO gsd_reader_helper_test Starting test using tests/reader/sample_test_data/example.gsd...
-2023-10-18 17:29:34,245 INFO reader.gsd_reader_helper ---------Start reading GSD file reading -----------
-2023-10-18 17:29:34,245 INFO reader.gsd_reader_helper ---------GSD file reading completed -----------
-.2023-10-18 17:29:34,245 INFO lammps_reader_helper_test Starting test using tests/reader/sample_test_data/dump_2D_test.atom...
-2023-10-18 17:29:34,245 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-10-18 17:29:34,339 INFO reader.lammps_reader_helper Reach end of file.
-2023-10-18 17:29:34,339 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-.2023-10-18 17:29:34,417 INFO lammps_reader_helper_test Starting test using tests/reader/sample_test_data/glass.IS.n22.atom...
-2023-10-18 17:29:34,417 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-10-18 17:29:34,433 INFO reader.lammps_reader_helper Reach end of file.
-2023-10-18 17:29:34,433 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-.2023-10-18 17:29:34,449 INFO lammps_reader_helper_test Starting test using tests/reader/sample_test_data/2d_triclinic.atom...
-2023-10-18 17:29:34,449 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-10-18 17:29:34,464 INFO reader.lammps_reader_helper Reach end of file.
-2023-10-18 17:29:34,464 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-.2023-10-18 17:29:34,484 INFO lammps_reader_helper_test Starting test using tests/reader/sample_test_data/test_xu.dump...
-2023-10-18 17:29:34,484 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-10-18 17:29:34,496 INFO reader.lammps_reader_helper Reach end of file.
-2023-10-18 17:29:34,496 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-10-20 00:02:55,091 INFO dump_reader_test Starting test using tests/reader/sample_test_data/example.gsd...
+2023-10-20 00:02:55,091 INFO reader.dump_reader Start reading file tests/reader/sample_test_data/example.gsd of type DumpFileType.GSD
+2023-10-20 00:02:55,091 INFO reader.gsd_reader_helper ---------Start reading GSD file reading -----------
+2023-10-20 00:02:55,099 INFO reader.gsd_reader_helper ---------GSD file reading completed -----------
+2023-10-20 00:02:55,100 INFO reader.dump_reader Finish reading file tests/reader/sample_test_data/example.gsd in 0.008451223373413086 seconds
+.2023-10-20 00:02:55,125 INFO dump_reader_test Starting test using tests/reader/sample_test_data/dump_2D.atom...
+2023-10-20 00:02:55,125 INFO reader.dump_reader Start reading file tests/reader/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2023-10-20 00:02:55,125 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-10-20 00:02:55,215 INFO reader.lammps_reader_helper Reach end of file.
+2023-10-20 00:02:55,215 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-10-20 00:02:55,215 INFO reader.dump_reader Finish reading file tests/reader/sample_test_data/dump_2D.atom in 0.09008407592773438 seconds
+.2023-10-20 00:02:55,318 INFO dump_reader_test Starting test using tests/reader/sample_test_data/dump_3D.atom...
+2023-10-20 00:02:55,318 INFO reader.dump_reader Start reading file tests/reader/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
+2023-10-20 00:02:55,318 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-10-20 00:02:55,346 INFO reader.lammps_reader_helper Reach end of file.
+2023-10-20 00:02:55,346 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-10-20 00:02:55,346 INFO reader.dump_reader Finish reading file tests/reader/sample_test_data/dump_3D.atom in 0.028575897216796875 seconds
+.2023-10-20 00:02:55,365 INFO gsd_reader_helper_test Starting test using tests/reader/sample_test_data/example.gsd...
+2023-10-20 00:02:55,365 INFO reader.gsd_reader_helper ---------Start reading GSD file reading -----------
+2023-10-20 00:02:55,366 INFO reader.gsd_reader_helper ---------GSD file reading completed -----------
+.2023-10-20 00:02:55,368 INFO lammps_reader_helper_test Starting test using tests/reader/sample_test_data/dump_2D.atom...
+2023-10-20 00:02:55,368 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-10-20 00:02:55,456 INFO reader.lammps_reader_helper Reach end of file.
+2023-10-20 00:02:55,456 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+.2023-10-20 00:02:55,558 INFO lammps_reader_helper_test Starting test using tests/reader/sample_test_data/dump_3D.atom...
+2023-10-20 00:02:55,558 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-10-20 00:02:55,571 INFO reader.lammps_reader_helper Reach end of file.
+2023-10-20 00:02:55,571 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+.2023-10-20 00:02:55,586 INFO lammps_reader_helper_test Starting test using tests/reader/sample_test_data/2d_triclinic.atom...
+2023-10-20 00:02:55,586 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-10-20 00:02:55,602 INFO reader.lammps_reader_helper Reach end of file.
+2023-10-20 00:02:55,602 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+.2023-10-20 00:02:55,622 INFO lammps_reader_helper_test Starting test using tests/reader/sample_test_data/test_xu.dump...
+2023-10-20 00:02:55,623 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-10-20 00:02:55,657 INFO reader.lammps_reader_helper Reach end of file.
+2023-10-20 00:02:55,657 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
 .
 ----------------------------------------------------------------------
-Ran 8 tests in 0.473s
+Ran 8 tests in 0.587s
 
 OK
 ---------GSD file reading over-----------
