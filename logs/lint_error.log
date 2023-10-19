@@ -1,19 +1,27 @@
 ************* Module reader.dump_reader
-reader/dump_reader.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-reader/dump_reader.py:12:0: C0103: Constant name "Docstr" doesn't conform to UPPER_CASE naming style (invalid-name)
-reader/dump_reader.py:80:0: C0115: Missing class docstring (missing-class-docstring)
-reader/dump_reader.py:94:4: C0116: Missing function or method docstring (missing-function-docstring)
-reader/dump_reader.py:95:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-reader/dump_reader.py:105:16: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
-reader/dump_reader.py:106:16: C0415: Import outside toplevel (mdtraj) (import-outside-toplevel)
-reader/dump_reader.py:117:23: W0718: Catching too general exception Exception (broad-exception-caught)
-reader/dump_reader.py:109:20: C0415: Import outside toplevel (subprocess) (import-outside-toplevel)
-reader/dump_reader.py:110:20: C0415: Import outside toplevel (sys) (import-outside-toplevel)
-reader/dump_reader.py:115:20: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
-reader/dump_reader.py:116:20: C0415: Import outside toplevel (mdtraj) (import-outside-toplevel)
-reader/dump_reader.py:123:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
-reader/dump_reader.py:105:16: W0611: Unused import gsd (unused-import)
-reader/dump_reader.py:106:16: W0611: Unused import mdtraj (unused-import)
+reader/dump_reader.py:7:0: C0301: Line too long (129/100) (line-too-long)
+reader/dump_reader.py:8:0: C0301: Line too long (146/100) (line-too-long)
+reader/dump_reader.py:9:0: C0301: Line too long (135/100) (line-too-long)
+reader/dump_reader.py:10:0: C0301: Line too long (158/100) (line-too-long)
+reader/dump_reader.py:16:0: C0301: Line too long (110/100) (line-too-long)
+reader/dump_reader.py:17:0: C0301: Line too long (146/100) (line-too-long)
+reader/dump_reader.py:18:0: C0301: Line too long (168/100) (line-too-long)
+reader/dump_reader.py:45:0: C0301: Line too long (166/100) (line-too-long)
+reader/dump_reader.py:46:0: C0301: Line too long (137/100) (line-too-long)
+reader/dump_reader.py:54:0: C0301: Line too long (153/100) (line-too-long)
+reader/dump_reader.py:55:0: C0301: Line too long (148/100) (line-too-long)
+reader/dump_reader.py:57:0: C0301: Line too long (141/100) (line-too-long)
+reader/dump_reader.py:101:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+reader/dump_reader.py:111:16: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
+reader/dump_reader.py:112:16: C0415: Import outside toplevel (mdtraj) (import-outside-toplevel)
+reader/dump_reader.py:123:23: W0718: Catching too general exception Exception (broad-exception-caught)
+reader/dump_reader.py:115:20: C0415: Import outside toplevel (subprocess) (import-outside-toplevel)
+reader/dump_reader.py:116:20: C0415: Import outside toplevel (sys) (import-outside-toplevel)
+reader/dump_reader.py:121:20: C0415: Import outside toplevel (gsd) (import-outside-toplevel)
+reader/dump_reader.py:122:20: C0415: Import outside toplevel (mdtraj) (import-outside-toplevel)
+reader/dump_reader.py:129:8: W1203: Use lazy % formatting in logging functions (logging-fstring-interpolation)
+reader/dump_reader.py:111:16: W0611: Unused import gsd (unused-import)
+reader/dump_reader.py:112:16: W0611: Unused import mdtraj (unused-import)
 reader/dump_reader.py:80:0: R0903: Too few public methods (1/2) (too-few-public-methods)
 ************* Module reader.lammps_reader_helper
 reader/lammps_reader_helper.py:1:0: C0114: Missing module docstring (missing-module-docstring)
@@ -62,13 +70,13 @@ reader/reader_utils.py:5:0: C0411: standard import "from enum import Enum" shoul
 reader/reader_utils.py:1:0: R0801: Similar lines in 2 files
 ==reader.gsd_reader_helper:[69:75]
 ==reader.lammps_reader_helper:[126:132]
-            positions=positions,
-            boxlength=boxlength,
-            boxbounds=boxbounds,
-            realbounds=None,
-            hmatrix=hmatrix,
-        ) (duplicate-code)
+                positions=positions,
+                boxlength=boxlength,
+                boxbounds=boxbounds,
+                realbounds=None,
+                hmatrix=hmatrix,
+            ) (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 8.29/10 (previous run: 8.09/10, +0.20)
+Your code has been rated at 8.06/10 (previous run: 8.03/10, +0.03)
 
