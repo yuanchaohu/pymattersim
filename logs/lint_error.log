@@ -59,17 +59,16 @@ reader/lammps_reader_helper.py:389:4: C0200: Consider using enumerate instead of
 reader/lammps_reader_helper.py:4:0: C0411: standard import "from typing import Dict, Any" should be placed before "import numpy as np" (wrong-import-order)
 reader/lammps_reader_helper.py:6:0: W0611: Unused DumpFileType imported from reader.reader_utils (unused-import)
 ************* Module reader.reader_utils
-reader/reader_utils.py:27:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
 reader/reader_utils.py:1:0: R0801: Similar lines in 2 files
 ==reader.gsd_reader_helper:[69:75]
 ==reader.lammps_reader_helper:[126:132]
-                positions=positions,
-                boxlength=boxlength,
-                boxbounds=boxbounds,
-                realbounds=None,
-                hmatrix=hmatrix,
-            ) (duplicate-code)
+            positions=positions,
+            boxlength=boxlength,
+            boxbounds=boxbounds,
+            realbounds=None,
+            hmatrix=hmatrix,
+        ) (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 8.26/10 (previous run: 8.20/10, +0.06)
+Your code has been rated at 8.29/10 (previous run: 8.26/10, +0.03)
 

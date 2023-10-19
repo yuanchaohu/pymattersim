@@ -36,6 +36,7 @@ class SingleSnapshot:
     realbounds:       real box bounds of a triclinic box
     hmatrix:          h-matrix of the cells in each snapshot
     """
+    # pylint: disable=too-many-instance-attributes
     timestep: int
     nparticle: int
     particle_type: npt.NDArray
