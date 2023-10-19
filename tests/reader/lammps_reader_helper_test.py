@@ -17,8 +17,8 @@ class TestLammpsReaderHelper(unittest.TestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_file_2d = f"{READ_TEST_FILE_PATH}/dump_2D_test.atom"
-        self.test_file_3d = f"{READ_TEST_FILE_PATH}/glass.IS.n22.atom"
+        self.test_file_2d = f"{READ_TEST_FILE_PATH}/dump_2D.atom"
+        self.test_file_3d = f"{READ_TEST_FILE_PATH}/dump_3D.atom"
         self.test_file_triclinic = f"{READ_TEST_FILE_PATH}/2d_triclinic.atom"
         self.test_file_xu = f"{READ_TEST_FILE_PATH}/test_xu.dump"
 
@@ -41,7 +41,7 @@ class TestLammpsReaderHelper(unittest.TestCase):
             np.testing.assert_almost_equal(
                 snapshot.particle_type, old_d.ParticleType[i])
             np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
+                snapshot.boxbounds, old_d.Boxbounds[i])
             np.testing.assert_almost_equal(
                 snapshot.boxlength, old_d.Boxlength[i])
             np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
@@ -67,7 +67,7 @@ class TestLammpsReaderHelper(unittest.TestCase):
             np.testing.assert_almost_equal(
                 snapshot.particle_type, old_d.ParticleType[i])
             np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
+                snapshot.boxbounds, old_d.Boxbounds[i])
             np.testing.assert_almost_equal(
                 snapshot.boxlength, old_d.Boxlength[i])
             np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
@@ -93,12 +93,16 @@ class TestLammpsReaderHelper(unittest.TestCase):
             np.testing.assert_almost_equal(
                 snapshot.particle_type, old_d.ParticleType[i])
             np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
+                snapshot.boxbounds, old_d.Boxbounds[i])
             np.testing.assert_almost_equal(
                 snapshot.boxlength, old_d.Boxlength[i])
             np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
             np.testing.assert_almost_equal(
                 snapshot.positions, old_d.Positions[i])
+            np.testing.assert_almost_equal(
+                snapshot.realbounds,
+                old_d.Realbounds[i]
+            )
 
     def test_read_lammps_wrapper_xu(self) -> None:
         """
@@ -119,7 +123,7 @@ class TestLammpsReaderHelper(unittest.TestCase):
             np.testing.assert_almost_equal(
                 snapshot.particle_type, old_d.ParticleType[i])
             np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
+                snapshot.boxbounds, old_d.Boxbounds[i])
             np.testing.assert_almost_equal(
                 snapshot.boxlength, old_d.Boxlength[i])
             np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])

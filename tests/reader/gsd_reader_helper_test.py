@@ -38,7 +38,7 @@ class TestGsdReaderHelper(unittest.TestCase):
             np.testing.assert_almost_equal(
                 snapshot.particle_type, old_d.ParticleType[i])
             np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
+                snapshot.boxbounds, old_d.Boxbounds[i])
             np.testing.assert_almost_equal(
                 snapshot.boxlength, old_d.Boxlength[i])
             np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
