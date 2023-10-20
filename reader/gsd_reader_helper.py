@@ -77,7 +77,7 @@ def read_gsd(f: Any, ndim: int) -> Snapshots:
     """
     if f[0].configuration.dimensions != ndim:
         logger.error("---*Warning*: Wrong dimension information given---")
-        return
+        return None
 
     snapshots = []
     for onesnapshot in f:
@@ -131,7 +131,7 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
 
     if f_gsd[0].configuration.dimensions != ndim:
         logger.info("---*Warning*: Wrong dimension information given---")
-        return
+        return None
 
     # -----------------read gsd file-------------------------
     snapshots = []
@@ -165,12 +165,12 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
     if len(snapshots) != positions.shape[0]:
         logger.error(
             "---*Warning*: Inconsistent configuration in gsd and dcd files---")
-        return
+        return None
 
     if snapshots[0].nparticle != positions[0].shape[0]:
         logger.error(
             "---*Warning*: Inconsistent particle number in gsd and dcd files---")
-        return
+        return None
 
     for i in range(positions.shape[0]):
         snapshots[i].positions = positions[i][:, :ndim]
