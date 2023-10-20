@@ -1,4 +1,7 @@
+# coding = utf-8
+
 """This module provide helper functions to read gsd files"""
+
 import os
 from typing import Any
 
@@ -16,6 +19,14 @@ logger = get_logger_handle(__name__)
 def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
     """
     Wrapper function around read gsd file
+
+    Inputs:
+        1. file_name (str): file name of gsd snapshots
+
+        2. ndim (int): dimensionality
+    
+    Return:
+        list of single snapshot information
     """
     logger.info('---------Start reading GSD file reading -----------')
     f = gsd.hoomd.open(file_name, mode='r')
@@ -27,6 +38,14 @@ def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
 def read_gsd_dcd_wrapper(file_name: str, ndim: int) -> Snapshots:
     """
     Wrapper function around read gsd and dcd file
+
+    Inputs:
+        1. file_name (str): file name of gsd snapshots
+
+        2. ndim (int): dimensionality
+    
+    Return:
+        list of single snapshot information
     """
     logger.info('---------Start reading GSD & DCD file -----------')
     gsd_filename = file_name
@@ -47,9 +66,18 @@ def read_gsd(f: Any, ndim: int) -> Snapshots:
     Read gsd file from HOOMD-blue
     gsd file provides all the configuration information
     ref: https://gsd.readthedocs.io/en/stable/hoomd-examples.html
+
+    Inputs:
+        1. f: open file type by python
+        
+        2. ndim (int): dimensionality
+    
+    Return:
+        list of single snapshot information
     """
     if f[0].configuration.dimensions != ndim:
         logger.error("---*Warning*: Wrong dimension information given---")
+        return None
 
     snapshots = []
     for onesnapshot in f:
@@ -59,9 +87,11 @@ def read_gsd(f: Any, ndim: int) -> Snapshots:
         # ------------particles information-------------------
         positions = onesnapshot.particles.position[:, :ndim]
         boxbounds = np.column_stack(
-            (positions.min(
-                axis=0), positions.max(
-                axis=0)))
+            (
+                positions.min(axis=0),
+                positions.max(axis=0)
+            )
+        )
 
         snapshot = SingleSnapshot(
             timestep=onesnapshot.configuration.step,
@@ -87,10 +117,22 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
     dcd is to get the absolute displacement to calculate dynamics
     ref: https://gsd.readthedocs.io/en/stable/hoomd-examples.html
     ref: http://mdtraj.org/1.6.2/api/generated/mdtraj.formats.DCDTrajectoryFile.html
+
+    Inputs:
+        1. f_gsd (str): file name of input gsd file
+        
+        2. f_dcd (str): file name of input dcd file
+
+        3. ndim (int): dimensionality
+    
+    Return:
+        list of single snapshot information
     """
 
     if f_gsd[0].configuration.dimensions != ndim:
         logger.info("---*Warning*: Wrong dimension information given---")
+        return None
+
     # -----------------read gsd file-------------------------
     snapshots = []
     for onesnapshot in f_gsd:
@@ -100,9 +142,11 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
         # ------------particles information-------------------
         positions = onesnapshot.particles.position[:, :ndim]
         boxbounds = np.column_stack(
-            (positions.min(
-                axis=0), positions.max(
-                axis=0)))
+            (
+                positions.min(axis=0),
+                positions.max(axis=0)
+            )
+        )
         snapshot = SingleSnapshot(
             timestep=onesnapshot.configuration.step,
             nparticle=onesnapshot.particles.N,
@@ -121,10 +165,12 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
     if len(snapshots) != positions.shape[0]:
         logger.error(
             "---*Warning*: Inconsistent configuration in gsd and dcd files---")
+        return None
 
     if snapshots[0].nparticle != positions[0].shape[0]:
         logger.error(
             "---*Warning*: Inconsistent particle number in gsd and dcd files---")
+        return None
 
     for i in range(positions.shape[0]):
         snapshots[i].positions = positions[i][:, :ndim]

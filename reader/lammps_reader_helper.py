@@ -1,4 +1,6 @@
+# coding = utf-8
 """This module provide helper functions to read lammps files"""
+
 from typing import Dict, Any
 import numpy as np
 import pandas as pd
@@ -10,239 +12,91 @@ logger = get_logger_handle(__name__)
 
 
 def read_lammps_wrapper(file_name: str, ndim: int) -> Snapshots:
-    """Wrapper function around read lammps atomistic system"""
+    """
+    Wrapper function around read lammps atomistic system
+    
+    input:
+        1. filename (str): the name of dump file
+
+        2. ndim (int): dimensionality
+    
+    Return:
+        Snapshots ([SingleSnapshot]): list of snapshots for the input file_name
+    """
     logger.info('--------Start Reading LAMMPS Atomic Dump---------')
-    f = open(file_name, 'r')
-    nsnapshots = 0
     snapshots = []
-    while True:
-        snapshot = read_lammps(f, ndim)
-        if not snapshot:
-            break
-        snapshots.append(snapshot)
-        nsnapshots += 1
-    f.close()
+    nsnapshots = 0
+    with open(file_name, "r", encoding="utf-8") as f:
+        while True:
+            snapshot = read_lammps(f, ndim)
+            if not snapshot:
+                break
+            snapshots.append(snapshot)
+            nsnapshots += 1
     logger.info('-------LAMMPS Atomic Dump Reading Completed--------')
     return Snapshots(nsnapshots=nsnapshots, snapshots=snapshots)
 
 
 def read_lammps_centertype_wrapper(
         file_name: str, ndim: int, moltypes: Dict[int, int]) -> Snapshots:
-    """Wrapper function around read lammps molecular system"""
+    """
+    Wrapper function around read lammps molecular system
+
+    Inputs:
+        1. filename (str): the name of dump file
+
+        2. ndim (int): dimensionality
+        
+        3. moltypes (dict, optional): only used for molecular system in LAMMPS, default is None. 
+            To specify, for example, if the system has 5 types of atoms in which 1-3 is 
+            one type of molecules and 4-5 is the other, and type 3 and 5 are the center of mass.
+            Then moltypes should be {3:1, 5:2}. The keys ([3, 5]) of the dict (moltypes) 
+            are used to select specific atoms to present the corresponding molecules.
+            The values ([1, 2]) is used to record the type of molecules.
+    
+    Return:
+        Snapshots ([SingleSnapshot]): list of snapshots for the input file_name
+    """
     logger.info('-----Start Reading LAMMPS Molecule Center Dump-----')
-    f = open(file_name, 'r')
-    nsnapshots = 0
     snapshots = []
-    while True:
-        snapshot = read_lammps_centertype(f, ndim, moltypes)
-        if not snapshot:
-            break
-        snapshots.append(snapshot)
-        nsnapshots += 1
-    f.close()
+    nsnapshots = 0
+    with open(file_name, 'r', encoding="utf-8") as f:
+        while True:
+            snapshot = read_lammps_centertype(f, ndim, moltypes)
+            if not snapshot:
+                break
+            snapshots.append(snapshot)
+            nsnapshots += 1
     logger.info('---LAMMPS Molecule Center Dump Reading Completed---')
     return Snapshots(nsnapshots=nsnapshots, snapshots=snapshots)
 
 
 def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
-    """ Read a snapshot at one time from LAMMPS atomistic system"""
-    try:
-        item = f.readline()
-        # End of file:
-        if not item:
-            logger.info("Reach end of file.")
-            return
-        timestep = int(f.readline().split()[0])
-        item = f.readline()
-        particle_number = int(f.readline())
+    """ 
+    Read a snapshot at one time from LAMMPS atomistic system
+    
+    Inputs:
+        1. f: file open by python for the input dump file
 
-        item = f.readline().split()
-        # -------Read Orthogonal Boxes---------
-        if 'xy' not in item:
-            # box boundaries of (x y z)
-            boxbounds = np.zeros((ndim, 2))
-            boxlength = np.zeros(ndim)  # box length along (x y z)
-            for i in range(ndim):
-                item = f.readline().split()
-                boxbounds[i, :] = item[:2]
-
-            boxlength = boxbounds[:, 1] - boxbounds[:, 0]
-            if ndim < 3:
-                for i in range(3 - ndim):
-                    f.readline()
-            shiftfactors = (boxbounds[:, 0] + boxlength / 2)
-            # self.Boxbounds.append(boxbounds)
-            hmatrix = np.diag(boxlength)
-
-            item = f.readline().split()
-            names = item[2:]
-            positions = np.zeros((particle_number, ndim))
-            particle_type = np.zeros(particle_number, dtype=int)
-
-            if 'xu' in names:
-                for i in range(particle_number):
-                    item = f.readline().split()
-                    # store particle type and sort particle by ID
-                    particle_type[int(item[0]) - 1] = int(item[1])
-                    # store particle positions and sort particle by ID
-                    positions[int(item[0]) - 1] = [float(j)
-                                                   for j in item[2: ndim + 2]]
-
-            elif 'x' in names:
-                for i in range(particle_number):
-                    item = f.readline().split()
-                    particle_type[int(item[0]) - 1] = int(item[1])
-                    positions[int(item[0]) - 1] = [float(j)
-                                                   for j in item[2: ndim + 2]]
-
-                # Moving particles outside the box back into the box while
-                # applying periodic boundary conditions
-                positions = np.where(
-                    positions < boxbounds[:, 0], positions + boxlength, positions)
-                # Moving particles outside the box back into the box while
-                # applying periodic boundary conditions
-                positions = np.where(
-                    positions > boxbounds[:, 1], positions - boxlength, positions)
-                # positions = positions - shiftfactors[np.newaxis, :]
-                # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
-
-            elif 'xs' in names:
-                for i in range(particle_number):
-                    item = f.readline().split()
-                    particle_type[int(item[0]) - 1] = int(item[1])
-                    positions[int(item[0]) - 1] = [float(j)
-                                                   for j in item[2: ndim + 2]] * boxlength
-
-                positions += boxbounds[:, 0]
-                positions = np.where(
-                    positions < boxbounds[:, 0], positions + boxlength, positions)
-                positions = np.where(
-                    positions > boxbounds[:, 1], positions - boxlength, positions)
-                # positions = positions - shiftfactors[np.newaxis, :]
-                # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
-
-            snapshot = SingleSnapshot(
-                timestep=timestep,
-                nparticle=particle_number,
-                particle_type=particle_type,
-                positions=positions,
-                boxlength=boxlength,
-                boxbounds=boxbounds,
-                realbounds=None,
-                hmatrix=hmatrix,
-            )
-            return snapshot
-
-        # -------Read Triclinic Boxes---------
-        else:
-            # box boundaries of (x y z) with tilt factors
-            boxbounds = np.zeros((ndim, 3))
-            boxlength = np.zeros(ndim)  # box length along (x y z)
-            for i in range(ndim):
-                item = f.readline().split()
-                boxbounds[i, :] = item[:3]  # with tilt factors
-            if ndim < 3:
-                for i in range(3 - ndim):
-                    item = f.readline().split()
-                    boxbounds = np.vstack(
-                        (boxbounds, np.array(item[:3], dtype=np.float64)))
-
-            xlo_bound, xhi_bound, xy = boxbounds[0, :]
-            ylo_bound, yhi_bound, xz = boxbounds[1, :]
-            zlo_bound, zhi_bound, yz = boxbounds[2, :]
-            xlo = xlo_bound - min((0.0, xy, xz, xy + xz))
-            xhi = xhi_bound - max((0.0, xy, xz, xy + xz))
-            ylo = ylo_bound - min((0.0, yz))
-            yhi = yhi_bound - max((0.0, yz))
-            zlo = zlo_bound
-            zhi = zhi_bound
-            h0 = xhi - xlo
-            h1 = yhi - ylo
-            h2 = zhi - zlo
-            h3 = yz
-            h4 = xz
-            h5 = xy
-
-            realbounds = np.array(
-                [xlo, xhi, ylo, yhi, zlo, zhi]).reshape((3, 2))
-            reallength = (realbounds[:, 1] - realbounds[:, 0])[:ndim]
-            boxbounds = boxbounds[:ndim, :2]
-            hmatrix = np.zeros((3, 3))
-            hmatrix[0] = [h0, 0, 0]
-            hmatrix[1] = [h5, h1, 0]
-            hmatrix[2] = [h4, h3, h2]
-            hmatrix = hmatrix[:ndim, :ndim]
-
-            item = f.readline().split()
-            names = item[2:]
-            positions = np.zeros((particle_number, ndim))
-            particle_type = np.zeros(particle_number, dtype=int)
-            if 'x' in names:
-                for i in range(particle_number):
-                    item = f.readline().split()
-                    particle_type[int(item[0]) - 1] = int(item[1])
-                    positions[int(item[0]) - 1] = [float(j)
-                                                   for j in item[2: ndim + 2]]
-
-            elif 'xs' in names:
-                for i in range(particle_number):
-                    item = f.readline().split()
-                    pid = int(item[0]) - 1
-                    particle_type[pid] = int(item[1])
-                    if ndim == 3:
-                        positions[pid, 0] = xlo_bound + float(item[2]) * h0 + float(
-                            item[3]) * h5 + float(item[4]) * h4
-                        positions[pid, 1] = ylo_bound + \
-                            float(item[3]) * h1 + float(item[4]) * h3
-                        positions[pid, 2] = zlo_bound + float(item[4]) * h2
-                    elif ndim == 2:
-                        positions[pid, 0] = xlo_bound + \
-                            float(item[2]) * h0 + float(item[3]) * h5
-                        positions[pid, 1] = ylo_bound + float(item[3]) * h1
-
-            snapshot = SingleSnapshot(
-                timestep=timestep,
-                nparticle=particle_number,
-                particle_type=particle_type,
-                positions=positions,
-                boxlength=reallength,
-                boxbounds=boxbounds,
-                realbounds=realbounds[:ndim],
-                hmatrix=hmatrix,
-            )
-            return snapshot
-
-    except BaseException:
-        logger.error("Exception when reading file.")
-        return None
-
-
-def read_lammps_centertype(f: Any,
-                           ndim: int,
-                           moltypes: Dict[int,
-                                          int]) -> SingleSnapshot:
-    """ Read a snapshot of molecules at one time from LAMMPS
-
-        moltypes is a dict mapping atomic type to molecular type
-        such as {3: 1, 5: 2}
-        moltypes.keys() are atomic types of each molecule
-        moltypes.values() are the modified molecule type
-
-        ONLY dump the center-of-mass of each molecule
+        2. ndim: dimensionality
+    
+    Return:
+        Single snapshot information
     """
+    item = f.readline()
+    # End of file:
+    if not item:
+        logger.info("Reach end of file.")
+        return None
+    timestep = int(f.readline())
+    item = f.readline()
+    particle_number = int(f.readline())
 
-    try:
-        item = f.readline()
-        # End of file:
-        if not item:
-            logger.info("Reach end of file.")
-            return
-        timestep = int(f.readline().split()[0])
-        item = f.readline()
-        particle_number = int(f.readline())
-        item = f.readline().split()
-        # -------Read Orthogonal Boxes---------
-        boxbounds = np.zeros((ndim, 2))  # box boundaries of (x y z)
+    item = f.readline().split()
+    # -------Read Orthogonal Boxes---------
+    if 'xy' not in item:
+        # box boundaries of (x y z)
+        boxbounds = np.zeros((ndim, 2))
         boxlength = np.zeros(ndim)  # box length along (x y z)
         for i in range(ndim):
             item = f.readline().split()
@@ -252,77 +106,32 @@ def read_lammps_centertype(f: Any,
         if ndim < 3:
             for i in range(3 - ndim):
                 f.readline()
-        shiftfactors = (boxbounds[:, 0] + boxlength / 2)
+        # shiftfactors = (boxbounds[:, 0] + boxlength / 2)
         # self.Boxbounds.append(boxbounds)
         hmatrix = np.diag(boxlength)
 
         item = f.readline().split()
         names = item[2:]
-        particle_type = np.zeros(particle_number, dtype=int)
         positions = np.zeros((particle_number, ndim))
-        # MoleculeType = np.zeros(particle_number, dtype=int)
+        particle_type = np.zeros(particle_number, dtype=int)
 
-        if 'xu' in names:
+        if 'xu' in names or 'x' in names:
             for i in range(particle_number):
                 item = f.readline().split()
-                particle_type[int(item[0]) - 1] = int(item[1])
-                positions[int(item[0]) - 1] = [float(j)
-                                               for j in item[2: ndim + 2]]
-                # MoleculeType[int(item[0]) - 1] = int(item[-1])
-
-            conditions = [True if atomtype in moltypes.keys()
-                          else False for atomtype in particle_type]
-            positions = positions[conditions]
-            particle_type = pd.Series(
-                particle_type[conditions]).map(
-                moltypes).values
-
-        elif 'x' in names:
-            for i in range(particle_number):
-                item = f.readline().split()
-                particle_type[int(item[0]) - 1] = int(item[1])
-                positions[int(item[0]) - 1] = [float(j)
-                                               for j in item[2: ndim + 2]]
-                # MoleculeType[int(item[0]) - 1] = int(item[-1])
-
-            conditions = [True if atomtype in moltypes.keys()
-                          else False for atomtype in particle_type]
-            positions = positions[conditions]
-            particle_type = pd.Series(
-                particle_type[conditions]).map(
-                moltypes).values
-            positions = np.where(
-                positions < boxbounds[:, 0], positions + boxlength, positions)
-            positions = np.where(
-                positions > boxbounds[:, 1], positions - boxlength, positions)
-            # positions = positions - shiftfactors[np.newaxis, :]
-            # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
+                atom_index = int(item[0]) - 1
+                particle_type[atom_index] = int(item[1])
+                positions[atom_index] = [float(j) for j in item[2: ndim + 2]]
 
         elif 'xs' in names:
             for i in range(particle_number):
                 item = f.readline().split()
-                particle_type[int(item[0]) - 1] = int(item[1])
-                positions[int(item[0]) - 1] = [float(j)
-                                               for j in item[2: ndim + 2]] * boxlength
-                # MoleculeType[int(item[0]) - 1] = int(item[-1])
-
-            conditions = [True if atomtype in moltypes.keys(
-            ) else False for atomtype in particle_type]
-            positions = positions[conditions]
-            particle_type = pd.Series(
-                particle_type[conditions]).map(
-                moltypes).values
-            positions += boxbounds[:, 0]
-            positions = np.where(
-                positions < boxbounds[:, 0], positions + boxlength, positions)
-            positions = np.where(
-                positions > boxbounds[:, 1], positions - boxlength, positions)
-            # positions = positions - shiftfactors[np.newaxis, :]
-            # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
+                atom_index = int(item[0]) - 1
+                particle_type[atom_index] = int(item[1])
+                positions[atom_index] = [float(j) for j in item[2: ndim + 2]] * boxlength
 
         snapshot = SingleSnapshot(
             timestep=timestep,
-            nparticle=particle_type.shape[0],
+            nparticle=particle_number,
             particle_type=particle_type,
             positions=positions,
             boxlength=boxlength,
@@ -330,66 +139,211 @@ def read_lammps_centertype(f: Any,
             realbounds=None,
             hmatrix=hmatrix,
         )
-        return snapshot
 
-    except BaseException:
-        logger.error("Exception when reading file.")
-        return None
+    # -------Read Triclinic Boxes---------
+    else:
+        # box boundaries of (x y z) with tilt factors
+        boxbounds = np.zeros((ndim, 3))
+        boxlength = np.zeros(ndim)  # box length along (x y z)
+        for i in range(ndim):
+            item = f.readline().split()
+            boxbounds[i, :] = item[:3]  # with tilt factors
+        if ndim < 3:
+            for i in range(3 - ndim):
+                item = f.readline().split()
+                boxbounds = np.vstack(
+                    (boxbounds, np.array(item[:3], dtype=np.float64)))
+
+        xlo_bound, xhi_bound, xy = boxbounds[0, :]
+        ylo_bound, yhi_bound, xz = boxbounds[1, :]
+        zlo_bound, zhi_bound, yz = boxbounds[2, :]
+        xlo = xlo_bound - min((0.0, xy, xz, xy + xz))
+        xhi = xhi_bound - max((0.0, xy, xz, xy + xz))
+        ylo = ylo_bound - min((0.0, yz))
+        yhi = yhi_bound - max((0.0, yz))
+        zlo = zlo_bound
+        zhi = zhi_bound
+        h0 = xhi - xlo
+        h1 = yhi - ylo
+        h2 = zhi - zlo
+        h3 = yz
+        h4 = xz
+        h5 = xy
+
+        realbounds = np.array(
+            [xlo, xhi, ylo, yhi, zlo, zhi]).reshape((3, 2))
+        reallength = (realbounds[:, 1] - realbounds[:, 0])[:ndim]
+        boxbounds = boxbounds[:ndim, :2]
+        hmatrix = np.zeros((3, 3))
+        hmatrix[0] = [h0, 0, 0]
+        hmatrix[1] = [h5, h1, 0]
+        hmatrix[2] = [h4, h3, h2]
+        hmatrix = hmatrix[:ndim, :ndim]
+
+        item = f.readline().split()
+        names = item[2:]
+        positions = np.zeros((particle_number, ndim))
+        particle_type = np.zeros(particle_number, dtype=int)
+        if 'x' in names:
+            for i in range(particle_number):
+                item = f.readline().split()
+                atom_index = int(item[0]) - 1
+                particle_type[atom_index] = int(item[1])
+                positions[atom_index] = [float(j) for j in item[2: ndim + 2]]
+
+        elif 'xs' in names:
+            for i in range(particle_number):
+                item = f.readline().split()
+                atom_index = int(item[0]) - 1
+                particle_type[atom_index] = int(item[1])
+                if ndim == 3:
+                    positions[atom_index, 0] = xlo_bound + float(item[2]) * h0 + float(
+                        item[3]) * h5 + float(item[4]) * h4
+                    positions[atom_index, 1] = ylo_bound + \
+                        float(item[3]) * h1 + float(item[4]) * h3
+                    positions[atom_index, 2] = zlo_bound + float(item[4]) * h2
+                elif ndim == 2:
+                    positions[atom_index, 0] = xlo_bound + \
+                        float(item[2]) * h0 + float(item[3]) * h5
+                    positions[atom_index, 1] = ylo_bound + float(item[3]) * h1
+                else:
+                    logger.info(f"cannot read for {ndim} dimensionality so far")
+                    return None
+
+        snapshot = SingleSnapshot(
+            timestep=timestep,
+            nparticle=particle_number,
+            particle_type=particle_type,
+            positions=positions,
+            boxlength=reallength,
+            boxbounds=boxbounds,
+            realbounds=realbounds[:ndim],
+            hmatrix=hmatrix,
+        )
+    return snapshot
 
 
-def read_additions(dumpfile, ncol):
-    """read additional columns in the lammps dump file
+def read_lammps_centertype(
+        f: Any,
+        ndim: int,
+        moltypes: Dict[int, int]
+    ) -> SingleSnapshot:
+    """ Read a snapshot of molecules at one time from LAMMPS
 
-    ncol: int, specifying the column number starting from 0 (zero-based)
-    return in numpy array as [particle_number, snapshotnumber] in float, sort particle by ID
+    Inputs:
+        1. f: open file type by python from reading input dump file
+
+        2. ndim (int): dimensionality
+        
+        3. moltypes (dict, optional): only used for molecular system in LAMMPS, default is None. 
+            To specify, for example, if the system has 5 types of atoms in which 1-3 is 
+            one type of molecules and 4-5 is the other, and type 3 and 5 are the center of mass.
+            Then moltypes should be {3:1, 5:2}. The keys ([3, 5]) of the dict (moltypes) 
+            are used to select specific atoms to present the corresponding molecules.
+            The values ([1, 2]) is used to record the type of molecules.
     """
 
-    with open(dumpfile) as f:
+    item = f.readline()
+    # End of file:
+    if not item:
+        logger.info("Reach end of file.")
+        return None
+    timestep = int(f.readline())
+    item = f.readline()
+    particle_number = int(f.readline())
+    item = f.readline().split()
+    # -------Read Orthogonal Boxes---------
+    boxbounds = np.zeros((ndim, 2))  # box boundaries of (x y z)
+    boxlength = np.zeros(ndim)  # box length along (x y z)
+    for i in range(ndim):
+        item = f.readline().split()
+        boxbounds[i, :] = item[:2]
+
+    boxlength = boxbounds[:, 1] - boxbounds[:, 0]
+    if ndim < 3:
+        for i in range(3 - ndim):
+            f.readline()
+    # shiftfactors = (boxbounds[:, 0] + boxlength / 2)
+    # self.Boxbounds.append(boxbounds)
+    hmatrix = np.diag(boxlength)
+
+    item = f.readline().split()
+    names = item[2:]
+    particle_type = np.zeros(particle_number, dtype=int)
+    positions = np.zeros((particle_number, ndim))
+    # MoleculeType = np.zeros(particle_number, dtype=int)
+
+    if 'xu' in names or 'x' in names:
+        for i in range(particle_number):
+            item = f.readline().split()
+            atom_index = int(item[0]) - 1
+            particle_type[atom_index] = int(item[1])
+            positions[atom_index] = [float(j) for j in item[2: ndim + 2]]
+            # MoleculeType[atom_index] = int(item[-1])
+
+        conditions = [True if atomtype in moltypes.keys()
+                      else False for atomtype in particle_type]
+        positions = positions[conditions]
+        particle_type = pd.Series(
+            particle_type[conditions]).map(
+            moltypes).values
+
+    elif 'xs' in names:
+        for i in range(particle_number):
+            item = f.readline().split()
+            atom_index = int(item[0]) - 1
+            particle_type[atom_index] = int(item[1])
+            positions[atom_index] = [float(j) for j in item[2: ndim + 2]] * boxlength
+            # MoleculeType[atom_index] = int(item[-1])
+
+        # choose only center-of-mass
+        conditions = [True if atomtype in moltypes.keys()
+                      else False for atomtype in particle_type]
+        positions = positions[conditions]
+        particle_type = pd.Series(
+            particle_type[conditions]).map(
+            moltypes).values
+        positions += boxbounds[:, 0]
+
+    snapshot = SingleSnapshot(
+        timestep=timestep,
+        nparticle=particle_type.shape[0],
+        particle_type=particle_type,
+        positions=positions,
+        boxlength=boxlength,
+        boxbounds=boxbounds,
+        realbounds=None,
+        hmatrix=hmatrix,
+    )
+    return snapshot
+
+
+def read_additions(dumpfile, ncol) -> np.ndarray:
+    """
+    Read additional columns in the lammps dump file
+    for example, read "order" from:
+        id type x y z order
+
+    Inputs:
+        1. dumpfile (str): file name of input snapshots
+
+        2. ncol (int): specifying the column number starting from 0 (zero-based)
+    
+    Return: 
+        in numpy array as [particle_number, snapshotnumber] in float
+    """
+
+    with open(dumpfile, "r", encoding="utf-8") as f:
         content = f.readlines()
 
-    nparticle = int(content[3])
-    nsnapshots = int(len(content) / (nparticle + 9))
-
-    results = np.zeros((nparticle, nsnapshots))
+    nparticles = int(content[3])
+    nsnapshots = int(len(content) / (nparticles + 9))
+    results = np.zeros((nparticles, nsnapshots))
 
     for n in range(nsnapshots):
-        items = content[n * nparticle + (n + 1) * 9:(n + 1) * (nparticle + 9)]
-        for i in range(nparticle):
-            item = items[i].split()
-            item = np.array([float(_) for _ in item])
-            results[int(item[0]) - 1, n] = item[ncol]   # sort particle by ID
-
+        items = content[n * nparticles + (n + 1) * 9:(n + 1) * (nparticles + 9)]
+        for item in items:
+            item = item.split()
+            atom_index = int(item[0]) - 1
+            results[atom_index, n] = item[ncol]
     return results
-
-
-def read_lammpslog(filename):
-    """extract the thermodynamic quantities from lammp log file"""
-
-    with open(filename, 'r') as f:
-        data = f.readlines()
-
-    # ----get how many sections are there----
-    start = [i for i, val in enumerate(data) if val.startswith('Step ')]
-    end = [i for i, val in enumerate(data) if val.startswith('Loop time of ')]
-
-    if data[-1] != '\n':
-        if data[-1].split()[0].isnumeric():  # incomplete log file
-            end.append(len(data) - 2)
-
-    start = np.array(start)
-    end = np.array(end)
-    linenum = end - start - 1
-    logger.info(f'Section Number: {len(linenum)} Line Numbers: {str(linenum)}')
-    del data
-
-    final = []
-    for i in range(len(linenum)):
-        data = pd.read_csv(
-            filename,
-            sep='\\s+',
-            skiprows=start[i],
-            nrows=linenum[i])
-        final.append(data)
-        del data
-
-    return final

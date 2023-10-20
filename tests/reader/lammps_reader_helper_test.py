@@ -1,8 +1,6 @@
-import unittest
 import numpy as np
+import unittest
 from reader.lammps_reader_helper import read_lammps_wrapper
-from tests.reader.old_dump import readdump
-
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -17,8 +15,8 @@ class TestLammpsReaderHelper(unittest.TestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_file_2d = f"{READ_TEST_FILE_PATH}/dump_2D_test.atom"
-        self.test_file_3d = f"{READ_TEST_FILE_PATH}/glass.IS.n22.atom"
+        self.test_file_2d = f"{READ_TEST_FILE_PATH}/dump_2D.atom"
+        self.test_file_3d = f"{READ_TEST_FILE_PATH}/dump_3D.atom"
         self.test_file_triclinic = f"{READ_TEST_FILE_PATH}/2d_triclinic.atom"
         self.test_file_xu = f"{READ_TEST_FILE_PATH}/test_xu.dump"
 
@@ -30,23 +28,21 @@ class TestLammpsReaderHelper(unittest.TestCase):
         snapshots = read_lammps_wrapper(self.test_file_2d, ndim=2)
         self.assertEqual(5, snapshots.nsnapshots)
 
-        # Comparison with old dump, will delete once fully tested
-        old_d = readdump(self.test_file_2d, ndim=2)
-        old_d.read_onefile()
-
-        self.assertEqual(snapshots.nsnapshots, old_d.SnapshotNumber)
-        for i, snapshot in enumerate(snapshots.snapshots):
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i])
+        for n in range(snapshots.nsnapshots):
+            snapshot = snapshots.snapshots[n]
+            self.assertEqual(2, snapshot.particle_type[14])
+            self.assertEqual(1, snapshot.particle_type[9999])
+            if n==0:
+                np.testing.assert_almost_equal(
+                    snapshot.positions[14],
+                    np.array([18.9739, 24.6161])
+                )
+            if n==4:
+                np.testing.assert_almost_equal(
+                    snapshot.positions[14],
+                    np.array([18.2545, 24.9591])
+                )
+            # TODO check others manually
 
     def test_read_lammps_wrapper_3d(self) -> None:
         """
@@ -56,23 +52,19 @@ class TestLammpsReaderHelper(unittest.TestCase):
         snapshots = read_lammps_wrapper(self.test_file_3d, ndim=3)
         self.assertEqual(1, snapshots.nsnapshots)
 
-        # Comparison with old dump, will delete once fully tested
-        old_d = readdump(self.test_file_3d, ndim=3)
-        old_d.read_onefile()
+        snapshot = snapshots.snapshots[0]
 
-        self.assertEqual(snapshots.nsnapshots, old_d.SnapshotNumber)
-        for i, snapshot in enumerate(snapshots.snapshots):
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i])
+        self.assertEqual(2, snapshot.particle_type[6389])
+        np.testing.assert_almost_equal(
+            snapshot.positions[6389],
+            np.array([13.6638, 5.51246,0.161101])
+        )
+
+        self.assertEqual(1, snapshot.particle_type[2554])
+        np.testing.assert_almost_equal(
+            snapshot.positions[2554],
+            np.array([26.0894, 5.22851, 5.16113])
+        )
 
     def test_read_lammps_wrapper_triclinic(self) -> None:
         """
@@ -82,23 +74,19 @@ class TestLammpsReaderHelper(unittest.TestCase):
         snapshots = read_lammps_wrapper(self.test_file_triclinic, ndim=2)
         self.assertEqual(1, snapshots.nsnapshots)
 
-        # Comparison with old dump, will delete once fully tested
-        old_d = readdump(self.test_file_triclinic, ndim=2)
-        old_d.read_onefile()
+        snapshot = snapshots.snapshots[0]
 
-        self.assertEqual(snapshots.nsnapshots, old_d.SnapshotNumber)
-        for i, snapshot in enumerate(snapshots.snapshots):
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i])
+        self.assertEqual(1, snapshot.particle_type[46])
+        np.testing.assert_almost_equal(
+            snapshot.positions[46],
+            np.array([9.76023747277, 56.7858319844])
+        )
+
+        self.assertEqual(2, snapshot.particle_type[115])
+        np.testing.assert_almost_equal(
+            snapshot.positions[115],
+            np.array([88.4406157094, 86.49953195029])
+        )
 
     def test_read_lammps_wrapper_xu(self) -> None:
         """
@@ -108,20 +96,16 @@ class TestLammpsReaderHelper(unittest.TestCase):
         snapshots = read_lammps_wrapper(self.test_file_xu, ndim=3)
         self.assertEqual(1, snapshots.nsnapshots)
 
-        # Comparison with old dump, will delete once fully tested
-        old_d = readdump(self.test_file_xu, ndim=3)
-        old_d.read_onefile()
+        snapshot = snapshots.snapshots[0]
 
-        self.assertEqual(snapshots.nsnapshots, old_d.SnapshotNumber)
-        for i, snapshot in enumerate(snapshots.snapshots):
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i])
+        self.assertEqual(1, snapshot.particle_type[6])
+        np.testing.assert_almost_equal(
+            snapshot.positions[6],
+            np.array([-130.269, 26.7809, -42.8578])
+        )
+
+        self.assertEqual(3, snapshot.particle_type[6570])
+        np.testing.assert_almost_equal(
+            snapshot.positions[6570],
+            np.array([-30.0126, -135.635, -55.8192])
+        )
