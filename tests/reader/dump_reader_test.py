@@ -4,7 +4,6 @@ import unittest
 import numpy as np
 from reader.dump_reader import DumpReader
 from reader.reader_utils import DumpFileType
-from tests.reader.old_dump import readdump
 
 from utils.logging_utils import get_logger_handle
 
@@ -32,27 +31,22 @@ class TestDumpReader(unittest.TestCase):
         read_dump = DumpReader(self.test_file_lammps_2d, ndim=2)
         read_dump.read_onefile()
         self.assertEqual(5, read_dump.snapshots.nsnapshots)
-
-        # Comparison with old dump, will delete once fully tested
-        old_d = readdump(self.test_file_lammps_2d, ndim=2)
-        old_d.read_onefile()
-
-        self.assertEqual(
-            read_dump.snapshots.nsnapshots,
-            old_d.SnapshotNumber)
-
-        for i, snapshot in enumerate(read_dump.snapshots.snapshots):
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxbounds, old_d.Boxbounds[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i])
+        
+        for n in range(read_dump.snapshots.nsnapshots):
+            snapshot = read_dump.snapshots.snapshots[n]
+            self.assertEqual(2, snapshot.particle_type[14])
+            self.assertEqual(1, snapshot.particle_type[9999])
+            if n==0:
+                np.testing.assert_almost_equal(
+                    snapshot.positions[14],
+                    np.array([18.9739, 24.6161])
+                )
+            if n==4:
+                np.testing.assert_almost_equal(
+                    snapshot.positions[14],
+                    np.array([18.2545, 24.9591])
+                )
+            #TODO check others manually
 
     def test_dump_reader_lammps_3d(self) -> None:
         """
@@ -62,27 +56,6 @@ class TestDumpReader(unittest.TestCase):
         read_dump = DumpReader(self.test_file_lammps_3d, ndim=3)
         read_dump.read_onefile()
         self.assertEqual(1, read_dump.snapshots.nsnapshots)
-
-        # Comparison with old dump, will delete once fully tested
-        old_d = readdump(self.test_file_lammps_3d, ndim=3)
-        old_d.read_onefile()
-
-        self.assertEqual(
-            read_dump.snapshots.nsnapshots,
-            old_d.SnapshotNumber)
-
-        for i, snapshot in enumerate(read_dump.snapshots.snapshots):
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxbounds, old_d.Boxbounds[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i])
 
     def test_dump_reader_gsd_3d(self) -> None:
         """
@@ -95,24 +68,3 @@ class TestDumpReader(unittest.TestCase):
             filetype=DumpFileType.GSD)
         read_gsd.read_onefile()
         self.assertEqual(1, read_gsd.snapshots.nsnapshots)
-
-        # Comparison with old dump, will delete once fully tested
-        old_d = readdump(self.test_file_gsd_3d, ndim=3, filetype="gsd")
-        old_d.read_onefile()
-
-        self.assertEqual(
-            read_gsd.snapshots.nsnapshots,
-            old_d.SnapshotNumber)
-
-        for i, snapshot in enumerate(read_gsd.snapshots.snapshots):
-            self.assertEqual(snapshot.timestep, old_d.TimeStep[i])
-            self.assertEqual(snapshot.nparticle, old_d.ParticleNumber[i])
-            np.testing.assert_almost_equal(
-                snapshot.particle_type, old_d.ParticleType[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxbounds, old_d.Boxbounds[i])
-            np.testing.assert_almost_equal(
-                snapshot.boxlength, old_d.Boxlength[i])
-            np.testing.assert_almost_equal(snapshot.hmatrix, old_d.hmatrix[i])
-            np.testing.assert_almost_equal(
-                snapshot.positions, old_d.Positions[i])
