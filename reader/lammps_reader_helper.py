@@ -118,34 +118,12 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
             positions = np.zeros((particle_number, ndim))
             particle_type = np.zeros(particle_number, dtype=int)
 
-            if 'xu' in names:
+            if 'xu' in names or 'x' in names:
                 for i in range(particle_number):
                     item = f.readline().split()
                     atom_index = int(item[0]) - 1
                     particle_type[atom_index] = int(item[1])
                     positions[atom_index] = [float(j) for j in item[2: ndim + 2]]
-
-            elif 'x' in names:
-                for i in range(particle_number):
-                    item = f.readline().split()
-                    atom_index = int(item[0]) - 1
-                    particle_type[atom_index] = int(item[1])
-                    positions[atom_index] = [float(j) for j in item[2: ndim + 2]]
-
-                # Moving particles outside the box back into the box while
-                # applying periodic boundary conditions
-                positions = np.where(
-                    positions < boxbounds[:, 0][np.newaxis, :],
-                    positions + boxlength[np.newaxis, :],
-                    positions
-                )
-                positions = np.where(
-                    positions > boxbounds[:, 1][np.newaxis, :],
-                    positions - boxlength[np.newaxis, :],
-                    positions
-                )
-                # positions = positions - shiftfactors[np.newaxis, :]
-                # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
 
             elif 'xs' in names:
                 for i in range(particle_number):
@@ -153,21 +131,6 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
                     atom_index = int(item[0]) - 1
                     particle_type[atom_index] = int(item[1])
                     positions[atom_index] = [float(j) for j in item[2: ndim + 2]] * boxlength
-
-                # Moving particles outside the box back into the box while
-                # applying periodic boundary conditions
-                positions = np.where(
-                    positions < boxbounds[:, 0][np.newaxis, :],
-                    positions + boxlength[np.newaxis, :],
-                    positions
-                )
-                positions = np.where(
-                    positions > boxbounds[:, 1][np.newaxis, :],
-                    positions - boxlength[np.newaxis, :],
-                    positions
-                )
-                # positions = positions - shiftfactors[np.newaxis, :]
-                # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
 
             snapshot = SingleSnapshot(
                 timestep=timestep,
@@ -319,7 +282,7 @@ def read_lammps_centertype(
         positions = np.zeros((particle_number, ndim))
         # MoleculeType = np.zeros(particle_number, dtype=int)
 
-        if 'xu' in names:
+        if 'xu' in names or 'x' in names:
             for i in range(particle_number):
                 item = f.readline().split()
                 atom_index = int(item[0]) - 1
@@ -333,37 +296,6 @@ def read_lammps_centertype(
             particle_type = pd.Series(
                 particle_type[conditions]).map(
                 moltypes).values
-
-        elif 'x' in names:
-            for i in range(particle_number):
-                item = f.readline().split()
-                atom_index = int(item[0]) - 1
-                particle_type[atom_index] = int(item[1])
-                positions[atom_index] = [float(j) for j in item[2: ndim + 2]]
-                # MoleculeType[atom_index] = int(item[-1])
-
-            # choose only center-of-mass
-            conditions = [True if atomtype in moltypes.keys()
-                          else False for atomtype in particle_type]
-            positions = positions[conditions]
-            particle_type = pd.Series(
-                particle_type[conditions]).map(
-                moltypes).values
-
-            # Moving particles outside the box back into the box while
-            # applying periodic boundary conditions
-            positions = np.where(
-                positions < boxbounds[:, 0][np.newaxis, :],
-                positions + boxlength[np.newaxis, :],
-                positions
-            )
-            positions = np.where(
-                positions > boxbounds[:, 1][np.newaxis, :],
-                positions - boxlength[np.newaxis, :],
-                positions
-            )
-            # positions = positions - shiftfactors[np.newaxis, :]
-            # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
 
         elif 'xs' in names:
             for i in range(particle_number):
@@ -381,21 +313,6 @@ def read_lammps_centertype(
                 particle_type[conditions]).map(
                 moltypes).values
             positions += boxbounds[:, 0]
-
-            # Moving particles outside the box back into the box while
-            # applying periodic boundary conditions
-            positions = np.where(
-                positions < boxbounds[:, 0][np.newaxis, :],
-                positions + boxlength[np.newaxis, :],
-                positions
-            )
-            positions = np.where(
-                positions > boxbounds[:, 1][np.newaxis, :],
-                positions - boxlength[np.newaxis, :],
-                positions
-            )
-            # positions = positions - shiftfactors[np.newaxis, :]
-            # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
 
         snapshot = SingleSnapshot(
             timestep=timestep,
