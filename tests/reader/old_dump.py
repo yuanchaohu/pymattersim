@@ -149,10 +149,10 @@ class readdump:
                         positions[int(item[0]) - 1] = [float(j)
                                                        for j in item[2: self.ndim + 2]]
 
-                    positions = np.where(
-                        positions < boxbounds[:, 0], positions + boxlength, positions)
-                    positions = np.where(
-                        positions > boxbounds[:, 1], positions - boxlength, positions)
+                    # positions = np.where(
+                    #     positions < boxbounds[:, 0], positions + boxlength, positions)
+                    # positions = np.where(
+                    #     positions > boxbounds[:, 1], positions - boxlength, positions)
                     # positions = positions - shiftfactors[np.newaxis, :]
                     # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
 
@@ -164,10 +164,10 @@ class readdump:
                                                        for j in item[2: self.ndim + 2]] * boxlength
 
                     positions += boxbounds[:, 0]
-                    positions = np.where(
-                        positions < boxbounds[:, 0], positions + boxlength, positions)
-                    positions = np.where(
-                        positions > boxbounds[:, 1], positions - boxlength, positions)
+                    # positions = np.where(
+                    #     positions < boxbounds[:, 0], positions + boxlength, positions)
+                    # positions = np.where(
+                    #     positions > boxbounds[:, 1], positions - boxlength, positions)
                     # positions = positions - shiftfactors[np.newaxis, :]
                     # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
 
@@ -323,10 +323,10 @@ class readdump:
                 ParticleType = pd.Series(
                     ParticleType[conditions]).map(
                     self.moltypes).values
-                positions = np.where(
-                    positions < boxbounds[:, 0], positions + boxlength, positions)
-                positions = np.where(
-                    positions > boxbounds[:, 1], positions - boxlength, positions)
+                # positions = np.where(
+                #     positions < boxbounds[:, 0], positions + boxlength, positions)
+                # positions = np.where(
+                #     positions > boxbounds[:, 1], positions - boxlength, positions)
                 # positions = positions - shiftfactors[np.newaxis, :]
                 # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
 
@@ -345,10 +345,10 @@ class readdump:
                     ParticleType[conditions]).map(
                     self.moltypes).values
                 positions += boxbounds[:, 0]
-                positions = np.where(
-                    positions < boxbounds[:, 0], positions + boxlength, positions)
-                positions = np.where(
-                    positions > boxbounds[:, 1], positions - boxlength, positions)
+                # positions = np.where(
+                #     positions < boxbounds[:, 0], positions + boxlength, positions)
+                # positions = np.where(
+                #     positions > boxbounds[:, 1], positions - boxlength, positions)
                 # positions = positions - shiftfactors[np.newaxis, :]
                 # boxbounds = boxbounds - shiftfactors[:, np.newaxis]
 
