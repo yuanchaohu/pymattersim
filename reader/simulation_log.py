@@ -1,7 +1,4 @@
 # coding = utf-8
-"""
-Extract the thermodynamic quantities from lammp log file
-"""
 
 import numpy as np
 import pandas as pd
@@ -12,6 +9,8 @@ logger = get_logger_handle(__name__)
 
 def read_lammpslog(filename) -> [pd.DataFrame]:
     """
+    Extract the thermodynamic quantities from lammp log file
+    
     Input:
         filename (str): lammps log file name
     
