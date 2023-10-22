@@ -49,14 +49,14 @@ The typical features of `reader` are:
 
 The input simulation box will be transformed to a list of 'digital' snapshot, by returning `snapshots` object. It is a list of `snapshot` that has all of the configuration information. `snapshots` and `snapshot` are two data class defined in `reader.reader_utils`.  `snapshot` consists:
 
-- `snapshot.timestep` (int): simulation timestep at each snapshot
-- `snapshot.nparticle` (int): particle number from each snapshot
-- `snapshot.particle_type` (numpy array): particle type in array in each snapshot
-- `snapshot.positions` (numpy array): particle coordinates in array in each snapshot
-- `snapshot.boxlength` (numpy array): box length in array in each snapshot
-- `snapshot.boxbounds` (numpy array): box boundaries in array in each snapshot
-- `snapshot.realbounds` (numpy array): real box bounds of a triclinic box (optional)
-- `snapshot.hmatrix` (numpy array): h-matrix of the cells in each snapshot
+- `snapshots[n].timestep` (int): simulation timestep at each snapshot
+- `snapshots[n].nparticle` (int): particle number from each snapshot
+- `snapshots[n].particle_type` (numpy array): particle type in array in each snapshot
+- `snapshots[n].positions` (numpy array): particle coordinates in array in each snapshot
+- `snapshots[n].boxlength` (numpy array): box length in array in each snapshot
+- `snapshots[n].boxbounds` (numpy array): box boundaries in array in each snapshot
+- `snapshots[n].realbounds` (numpy array): real box bounds of a triclinic box (optional)
+- `snapshots[n].hmatrix` (numpy array): h-matrix of the cells in each snapshot
 
 The information is stored in a list of which the elements are mainly numpy arrays. Particle-level information is referred by particle ID.
 
@@ -115,6 +115,6 @@ The information is stored in a list of which the elements are mainly numpy array
 
   ```python
   from reader import simulation_log
-  
+
   simulation_log.read_lammpslog(filename)
   ```

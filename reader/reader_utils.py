@@ -56,14 +56,14 @@ class Snapshots:
     """
     A frozen data class to hold all system snapshots
     snapshots: stores a list of snapshot, which consisits:
-        snapshot.timestep:         simulation timestep at each snapshot
-        snapshot.nparticle:        particle number from each snapshot
-        snapshot.particle_type:    particle type in array in each snapshot
-        snapshot.positions:        particle coordinates in array in each snapshot
-        snapshot.boxlength:        box length in array in each snapshot
-        snapshot.boxbounds:        box boundaries in array in each snapshot
-        snapshot.realbounds:       real box bounds of a triclinic box
-        snapshot.hmatrix:          h-matrix of the cells in each snapshot
+        snapshots[n].timestep:         simulation timestep at each snapshot
+        snapshots[n].nparticle:        particle number from each snapshot
+        snapshots[n].particle_type:    particle type in array in each snapshot
+        snapshots[n].positions:        particle coordinates in array in each snapshot
+        snapshots[n].boxlength:        box length in array in each snapshot
+        snapshots[n].boxbounds:        box boundaries in array in each snapshot
+        snapshots[n].realbounds:       real box bounds of a triclinic box
+        snapshots[n].hmatrix:          h-matrix of the cells in each snapshot
     The information is stored in list whose elements are mainly numpy arraies.
     """
     nsnapshots: int
