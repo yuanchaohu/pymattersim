@@ -1,7 +1,6 @@
 # Reading Computer Simulations Snapshots
 
-This module read-in the static or time evolution of the particle positions (snapshots or trajectories) encapsulated in a simulation box from various simulators for materials science, 
-chemistry, and physics etc. The popular ones includes but not limit yo LAMMPS and Hoomd-blue. This module is very flexible for future extension, just by adding suitable format reading of the simulation outputs. For example, the atomic/molecular configurations from *ab-initio* calculations (DFT) and Gromacs, and any others. This module is the base of all of the other physical calculations. As long as the simulation box information were read properly, they can be used for additional calculations. That means, we are trying to "forget about" the specific simulation box, but transform it to a specific data structures.
+This module read-in the static or time evolution of the particle positions (snapshots or trajectories) encapsulated in a simulation box from various simulators for materials science, chemistry, and physics etc. The popular ones includes but not limit yo LAMMPS and Hoomd-blue. This module is very flexible for future extension, just by adding suitable format reading of the simulation outputs. For example, the atomic/molecular configurations from *ab-initio* calculations (DFT) and Gromacs, and any others. This module is the base of all of the other physical calculations. As long as the simulation box information were read properly, they can be used for additional calculations. That means, we are trying to "forget about" the specific simulation box, but transform it to a specific data structures.
 
 The main functions are captured by the module `reader`, in which there are several reading methods, listed currently as:
 - `dump_reader` [main function to call other methods]
@@ -20,7 +19,7 @@ The typical features of `reader` are:
    - `filetype=DumpFileType.GSD`: Static properties in Hoomd-blue, GSD file, by calling `reader.dump_reader.DumpReader` or `reader.GSD_reader_helper.read_GSD_wrapper`.  
    - `filetype=DumpFileType.GSD_DCD`: Dynamic properties in Hoomd-blue, both GSD and DCD files, by calling `reader.dump_reader.DumpReader` or `reader.GSD_reader_helper.read_GSD_DCD_wrapper`.
 
-2. Supports any dimensionality. General cases include the two-dimensional (LAMMPS dump file format ***id type x y***) and three-dimensional snapshots (LAMMPS dump file format ***id type x y z***). As long as the input format includes ***id type***, only dimensional positions will be read-in and the other columns will be neglected. For example, for a two-dimensional system, the input format can be ***id type x y z xx yy zz nn...***, the positions `(x y)` can be read properly.
+2. Supports any dimensionality. General cases include the two-dimensional (LAMMPS dump file format ***id type x y***) and three-dimensional snapshots (LAMMPS dump file format ***id type x y z***). As long as the input format includes ***id type***, only dimensional positions will be read-in and the other columns will be neglected. For example, for a two-dimensional system, the input format can be ***id type x y z xx yy zz nn...***, the positions ***(x y)*** can be read properly.
 
 3. Supports both orthogonal and triclinic cells with the use of H-matrix to deal with the periodic boundary conditions. As long as the simulator supports these two types cell, the module can process it properly. For a triclinic box, it converts the bounding box back into the trilinic box parameters by refering to 'https://docs.lammps.org/Howto_triclinic.html':
 
@@ -65,25 +64,48 @@ The information is stored in a list of which the elements are mainly numpy array
 1. In LAMMPS, ***x***, ***xs***, and ***xu*** format coordinates are acceptable. Such as with format The reduced ***xs*** will be rescaled to the absolute coordinates ***x***.
 2. For the ***xs*** and ***x*** types in orthogonal cells with periodic boundary conditions, particle coordinates are **NOT** warpped to the inside of the box by default, which could be changed by hand when necessary. In non-periodic boundary conditions, there should be no particles at the outside of the cell.
 3. Snapshots should be stored in one file at this stage.
-4. In Hoomd-blue, GSD and DCD files are acceptable. GSD file has all the information with periodic boundary conditions, while DCD has the unwarpped coordinates. GSD file has all the information with periodic boundary conditions, while DCD only has the particle positions. Normally only GSD file is needed . But if one wants to analyze the dynamical properties, the DCD file should be dumped accompanying the GSD file to get the unwarp coordinates. More specifically, all the information about the trajectory will be obtained from the GSD file except the particle positions which will be obtained from the DCD file. Therefore, the DCD and GSD files shall be dumped with the same period or concurrently. Another important point in this case is the file name of GSD and DCD. They should share the same name with the only difference of the last three string, ie. ‘GSD ’or ‘DCD’. For example, if the file name of GSD is ***dumpfile.GSD***then the DCD file name must be ***dumpfile.DCD***. To read the Hoomd-blue outputs, two new modules should be installed first: i) GSD; ii) mdtraj. These modules are available by conda. 
+4. In Hoomd-blue, GSD and DCD files are acceptable. GSD file has all the information with periodic boundary conditions, while DCD has the unwarpped coordinates. GSD file has all the information with periodic boundary conditions, while DCD only has the particle positions. Normally only GSD file is needed . But if one wants to analyze the dynamical properties, the DCD file should be dumped accompanying the GSD file to get the unwarp coordinates. More specifically, all the information about the trajectory will be obtained from the GSD file except the particle positions which will be obtained from the DCD file. Therefore, the DCD and GSD files shall be dumped with the same period or concurrently. Another important point in this case is the file name of GSD and DCD. They should share the same name with the only difference of the last three string, ie. ‘GSD ’or ‘DCD’. For example, if the file name of GSD is ***dumpfile.GSD*** then the DCD file name must be ***dumpfile.DCD***. To read the Hoomd-blue outputs, two new modules should be installed first: i) GSD; ii) mdtraj. These modules are available by conda. 
 
 ## Example Usage
+
+Some dump files are provided in `tests/reader/sample_test_data`.
 
 - Call `dump_reader` and specify `filetype`:
 
   ```python
   from reader.dump_reader import DumpReader
   from reader.reader_utils import DumpFileType
-
+  
   readdump=DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS)
   readdump.read_onefile()
   
   # return the number of snapshots
   readdump.snapshots.nsnapshots
   
+  # return the timestep of the first snapshot
+  readdump.snapshots.snapshots[0].timestep
+  
+  # return the particle number of the first snapshot
+  readdump.snapshots.snapshots[0].nparticle
+  
+  # return the particle type of the first snapshot
+  readdump.snapshots.snapshots[0].particle_type
+  
   # return the particle positions of the first snapshot
   readdump.snapshots.snapshots[0].positions
-
+  
+  # return the boxlength of the first snapshot
+  readdump.snapshots.snapshots[0].boxlength
+  
+  # return the boxbounds of the first snapshot
+  readdump.snapshots.snapshots[0].boxbounds
+  
+  # return the realbounds of the first snapshot, for triclinic box
+  readdump.snapshots.snapshots[0].realbounds
+  
+  # return the hmatrix of the first snapshot
+  readdump.snapshots.snapshots[0].hmatrix
+  
   # get all the timesteps
   [snapshot.timestep for snapshot in readdump.snapshots.snapshots]
   ```
@@ -102,19 +124,20 @@ The information is stored in a list of which the elements are mainly numpy array
   snapshots.snapshots[0].positions
   ```
 
-- The `reader.lammps_reader_helper.read_additions` can read additional columns in the lammps dump file. ​`ncol` (`int`): specifying the column number starting from 0 (zero-based). `read_additions` returns a numpy arry as shape [nparticle, nsnapshots] in float. For example, read ***order*** from ***id type x y z order***. 
+- The `reader.lammps_reader_helper.read_additions` can read additional columns in the lammps dump file. `ncol` (`int`): specifying the column number starting from 0 (zero-based). `read_additions` returns a numpy array as shape [nsnapshots, nparticle] in float. For example, read ***order*** from ***id type x y z order***. 
 
   ```python
   from reader.lammps_reader_helper import read_additions
-
-   # ncol starts in python style, i.e. from 0
+  
+  # ncol starts in python style, i.e. from 0
+  dumpfile ='./tests/reader/sample_test_data/test_additional_columns.dump'
   read_additions(dumpfile, ncol=5)
   ```
 
-- The `reader.simulation_log.read_lammpslog` can extract the thermodynamic quantities from lammp log file, input with `filename` (`str`) lammps log file name, and return list of pandas `DataFrame` for each logging section:
+- The `reader.simulation_log.read_lammpslog` can extract the thermodynamic quantities from lammps log file, input with `filename` (`str`) lammps log file name, and return list of pandas `DataFrame` for each logging section:
 
   ```python
-  from reader import simulation_log
-
-  simulation_log.read_lammpslog(filename)
+  from reader.simulation_log import read_lammpslog
+  
+  read_lammpslog(filename)
   ```
