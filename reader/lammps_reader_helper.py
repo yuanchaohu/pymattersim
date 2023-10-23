@@ -330,7 +330,7 @@ def read_additions(dumpfile, ncol) -> np.ndarray:
         2. ncol (int): specifying the column number starting from 0 (zero-based)
     
     Return: 
-        in numpy array as [particle_number, snapshotnumber] in float
+        in numpy array as [snapshot_number, particle_number] in float
     """
 
     with open(dumpfile, "r", encoding="utf-8") as f:
@@ -338,12 +338,12 @@ def read_additions(dumpfile, ncol) -> np.ndarray:
 
     nparticles = int(content[3])
     nsnapshots = int(len(content) / (nparticles + 9))
-    results = np.zeros((nparticles, nsnapshots))
+    results = np.zeros((nsnapshots, nparticles))
 
     for n in range(nsnapshots):
         items = content[n * nparticles + (n + 1) * 9:(n + 1) * (nparticles + 9)]
         for item in items:
             item = item.split()
             atom_index = int(item[0]) - 1
-            results[atom_index, n] = item[ncol]
+            results[n, atom_index] = item[ncol]
     return results

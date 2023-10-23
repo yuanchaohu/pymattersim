@@ -2,6 +2,7 @@ import numpy as np
 import unittest
 from reader.lammps_reader_helper import read_lammps_wrapper
 from utils.logging_utils import get_logger_handle
+from reader.lammps_reader_helper import read_additions
 
 logger = get_logger_handle(__name__)
 
@@ -19,10 +20,11 @@ class TestLammpsReaderHelper(unittest.TestCase):
         self.test_file_3d = f"{READ_TEST_FILE_PATH}/dump_3D.atom"
         self.test_file_triclinic = f"{READ_TEST_FILE_PATH}/2d_triclinic.atom"
         self.test_file_xu = f"{READ_TEST_FILE_PATH}/test_xu.dump"
+        self.test_file_additions = f"{READ_TEST_FILE_PATH}/test_additional_columns.dump"
 
     def test_read_lammps_wrapper_2d(self) -> None:
         """
-        Test read lammps wrapper gives expecte results for 2D data
+        Test read lammps wrapper gives expected results for 2D data
         """
         logger.info(f"Starting test using {self.test_file_2d}...")
         snapshots = read_lammps_wrapper(self.test_file_2d, ndim=2)
@@ -46,7 +48,7 @@ class TestLammpsReaderHelper(unittest.TestCase):
 
     def test_read_lammps_wrapper_3d(self) -> None:
         """
-        Test read lammps wrapper gives expecte results for 3D data
+        Test read lammps wrapper gives expected results for 3D data
         """
         logger.info(f"Starting test using {self.test_file_3d}...")
         snapshots = read_lammps_wrapper(self.test_file_3d, ndim=3)
@@ -68,7 +70,7 @@ class TestLammpsReaderHelper(unittest.TestCase):
 
     def test_read_lammps_wrapper_triclinic(self) -> None:
         """
-        Test read lammps wrapper gives expecte results for triclinic data
+        Test read lammps wrapper gives expected results for triclinic data
         """
         logger.info(f"Starting test using {self.test_file_triclinic}...")
         snapshots = read_lammps_wrapper(self.test_file_triclinic, ndim=2)
@@ -90,7 +92,7 @@ class TestLammpsReaderHelper(unittest.TestCase):
 
     def test_read_lammps_wrapper_xu(self) -> None:
         """
-        Test read lammps wrapper gives expecte results for 3D-xu data
+        Test read lammps wrapper gives expected results for 3D-xu data
         """
         logger.info(f"Starting test using {self.test_file_xu}...")
         snapshots = read_lammps_wrapper(self.test_file_xu, ndim=3)
@@ -108,4 +110,22 @@ class TestLammpsReaderHelper(unittest.TestCase):
         np.testing.assert_almost_equal(
             snapshot.positions[6570],
             np.array([-30.0126, -135.635, -55.8192])
+        )
+
+    def test_read_lammps_wrapper_additions(self) -> None:
+        """
+        Test read lammps wrapper gives expected results for dump file
+        with additional columns
+        """
+        logger.info(f"Starting test using {self.test_file_additions}...")
+        results = read_additions(self.test_file_additions, ncol=5)
+        self.assertEqual(2, results.shape[0])
+        self.assertEqual(8100, results.shape[1])
+
+        np.testing.assert_almost_equal(
+            results[0, 5241], 3.7185
+        )
+
+        np.testing.assert_almost_equal(
+            results[1, 3586], 8.88975
         )
