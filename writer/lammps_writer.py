@@ -10,12 +10,12 @@ def write_dump_header(
     Inputs:
     	1. timestep (int): current timestep for the snapshot
     	2. nparticle (int): number of particle numbers
-    	3. boxbounds (list): the coordinates of the simulation box
+    	3. boxbounds (np.array): the coordinates of the simulation box
     						 for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
     						 for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
     						 wherein xho and xhi represent minimum and maximum coordinate values
     						 in the x-direction, respectively, same as [ylo, yhi] and [zlo, zhi]
-    	4. addson (str): the name of additional columns behind id type x y z for 3D box
+    	4. addson (str): the name of additional columns, such as "order Q6"
 
 	Return:
 		header of lammps dump file (str)
@@ -41,13 +41,13 @@ def write_dump_header(
 
 
 def write_data_header(
-    nparticle: int, nparticletype: int, boxbounds: list) -> str:
+    nparticle: int, nparticle_type: int, boxbounds: list) -> str:
     """
     write the headers of lammps data file
 
     Inputs:
         1. nparticle (int): number of particle numbers
-        2. nparticletype (int): number of particle type
+        2. nparticle_type (int): number of particle type
         3. boxbounds (list): the coordinates of the simulation box
                              for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
                              for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
@@ -60,7 +60,7 @@ def write_data_header(
 
     header = 'LAMMPS data file\n\n'
     header += '%d atoms\n' %(nparticle)
-    header += '%d atom types\n\n' %(nparticletype)
+    header += '%d atom types\n\n' %(nparticle_type)
     header += '%.6f %.6f xlo xhi\n' %(boxbounds[0][0], boxbounds[0][1])
     header += '%.6f %.6f ylo yhi\n' %(boxbounds[1][0], boxbounds[1][1])
     if len(boxbounds) == 3:

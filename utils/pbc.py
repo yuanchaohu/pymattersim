@@ -20,6 +20,5 @@ def remove_pbc(RJI: np.array, hmatrix: np.array, ppp: list) -> np.array:
     ppp = np.array(ppp)[np.newaxis, :]
     hmatrixinv = np.linalg.inv(hmatrix)
     matrixij = np.dot(RJI, hmatrixinv)
-    RJI = np.dot(matrixij - np.rint(matrixij)*ppp, hmatrix)
-    return RJI
+    return np.dot(matrixij - np.rint(matrixij)*ppp, hmatrix)
     
