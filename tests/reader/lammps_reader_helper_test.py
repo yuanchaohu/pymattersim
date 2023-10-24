@@ -6,7 +6,7 @@ from reader.lammps_reader_helper import read_additions
 
 logger = get_logger_handle(__name__)
 
-READ_TEST_FILE_PATH = "tests/reader/sample_test_data"
+READ_TEST_FILE_PATH = "tests/sample_test_data"
 
 
 class TestLammpsReaderHelper(unittest.TestCase):

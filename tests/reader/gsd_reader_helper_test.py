@@ -6,7 +6,7 @@ from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
-READ_TEST_FILE_PATH = "tests/reader/sample_test_data"
+READ_TEST_FILE_PATH = "tests/sample_test_data"
 
 
 class TestGsdReaderHelper(unittest.TestCase):

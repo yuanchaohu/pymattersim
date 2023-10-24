@@ -1,27 +1,8 @@
-************* Module reader.dump_reader
-reader\dump_reader.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-reader\dump_reader.py:20:0: R0903: Too few public methods (1/2) (too-few-public-methods)
-************* Module reader.lammps_reader_helper
-reader\lammps_reader_helper.py:74:0: R0914: Too many local variables (37/15) (too-many-locals)
-reader\lammps_reader_helper.py:74:0: R0912: Too many branches (20/12) (too-many-branches)
-reader\lammps_reader_helper.py:74:0: R0915: Too many statements (86/50) (too-many-statements)
-reader\lammps_reader_helper.py:226:0: R0914: Too many local variables (16/15) (too-many-locals)
-reader\lammps_reader_helper.py:284:22: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
-reader\lammps_reader_helper.py:300:22: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
-************* Module reader.simulation_log
-reader\simulation_log.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-reader\simulation_log.py:1:0: R0801: Similar lines in 2 files
-==reader.gsd_reader_helper:[99:105]
-==reader.lammps_reader_helper:[135:143]
-            positions=positions,
-            boxlength=boxlength,
-            boxbounds=boxbounds,
-            realbounds=None,
-            hmatrix=hmatrix,
-        )
-
-    # -------Read Triclinic Boxes--------- (duplicate-code)
+************* Module utils/pbc
+utils\pbc.py:1:0: C0114: Missing module docstring (missing-module-docstring)
+utils\pbc.py:1:0: C0103: Module name "utils/pbc" doesn't conform to snake_case naming style (invalid-name)
+utils\pbc.py:5:15: C0103: Argument name "RJI" doesn't conform to snake_case naming style (invalid-name)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.68/10 (previous run: 9.68/10, +0.00)
+Your code has been rated at 5.71/10 (previous run: 4.29/10, +1.43)
 

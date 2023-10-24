@@ -1,8 +1,8 @@
  #coding = utf-8
 
-import numpy as np 
+import numpy as np
 
-def remove_pbc(RJI: array, hmatrix: array, ppp: list) -> array:
+def remove_pbc(RJI: np.array, hmatrix: np.array, ppp: list) -> np.array:
     """
     remove periodic boundary conditions.
     This module is usually embedded in other analysis modules.
@@ -21,6 +21,5 @@ def remove_pbc(RJI: array, hmatrix: array, ppp: list) -> array:
     hmatrixinv = np.linalg.inv(hmatrix)
     matrixij = np.dot(RJI, hmatrixinv)
     RJI = np.dot(matrixij - np.rint(matrixij)*ppp, hmatrix)
-
     return RJI
     
