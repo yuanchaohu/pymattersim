@@ -1,6 +1,6 @@
-# Write LAMMPS dump/data Header
+# Write LAMMPS dump/data format header
 
-This module is used to write the header of lammps dump and data files. This is quite useful when you want to pick out some atoms from the trajectory to analyze. ==~~When dimension is 2, the box length at z axis should be given 0~~ (this is from wiki, should it be removed? box length is not input arguments).==
+This module is used to write the header of lammps dump and data files for conveniently rewriting snapshots.
 
 ## Input Arguments
 
