@@ -68,7 +68,7 @@ The information is stored in a list of which the elements are mainly numpy array
 
 ## Example Usage
 
-Some dump files are provided in `tests/reader/sample_test_data`.
+Some dump files are provided in `tests/sample_test_data`.
 
 - Call `dump_reader` and specify `filetype`:
 
@@ -130,7 +130,7 @@ Some dump files are provided in `tests/reader/sample_test_data`.
   from reader.lammps_reader_helper import read_additions
   
   # ncol starts in python style, i.e. from 0
-  dumpfile ='./tests/reader/sample_test_data/test_additional_columns.dump'
+  dumpfile ='./tests/sample_test_data/test_additional_columns.dump'
   read_additions(dumpfile, ncol=5)
   ```
 

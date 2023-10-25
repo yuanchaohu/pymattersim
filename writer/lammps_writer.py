@@ -3,18 +3,18 @@
 import numpy as np
 
 def write_dump_header(
-	timestep: int, nparticle: int, boxbounds: list, addson:str = '') -> str:
+	timestep: int, nparticle: int, boxbounds: np.array, addson:str = '') -> str:
     """
-    write the header of lammps dump file
+    write the headers of lammps dump file
 
     Inputs:
-    	1. timestep (int): current timestep for the snapshot
-    	2. nparticle (int): number of particle numbers
-    	3. boxbounds (np.array): the coordinates of the simulation box
-    						 for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
-    						 for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
-    						 wherein xho and xhi represent minimum and maximum coordinate values
-    						 in the x-direction, respectively, same as [ylo, yhi] and [zlo, zhi]
+    	1. timestep (int): timestep for the current snapshot
+    	2. nparticle (int): number of particle
+    	3. boxbounds (np.array): the bounds of the simulation box
+    						     for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
+    						     for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
+    						     wherein xho and xhi represent minimum and maximum coordinate values
+    						     in the x-direction, respectively, same as [ylo, yhi] and [zlo, zhi]
     	4. addson (str): the name of additional columns, such as "order Q6"
 
 	Return:
@@ -28,44 +28,44 @@ def write_dump_header(
     header += str(nparticle) + '\n'
 
     header += 'ITEM: BOX BOUNDS pp pp pp\n'
-    header += '%.6f %.6f\n' %(boxbounds[0][0], boxbounds[0][1])
-    header += '%.6f %.6f\n' %(boxbounds[1][0], boxbounds[1][1])
+    header += f'{boxbounds[0][0]:.6f} {boxbounds[0][1]:.6f}\n'
+    header += f'{boxbounds[1][0]:.6f} {boxbounds[1][1]:.6f}\n'
     if len(boxbounds) == 3:
-        header += '%.6f %.6f\n' %(boxbounds[2][0], boxbounds[2][1])
-        header += 'ITEM: ATOMS id type x y z %s\n' %addson
+        header += f'{boxbounds[2][0]:.6f} {boxbounds[2][1]:.6f}\n'
+        header += f'ITEM: ATOMS id type x y z {addson}\n'
     else:
-        header += '%.6f %.6f\n' %(-0.5, 0.5)
-        header += 'ITEM: ATOMS id type x y %s\n' %addson
+        header += f'{-0.5:.6f} {0.5:.6f}\n'
+        header += f'ITEM: ATOMS id type x y {addson}\n'
 
     return header
 
 
 def write_data_header(
-    nparticle: int, nparticle_type: int, boxbounds: list) -> str:
+    nparticle: int, nparticle_type: int, boxbounds: np.array) -> str:
     """
     write the headers of lammps data file
 
     Inputs:
-        1. nparticle (int): number of particle numbers
+        1. nparticle (int): number of particle
         2. nparticle_type (int): number of particle type
-        3. boxbounds (list): the coordinates of the simulation box
-                             for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
-                             for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
-                             wherein xho and xhi represent minimum and maximum coordinate values
-                             in the x-direction, respectively, same as [ylo, yhi] and [zlo, zhi]
+        3. boxbounds (np.array): the bounds of the simulation box
+                                 for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
+                                 for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
+                                 wherein xho and xhi represent minimum and maximum coordinate values
+                                 in the x-direction, respectively, same as [ylo, yhi] and [zlo, zhi]
 
     Return:
         header of lammps data file (str)
     """
 
     header = 'LAMMPS data file\n\n'
-    header += '%d atoms\n' %(nparticle)
-    header += '%d atom types\n\n' %(nparticle_type)
-    header += '%.6f %.6f xlo xhi\n' %(boxbounds[0][0], boxbounds[0][1])
-    header += '%.6f %.6f ylo yhi\n' %(boxbounds[1][0], boxbounds[1][1])
+    header += f'{nparticle} atoms\n'
+    header += f'{nparticle_type} atom types\n\n'
+    header += f'{boxbounds[0][0]:.6f} {boxbounds[0][1]:.6f} xlo xhi\n'
+    header += f'{boxbounds[1][0]:.6f} {boxbounds[1][1]:.6f} ylo yhi\n'
     if len(boxbounds) == 3:
-        header += '%.6f %.6f zlo zhi\n' %(boxbounds[2][0], boxbounds[2][1])
-    else:    
+        header += f'{boxbounds[2][0]:.6f} {boxbounds[2][1]:.6f} zlo zhi\n'
+    else:
         header += '-0.5 0.5 zlo zhi\n'
     header += '\nAtoms #atomic\n\n'
 

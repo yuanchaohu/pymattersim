@@ -28,7 +28,7 @@ class TestDumpWriter(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_2d}...")
         header_writer = write_dump_header(timestep = 26000, 
                                           nparticle = 10000,
-                                          boxbounds = [[0.0, 100.0], [0.0, 100.0]],
+                                          boxbounds = np.array([[0.0, 100.0], [0.0, 100.0]]),
                                           addson = ''
                                           )
         with open(self.test_file_2d, 'r') as file:
@@ -44,9 +44,9 @@ class TestDumpWriter(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_3d}...")
         header_writer = write_dump_header(timestep = 5451182, 
                                           nparticle = 6400,
-                                          boxbounds = [[0.000000, 67.304182],
-                                                       [0.000000, 10.768669],
-                                                       [0.000000, 10.768669]],
+                                          boxbounds = np.array([[0.000000, 67.304182],
+                                                                [0.000000, 10.768669],
+                                                                [0.000000, 10.768669]]),
                                           addson = ''
                                           )
         with open(self.test_file_3d, 'r') as file:
@@ -71,7 +71,7 @@ class TestDataWriter(unittest.TestCase):
         """
         logger.info(f"Starting test using {self.test_file_data}...")
         header_writer = write_data_header(nparticle = 8100,
-                                          nparticletype = 2,
+                                          nparticle_type = 2,
                                           boxbounds = [[-17.598971, 35.584472],
                                                        [-17.598971, 35.584472],
                                                        [-17.598971, 35.584472]],
