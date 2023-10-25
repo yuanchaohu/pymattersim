@@ -1,17 +1,17 @@
-2023-10-25 10:49:47,364 INFO pbc_test Starting test using tests/sample_test_data/dump_2D.atom...
-2023-10-25 10:49:47,364 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
-2023-10-25 10:49:47,364 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-10-25 10:49:47,449 INFO reader.lammps_reader_helper Reach end of file.
-2023-10-25 10:49:47,449 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-10-25 10:49:47,449 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.08453512191772461 seconds
-.2023-10-25 10:49:47,476 INFO pbc_test Starting test using tests/sample_test_data/dump_3D.atom...
-2023-10-25 10:49:47,477 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
-2023-10-25 10:49:47,477 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-10-25 10:49:47,488 INFO reader.lammps_reader_helper Reach end of file.
-2023-10-25 10:49:47,488 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-10-25 10:49:47,488 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.011517524719238281 seconds
+2023-10-25 14:03:56,587 INFO pbc_test Starting test using tests/sample_test_data/dump_2D.atom...
+2023-10-25 14:03:56,587 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2023-10-25 14:03:56,587 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-10-25 14:03:56,666 INFO reader.lammps_reader_helper Reach end of file.
+2023-10-25 14:03:56,666 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-10-25 14:03:56,666 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07857251167297363 seconds
+.2023-10-25 14:03:56,735 INFO pbc_test Starting test using tests/sample_test_data/dump_3D.atom...
+2023-10-25 14:03:56,735 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
+2023-10-25 14:03:56,735 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-10-25 14:03:56,744 INFO reader.lammps_reader_helper Reach end of file.
+2023-10-25 14:03:56,744 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-10-25 14:03:56,744 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.009006261825561523 seconds
 .
 ----------------------------------------------------------------------
-Ran 2 tests in 0.125s
+Ran 2 tests in 0.160s
 
 OK

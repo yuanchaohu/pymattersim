@@ -10,7 +10,7 @@ The module `utils.pbc` is used to remove periodic boundary conditions (PBC) and 
 
 ## Return
 
-A `np.array` for the position difference between particle ***i*** (center) and ***j*** (neighbors) without PBC
+A `np.array` for the position difference between particle ***i*** (center) and ***j*** (neighbors) after removing PBC
 
 ## Example Usage
 

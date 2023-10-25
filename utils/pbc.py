@@ -14,7 +14,8 @@ def remove_pbc(RIJ: np.array, hmatrix: np.array, ppp: list) -> np.array:
                        default [1, 1, 1], that is, PBC is applied in all three dimensions for 3D box
  
     Return:
-        (np.array): position difference between particle i (center) and j (neighbors) without PBC
+        (np.array): position difference between particle i (center) and j (neighbors)
+                    after removing PBC
     """
 
     # pylint: disable=invalid-name
