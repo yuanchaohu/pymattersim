@@ -23,7 +23,7 @@ This module is used to write the header of lammps dump and data files for conven
 
 A string for the header will be returned.
 
-## Example Usage
+## Example
 
 - Write the header of lammps dump file:
 

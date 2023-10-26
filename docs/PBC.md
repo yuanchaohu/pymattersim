@@ -12,7 +12,7 @@ The module `utils.pbc` is used to remove periodic boundary conditions (PBC) and 
 
 A `np.array` for the position difference between particle ***i*** (center) and ***j*** (neighbors) after removing PBC
 
-## Example Usage
+## Example
 
 ```python
 from utils.pbc import remove_pbc
