@@ -1,3 +1,4 @@
+from time import time
 from typing import TextIO
 import numpy as np
 from utils.logging_utils import get_logger_handle
@@ -5,7 +6,7 @@ from utils.logging_utils import get_logger_handle
 logger = get_logger_handle(__name__)
 
 
-def read_neighprop(f: TextIO, nparticle: int, Nmax: int = 200) -> np.array:
+def read_neigh(f: TextIO, nparticle: int, Nmax: int=200) -> np.array:
     """
     Read the property of neighboring particles from a saved file,
     as long as the format of file is compatible, as like neighborlist.dat
@@ -33,12 +34,8 @@ def read_neighprop(f: TextIO, nparticle: int, Nmax: int = 200) -> np.array:
         The first column is the coordination numbner (cn), so number of columns plus 1.
         For particles with coordination number less than `Nmax_fact` (which is generally the case),
         the unoccupied positions in `neighborprop` (see source code) are padded with `0`.
-
-    Important Notes:
-        In the saved neighborlist.dat, the particle ID is counted from 1.
-        While in this read module, the returned neighborlist is counted from 0.
-        This is to facilitate subsequent indexing operations.
     """
+    logger.info("Start reading the file that stores the property of neighboring particles")
 
     header = f.readline().split()  # header
     neighborprop = np.zeros((nparticle, Nmax + 1))
@@ -75,9 +72,11 @@ def read_neighprop(f: TextIO, nparticle: int, Nmax: int = 200) -> np.array:
     if max_CN < Nmax:
         neighborprop = neighborprop[:, :max_CN + 1]  # save storage
     else:
-        logger.info("-----Warning: increase 'Nmax' to include all the neighbors-----")
+        logger.info("Warning: increase 'Nmax' to include all the neighbors")
 
     if 'neighborlist' in header:  # neighbor list should be integer
         neighborprop = neighborprop.astype(np.int32)
+
+    logger.info("Finish reading file that stores the property of neighboring particles")
 
     return neighborprop

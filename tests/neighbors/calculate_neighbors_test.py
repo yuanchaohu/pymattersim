@@ -1,11 +1,12 @@
 # coding = utf-8
 
+import os
 import unittest
 import numpy as np
 from reader.dump_reader import DumpReader
-from neighbors.particle_neighbors import Nnearests
-from neighbors.particle_neighbors import cutoffneighbors
-from neighbors.particle_neighbors import cutoffneighbors_particletype
+from neighbors.calculate_neighbors import Nnearests
+from neighbors.calculate_neighbors import cutoffneighbors
+from neighbors.calculate_neighbors import cutoffneighbors_particletype
 
 from utils.logging_utils import get_logger_handle
 
@@ -39,9 +40,10 @@ class TestNnearests(unittest.TestCase):
         item = [int(i) for i in content[789].split()]
         self.assertEqual(789, item[0])
         self.assertEqual(12, item[1])
-        # benchmarking with OVITO neighbor list
+        # benchmarking with old code and ovito
         self.assertEqual([4039, 5385, 8949, 3946, 2059, 2819, 2384, 9131, 399, 2629, 691, 3416],
                          item[2:])
+        os.remove("neighborlist.dat")
 
     def test_Nnearests_3d(self) -> None:
         """
@@ -58,12 +60,13 @@ class TestNnearests(unittest.TestCase):
         item = [int(i) for i in content[456].split()]
         self.assertEqual(456, item[0])
         self.assertEqual(12, item[1])
-        # benchmarking with OVITO neighbor list
+        # benchmarking with old code and ovito
         self.assertEqual([3801, 1238, 5135, 1973, 1535, 6238, 435, 281, 3327, 2350, 1056, 5263],
                          item[2:])
+        os.remove("neighborlist.dat")
 
 
-class TestCutoffneighbors(unittest.TestCase):
+class TestCutoffNeighbors(unittest.TestCase):
     """
     Test class for cutoffneighbors
     """
@@ -88,9 +91,10 @@ class TestCutoffneighbors(unittest.TestCase):
         item = [int(i) for i in content[789].split()]
         self.assertEqual(789, item[0])
         self.assertEqual(11, item[1])
-        # benchmarking with OVITO neighbor list
+        # benchmarking with old code and ovito
         self.assertEqual([4039, 5385, 8949, 3946, 2059, 2819, 2384, 9131, 399, 2629, 691],
                          item[2:])
+        os.remove("neighborlist.dat")
 
     def test_cutoffneighbors_3d(self) -> None:
         """
@@ -107,12 +111,13 @@ class TestCutoffneighbors(unittest.TestCase):
         item = [int(i) for i in content[456].split()]
         self.assertEqual(456, item[0])
         self.assertEqual(11, item[1])
-        # benchmarking with OVITO neighbor list
+        # benchmarking with old code and ovito
         self.assertEqual([3801, 1238, 5135, 1973, 1535, 6238, 435, 281, 3327, 2350, 1056],
                          item[2:])
+        os.remove("neighborlist.dat")
 
 
-class TestCutoffneighbors_particletype(unittest.TestCase):
+class TestCutoffNeighbors_particletype(unittest.TestCase):
     """
     Test class for cutoffneighbors_particletype
     """
@@ -139,8 +144,10 @@ class TestCutoffneighbors_particletype(unittest.TestCase):
         item = [int(i) for i in content[789].split()]
         self.assertEqual(789, item[0])
         self.assertEqual(11, item[1])
+        # benchmaking with old code
         self.assertEqual([4039, 5385, 8949, 3946, 2059, 2819, 2384, 9131, 399, 2629, 691],
                          item[2:])
+        os.remove("neighborlist.dat")
 
     def test_cutoffneighbors_particletype_3d(self) -> None:
         """
@@ -159,6 +166,8 @@ class TestCutoffneighbors_particletype(unittest.TestCase):
         item = [int(i) for i in content[456].split()]
         self.assertEqual(456, item[0])
         self.assertEqual(15, item[1])
+        # benchmaking with old code
         self.assertEqual([3801, 1238, 5135, 1973, 1535, 6238, 435, 281, 3327, 2350,
                           1056, 5263, 6135, 3126, 2388],
                          item[2:])
+        os.remove("neighborlist.dat")

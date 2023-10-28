@@ -144,15 +144,16 @@ def cutoffneighbors_particletype(
 
     logger.info(f"Calculate the particle type specific cutoff neighbors for "
                 f"{len(ppp)}-dimensional system")
+
     if type(r_cut) is not np.ndarray:
-        errorinfo = "---input r_cut type error: please give a numpy array over all pairs\n"
-        errorinfo += "shape of r_cut input is (atom_type_number, atom_type_number)---"
+        errorinfo = "input r_cut type error: please give a numpy array over all pairs\n"
+        errorinfo += "shape of r_cut input is (atom_type_number, atom_type_number)"
         raise IOError(errorinfo)
 
     nparticle_type = np.unique(snapshots.snapshots[0].particle_type).shape[0]
 
     if r_cut.shape[0] != nparticle_type:
-        errorinfo = '---Wrong atom_type_number for input r_cut---'
+        errorinfo = 'Wrong atom_type_number for input r_cut'
         raise IOError(errorinfo)
 
     # define cutoffs for each pair based on particle type
@@ -181,6 +182,6 @@ def cutoffneighbors_particletype(
             fneighbor.write('%d %d ' % (i + 1, CN))
             fneighbor.write(' '.join(map(str, nearests)))
             fneighbor.write('\n')
-
     fneighbor.close()
+
     logger.info(f"Particle-type specific neighbors saved to {fnfile}")
