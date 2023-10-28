@@ -4,16 +4,9 @@ import re
 import numpy as np
 from reader.reader_utils import Snapshots
 from utils.pbc import remove_pbc
+from utils.logging_utils import get_logger_handle
 
-Docstr = """
-         This module is used to calculate the neighbors around a particle.
-         The format of the saved neighbor list file (named as 'neighborlist.dat' in default)
-         must be identification of the centered particle, coordination number of the centered particle,
-         and identification of neighboring particles. In default, the neighbors in the output file is
-         sorted by their distances to the centered particle in the ascending order.
-         neighbor list of different snapshots is continuous without any gap
-         all start with the header "id cn neighborlist",
-        """
+logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
 
@@ -21,27 +14,35 @@ def Nnearests(
         snapshots: Snapshots,
         N: int = 12,
         ppp: list = [1, 1, 1],
-        fnfile='neighborlist.dat') -> None:
+        fnfile: str = 'neighborlist.dat'
+    ) -> None:
     """
-    Get the N nearest neighbors around a particle.
+    Get the N nearest neighbors of a particle.
 
     Inputs:
-        1. snapshots (reader.reader_utils.Snapshots): returned by reader.dump_reader.DumpReader
+        1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
+                     (returned by reader.dump_reader.DumpReader)
 
-        2. N (int): the number of nearest neighbors, default 12
+        2. N (int): the number of nearest neighbors, default=12
 
         3. ppp (list): the periodic boundary conditions, setting 1 for yes and 0 for no
-                       default [1, 1, 1], that is, PBC is applied in all three dimensions for 3D box
+                       default [1, 1, 1], that is, PBC is applied in all three dimensions for 3D box.
+                       set [1, 1] for two-dimensional systems
 
         4. fnfile (str): the name of output file that stores the calculated neighborlist
                          default is 'neighborlist.dat'
+    
+    Return:
+        None [output neighbor list to a document]
     """
-    fneighbor = open(fnfile, 'w')
-    for n in range(snapshots.nsnapshots):
-        hmatrix = snapshots.snapshots[n].hmatrix
-        positions = snapshots.snapshots[n].positions
-        nparticle = snapshots.snapshots[n].nparticle
-        neighbor = np.zeros((nparticle, 2 + N), dtype=np.int32)
+    logger.info(f"Calculate {N} nearest neighbors for a {len(ppp)}-dimensional system")
+
+    fneighbor = open(fnfile, 'w', encoding="utf-8")
+    for snapshot in snapshots.snapshots:
+        hmatrix   = snapshot.hmatrix
+        positions = snapshot.positions
+        nparticle = snapshot.nparticle
+        neighbor = np.zeros((nparticle, 2+N), dtype=np.int32)
         neighbor[:, 0] = np.arange(nparticle) + 1
         neighbor[:, 1] = N
         for i in range(nparticle):
@@ -60,14 +61,15 @@ def Nnearests(
         fneighbor.write(re.sub('[\[\]]', ' ', np.array2string(neighbor) + '\n'))
 
     fneighbor.close()
-    print('---Calculate %d nearest neighbors done---' % N)
+    logger.info(f"{N}-nearest neighbors saved to {fnfile}")
 
 
 def cutoffneighbors(
         snapshots: Snapshots,
         r_cut: float,
         ppp: list = [1, 1, 1],
-        fnfile='neighborlist.dat') -> None:
+        fnfile: str = 'neighborlist.dat'
+    ) -> None:
     """
     Get the nearest neighbors around a particle by setting a global cutoff distance r_cut
 
@@ -78,15 +80,21 @@ def cutoffneighbors(
 
         3. ppp (list): the periodic boundary conditions, setting 1 for yes and 0 for no
                        default [1, 1, 1], that is, PBC is applied in all three dimensions for 3D box
+                       set [1,1] for two dimensional systems
 
         4. fnfile (str): the name of output file that stores the calculated neighborlist
                          default is 'neighborlist.dat'
+    
+    Return:
+        None [saved to fnfile]
     """
-    fneighbor = open(fnfile, 'w')
-    for n in range(snapshots.nsnapshots):
-        hmatrix = snapshots.snapshots[n].hmatrix
-        positions = snapshots.snapshots[n].positions
-        nparticle = snapshots.snapshots[n].nparticle
+
+    logger.info(f"Calculate neighbors within {r_cut} for a {len(ppp)}-dimensional system")
+    fneighbor = open(fnfile, 'w', encoding="utf-8")
+    for snapshot in snapshots.snapshots:
+        hmatrix   = snapshot.hmatrix
+        positions = snapshot.positions
+        nparticle = snapshot.nparticle
         neighbor = np.arange(nparticle).astype(np.int32)
         fneighbor.write('id     cn     neighborlist\n')
         for i in range(nparticle):
@@ -105,14 +113,15 @@ def cutoffneighbors(
             fneighbor.write('\n')
 
     fneighbor.close()
-    print('---Calculate nearest neighbors with r_cut = %.6f done---' % r_cut)
+    logger.info(f"Neighbors within {r_cut} saved to {fnfile}")
 
 
 def cutoffneighbors_particletype(
         snapshots: Snapshots,
         r_cut: np.array,
         ppp: list = [1, 1, 1],
-        fnfile='neighborlist.dat') -> None:
+        fnfile: str = 'neighborlist.dat'
+    ) -> None:
     """
     Get the nearest neighbors around a particle by setting a cutoff distance r_cut
     for each particle type pair
@@ -127,10 +136,13 @@ def cutoffneighbors_particletype(
 
         3. ppp (list): the periodic boundary conditions, setting 1 for yes and 0 for no
                        default [1, 1, 1], that is, PBC is applied in all three dimensions for 3D box
+                       set [1,1] for two-dimensional system
 
         4. fnfile (str): the name of output file that stores the calculated neighborlist
                          default is 'neighborlist.dat'
     """
+
+    logger.info(f"Calculate the particle type specific cutoff neighbors for {len(ppp)}-dimensional system")
     if type(r_cut) is not np.ndarray:
         errorinfo = "---input r_cut type error: please give a numpy array over all pairs\n"
         errorinfo += "shape of r_cut input is (atom_type_number, atom_type_number)---"
@@ -144,16 +156,16 @@ def cutoffneighbors_particletype(
 
     # define cutoffs for each pair based on particle type
     cutoffs = np.zeros((nparticle_type, snapshots.snapshots[0].nparticle))
-    for i in range(nparticle_type):
-        for j in range(snapshots.snapshots[0].nparticle):
+    for i in range(cutoffs.shape[0]):
+        for j in range(cutoffs.shape[1]):
             cutoffs[i, j] = r_cut[i, snapshots.snapshots[0].particle_type[j] - 1]
 
-    fneighbor = open(fnfile, 'w')
-    for n in range(snapshots.nsnapshots):
-        hmatrix = snapshots.snapshots[n].hmatrix
-        positions = snapshots.snapshots[n].positions
-        nparticle = snapshots.snapshots[n].nparticle
-        particle_type = snapshots.snapshots[n].particle_type
+    fneighbor = open(fnfile, 'w', encoding="utf-8")
+    for snapshot in snapshots.snapshots:
+        hmatrix   = snapshot.hmatrix
+        positions = snapshot.positions
+        nparticle = snapshot.nparticle
+        particle_type = snapshot.particle_type
         neighbor = np.arange(nparticle).astype(np.int32)
         fneighbor.write('id     cn     neighborlist\n')
         for i in range(nparticle):
@@ -170,4 +182,4 @@ def cutoffneighbors_particletype(
             fneighbor.write('\n')
 
     fneighbor.close()
-    print('---Calculate nearest neighbors for atom-pairs done---')
+    logger.info(f"Particle-type specific neighbors saved to {fnfile}")
