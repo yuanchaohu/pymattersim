@@ -26,7 +26,7 @@ def Nnearests(
         2. N (int): the number of nearest neighbors, default=12
 
         3. ppp (list): the periodic boundary conditions, setting 1 for yes and 0 for no
-                       default [1, 1, 1], that is, PBC is applied in all three dimensions for 3D box.
+                       default [1,1,1], that is, PBC is applied in all three dimensions for 3D box.
                        set [1, 1] for two-dimensional systems
 
         4. fnfile (str): the name of output file that stores the calculated neighborlist
@@ -58,7 +58,7 @@ def Nnearests(
         np.set_printoptions(threshold=np.inf, linewidth=np.inf)
         # the neighborlist of each snapshot starts with header "id cn neighborlist"
         fneighbor.write('id     cn     neighborlist\n')
-        fneighbor.write(re.sub('[\[\]]', ' ', np.array2string(neighbor) + '\n'))
+        fneighbor.write(re.sub(r'[\[\]]', ' ', np.array2string(neighbor) + '\n'))
 
     fneighbor.close()
     logger.info(f"{N}-nearest neighbors saved to {fnfile}")
@@ -142,7 +142,8 @@ def cutoffneighbors_particletype(
                          default is 'neighborlist.dat'
     """
 
-    logger.info(f"Calculate the particle type specific cutoff neighbors for {len(ppp)}-dimensional system")
+    logger.info(f"Calculate the particle type specific cutoff neighbors for "
+                f"{len(ppp)}-dimensional system")
     if type(r_cut) is not np.ndarray:
         errorinfo = "---input r_cut type error: please give a numpy array over all pairs\n"
         errorinfo += "shape of r_cut input is (atom_type_number, atom_type_number)---"

@@ -1,12 +1,10 @@
 # Particle Neighbors
 
-This module is used to calculate the neighboring particles of a particle, which is the base for many different analyzing methods. There are many ways to recognize the neighbors, for example, by a certain number, by a certain cutoff, by particle-type specific cutoffs, by Voronoi tessellation etc.
+This module is used to calculate the neighboring particles of a particle, which is the base for many different analyzing methods. There are many ways to recognize the neighbors, for example, by a certain number, by a certain cutoff, by particle-type specific cutoffs, by Voronoi tessellation etc. This module covers the above calculation methods and can be easily extended by individual purpose.
 
-This module covers the above calculation methods and can be easily extended by individual purpose.
-The format of the saved neighbor list file (named as 'neighborlist.dat' in default) must be identification of the centered particle (***id***), coordination number of the centered particle (***cn***), and identification of neighboring particles (***neighborlist***). 
-That is, "`id cn neighborlist`".
-The neighbors in the output file is sorted by their distances to the centered particle in ascending order. Neighbor list of different snapshots is continuous without any gap and all start with the header "***id cn neighborlist***".
-This formatting is made to be consistent with reading neighbor lists for different analyzing methods.
+The format of the saved neighbor list file (named as 'neighborlist.dat' in default) must be identification of the centered particle (***id***), coordination number of the centered particle (***cn***), and identification of neighboring particles (***neighborlist***). That is, "***id cn neighborlist***".
+
+The neighbors in the output file is sorted by their distances to the centered particle in ascending order. Neighbor list of different snapshots is continuous without any gap and all start with the header "***id cn neighborlist***". This formatting is made to be consistent with reading neighbor lists for different analyzing methods.
 
 ## Nnearests
 
