@@ -18,7 +18,9 @@ reader\simulation_log.py:1:0: R0801: Similar lines in 2 files
             boxbounds=boxbounds,
             realbounds=None,
             hmatrix=hmatrix,
-        ) (duplicate-code)
+        )
+
+    # -------Read Triclinic Boxes--------- (duplicate-code)
 
 ------------------------------------------------------------------
 Your code has been rated at 9.68/10 (previous run: 9.68/10, +0.00)
@@ -49,32 +51,29 @@ neighbors\calculate_neighbors.py:182:28: C0209: Formatting a regular string whic
 neighbors\calculate_neighbors.py:165:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
 ************* Module neighbors.freud_neighbors
 neighbors\freud_neighbors.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-neighbors\freud_neighbors.py:8:4: W0707: Consider explicitly re-raising using 'except Exception as exc' and 'raise ValueError('please install freud analysis package first') from exc' (raise-missing-from)
-neighbors\freud_neighbors.py:42:24: I1101: Module 'freud.box' has no 'Box' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
-neighbors\freud_neighbors.py:47:0: C0103: Function name "Voro_neighbors" doesn't conform to snake_case naming style (invalid-name)
-neighbors\freud_neighbors.py:47:0: R0914: Too many local variables (22/15) (too-many-locals)
-neighbors\freud_neighbors.py:69:15: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-neighbors\freud_neighbors.py:71:17: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-neighbors\freud_neighbors.py:75:21: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-neighbors\freud_neighbors.py:77:21: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
-neighbors\freud_neighbors.py:79:4: C0200: Consider using enumerate instead of iterating with range and len (consider-using-enumerate)
-neighbors\freud_neighbors.py:89:15: I1101: Module 'freud.locality' has no 'Voronoi' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
-neighbors\freud_neighbors.py:103:12: C0103: Variable name "i_CN" doesn't conform to snake_case naming style (invalid-name)
-neighbors\freud_neighbors.py:104:29: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-neighbors\freud_neighbors.py:105:29: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-neighbors\freud_neighbors.py:106:27: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-neighbors\freud_neighbors.py:108:33: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-neighbors\freud_neighbors.py:109:33: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
-neighbors\freud_neighbors.py:69:15: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-neighbors\freud_neighbors.py:71:17: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-neighbors\freud_neighbors.py:77:21: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-neighbors\freud_neighbors.py:107:16: W0612: Unused variable 'j' (unused-variable)
+neighbors\freud_neighbors.py:37:24: I1101: Module 'freud.box' has no 'Box' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
+neighbors\freud_neighbors.py:42:0: R0914: Too many local variables (22/15) (too-many-locals)
+neighbors\freud_neighbors.py:61:15: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+neighbors\freud_neighbors.py:63:17: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+neighbors\freud_neighbors.py:67:21: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+neighbors\freud_neighbors.py:69:21: W1514: Using open without explicitly specifying an encoding (unspecified-encoding)
+neighbors\freud_neighbors.py:81:15: I1101: Module 'freud.locality' has no 'Voronoi' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
+neighbors\freud_neighbors.py:95:12: C0103: Variable name "i_CN" doesn't conform to snake_case naming style (invalid-name)
+neighbors\freud_neighbors.py:96:29: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+neighbors\freud_neighbors.py:97:29: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+neighbors\freud_neighbors.py:98:27: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+neighbors\freud_neighbors.py:100:33: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+neighbors\freud_neighbors.py:101:33: C0209: Formatting a regular string which could be an f-string (consider-using-f-string)
+neighbors\freud_neighbors.py:61:15: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors\freud_neighbors.py:63:17: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors\freud_neighbors.py:69:21: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors\freud_neighbors.py:99:16: W0612: Unused variable 'j' (unused-variable)
 ************* Module neighbors.read_neighbors
 neighbors\read_neighbors.py:1:0: C0114: Missing module docstring (missing-module-docstring)
-neighbors\read_neighbors.py:9:42: C0103: Argument name "Nmax" doesn't conform to snake_case naming style (invalid-name)
-neighbors\read_neighbors.py:71:4: C0103: Variable name "max_CN" doesn't conform to snake_case naming style (invalid-name)
+neighbors\read_neighbors.py:9:46: C0103: Argument name "Nmax" doesn't conform to snake_case naming style (invalid-name)
+neighbors\read_neighbors.py:68:4: C0103: Variable name "max_CN" doesn't conform to snake_case naming style (invalid-name)
 neighbors\read_neighbors.py:1:0: W0611: Unused time imported from time (unused-import)
 
 ------------------------------------------------------------------
-Your code has been rated at 8.16/10 (previous run: 8.16/10, +0.00)
+Your code has been rated at 8.30/10 (previous run: 8.16/10, +0.13)
 

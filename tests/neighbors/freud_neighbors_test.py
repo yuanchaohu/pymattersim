@@ -2,10 +2,9 @@
 
 import os
 import unittest
-import numpy as np
 from reader.dump_reader import DumpReader
 
-from neighbors.freud_neighbors import Voro_neighbors
+from neighbors.freud_neighbors import cal_neighbors
 
 from utils.logging_utils import get_logger_handle
 
@@ -30,10 +29,9 @@ class TestFreudNeighbors(unittest.TestCase):
         logger.info(f"Starting freud_neighbors test using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
-        snapshots = readdump.snapshots
-        Voro_neighbors(snapshots, outputfile='dump')
+        cal_neighbors(readdump.snapshots, outputfile='dump')
 
-        with open('dump.neighbor.dat') as f:
+        with open(r'dump.neighbor.dat') as f:
             content = f.readlines()
         item = [int(i) for i in content[789].split()]
         self.assertEqual(789, item[0])
@@ -43,7 +41,7 @@ class TestFreudNeighbors(unittest.TestCase):
                          item[2:])
         os.remove('dump.neighbor.dat')
 
-        with open('dump.edgelength.dat') as f:
+        with open(r'dump.edgelength.dat') as f:
             content = f.readlines()
         item = [float(i) for i in content[789].split()]
         self.assertEqual(789.0, item[0])
@@ -53,7 +51,7 @@ class TestFreudNeighbors(unittest.TestCase):
                          item[2:])
         os.remove('dump.edgelength.dat')
 
-        with open('dump.overall.dat') as f:
+        with open(r'dump.overall.dat') as f:
             content = f.readlines()
         item = [float(i) for i in content[789].split()]
         self.assertEqual(789.0, item[0])
@@ -72,10 +70,9 @@ class TestFreudNeighbors(unittest.TestCase):
         logger.info(f"Starting freud_neighbors test using {self.test_file_3d}...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
-        snapshots = readdump.snapshots
-        Voro_neighbors(snapshots, outputfile='dump')
+        cal_neighbors(readdump.snapshots, outputfile='dump')
 
-        with open('dump.neighbor.dat') as f:
+        with open(r'dump.neighbor.dat') as f:
             content = f.readlines()
         item = [int(i) for i in content[456].split()]
         self.assertEqual(456, item[0])
@@ -86,7 +83,7 @@ class TestFreudNeighbors(unittest.TestCase):
                          item[2:])
         os.remove('dump.neighbor.dat')
 
-        with open('dump.facearea.dat') as f:
+        with open(r'dump.facearea.dat') as f:
             content = f.readlines()
         item = [float(i) for i in content[456].split()]
         self.assertEqual(456.0, item[0])
@@ -97,7 +94,7 @@ class TestFreudNeighbors(unittest.TestCase):
                          item[2:])
         os.remove('dump.facearea.dat')
 
-        with open('dump.overall.dat') as f:
+        with open(r'dump.overall.dat') as f:
             content = f.readlines()
         item = [float(i) for i in content[456].split()]
         self.assertEqual(456.0, item[0])

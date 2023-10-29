@@ -2,7 +2,7 @@
 
 import unittest
 import numpy as np
-from neighbors.read_neighbors import read_neigh
+from neighbors.read_neighbors import read_neighbors
 
 from utils.logging_utils import get_logger_handle
 
@@ -26,7 +26,7 @@ class TestReadNeighbors(unittest.TestCase):
         """
         logger.info(f"Starting test using {self.test_file_neighborlist}...")
         f = open(self.test_file_neighborlist, 'r')
-        neighborprop = read_neigh(f, nparticle=8100, Nmax=200)
+        neighborprop = read_neighbors(f, nparticle=8100, Nmax=200)
         f.close()
 
         self.assertEqual(10, neighborprop[1789][0])

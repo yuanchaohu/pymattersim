@@ -6,13 +6,10 @@ from utils.logging_utils import get_logger_handle
 logger = get_logger_handle(__name__)
 
 
-def read_neigh(f: TextIO, nparticle: int, Nmax: int=200) -> np.array:
+def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.array:
     """
     Read the property of neighboring particles from a saved file,
     as long as the format of file is compatible, as like neighborlist.dat
-
-    Note that this module reads One Snapshot a time to save computer memory
-    If you have multiple snapshots, you can import this function in a loop
 
     Inputs:
         1. f (TextIO): opened file which save the property of neighboring particles,
@@ -35,7 +32,7 @@ def read_neigh(f: TextIO, nparticle: int, Nmax: int=200) -> np.array:
         For particles with coordination number less than `Nmax_fact` (which is generally the case),
         the unoccupied positions in `neighborprop` (see source code) are padded with `0`.
     """
-    logger.info("Start reading the file that stores the property of neighboring particles")
+    logger.info("Start reading neighboring particles")
 
     header = f.readline().split()  # header
     neighborprop = np.zeros((nparticle, Nmax + 1))
@@ -77,6 +74,6 @@ def read_neigh(f: TextIO, nparticle: int, Nmax: int=200) -> np.array:
     if 'neighborlist' in header:  # neighbor list should be integer
         neighborprop = neighborprop.astype(np.int32)
 
-    logger.info("Finish reading file that stores the property of neighboring particles")
+    logger.info("Finish reading neighboring particles")
 
     return neighborprop

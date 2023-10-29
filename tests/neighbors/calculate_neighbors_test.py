@@ -32,10 +32,9 @@ class TestNnearests(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
-        snapshots = readdump.snapshots
-        Nnearests(snapshots, N=12, ppp=[1, 1], fnfile='neighborlist.dat')
+        Nnearests(snapshots = readdump.snapshots, N=12, ppp=[1, 1], fnfile='neighborlist.dat')
 
-        with open('neighborlist.dat') as f:
+        with open(r'neighborlist.dat') as f:
             content = f.readlines()
         item = [int(i) for i in content[789].split()]
         self.assertEqual(789, item[0])
@@ -52,10 +51,9 @@ class TestNnearests(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_3d}...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
-        snapshots = readdump.snapshots
-        Nnearests(snapshots, N=12, ppp=[1, 1, 1], fnfile='neighborlist.dat')
+        Nnearests(readdump.snapshots, N=12, ppp=[1, 1, 1], fnfile='neighborlist.dat')
 
-        with open('neighborlist.dat') as f:
+        with open(r'neighborlist.dat') as f:
             content = f.readlines()
         item = [int(i) for i in content[456].split()]
         self.assertEqual(456, item[0])
@@ -83,10 +81,9 @@ class TestCutoffNeighbors(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
-        snapshots = readdump.snapshots
-        cutoffneighbors(snapshots, r_cut=1.9, ppp=[1, 1], fnfile='neighborlist.dat')
+        cutoffneighbors(readdump.snapshots, r_cut=1.9, ppp=[1, 1], fnfile='neighborlist.dat')
 
-        with open('neighborlist.dat') as f:
+        with open(r'neighborlist.dat') as f:
             content = f.readlines()
         item = [int(i) for i in content[789].split()]
         self.assertEqual(789, item[0])
@@ -103,10 +100,9 @@ class TestCutoffNeighbors(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_3d}...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
-        snapshots = readdump.snapshots
-        cutoffneighbors(snapshots, r_cut=1.5, ppp=[1, 1, 1], fnfile='neighborlist.dat')
+        cutoffneighbors(readdump.snapshots, r_cut=1.5, ppp=[1, 1, 1], fnfile='neighborlist.dat')
 
-        with open('neighborlist.dat') as f:
+        with open(r'neighborlist.dat') as f:
             content = f.readlines()
         item = [int(i) for i in content[456].split()]
         self.assertEqual(456, item[0])
@@ -134,12 +130,11 @@ class TestCutoffNeighbors_particletype(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
-        snapshots = readdump.snapshots
-        cutoffneighbors_particletype(snapshots,
+        cutoffneighbors_particletype(readdump.snapshots,
                                      r_cut=np.array([[1.8, 1.6], [1.6, 1.9]]),
                                      ppp=[1, 1], fnfile='neighborlist.dat')
 
-        with open('neighborlist.dat') as f:
+        with open(r'neighborlist.dat') as f:
             content = f.readlines()
         item = [int(i) for i in content[789].split()]
         self.assertEqual(789, item[0])
@@ -156,12 +151,11 @@ class TestCutoffNeighbors_particletype(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_3d}...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
-        snapshots = readdump.snapshots
-        cutoffneighbors_particletype(snapshots,
+        cutoffneighbors_particletype(readdump.snapshots,
                                      r_cut=np.array([[1.8, 1.6], [1.6, 1.9]]),
                                      ppp=[1, 1, 1], fnfile='neighborlist.dat')
 
-        with open('neighborlist.dat') as f:
+        with open(r'neighborlist.dat') as f:
             content = f.readlines()
         item = [int(i) for i in content[456].split()]
         self.assertEqual(456, item[0])

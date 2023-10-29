@@ -1,15 +1,10 @@
 #coding = utf-8
 
 import numpy as np
-
-try:
-    import freud
-except:
-    raise ValueError('please install freud analysis package first')
+import freud
 
 from reader.reader_utils import Snapshots
 from utils.logging_utils import get_logger_handle
-
 
 logger = get_logger_handle(__name__)
 
@@ -44,12 +39,9 @@ def convert_configuration(snapshots: Snapshots):
     return list_box, list_points
 
 
-def Voro_neighbors(snapshots: Snapshots, outputfile: str =''):
+def cal_neighbors(snapshots: Snapshots, outputfile: str ='') -> None:
     """
     calculate the particle neighbors and bond properties from freud
-
-    https://freud.readthedocs.io/en/v2.2.0/gettingstarted/examples/module_intros/locality.Voronoi.html
-    https://freud.readthedocs.io/en/v2.2.0/modules/locality.html#freud.locality.Voronoi
 
     Inputs:
         1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
@@ -62,7 +54,7 @@ def Voro_neighbors(snapshots: Snapshots, outputfile: str =''):
              for edgelength list (2D box), file with name outputfile+'.edgelength.dat'
              for facearea list (3D box), file with name outputfile+'.facearea.dat'
     """
-    logger.info("Start calculating Voronoi by freud")
+    logger.info("Start calculating neighbors by freud")
 
     list_box, list_points = convert_configuration(snapshots)
 
@@ -76,7 +68,7 @@ def Voro_neighbors(snapshots: Snapshots, outputfile: str =''):
     else:
         fbondinfos = open(outputfile + '.facearea.dat', 'w')
 
-    for n in range(len(list_box)):
+    for n in range(snapshots.nsnapshots):
         # write header for each configuration
         fneighbors.write('id   cn   neighborlist\n')
         if ndim == 2:
@@ -114,4 +106,4 @@ def Voro_neighbors(snapshots: Snapshots, outputfile: str =''):
     fbondinfos.close()
     foverall.close()
 
-    logger.info("Finish calculating Voronoi by freud")
+    logger.info("Finish calculating neighbors by freud")
