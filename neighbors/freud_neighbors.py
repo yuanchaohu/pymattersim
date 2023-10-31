@@ -1,4 +1,4 @@
-#coding = utf-8
+# coding = utf-8
 
 import numpy as np
 import freud
@@ -58,15 +58,15 @@ def cal_neighbors(snapshots: Snapshots, outputfile: str ='') -> None:
 
     list_box, list_points = convert_configuration(snapshots)
 
-    foverall = open(outputfile + '.overall.dat', 'w')
+    foverall = open(outputfile+'.overall.dat', 'w', encoding="utf-8")
     foverall.write('id cn area_or_volume\n')
-    fneighbors = open(outputfile + '.neighbor.dat', 'w')
+    fneighbors = open(outputfile+'.neighbor.dat', 'w', encoding="utf-8")
 
     ndim = snapshots.snapshots[0].positions.shape[1]
     if ndim == 2:
-        fbondinfos = open(outputfile + '.edgelength.dat', 'w')
+        fbondinfos = open(outputfile+'.edgelength.dat', 'w', encoding="utf-8")
     else:
-        fbondinfos = open(outputfile + '.facearea.dat', 'w')
+        fbondinfos = open(outputfile+'.facearea.dat', 'w', encoding="utf-8")
 
     for n in range(snapshots.nsnapshots):
         # write header for each configuration
@@ -92,13 +92,13 @@ def cal_neighbors(snapshots: Snapshots, outputfile: str ='') -> None:
             atomid = unique[i]
             if (atomid != nlist[nn, 0]) or (i + 1 != atomid):
                 raise ValueError('neighbor list not sorted')
-            i_CN = counts[i]
-            fneighbors.write('%d %d ' % (atomid, i_CN))
-            fbondinfos.write('%d %d ' % (atomid, i_CN))
-            foverall.write('%d %d %.6f\n' % (atomid, i_CN, volumes[i]))
-            for j in range(i_CN):
-                fneighbors.write('%d ' % nlist[nn, 1])
-                fbondinfos.write('%.6f ' % weights[nn])
+            i_cn = counts[i]
+            fneighbors.write('%d %d ' % (atomid, i_cn))
+            fbondinfos.write('%d %d ' % (atomid, i_cn))
+            foverall.write('%d %d %.6f\n' % (atomid, i_cn, volumes[i]))
+            for j in range(i_cn):
+                fneighbors.write('%d ' %nlist[nn, 1])
+                fbondinfos.write('%.6f '% weights[nn])
                 nn += 1
             fneighbors.write('\n')
             fbondinfos.write('\n')
