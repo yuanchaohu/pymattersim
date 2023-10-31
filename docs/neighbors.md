@@ -1,44 +1,47 @@
-# Table of Contents
-
-[Reading Neighbors](#reading-neighbors)
-
-[Calculating Neighbors](#calculating-neighbors)
-
-​     [Global Cutoff Neighbors](#cutoffneighbors)
-
-​     [Particle type Cutoff Neighbors](#cutoffneighbors_particletype)
-
-​     [freud Neighbors](#freud_neighbors)
-
-​     [Voronoi Tessellation Neighbors](#radical-voronoi-tessellation)
-
-
 # Neighbors
 
-This module is used to calculate the neighboring particles of a particle, which is the base for many different analyzing methods. There are many ways to recognize the neighbors, for example, by a [certain number](#Nnearests), by a [certain cutoff](#cutoffneighbors), by [particle-type specific cutoffs](#cutoffneighbors_particletype), by [Voronoi tessellation](#Radical Voronoi Tessellation) etc. This module covers the above calculation methods and can be easily extended by individual purpose.
+## [I. Reading Neighboring Properties](#i-reading-neighbors)
 
-This module can also [read the neighbor list](#Reading Neighbors) from the saved file. The format of the saved neighbor list file (named as ***neighborlist.dat*** in default) must be identification of the centered particle (***id***), coordination number of the centered particle (***cn***), and identification of neighboring particles (***neighborlist***). That is, ***id cn neighborlist***. The neighbors in the output file is sorted by their distances to the centered particle in ascending order. Neighbor list of different snapshots is continuous without any gap and all start with the header ***id cn neighborlist***. This formatting is made to be consistent with reading neighbor lists for different analyzing methods.
+## [II. Calculating Neighboring Properties](#ii-calculating-neighbors)
 
-## Reading Neighbors
++ ### [Constant Number Neighbors](#1-nnearests)
++ ### [Global Cutoff Neighbors](#2-cutoffneighbors)
++ ### [Particle type Cutoff Neighbors](#3-cutoffneighbors_particletype)
+## [III. Freud Neighbors](#iii-freud-neighbors-1)
++ ### [Get Configurations for Freud](#1-convert_configuration)
++ ### [Calculate Neighbors](#2-cal_neighbors)
+## [IV. Voro++ Direct Neighbors](#iv-voro-direct-neighbors-1)
++ ### [Get Voro++ Input](#1-get_input)
++ ### [Calculate Voro++ Neighbors with PBC](#2-cal_voro)
++ ### [Calculate Voro++ Neighbors without PBC](#3-voronowalls)
++ ### [Voronoi Cluster Statistics](#4-indicehis)
 
-`neighbors.read_neighbors.read_neighbors` is used to read the property of neighboring particles from a saved file, as long as the format of file is compatible, as like ***neighborlist.dat***. Note that this module reads one Snapshot a time to save computer memory. If you have multiple snapshots, you can import this module in a loop (see example).
+---
+
+This module [reads the neighbor list](#Reading_Neighbors) from the saved file. The format of the saved neighbor list file (named as ***neighborlist.dat*** in default) must be identification of the centered particle (***id***), coordination number of the centered particle (***cn***), and identification of neighboring particles (***neighborlist***). That is, "***id cn neighborlist***". The neighbors in the output file is sorted by their distances to the centered particle in ascending order. 
+
+This module is also heavily used to calculate the neighboring particles of a particle, or the properties about the neighboring list, which are the base for many different analyzing methods. There are many ways to recognize the neighbors, for example, by a [certain number](#1-nnearests), by a [certain cutoff](#2-cutoffneighbors), by [particle-type specific cutoffs](#3-cutoffneighbors_particletype), by Voronoi tessellation ([freud]() or [Voro++ directly]()) etc. This module covers the above calculation methods and can be easily extended by individual purpose. Neighbor list of different snapshots is continuous without any gap and all start with the header ***id cn neighborlist***. This formatting is made to be consistent with reading neighbor lists for different analyzing methods.
+
+## I. Reading Neighbors
+
+`neighbors.read_neighbors.read_neighbors` is used to read the property of neighboring particles from a saved file, as long as the format of file is compatible, as like ***neighborlist.dat*** (see below). Note that this module reads one snapshot a time to save computer memory. If you have multiple snapshots, you can import this module in a loop (see example).
 
 ### Input Arguments
 
-- `f` (`TextIO`): opened file which save the property of neighboring particles, `f = open(filename, 'r')`. Opening the file outside of the function ensures that when reading a file containing multiple snapshots, the file pointer can move to the next snapshot.
+- `f` (`TextIO`): opened file object which save the property of neighboring particles, `f = open(filename, 'r', encoding='utf-8')`. Opening the file outside of the function ensures that when reading a file containing multiple snapshots, the file pointer can move to the next snapshot.
 - `Nmax` (`int`): the maximum number of neighboring particles to consider. Setting `Nmax` to a sufficiently large value is ideal, with the default being 200. `Nmax` is defined to address the varying number of neighboring particles among different particles. In this way, we can create a regular two-dimensional NumPy array to save the property of neighboring particles.
 
 ### Return
 
-two-dimensional numpy array, with shape (`nparticle`, `1+Nmax_fact`). `Nmax_fact` means the maximum coordination number for one particle in the system. The first column is the coordination number (***cn***), so number of columns plus 1. For particles with coordination number less than `Nmax_fact` (which is generally the case), the unoccupied positions in `neighborprop` (see source code) are padded with `0`.
+two-dimensional numpy array, with shape (`nparticle`, `1+Nmax_fact`). `Nmax_fact` means the maximum coordination number for one particle in the system. The first column is the coordination number (***cn***). For particles with coordination number less than `Nmax_fact` (which is generally the case), the unoccupied positions in `neighborprop` (see source code) are padded with `0`.
 
 ### Important Notes
 
-In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in this read module, the returned neighborlist is counted from 0. This is to facilitate subsequent indexing operations.
+In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in this read module, the returned neighborlist is counted from 0. This is to facilitate subsequent indexing operations in python.
 
 ### Example
 
-- Read neighborlist:
+- Read neighbor list:
 
   ```python
   from neighbors.read_neighbors import read_neighbors
@@ -48,7 +51,7 @@ In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in
   neighborprop = read_neighbors(f, nparticle=8100, Nmax=200)
   f.close()
   ```
-- Read facearealist:
+- Read facearea list:
 
   ```python
   from neighbors.read_neighbors import read_neighbors
@@ -65,14 +68,14 @@ In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in
   neighbors_snapshots = []
   filename = 'neighborlist.dat'
   f = open(filename, 'r')
-  for i in range(2):	# the example dump file contains 2 snapshots
+  for i in range(nsnapshots):	# number of snapshots
       neighbors_snapshots.append(read_neighbors(f, nparticle=8100, Nmax=200))
   f.close()
   ```
 
-## Calculating Neighbors
+## II. Calculating Neighbors
 
-### Nnearests
+### 1. Nnearests
 
  `neighbors.calculate_neighbors.Nnearests` gets the `N` nearest neighbors around a particle. In this case, the coordination number is `N` for each particle.
 
@@ -82,7 +85,7 @@ In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in
 - `N` (`int`): the specified number of nearest neighbors, default 12
 - `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
 
-  default `[1, 1, 1]`, that is, PBC is applied in all three dimensions for 3D box. Set [1,1] for two-dimensional system.
+  default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for two-dimensional system.
 - `fnfile` (`str`): the name of output file that stores the neighbor list, default ***neighborlist.dat***
 
 #### Example
@@ -99,9 +102,9 @@ readdump.read_onefile()
 Nnearests(readdump.snapshots, N=12, ppp=[1,1,1], fnfile='neighborlist.dat')
 ```
 
-### cutoffneighbors
+### 2. cutoffneighbors
 
-`neighbors.calculate_neighbors.cutoffneighbors` gets the nearest neighbors around a particle by setting a global cutoff distance `r_cut`.  Usually, the cutoff distance can be determined as the position of the first deep valley in total pair correlation function.
+`neighbors.calculate_neighbors.cutoffneighbors` gets the nearest neighbors around a particle by setting a global cutoff distance `r_cut`.  Usually, the cutoff distance can be determined as the position of the first deep well in total pair correlation function.
 
 #### Input Arguments
 
@@ -109,7 +112,7 @@ Nnearests(readdump.snapshots, N=12, ppp=[1,1,1], fnfile='neighborlist.dat')
 - `r_cut` (`float`): the global cutoff distance to screen the nearest neighbors
 - `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
 
-  default [1, 1, 1], that is, PBC is applied in all three dimensions for 3D box. Set [1,1] for two-dimensional system.
+  default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for two-dimensional system.
 - `fnfile` (`str`): the name of output file that stores the neighbor list, default ***neighborlist.dat***
 
 #### Example
@@ -126,7 +129,7 @@ readdump.read_onefile()
 cutoffneighbors(readdump.snapshots, r_cut=3.8, ppp=[1,1,1], fnfile='neighborlist.dat')
 ```
 
-### cutoffneighbors_particletype
+### 3. cutoffneighbors_particletype
 
 `neighbors.calculate_neighbors.cutoffneighbors_particletype` gets the nearest neighbors around a particle by setting a cutoff distance ` r_cut`. Taken Cu-Zr system as an example, `r_cut` should be a 2D numpy array:
 
@@ -137,7 +140,7 @@ $$
 \end{bmatrix}
 $$
 
-Usually, these cutoff distances can be determined as the position of the first deep valley in partial pair correlation function of each particle pair.
+Usually, these cutoff distances can be determined as the position of the individual first deep well in partial pair correlation function of each particle pair.
 
 #### Input Arguments
 
@@ -145,7 +148,7 @@ Usually, these cutoff distances can be determined as the position of the first d
 - `r_cut` (`np.array`): the cutoff distances of each particle pair
 - `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
 
-  default [1, 1, 1], that is, PBC is applied in all three dimensions for 3D box. Set [1,1] for a two-dimensional system
+  default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for a two-dimensional system
 - `fnfile` (`str`): the name of output file that stores the neighbor list, default ***neighborlist.dat***
 
 #### Example
@@ -169,19 +172,11 @@ r_cut[1, 1] = 3.9
 cutoffneighbors_particletype(readdump.snapshots, r_cut=r_cut, ppp=[1,1,1], fnfile='neighborlist.dat')
 ```
 
-### freud_neighbors
+### III. Freud Neighbors
 
-`freud` is a trajectory analysis package developed by [Glotzer&#39;s group](https://freud.readthedocs.io/en/stable/index.html). To use the package, some special attentions should be paid to the following points:
+`freud` is a trajectory analysis package developed by [Glotzer&#39;s group](https://freud.readthedocs.io/en/stable/index.html). To use `freud` easily, a function `neighbors.freud_neighbors.convert_configuration` is used to convert the dump file from our `reader` module to `freud` style. Correspondingly the list of box information and the list of the particle coordinates are returned for further analysis.
 
-- The particle coordinates
-  $$
-  \in [-L/2, L/2]
-  $$
-- For 2D systems, the ***z*** component of coordinates should be input as 0
-
-To use `freud` easily, a function `neighbors.freud_neighbors.convert_configuration` is used to convert the dump file from our `reader` module to `freud` style. Correspondingly the list of box information and the list of the particle coordinates are returned for further analysis.
-
-#### convert_configuration
+#### 1. convert_configuration
 
 ##### Input Arguments
 
@@ -197,7 +192,6 @@ To use `freud` easily, a function `neighbors.freud_neighbors.convert_configurati
 ```python
 from reader.dump_reader import DumpReader
 from reader.reader_utils import DumpFileType
-
 from neighbors.freud_neighbors import convert_configuration
 
 filename = 'dump.atom'
@@ -207,7 +201,7 @@ readdump.read_onefile()
 list_box, list_points = convert_configuration(readdump.snapshots)
 ```
 
-#### cal_neighbors
+#### 2. cal_neighbors
 
 Calling `neighbors.freud_neighbors.Voro_neighbors` first and then performing Voronoi analysis with ***[voro++](https://math.lbl.gov/voro++/)*** package to calculate neighbors for both 2D and 3D systems. Three classes of information will be output:
 
@@ -235,13 +229,15 @@ snapshots = read_lammps_wrapper(filename, ndim=2)
 cal_neighbors(snapshots, outputfile='dump')
 ```
 
-### Radical Voronoi Tessellation
+### IV. Voro++ direct neighbors
 
-`neighbors.voronoi_neighbors` is used to perform radical Voronoi tessellation using [voro++](https://math.lbl.gov/voro++/) for both PBC and non-PBC system. During calculations, the command line used will be printed.
+`neighbors.voronoi_neighbors` is used to perform radical Voronoi tessellation using [voro++](https://math.lbl.gov/voro++/) for both PBC and non-PBC system. 
 
-The voro++ package considers non-periodic boundary conditions by default, so there may be some negative numbers in the neighbor list for non-periodic boundary conditions (please refer to the voro++ manual to know this well). A function `neighbors.voronoi_neighbors.voronowalls()` is designed to remove negative numbers in the neighbor list and other files correspondingly. Please choose `neighbors.voronoi_neighbors.cal_voro()` for all periodic boundary conditions and `voronowalls()` for the opposite. Note that the former is much faster than the latter.
+The voro++ package considers non-periodic boundary conditions by default, so there may be some negative numbers in the neighbor list for non-periodic boundary conditions (please refer to the voro++ manual to know this well). 
+1. `neighbors.voronoi_neighbors.voronowalls`: used for any non-periodic boundary condition(s)
+2. `neighbors.voronoi_neighbors.cal_voro`: used for all periodic boundary conditions
 
-#### get_input
+#### 1. get_input
 
 `neighbors.voronoi_neighbors.get_input` is used to design input file for Voro++ by considering particle radii.
 
@@ -250,13 +246,11 @@ The voro++ package considers non-periodic boundary conditions by default, so the
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `radii` (`dict`): radii of particles, must be a dict like `{1 : 1.28, 2 : 1.60} `
 
-  if you do not want to consider radii, set the radii the same, default `{1:1.0, 2:1.0} `
+  if you do not want to consider radii, set the radii the same, default `{1:0.5, 2:0.5} `
 
 ##### Return
 
 - `position` (`list`): input file for Voro++ with the format:
-
-  ***particle_ID  x_coordinate  y_coordinate  z_coordinate radius***
 - `bounds` (`list`): box bounds for snapshots
 
 ##### Example
@@ -273,9 +267,9 @@ readdump.read_onefile()
 get_input(readdump.snapshots, radii={1:1.0, 2:1.0})
 ```
 
-#### cal_voro
+#### 2. cal_voro
 
-`voronoi.voropp.cal_voro` is used to perform radical Voronoi tessellation using voro++ for periodic boundary conditions.
+`voronoi.voropp.cal_voro` is used to perform radical Voronoi tessellation if radii are given using voro++ for periodic boundary conditions.
 
 ##### Input Arguments
 
@@ -283,7 +277,7 @@ get_input(readdump.snapshots, radii={1:1.0, 2:1.0})
 - `ppp` (`str`): Make the container periodic in all three directions, default `ppp='-p'`
 - `radii` (`dict`): radii of particles, must be a dict like `{1 : 1.28, 2 : 1.60} `
 
-  if you do not want to consider radii, set the radii the same, default `{1:1.0, 2:1.0} `
+  if you do not want to consider radii, set the radii the same, default `{1:0.5, 2:0.5} `
 - `outputfile` (`str`): filename of output, including ***neighborlist***, ***facearealist***, ***voronoi index***, ***overall*** (facearea and volume of particle).
 
 ##### Return
@@ -308,7 +302,7 @@ snapshots = read_lammps_wrapper(test_file_3d, 3)
 cal_voro(snapshots, outputfile='dump')
 ```
 
-#### voronowalls
+#### 3. voronowalls
 
 `voronoi.voropp.voronowalls` is used to perform radical Voronoi tessellation using voro++ for periodic boundary conditions.
 
@@ -320,7 +314,7 @@ cal_voro(snapshots, outputfile='dump')
   `'-px'`, `'-py'`, and `'-pz'` for x, y, and z directions, respectively
 - `radii` (`dict`): radii of particles, must be a dict like `{1 : 1.28, 2 : 1.60} `
 
-  if you do not want to consider radii, set the radii the same, default `{1:1.0, 2:1.0} `
+  if you do not want to consider radii, set the radii the same, default `{1:0.5, 2:0.5} `
 - `outputfile` (`str`): filename of output, including ***neighborlist***, ***facearealist***, ***voronoi index***, ***overall*** (facearea and volume of particle).
 
 ##### Return
@@ -333,7 +327,7 @@ cal_voro(snapshots, outputfile='dump')
 
 Output files from ***voroindex*** and ***overall*** include a header for all snapshots. ***neighborlist*** and ***facearealist*** output files are in align with the format needed in the module `neighbors` and have headers for each individual snapshot.
 
-#### indicehis
+#### 4. indicehis
 
 Statistics the frequency of voronoi index from the output of voronoi analysis. Only the top 50 voronoi index will be output along with their fractions.
 
