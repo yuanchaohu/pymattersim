@@ -1,9 +1,11 @@
 #coding = utf-8
 
+"""see documentation @ ../docs/writer.md"""
+
 import numpy as np
 
 def write_dump_header(
-	timestep: int, nparticle: int, boxbounds: np.array, addson:str='') -> str:
+	timestep: int, nparticle: int, boxbounds: np.array, addson:str=None) -> str:
     """
     write the headers of lammps dump file
 

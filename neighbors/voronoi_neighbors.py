@@ -1,5 +1,7 @@
 # coding = utf-8
 
+"""see documentation @ ../docs/neighbors.md"""
+
 import os
 import subprocess
 import re
@@ -11,6 +13,11 @@ from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
+# pylint: disable=dangerous-default-value
+# pylint: disable=too-many-locals
+# pylint: disable=consider-using-with
+# pylint: disable=too-many-statements
+# pylint: disable=invalid-name
 
 def get_input(
         snapshots: Snapshots,
@@ -88,7 +95,7 @@ def cal_voro(
         fneighbor.write('id   cn   neighborlist\n')
         ffacearea.write('id   cn   facearealist\n')
         f = open('dumpused.vol', 'r', encoding="utf-8")
-        for i in range(len(position[n][:, 0])):
+        for _ in range(len(position[n][:, 0])):
             item = f.readline().split('@')
             foverall.write(item[0] + '\n')
             findex.write(item[1] + '\n')
@@ -109,7 +116,7 @@ def voronowalls(
         snapshots: Snapshots,
         ppp: str,
         radii: dict={1:0.5, 2:0.5},
-        outputfile: str=''
+        outputfile: str=None
     ) -> None:
     """
     Radical Voronoi Tessellation using voro++ for non-periodic boundary conditions
@@ -156,7 +163,7 @@ def voronowalls(
         fneighbor.write('id   cn   neighborlist\n')
         ffacearea.write('id   cn   facearealist\n')
         f = open('dumpused.vol', 'r', encoding="utf-8")
-        for i in range(len(position[n][:, 0])):
+        for _ in range(len(position[n][:, 0])):
             item = f.readline().split('@')
 
             medium = [int(j) for j in item[2].split()]
@@ -185,7 +192,7 @@ def voronowalls(
             with open('temp', 'r', encoding="utf-8") as temp:
                 ffacearea.write(temp.read())
             # -----write neighbor list-------
-            fneighbor.write(re.sub('[\[\]]', ' ', np.array2string(neighbor) + '\n'))
+            fneighbor.write(re.sub(r'[\[\]]', ' ', np.array2string(neighbor) + '\n'))
         f.close()
 
     os.remove('dumpused')  # delete temporary files
@@ -198,7 +205,7 @@ def voronowalls(
     logger.info("Finish calculating Voronoi for non-PBC by voro++")
 
 
-def indicehis(inputfile: str, outputfile: str='') -> None:
+def indicehis(inputfile: str, outputfile: str=None) -> None:
     """
     Statistics the frequency of voronoi index from the output of voronoi analysis
     Only the top 50 voronoi index will be output along with their fractions

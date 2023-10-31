@@ -1,5 +1,7 @@
 # coding = utf-8
 
+"""see documentation @ ../docs/neighbors.md"""
+
 import numpy as np
 import freud
 
@@ -7,6 +9,11 @@ from reader.reader_utils import Snapshots
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
+
+# pylint: disable=too-many-locals
+# pylint: disable=c-extension-no-member
+# pylint: disable=consider-using-with
+# pylint: disable=consider-using-f-string
 
 
 def convert_configuration(snapshots: Snapshots):
@@ -39,7 +46,7 @@ def convert_configuration(snapshots: Snapshots):
     return list_box, list_points
 
 
-def cal_neighbors(snapshots: Snapshots, outputfile: str='') -> None:
+def cal_neighbors(snapshots: Snapshots, outputfile: str=None) -> None:
     """
     calculate the particle neighbors and bond properties from freud
 
@@ -96,7 +103,7 @@ def cal_neighbors(snapshots: Snapshots, outputfile: str='') -> None:
             fneighbors.write('%d %d ' % (atomid, i_cn))
             fbondinfos.write('%d %d ' % (atomid, i_cn))
             foverall.write('%d %d %.6f\n' % (atomid, i_cn, volumes[i]))
-            for j in range(i_cn):
+            for _ in range(i_cn):
                 fneighbors.write('%d ' %nlist[nn, 1])
                 fbondinfos.write('%.6f '% weights[nn])
                 nn += 1

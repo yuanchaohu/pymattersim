@@ -1,11 +1,14 @@
 # coding=utf-8
 
+"""see documentation @ ../docs/neighbors.md"""
+
 from typing import TextIO
 import numpy as np
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
+# pylint: disable=invalid-name
 
 def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.array:
     """

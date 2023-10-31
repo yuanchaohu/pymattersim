@@ -1,5 +1,7 @@
 # coding = utf-8
 
+"""see documentation @ ../docs/neighbors.md"""
+
 import re
 import numpy as np
 from reader.reader_utils import Snapshots
@@ -9,11 +11,15 @@ from utils.logging_utils import get_logger_handle
 logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
+# pylint: disable=dangerous-default-value
+# pylint: disable=consider-using-with
+# pylint: disable=too-many-locals
+# pylint: disable=consider-using-f-string
 
 def Nnearests(
         snapshots: Snapshots,
         N: int=12,
-        ppp: list=[1, 1, 1],
+        ppp: list=[1,1,1],
         fnfile: str='neighborlist.dat'
     ) -> None:
     """
@@ -67,7 +73,7 @@ def Nnearests(
 def cutoffneighbors(
         snapshots: Snapshots,
         r_cut: float,
-        ppp: list=[1, 1, 1],
+        ppp: list=[1,1,1],
         fnfile: str='neighborlist.dat'
     ) -> None:
     """
@@ -119,7 +125,7 @@ def cutoffneighbors(
 def cutoffneighbors_particletype(
         snapshots: Snapshots,
         r_cut: np.array,
-        ppp: list=[1, 1, 1],
+        ppp: list=[1,1,1],
         fnfile: str='neighborlist.dat'
     ) -> None:
     """
@@ -145,7 +151,7 @@ def cutoffneighbors_particletype(
     logger.info(f"Calculate the particle type specific cutoff neighbors for "
                 f"{len(ppp)}-dimensional system")
 
-    if type(r_cut) is not np.ndarray:
+    if not isinstance(r_cut, np.ndarray):
         errorinfo = "input r_cut type error: please give a numpy array over all pairs\n"
         errorinfo += "shape of r_cut input is (atom_type_number, atom_type_number)"
         raise IOError(errorinfo)
