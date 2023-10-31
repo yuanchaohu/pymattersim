@@ -1,4 +1,5 @@
-from time import time
+# coding=utf-8
+
 from typing import TextIO
 import numpy as np
 from utils.logging_utils import get_logger_handle
@@ -32,7 +33,7 @@ def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.array:
         For particles with coordination number less than `Nmax_fact` (which is generally the case),
         the unoccupied positions in `neighborprop` (see source code) are padded with `0`.
     """
-    logger.info("Start reading neighboring particles")
+    logger.info("Start reading neighboring particle properties")
 
     header = f.readline().split()  # header
     neighborprop = np.zeros((nparticle, Nmax + 1))
@@ -65,15 +66,15 @@ def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.array:
                     logger.info(f"Too Many neighbors {Nmax}")
                     logger.info("Warning: not for unsorted neighbor list")
 
-    max_CN = int(neighborprop[:, 0].max())
-    if max_CN < Nmax:
-        neighborprop = neighborprop[:, :max_CN + 1]  # save storage
+    max_cn = int(neighborprop[:, 0].max())
+    if max_cn < Nmax:
+        neighborprop = neighborprop[:, :max_cn+1]  # save storage
     else:
         logger.info("Warning: increase 'Nmax' to include all the neighbors")
 
     if 'neighborlist' in header:  # neighbor list should be integer
         neighborprop = neighborprop.astype(np.int32)
 
-    logger.info("Finish reading neighboring particles")
+    logger.info("Finish reading neighboring particle properties")
 
     return neighborprop
