@@ -3,7 +3,7 @@
 import numpy as np
 
 def write_dump_header(
-	timestep: int, nparticle: int, boxbounds: np.array, addson:str = '') -> str:
+	timestep: int, nparticle: int, boxbounds: np.array, addson:str='') -> str:
     """
     write the headers of lammps dump file
 

@@ -39,7 +39,7 @@ def convert_configuration(snapshots: Snapshots):
     return list_box, list_points
 
 
-def cal_neighbors(snapshots: Snapshots, outputfile: str ='') -> None:
+def cal_neighbors(snapshots: Snapshots, outputfile: str='') -> None:
     """
     calculate the particle neighbors and bond properties from freud
 

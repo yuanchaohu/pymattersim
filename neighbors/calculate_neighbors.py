@@ -12,9 +12,9 @@ logger = get_logger_handle(__name__)
 
 def Nnearests(
         snapshots: Snapshots,
-        N: int = 12,
-        ppp: list = [1, 1, 1],
-        fnfile: str = 'neighborlist.dat'
+        N: int=12,
+        ppp: list=[1, 1, 1],
+        fnfile: str='neighborlist.dat'
     ) -> None:
     """
     Get the N nearest neighbors of a particle.
@@ -39,7 +39,7 @@ def Nnearests(
 
     fneighbor = open(fnfile, 'w', encoding="utf-8")
     for snapshot in snapshots.snapshots:
-        hmatrix   = snapshot.hmatrix
+        hmatrix = snapshot.hmatrix
         positions = snapshot.positions
         nparticle = snapshot.nparticle
         neighbor = np.zeros((nparticle, 2+N), dtype=np.int32)
@@ -67,8 +67,8 @@ def Nnearests(
 def cutoffneighbors(
         snapshots: Snapshots,
         r_cut: float,
-        ppp: list = [1, 1, 1],
-        fnfile: str = 'neighborlist.dat'
+        ppp: list=[1, 1, 1],
+        fnfile: str='neighborlist.dat'
     ) -> None:
     """
     Get the nearest neighbors around a particle by setting a global cutoff distance r_cut
@@ -92,7 +92,7 @@ def cutoffneighbors(
     logger.info(f"Calculate neighbors within {r_cut} for a {len(ppp)}-dimensional system")
     fneighbor = open(fnfile, 'w', encoding="utf-8")
     for snapshot in snapshots.snapshots:
-        hmatrix   = snapshot.hmatrix
+        hmatrix = snapshot.hmatrix
         positions = snapshot.positions
         nparticle = snapshot.nparticle
         neighbor = np.arange(nparticle).astype(np.int32)
@@ -119,8 +119,8 @@ def cutoffneighbors(
 def cutoffneighbors_particletype(
         snapshots: Snapshots,
         r_cut: np.array,
-        ppp: list = [1, 1, 1],
-        fnfile: str = 'neighborlist.dat'
+        ppp: list=[1, 1, 1],
+        fnfile: str='neighborlist.dat'
     ) -> None:
     """
     Get the nearest neighbors around a particle by setting a cutoff distance r_cut
@@ -164,7 +164,7 @@ def cutoffneighbors_particletype(
 
     fneighbor = open(fnfile, 'w', encoding="utf-8")
     for snapshot in snapshots.snapshots:
-        hmatrix   = snapshot.hmatrix
+        hmatrix = snapshot.hmatrix
         positions = snapshot.positions
         nparticle = snapshot.nparticle
         particle_type = snapshot.particle_type

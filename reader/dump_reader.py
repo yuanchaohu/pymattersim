@@ -83,8 +83,8 @@ class DumpReader:
             self,
             filename: str,
             ndim: int,
-            filetype: DumpFileType = DumpFileType.LAMMPS,
-            moltypes: dict = None) -> None:
+            filetype: DumpFileType=DumpFileType.LAMMPS,
+            moltypes: dict=None) -> None:
         """
         Inputs:
             1. filename (str): the name of dump file
