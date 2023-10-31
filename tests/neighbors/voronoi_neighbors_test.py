@@ -4,7 +4,7 @@ import os
 import unittest
 from reader.dump_reader import DumpReader
 
-from voronoi.voropp import cal_voro, indicehis
+from neighbors.voronoi_neighbors import cal_voro, indicehis
 
 from utils.logging_utils import get_logger_handle
 
@@ -13,9 +13,9 @@ logger = get_logger_handle(__name__)
 READ_TEST_FILE_PATH = "tests/sample_test_data"
 
 
-class TestVoropp(unittest.TestCase):
+class TestVoronoi(unittest.TestCase):
     """
-    Test class for voropp
+    Test class for voronoi
     """
 
     def setUp(self) -> None:

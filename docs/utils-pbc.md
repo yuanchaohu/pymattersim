@@ -1,3 +1,5 @@
+[TOC]
+
 # Remove PBC
 
 The module `utils.pbc` is used to remove periodic boundary conditions (PBC) and is usually embedded in other analysis modules.

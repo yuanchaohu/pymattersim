@@ -1,3 +1,5 @@
+[toc]
+
 # Write LAMMPS dump/data format header
 
 This module is used to write the header of lammps dump and data files for conveniently rewriting snapshots.
