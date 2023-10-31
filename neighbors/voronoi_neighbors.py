@@ -7,7 +7,6 @@ import numpy as np
 import pandas as pd
 
 from reader.reader_utils import Snapshots
-
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -15,7 +14,8 @@ logger = get_logger_handle(__name__)
 
 def get_input(
         snapshots: Snapshots,
-        radii: dict = {1: 1.0, 2: 1.0}) -> tuple[list, list]:
+        radii: dict={1:0.5, 2:0.5}
+    ) -> tuple[list, list]:
     """
     Design input file for Voro++ by considering particle radii
 
@@ -31,9 +31,9 @@ def get_input(
     """
     position = []
     for snapshot in snapshots.snapshots:
-        ParticleRadii = np.array(pd.Series(snapshot.particle_type).map(radii))
-        PositionRadii = np.column_stack((snapshot.positions, ParticleRadii))
-        voroinput = np.column_stack((np.arange(snapshot.nparticle) + 1, PositionRadii))
+        particle_radii = np.array(pd.Series(snapshot.particle_type).map(radii))
+        position_radii = np.column_stack((snapshot.positions, particle_radii))
+        voroinput = np.column_stack((np.arange(snapshot.nparticle) + 1, position_radii))
         position.append(voroinput)
     bounds = [snapshot.boxbounds for snapshot in snapshots.snapshots]
 
@@ -42,9 +42,10 @@ def get_input(
 
 def cal_voro(
         snapshots: Snapshots,
-        ppp: str = '-p',
-        radii: dict = {1: 1.0, 2: 1.0},
-        outputfile: str = '') -> None:
+        ppp: str='-p',
+        radii: dict={1:0.5, 2:0.5},
+        outputfile: str=None
+    ) -> None:
     """
     Radical Voronoi Tessellation using voro++ for periodic boundary conditions
 
@@ -63,6 +64,7 @@ def cal_voro(
         for voronoi index, file with name outputfile+'.voroindex.dat',
         for overall, file with name outputfile+'.overall.dat'
     """
+    logger.info("Start calculating particle neighbors by voro++ with PBC")
     fneighbor = open(outputfile + '.neighbor.dat', 'w', encoding='utf-8')
     ffacearea = open(outputfile + '.facearea.dat', 'w', encoding='utf-8')
     findex = open(outputfile + '.voroindex.dat', 'w', encoding='utf-8')
@@ -72,26 +74,20 @@ def cal_voro(
 
     position, bounds = get_input(snapshots, radii)
     ndim = snapshots.snapshots[0].positions.shape[1]
-    for n in range(len(position)):
-        fileformat = '%d ' + '%.6f ' * ndim + '%.6f'
+    for n in range(snapshots.nsnapshots):
+        fileformat = '%d ' + '%.6f '*ndim + '%.6f'
         np.savetxt('dumpused', position[n], fmt=fileformat)
 
-        # use box boundaries from snapshot
-        Boxbounds = bounds[n].ravel()
-        # use box boundaries from particle coordinates
-        # boundsmin = position[n][:, 1: ndim + 1].min(axis = 0) - 0.1
-        # boundsmax = position[n][:, 1: ndim + 1].max(axis = 0) + 0.1
-        # Boxbounds = (np.column_stack((boundsmin, boundsmax))).ravel()
-
+        boxbounds = bounds[n].ravel()
         cmdline = 'voro++ ' + ppp + ' -r -c "%i %s %v %F @%i %A @%i %s %n @%i %s %f" ' \
-                  + ('%f %f ' * ndim % tuple(Boxbounds)) + 'dumpused'
+                  + ('%f %f ' * ndim % tuple(boxbounds)) + 'dumpused'
         if n == 0:
             logger.info(f"Start calculating Voronoi for PBC by voro++, command: {cmdline}")
-        subprocess.run(cmdline, shell=True)
+        subprocess.run(cmdline, shell=True, check=False)
 
         fneighbor.write('id   cn   neighborlist\n')
         ffacearea.write('id   cn   facearealist\n')
-        f = open('dumpused.vol', 'r')
+        f = open('dumpused.vol', 'r', encoding="utf-8")
         for i in range(len(position[n][:, 0])):
             item = f.readline().split('@')
             foverall.write(item[0] + '\n')
@@ -112,8 +108,9 @@ def cal_voro(
 def voronowalls(
         snapshots: Snapshots,
         ppp: str,
-        radii: dict = {1: 1.0, 2: 1.0},
-        outputfile: str = '') -> None:
+        radii: dict={1:0.5, 2:0.5},
+        outputfile: str=''
+    ) -> None:
     """
     Radical Voronoi Tessellation using voro++ for non-periodic boundary conditions
     Output Results by Removing Artifacial Walls
@@ -134,7 +131,7 @@ def voronowalls(
         for voronoi index, file with name outputfile+'.voroindex.dat',
         for overall, file with name outputfile+'.overall.dat'
     """
-
+    logger.info("Start calculating particle neighbors by voro++ without PBC")
     fneighbor = open(outputfile + '.neighbor.dat', 'w', encoding='utf-8')
     ffacearea = open(outputfile + '.facearea.dat', 'w', encoding='utf-8')
     findex = open(outputfile + '.voroindex.dat', 'w', encoding='utf-8')
@@ -145,26 +142,20 @@ def voronowalls(
 
     position, bounds = get_input(snapshots, radii)
     ndim = snapshots.snapshots[0].positions.shape[1]
-    for n in range(len(position)):
+    for n in range(snapshots.nsnapshots):
         fileformat = '%d ' + '%.6f ' * ndim + '%.6f'
         np.savetxt('dumpused', position[n], fmt=fileformat)
 
-        # use box boundaries from snapshot
         Boxbounds = bounds[n].ravel()
-        # use box boundaries from particle coordinates
-        # boundsmin = position[n][:, 1: ndim + 1].min(axis = 0) - 0.1
-        # boundsmax = position[n][:, 1: ndim + 1].max(axis = 0) + 0.1
-        # Boxbounds = (np.column_stack((boundsmin, boundsmax))).ravel()
-
         cmdline = 'voro++ ' + ppp + ' -r -c "%i %s %v %F @%i %A @%i %s %n @%i %s %f" ' \
                   + ('%f %f ' * ndim % tuple(Boxbounds)) + 'dumpused'
         if n == 0:
             logger.info(f"Start calculating Voronoi for non-PBC by voro++, command: {cmdline}")
-        subprocess.run(cmdline, shell=True)
+        subprocess.run(cmdline, shell=True, check=False)
 
         fneighbor.write('id   cn   neighborlist\n')
         ffacearea.write('id   cn   facearealist\n')
-        f = open('dumpused.vol', 'r')
+        f = open('dumpused.vol', 'r', encoding="utf-8")
         for i in range(len(position[n][:, 0])):
             item = f.readline().split('@')
 
@@ -185,13 +176,13 @@ def voronowalls(
 
             # -----write Overall results-----
             np.savetxt('temp', overall[np.newaxis, :], fmt='%d %d %.6f %.6f')
-            with open('temp') as temp:
+            with open('temp', 'r', encoding="utf-8") as temp:
                 foverall.write(temp.read())
             # -----write voronoi index-------
             findex.write(item[1] + '\n')
             # -----write facearea list-------
             np.savetxt('temp', facearea[np.newaxis, :], fmt='%d ' * 2 + '%.6f ' * neighbor[1])
-            with open('temp') as temp:
+            with open('temp', 'r', encoding="utf-8") as temp:
                 ffacearea.write(temp.read())
             # -----write neighbor list-------
             fneighbor.write(re.sub('[\[\]]', ' ', np.array2string(neighbor) + '\n'))
@@ -207,7 +198,7 @@ def voronowalls(
     logger.info("Finish calculating Voronoi for non-PBC by voro++")
 
 
-def indicehis(inputfile: str, outputfile: str = '') -> None:
+def indicehis(inputfile: str, outputfile: str='') -> None:
     """
     Statistics the frequency of voronoi index from the output of voronoi analysis
     Only the top 50 voronoi index will be output along with their fractions
@@ -219,6 +210,7 @@ def indicehis(inputfile: str, outputfile: str = '') -> None:
         Frequency of Voronoi Indices
     """
 
+    logger.info("Getting the statistics of Voronoi clusters")
     with open(inputfile, 'r', encoding='utf-8') as f:
         totaldata = len(f.readlines()) - 1
 
@@ -240,3 +232,5 @@ def indicehis(inputfile: str, outputfile: str = '') -> None:
     if outputfile:
         np.savetxt(outputfile, results, fmt=fformat, header=names, comments='')
     f.close()
+
+    logger.info("Now you have the fractions of Voronoi clusters")
