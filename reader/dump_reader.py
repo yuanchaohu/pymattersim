@@ -1,13 +1,16 @@
 # coding = utf-8
 
+"""see documentation @ ../docs/reader.md"""
+
 from time import time
 from utils.logging_utils import get_logger_handle
 from reader.reader_utils import DumpFileType, Snapshots
 from reader.lammps_reader_helper import read_lammps_wrapper, read_lammps_centertype_wrapper
 from reader.gsd_reader_helper import read_gsd_wrapper, read_gsd_dcd_wrapper
 
-
 logger = get_logger_handle(__name__)
+
+# pylint: disable=too-few-public-methods
 
 FILE_TYPE_MAP_READER = {
     DumpFileType.LAMMPS: read_lammps_wrapper,
@@ -83,8 +86,8 @@ class DumpReader:
             self,
             filename: str,
             ndim: int,
-            filetype: DumpFileType = DumpFileType.LAMMPS,
-            moltypes: dict = None) -> None:
+            filetype: DumpFileType=DumpFileType.LAMMPS,
+            moltypes: dict=None) -> None:
         """
         Inputs:
             1. filename (str): the name of dump file

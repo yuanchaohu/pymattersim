@@ -66,7 +66,7 @@ The information is stored in a list of which the elements are mainly numpy array
 3. Snapshots should be stored in one file at this stage.
 4. In Hoomd-blue, GSD and DCD files are acceptable. GSD file has all the information with periodic boundary conditions, while DCD has the unwarpped coordinates. GSD file has all the information with periodic boundary conditions, while DCD only has the particle positions. Normally only GSD file is needed . But if one wants to analyze the dynamical properties, the DCD file should be dumped accompanying the GSD file to get the unwarp coordinates. More specifically, all the information about the trajectory will be obtained from the GSD file except the particle positions which will be obtained from the DCD file. Therefore, the DCD and GSD files shall be dumped with the same period or concurrently. Another important point in this case is the file name of GSD and DCD. They should share the same name with the only difference of the last three string, ie. ‘GSD ’or ‘DCD’. For example, if the file name of GSD is ***dumpfile.GSD*** then the DCD file name must be ***dumpfile.DCD***. To read the Hoomd-blue outputs, two new modules should be installed first: i) GSD; ii) mdtraj. These modules are available by conda. 
 
-## Example Usage
+## Example
 
 Some dump files are provided in `tests/sample_test_data`.
 

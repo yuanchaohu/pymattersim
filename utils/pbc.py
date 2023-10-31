@@ -1,6 +1,9 @@
-#coding = utf-8
+# coding = utf-8
+
+"""see documentation @ ../docs/utils.md"""
 
 import numpy as np
+
 
 def remove_pbc(RIJ: np.array, hmatrix: np.array, ppp: list) -> np.array:
     """

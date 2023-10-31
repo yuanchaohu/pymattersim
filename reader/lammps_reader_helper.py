@@ -10,6 +10,12 @@ from reader.reader_utils import SingleSnapshot, Snapshots
 
 logger = get_logger_handle(__name__)
 
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-branches
+# pylint: disable=too-many-statements
+# pylint: disable=too-many-locals
+# pylint: disable=simplifiable-if-expression
+
 
 def read_lammps_wrapper(file_name: str, ndim: int) -> Snapshots:
     """
