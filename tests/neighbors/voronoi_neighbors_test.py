@@ -4,7 +4,7 @@ import os
 import unittest
 from reader.dump_reader import DumpReader
 
-from neighbors.voronoi_neighbors import cal_voro, indicehis
+from neighbors.voronoi_neighbors import cal_voro, voronowalls, indicehis
 
 from utils.logging_utils import get_logger_handle
 
@@ -21,12 +21,13 @@ class TestVoronoi(unittest.TestCase):
     def setUp(self) -> None:
         super().setUp()
         self.test_file_3d = f"{READ_TEST_FILE_PATH}/dump_3D.atom"
+        self.test_file_3d_wrapped = f"{READ_TEST_FILE_PATH}/dump_3D_wrapped.atom"
 
-    def test_Voropp_3d(self) -> None:
+    def test_CalVoro_3d(self) -> None:
         """
-        Test voropp works properly for 3D lammps
+        Test calvoro works properly for 3D lammps under PBC
         """
-        logger.info(f"Starting voropp test using {self.test_file_3d}...")
+        logger.info(f"Starting calvoro test using {self.test_file_3d} under PBC...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
         cal_voro(readdump.snapshots, outputfile='dump')
@@ -81,4 +82,57 @@ class TestVoronoi(unittest.TestCase):
         os.remove('dump.voroindex.dat')
         os.remove('voroindex_frction.dat')
 
-        logger.info(f"Finishing voropp test using {self.test_file_3d}")
+        logger.info(f"Finishing calvoro test using {self.test_file_3d} under PBC")
+
+
+    def test_VoronoWalls_3d(self) -> None:
+        """
+        Test voronowalls works properly for 3D lammps under non-PBC
+        """
+        logger.info(f"Starting voronowalls test using {self.test_file_3d_wrapped} under non-PBC...")
+        readdump = DumpReader(self.test_file_3d_wrapped, ndim=3)
+        readdump.read_onefile()
+        voronowalls(readdump.snapshots, ppp='', outputfile='dump')
+
+        with open(r'dump.neighbor.dat') as f:
+            content = f.readlines()
+        item = [int(i) for i in content[1].split()]
+        self.assertEqual(766, item[0])
+        self.assertEqual(14, item[1])
+        # benchmaking with old code
+        self.assertEqual([5145, 2718, 4257, 3510, 1348, 3420, 3421, 5169, 
+                          5258, 1381, 4092, 359, 6125, 2647],
+                         item[2:])
+        os.remove('dump.neighbor.dat')
+
+        with open(r'dump.facearea.dat') as f:
+            content = f.readlines()
+        item = [float(i) for i in content[1].split()]
+        self.assertEqual(766, item[0])
+        self.assertEqual(14, item[1])
+        # benchmaking with old code
+        self.assertEqual([0.152756, 0.431360, 0.613284, 0.737899, 0.944141, 0.340742, 1.183400,
+                          0.544653, 0.650052, 0.293644, 0.017105, 0.469773, 0.478498, 0.410967],
+                         item[2:])
+        os.remove('dump.facearea.dat')
+
+        with open(r'dump.voroindex.dat') as f:
+            content = f.readlines()
+        item = [float(i) for i in content[1].split()]
+        self.assertEqual(766, item[0])
+        # benchmaking with old code and ovito
+        self.assertEqual([0, 0, 0, 2, 2, 6, 3, 2, 1],
+                         item[1:])
+        os.remove('dump.voroindex.dat')
+
+        with open(r'dump.overall.dat') as f:
+            content = f.readlines()
+        item = [float(i) for i in content[1].split()]
+        self.assertEqual(766, item[0])
+        self.assertEqual(14, item[1])
+        # benchmaking with old code and ovito
+        self.assertEqual(1.549820, item[2])
+        self.assertEqual(7.268274, item[3])
+        os.remove('dump.overall.dat')
+
+        logger.info(f"Finishing voronowalls test using {self.test_file_3d_wrapped} under non-PBC")
