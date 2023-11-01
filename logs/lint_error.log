@@ -26,3 +26,23 @@ Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 --------------------------------------------------------------------
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
+************* Module static.pcf
+static\pcf.py:58:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+************* Module static.sf
+static\sf.py:63:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+static\sf.py:1:0: R0801: Similar lines in 2 files
+==static.pcf:[38:47]
+==static.sf:[38:47]
+        self.snapshots = snapshots
+        self.nsnapshots = snapshots.nsnapshots
+        self.ndim = snapshots.snapshots[0].positions.shape[1]
+        self.nparticle = snapshots.snapshots[0].nparticle
+        assert snapshots.snapshots[0].nparticle == snapshots.snapshots[-1].nparticle,\
+            "Paticle Number Changes during simulation"
+        self.boxlength = snapshots.snapshots[0].boxlength
+        assert (snapshots.snapshots[0].boxlength == snapshots.snapshots[-1].boxlength).all(),\
+            "Paticle Number Changes during simulation" (duplicate-code)
+
+------------------------------------------------------------------
+Your code has been rated at 9.95/10 (previous run: 9.97/10, -0.02)
+

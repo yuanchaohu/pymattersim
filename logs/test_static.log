@@ -1,0 +1,85 @@
+2023-11-01 20:11:05,672 INFO pcf_test Starting test using tests/sample_test_data/dump_2D.atom...
+2023-11-01 20:11:05,672 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2023-11-01 20:11:05,672 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-01 20:11:05,745 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-01 20:11:05,745 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-01 20:11:05,745 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07208085060119629 seconds
+2023-11-01 20:11:05,745 INFO static.pcf Start Calculating PCF of a Binary System
+2023-11-01 20:11:05,745 INFO static.pcf Particle Type: [1 2]
+2023-11-01 20:11:05,745 INFO static.pcf Particle typenumber: [6670 3330]
+2023-11-01 20:11:31,669 INFO static.pcf Finish Calculating PCF of a Binary System
+.2023-11-01 20:11:31,692 INFO pcf_test Starting test using tests/sample_test_data/quarternary.dump...
+2023-11-01 20:11:31,696 INFO reader.dump_reader Start reading file tests/sample_test_data/quarternary.dump of type DumpFileType.LAMMPS
+2023-11-01 20:11:31,696 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-01 20:11:31,704 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-01 20:11:31,704 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-01 20:11:31,704 INFO reader.dump_reader Finish reading file tests/sample_test_data/quarternary.dump in 0.008052349090576172 seconds
+2023-11-01 20:11:31,704 INFO static.pcf Start Calculating PCF of a Quarternary System
+2023-11-01 20:11:31,704 INFO static.pcf Particle Type: [1 2 3 4]
+2023-11-01 20:11:31,704 INFO static.pcf Particle typenumber: [470  10  10  10]
+2023-11-01 20:11:34,050 INFO static.pcf Finish Calculating PCF of a Quarternary System
+.2023-11-01 20:11:34,063 INFO pcf_test Starting test using tests/sample_test_data/ternary.dump...
+2023-11-01 20:11:34,063 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2023-11-01 20:11:34,063 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-01 20:11:34,078 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-01 20:11:34,078 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-01 20:11:34,078 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.015550613403320312 seconds
+2023-11-01 20:11:34,078 INFO static.pcf Start Calculating PCF of a Ternary System
+2023-11-01 20:11:34,078 INFO static.pcf Particle Type: [1 2 3]
+2023-11-01 20:11:34,078 INFO static.pcf Particle typenumber: [6885  405  810]
+2023-11-01 20:11:39,151 INFO static.pcf Finish Calculating PCF of a Ternary System
+.2023-11-01 20:11:39,168 INFO pcf_test Starting test using tests/sample_test_data/unary.dump...
+2023-11-01 20:11:39,168 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
+2023-11-01 20:11:39,168 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-01 20:11:39,170 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-01 20:11:39,170 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-01 20:11:39,170 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.002032756805419922 seconds
+2023-11-01 20:11:39,170 INFO static.pcf Start Calculating PCF of a Unary System
+2023-11-01 20:11:39,170 INFO static.pcf Particle Type: [1]
+2023-11-01 20:11:39,170 INFO static.pcf Particle typenumber: [500]
+2023-11-01 20:11:39,214 INFO static.pcf Finish Calculating PCF of a Unary System
+.2023-11-01 20:11:39,222 INFO sf_test Starting test using tests/sample_test_data/dump_2D.atom...
+2023-11-01 20:11:39,222 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2023-11-01 20:11:39,222 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-01 20:11:39,298 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-01 20:11:39,298 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-01 20:11:39,298 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.0760338306427002 seconds
+2023-11-01 20:11:39,528 INFO static.sf Start Calculating SF of a Binary System
+2023-11-01 20:11:39,528 INFO static.sf Particle Type: [1 2]
+2023-11-01 20:11:39,528 INFO static.sf Particle typenumber: [6670 3330]
+2023-11-01 20:11:45,339 INFO static.sf Finish Calculating SF of a Binary System
+.2023-11-01 20:11:45,348 INFO sf_test Starting test using tests/sample_test_data/quarternary.dump...
+2023-11-01 20:11:45,348 INFO reader.dump_reader Start reading file tests/sample_test_data/quarternary.dump of type DumpFileType.LAMMPS
+2023-11-01 20:11:45,348 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-01 20:11:45,355 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-01 20:11:45,355 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-01 20:11:45,355 INFO reader.dump_reader Finish reading file tests/sample_test_data/quarternary.dump in 0.006575345993041992 seconds
+2023-11-01 20:11:47,320 INFO static.sf Start Calculating SF of a Quarternary System
+2023-11-01 20:11:47,324 INFO static.sf Particle Type: [1 2 3 4]
+2023-11-01 20:11:47,324 INFO static.sf Particle typenumber: [470  10  10  10]
+2023-11-01 20:11:50,690 INFO static.sf Finish Calculating SF of a Quarternary System
+.2023-11-01 20:11:50,694 INFO sf_test Starting test using tests/sample_test_data/ternary.dump...
+2023-11-01 20:11:50,694 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2023-11-01 20:11:50,694 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-01 20:11:50,708 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-01 20:11:50,708 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-01 20:11:50,708 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.01394343376159668 seconds
+2023-11-01 20:12:18,995 INFO static.sf Start Calculating SF of a Ternary System
+2023-11-01 20:12:18,995 INFO static.sf Particle Type: [1 2 3]
+2023-11-01 20:12:18,995 INFO static.sf Particle typenumber: [6885  405  810]
+2023-11-01 20:13:00,737 INFO static.sf Finish Calculating SF of a Ternary System
+.2023-11-01 20:13:00,745 INFO sf_test Starting test using tests/sample_test_data/unary.dump...
+2023-11-01 20:13:00,745 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
+2023-11-01 20:13:00,745 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-01 20:13:00,753 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-01 20:13:00,753 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-01 20:13:00,753 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.00800776481628418 seconds
+2023-11-01 20:13:02,588 INFO static.sf Start Calculating SF of a Unary System
+2023-11-01 20:13:02,588 INFO static.sf Particle Type: [1]
+2023-11-01 20:13:02,588 INFO static.sf Particle typenumber: [500]
+2023-11-01 20:13:02,886 INFO static.sf Finish Calculating SF of a Unary System
+.
+----------------------------------------------------------------------
+Ran 8 tests in 117.230s
+
+OK
