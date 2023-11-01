@@ -1,1 +1,1 @@
-python -m unittest discover tests/pbc -p '*_test.py' &> logs/pbc_test.log
+python -m unittest discover tests/pbc -p '*_test.py' &> logs/test_pbc.log
