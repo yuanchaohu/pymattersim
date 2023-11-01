@@ -2,7 +2,7 @@
 
 """see documentation @ ../docs/static.md"""
 
-from typing import Optional, Callable
+from typing import Optional, Callable, Tuple
 import numpy as np
 from reader.reader_utils import Snapshots
 from utils.pbc import remove_pbc
@@ -22,31 +22,44 @@ logger = get_logger_handle(__name__)
 
 class gr:
     """
-    This module is used to calculate pair correlation functions
+    This module is used to calculate pair correlation functions g(r)
     covering unary to senary systems.
     """
-    def __init__(self, snapshots: Snapshots) -> None:
+    def __init__(
+            self,
+            snapshots: Snapshots,
+            ppp: list=[1,1,1],
+            rdelta: float=0.01,
+            outputfile: str=None
+            ) -> None:
         """
         Initializing gr class
 
         Inputs:
-            snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
-                      (returned by reader.dump_reader.DumpReader)
+            1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
+                         (returned by reader.dump_reader.DumpReader)
+            2. ppp (list): the periodic boundary conditions,
+                           setting 1 for yes and 0 for no, default [1,1,1],
+                           set [1, 1] for two-dimensional systems
+            3. rdelta (float): bin size calculating g(r), the default value is 0.01
+            4. outputfile (str): the file name to save the calculated g(r)
 
         Return:
             None
         """
         self.snapshots = snapshots
-        self.nsnapshots = snapshots.nsnapshots
-        self.ndim = snapshots.snapshots[0].positions.shape[1]
-        self.nparticle = snapshots.snapshots[0].nparticle
-        assert snapshots.snapshots[0].nparticle == snapshots.snapshots[-1].nparticle,\
+        self.ppp = ppp
+        self.rdelta = rdelta
+        self.outputfile = outputfile
+        self.nsnapshots = self.snapshots.nsnapshots
+        self.ndim = self.snapshots.snapshots[0].positions.shape[1]
+        self.nparticle = self.snapshots.snapshots[0].nparticle
+        assert self.snapshots.snapshots[0].nparticle == self.snapshots.snapshots[-1].nparticle,\
             "Paticle Number Changes during simulation"
-        self.boxlength = snapshots.snapshots[0].boxlength
-        assert (snapshots.snapshots[0].boxlength == snapshots.snapshots[-1].boxlength).all(),\
-            "Paticle Number Changes during simulation"
-        self.boxvolume = np.prod(self.boxlength)
-        self.typecounts = np.unique(snapshots.snapshots[0].particle_type, return_counts = True)
+        assert (self.snapshots.snapshots[0].boxlength == self.snapshots.snapshots[-1].boxlength).all(),\
+            "Simulation Box Length Changes during simulation"
+        self.boxvolume = np.prod(self.snapshots.snapshots[0].boxlength)
+        self.typecounts = np.unique(self.snapshots.snapshots[0].particle_type, return_counts=True)
         self.type = self.typecounts[0]
         self.typenumber = self.typecounts[1]
         assert np.sum(self.typenumber) == self.nparticle,\
@@ -54,67 +67,48 @@ class gr:
         self.nidealfac = 4.0 / 3 if self.ndim == 3 else 1.0
         self.rhototal = self.nparticle / self.boxvolume
         self.rhotype = self.typenumber / self.boxvolume
+        self.maxbin = int(self.snapshots.snapshots[0].boxlength.min() / 2.0 / self.rdelta)
 
-    def getresults(
-            self,
-            ppp: list=[1,1,1],
-            rdelta: float=0.01,
-            outputfile: str=None) -> Optional[Callable]:
+    def getresults(self) -> Optional[Callable]:
         """
         Calculating g(r) for system with different particle type numbers
 
-        Inputs:
-            1. ppp (list): the periodic boundary conditions,
-                           setting 1 for yes and 0 for no, default [1,1,1],
-                           that is, PBC is applied in all three dimensions for 3D box.
-                           set [1, 1] for two-dimensional systems
-            2. rdelta (float): bin size calculating g(r), the default value is 0.01
-
-        Return: Optional[Callable]
+        Return:
+            Optional[Callable]
         """
         if len(self.type) == 1:
-            return self.unary(ppp, rdelta, outputfile)
+            return self.unary()
         if len(self.type) == 2:
-            return self.binary(ppp, rdelta, outputfile)
+            return self.binary()
         if len(self.type) == 3:
-            return self.ternary(ppp, rdelta, outputfile)
+            return self.ternary()
         if len(self.type) == 4:
-            return self.quarternary(ppp, rdelta, outputfile)
+            return self.quarternary()
         if len(self.type) == 5:
-            return self.quinary(ppp, rdelta, outputfile)
+            return self.quinary()
         if len(self.type) == 6:
-            return self.senary(ppp, rdelta, outputfile)
+            return self.senary()
         if len(self.type) > 6:
             logger.info('This is a system with more than 6 species, only overall gr is calculated')
-            return self.unary(ppp, rdelta, outputfile)
+            return self.unary()
 
-    def unary(self, ppp: list, rdelta: float=0.01, outputfile :str=None) -> None:
+    def unary(self) -> Tuple[np.ndarray, str]:
         """
         Calculating PCF for unary system
-        
-        Inputs:
-            1. ppp (list): the periodic boundary conditions,
-                           setting 1 for yes and 0 for no, default [1,1,1],
-                           that is, PBC is applied in all three dimensions for 3D box.
-                           set [1, 1] for two-dimensional systems
-            2. rdelta (float): bin size calculating g(r), the default value is 0.01
-            3. outputfile (str): the file name to save the calculated g(r)
 
         Return:
-            None [output calculated g(r) to a document]
+            calculated gr and header name
+            [output calculated g(r) also saved to a document]
         """
         logger.info('Start Calculating PCF of a Unary System')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
 
-        maxbin = int(self.boxlength.min() / 2.0 / rdelta)
-        grresults = np.zeros(maxbin)
+        grresults = np.zeros(self.maxbin)
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle-1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
-                RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
-                distance = np.sqrt(np.square(RIJ).sum(axis = 1))
-                countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0,maxbin*rdelta))
+                RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                distance = np.linalg.norm(RIJ, axis=1)
+                countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0,self.maxbin * self.rdelta))
                 grresults += countvalue
         binleft = binedge[:-1]
         binright = binedge[1:]
@@ -122,55 +116,49 @@ class gr:
         grresults = grresults * 2 / self.nparticle / self.nsnapshots / (nideal * self.rhototal)
 
         # middle of each bin
-        binright = binright - 0.5 * rdelta
+        binright = binright - 0.5 * self.rdelta
         results  = np.column_stack((binright, grresults))
         names = 'r  g(r)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header=names, comments='')
 
         logger.info('Finish Calculating PCF of a Unary System')
 
-    def binary(self, ppp: list, rdelta: float=0.01, outputfile :str=None) -> None:
+        return (results, names)
+
+    def binary(self) -> Tuple[np.ndarray, str]:
         """
         Calculating PCF for binary system
-        
-        Inputs:
-            1. ppp (list): the periodic boundary conditions,
-                           setting 1 for yes and 0 for no, default [1,1,1],
-                           that is, PBC is applied in all three dimensions for 3D box.
-                           set [1, 1] for two-dimensional systems
-            2. rdelta (float): bin size calculating g(r), the default value is 0.01
-            3. outputfile (str): the file name to save the calculated g(r)
 
         Return:
-            None [output calculated g(r) to a document]
+            calculated gr and header name
+            [output calculated g(r) also saved to a document]
         """
         logger.info('Start Calculating PCF of a Binary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
-        maxbin = int(self.boxlength.min() / 2.0 / rdelta)
-        grresults = np.zeros((maxbin, 4))
+        grresults = np.zeros((self.maxbin, 4))
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle - 1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
                 TIJ = np.c_[snapshot.particle_type[i+1:],
                             np.zeros_like(snapshot.particle_type[i+1:]) + snapshot.particle_type[i]]
-                RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
-                distance = np.sqrt(np.square(RIJ).sum(axis = 1))
+                RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                distance = np.linalg.norm(RIJ, axis=1)
 
-                countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
+                countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0, self.maxbin * self.rdelta))
                 grresults[:, 0] += countvalue
 
                 countsum = TIJ.sum(axis = 1)
                 countvalue, binedge = np.histogram(distance[countsum == 2],
-                                                   bins = maxbin, range = (0, maxbin * rdelta))
+                                                   bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 1] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum == 3],
-                                                   bins = maxbin, range = (0, maxbin * rdelta))
+                                                   bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 2] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum == 4],
-                                                   bins = maxbin, range = (0, maxbin * rdelta))
+                                                   bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 3] += countvalue
 
         binleft = binedge[:-1]   #real value of each bin edge, not index
@@ -181,59 +169,53 @@ class gr:
         grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[0] / self.typenumber[1] / 2.0
         grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typenumber[1] / (nideal * self.rhotype[1])
 
-        binright = binright - 0.5 * rdelta #middle of each bin
+        binright = binright - 0.5 * self.rdelta #middle of each bin
         results  = np.column_stack((binright, grresults))
         names    = 'r  g(r)  g11(r)  g12(r)  g22(r)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header=names, comments='')
 
         logger.info('Finish Calculating PCF of a Binary System')
 
+        return (results, names)
 
-    def ternary(self, ppp: list, rdelta: float=0.01, outputfile :str=None) -> None:
+
+    def ternary(self) -> Tuple[np.ndarray, str]:
         """
         Calculating PCF for ternary system
-        
-        Inputs:
-            1. ppp (list): the periodic boundary conditions,
-                           setting 1 for yes and 0 for no, default [1,1,1],
-                           that is, PBC is applied in all three dimensions for 3D box.
-                           set [1, 1] for two-dimensional systems
-            2. rdelta (float): bin size calculating g(r), the default value is 0.01
-            3. outputfile (str): the file name to save the calculated g(r)
 
         Return:
-            None [output calculated g(r) to a document]
+            calculated gr and header name
+            [output calculated g(r) also saved to a document]
         """
         logger.info('Start Calculating PCF of a Ternary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
-        maxbin = int(self.boxlength.min() / 2.0 / rdelta)
-        grresults   = np.zeros((maxbin, 7))
+        grresults   = np.zeros((self.maxbin, 7))
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle - 1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
                 TIJ = np.c_[snapshot.particle_type[i+1:], np.zeros_like(snapshot.particle_type[i+1:]) + snapshot.particle_type[i]]
-                RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
-                distance = np.sqrt(np.square(RIJ).sum(axis = 1))
+                RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                distance = np.linalg.norm(RIJ, axis=1)
 
-                countvalue, binedge = np.histogram(distance, bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance, bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 0] += countvalue
 
                 countsum   = TIJ.sum(axis = 1)
                 countsub   = np.abs(TIJ[:, 0] - TIJ[:, 1])
-                countvalue, binedge = np.histogram(distance[countsum  == 2], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum  == 2], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 1] += countvalue # 11
-                countvalue, binedge = np.histogram(distance[(countsum == 4) & (countsub == 0)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum == 4) & (countsub == 0)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 2] += countvalue # 22
-                countvalue, binedge = np.histogram(distance[countsum  == 6], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum  == 6], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 3] += countvalue # 33
-                countvalue, binedge = np.histogram(distance[countsum  == 3], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum  == 3], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 4] += countvalue # 12
-                countvalue, binedge = np.histogram(distance[countsum  == 5], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum  == 5], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 5] += countvalue # 23
-                countvalue, binedge = np.histogram(distance[(countsum == 4) & (countsub == 2)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum == 4) & (countsub == 2)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 6] += countvalue # 13
 
         binleft  = binedge[:-1]   #real value of each bin edge, not index
@@ -247,66 +229,60 @@ class gr:
         grresults[:, 5]  = grresults[:, 5] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[1] / self.typenumber[2] / 2.0
         grresults[:, 6]  = grresults[:, 6] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[0] / self.typenumber[2] / 2.0
 
-        binright = binright - 0.5 * rdelta #middle of each bin
+        binright = binright - 0.5 * self.rdelta #middle of each bin
         results  = np.column_stack((binright, grresults))
         names    = 'r  g(r)  g11(r)  g22(r)  g33(r)  g12(r)  g23(r)  g13(r)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header=names, comments='')
 
         logger.info('Finish Calculating PCF of a Ternary System')
 
-    def quarternary(self, ppp: list, rdelta: float=0.01, outputfile :str=None) -> None:
+        return (results, names)
+
+    def quarternary(self) -> Tuple[np.ndarray, str]:
         """
         Calculating PCF for quarternary system
-        
-        Inputs:
-            1. ppp (list): the periodic boundary conditions,
-                           setting 1 for yes and 0 for no, default [1,1,1],
-                           that is, PBC is applied in all three dimensions for 3D box.
-                           set [1, 1] for two-dimensional systems
-            2. rdelta (float): bin size calculating g(r), the default value is 0.01
-            3. outputfile (str): the file name to save the calculated g(r)
 
         Return:
-            None [output calculated g(r) to a document]
+            calculated gr and header name
+            [output calculated g(r) also saved to a document]
         """
         logger.info('Start Calculating PCF of a Quarternary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
-        maxbin = int(self.boxlength.min() / 2.0 / rdelta)
-        grresults = np.zeros((maxbin, 11))
+        grresults = np.zeros((self.maxbin, 11))
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle - 1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
                 TIJ = np.c_[snapshot.particle_type[i+1:], np.zeros_like(snapshot.particle_type[i+1:]) + snapshot.particle_type[i]]
-                RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
-                distance = np.sqrt(np.square(RIJ).sum(axis = 1))
+                RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                distance = np.linalg.norm(RIJ, axis=1)
 
-                countvalue, binedge = np.histogram(distance, bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance, bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 0] += countvalue
 
                 countsum   = TIJ.sum(axis = 1)
                 countsub   = np.abs(TIJ[:, 0] - TIJ[:, 1])
-                countvalue, binedge = np.histogram(distance[countsum == 2], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum == 2], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 1] += countvalue #11
-                countvalue, binedge = np.histogram(distance[(countsum  == 4) & (countsub == 0)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 4) & (countsub == 0)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 2] += countvalue #22
-                countvalue, binedge = np.histogram(distance[(countsum  == 6) & (countsub == 0)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 6) & (countsub == 0)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 3] += countvalue #33
-                countvalue, binedge = np.histogram(distance[countsum  == 8], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum  == 8], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 4] += countvalue #44
-                countvalue, binedge = np.histogram(distance[countsum  == 3], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum  == 3], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 5] += countvalue #12
-                countvalue, binedge = np.histogram(distance[(countsum  == 4) & (countsub == 2)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 4) & (countsub == 2)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 6] += countvalue #13
-                countvalue, binedge = np.histogram(distance[countsub  == 3], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsub  == 3], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 7] += countvalue #14
-                countvalue, binedge = np.histogram(distance[(countsum  == 5) & (countsub == 1)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 5) & (countsub == 1)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 8] += countvalue #23
-                countvalue, binedge = np.histogram(distance[(countsum  == 6) & (countsub == 2)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 6) & (countsub == 2)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 9] += countvalue #24
-                countvalue, binedge = np.histogram(distance[countsum  == 7], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum  == 7], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:,10] += countvalue #34
 
         binleft  = binedge[:-1]   #real value of each bin edge, not index
@@ -325,76 +301,70 @@ class gr:
         grresults[:, 9] = grresults[:, 9] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[1] / self.typenumber[3] / 2.0
         grresults[:,10] = grresults[:,10] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[2] / self.typenumber[3] / 2.0
 
-        binright = binright - 0.5 * rdelta #middle of each bin
+        binright = binright - 0.5 * self.rdelta #middle of each bin
         results  = np.column_stack((binright, grresults))
         names = 'r  g(r)  g11(r)  g22(r)  g33(r)  g44(r)  g12(r)  g13(r)  g14(r)  g23(r)  g24(r)  g34(r)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header=names, comments='')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header=names, comments='')
 
         logger.info('Finish Calculating PCF of a Quarternary System')
 
-    def quinary(self, ppp: list, rdelta: float=0.01, outputfile :str=None) -> None:
+        return (results, names)
+
+    def quinary(self) -> Tuple[np.ndarray, str]:
         """
         Calculating PCF for quinary system
-        
-        Inputs:
-            1. ppp (list): the periodic boundary conditions,
-                           setting 1 for yes and 0 for no, default [1,1,1],
-                           that is, PBC is applied in all three dimensions for 3D box.
-                           set [1, 1] for two-dimensional systems
-            2. rdelta (float): bin size calculating g(r), the default value is 0.01
-            3. outputfile (str): the file name to save the calculated g(r)
 
         Return:
-            None [output calculated g(r) to a document]
+            calculated gr and header name
+            [output calculated g(r) also saved to a document]
         """
         logger.info('Start Calculating PCF of a Quinary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
-        maxbin = int(self.boxlength.min() / 2.0 / rdelta)
-        grresults   = np.zeros((maxbin, 16))
+        grresults   = np.zeros((self.maxbin, 16))
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle - 1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
                 TIJ = np.c_[snapshot.particle_type[i+1:], np.zeros_like(snapshot.particle_type[i+1:]) + snapshot.particle_type[i]]
-                RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
-                distance = np.sqrt(np.square(RIJ).sum(axis = 1))
+                RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                distance = np.linalg.norm(RIJ, axis=1)
 
-                countvalue, binedge = np.histogram(distance, bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance, bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 0] += countvalue
 
                 countsum   = TIJ.sum(axis = 1)
                 countsub   = np.abs(TIJ[:, 0] - TIJ[:, 1])
-                countvalue, binedge = np.histogram(distance[countsum == 2], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum == 2], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 1] += countvalue #11
-                countvalue, binedge = np.histogram(distance[(countsum  == 4) & (countsub == 0)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 4) & (countsub == 0)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 2] += countvalue #22
-                countvalue, binedge = np.histogram(distance[(countsum  == 6) & (countsub == 0)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 6) & (countsub == 0)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 3] += countvalue #33
-                countvalue, binedge = np.histogram(distance[(countsum  == 8) & (countsub == 0)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 8) & (countsub == 0)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 4] += countvalue #44
-                countvalue, binedge = np.histogram(distance[countsum  == 10], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum  == 10], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 5] += countvalue #55
-                countvalue, binedge = np.histogram(distance[countsum  == 3], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum  == 3], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 6] += countvalue #12
-                countvalue, binedge = np.histogram(distance[(countsum  == 4) & (countsub == 2)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 4) & (countsub == 2)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 7] += countvalue #13
-                countvalue, binedge = np.histogram(distance[(countsum  == 5) & (countsub == 3)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 5) & (countsub == 3)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 8] += countvalue #14
-                countvalue, binedge = np.histogram(distance[(countsum  == 6) & (countsub == 4)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 6) & (countsub == 4)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:, 9] += countvalue #15
-                countvalue, binedge = np.histogram(distance[(countsum  == 5) & (countsub == 1)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 5) & (countsub == 1)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:,10] += countvalue #23
-                countvalue, binedge = np.histogram(distance[(countsum  == 6) & (countsub == 2)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 6) & (countsub == 2)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:,11] += countvalue #24
-                countvalue, binedge = np.histogram(distance[(countsum  == 7) & (countsub == 3)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 7) & (countsub == 3)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:,12] += countvalue #25
-                countvalue, binedge = np.histogram(distance[(countsum  == 7) & (countsub == 1)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 7) & (countsub == 1)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:,13] += countvalue #34
-                countvalue, binedge = np.histogram(distance[(countsum  == 8) & (countsub == 2)], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[(countsum  == 8) & (countsub == 2)], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:,14] += countvalue #35
-                countvalue, binedge = np.histogram(distance[countsum  == 9], bins = maxbin, range = (0, maxbin * rdelta))
+                countvalue, binedge = np.histogram(distance[countsum  == 9], bins = self.maxbin, range = (0, self.maxbin * self.rdelta))
                 grresults[:,15] += countvalue #45
 
         binleft = binedge[:-1]   #real value of each bin edge, not index
@@ -418,42 +388,36 @@ class gr:
         grresults[:,14]  = grresults[:,14] * 2 / self.nsnapshots/ nideal * self.boxvolume /self.typenumber[2] / self.typenumber[4] /2.0
         grresults[:,15]  = grresults[:,15] * 2 / self.nsnapshots/ nideal * self.boxvolume /self.typenumber[3] / self.typenumber[4] /2.0
 
-        binright = binright - 0.5 * rdelta #middle of each bin
+        binright = binright - 0.5 * self.rdelta #middle of each bin
         results  = np.column_stack((binright, grresults))
         names    = 'r  g(r)  g11(r)  g22(r)  g33(r)  g44(r)  g55(r)  g12(r)  g13(r)  g14(r)  g15(r)  g23(r)  g24(r)  g25(r)  g34(r)  g35(r)  g45(r)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header=names, comments='')
         
         logger.info('Finish Calculating PCF of a Quinary System')
 
-    def senary(self, ppp: list, rdelta: float=0.01, outputfile :str=None) -> None:
+        return (results, names)
+
+    def senary(self) -> Tuple[np.ndarray, str]:
         """
         Calculating PCF for senary system
-        
-        Inputs:
-            1. ppp (list): the periodic boundary conditions,
-                           setting 1 for yes and 0 for no, default [1,1,1],
-                           that is, PBC is applied in all three dimensions for 3D box.
-                           set [1, 1] for two-dimensional systems
-            2. rdelta (float): bin size calculating g(r), the default value is 0.01
-            3. outputfile (str): the file name to save the calculated g(r)
 
         Return:
-            None [output calculated g(r) to a document]
+            calculated gr and header name
+            [output calculated g(r) also saved to a document]
         """
         logger.info('Start Calculating PCF of a Senary System')
         logger.info('Only calculate the overall g(r) at this stage')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
-        maxbin = int(self.boxlength.min() / 2.0 / rdelta)
-        grresults = np.zeros(maxbin)
+        grresults = np.zeros(self.maxbin)
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle-1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
-                RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
-                distance = np.sqrt(np.square(RIJ).sum(axis = 1))
-                countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin * rdelta))
+                RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                distance = np.linalg.norm(RIJ, axis=1)
+                countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0, self.maxbin * self.rdelta))
                 grresults += countvalue
         binleft = binedge[:-1]
         binright = binedge[1:]
@@ -461,11 +425,13 @@ class gr:
         grresults = grresults * 2 / self.nparticle / self.nsnapshots / (nideal * self.rhototal)
         
         # middle of each bin
-        binright = binright - 0.5 * rdelta 
+        binright = binright - 0.5 * self.rdelta
         results  = np.column_stack((binright, grresults))
         names = 'r  g(r)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header=names, comments='')
         
         logger.info('Finish Calculating PCF of a Senary System')
         logger.info('Only the overall g(r) is calculated')
+
+        return (results, names)

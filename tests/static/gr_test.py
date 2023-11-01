@@ -4,7 +4,7 @@ import os
 import unittest
 import numpy as np
 from reader.dump_reader import DumpReader
-from static.pcf import gr
+from static.gr import gr
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -31,11 +31,9 @@ class TestPCF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_unary}...")
         readdump = DumpReader(self.test_file_unary, ndim=3)
         readdump.read_onefile()
-        gr(readdump.snapshots).getresults(ppp=[1,1,1], outputfile='gr_unary.dat')
+        gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_unary.dat').getresults()
 
-        with open(r'gr_unary.dat') as f:
-            content = f.readlines()
-        result = np.array([list(map(np.float64, line.strip().split())) for line in content[1:]])
+        result = np.loadtxt('gr_unary.dat', skiprows=1)
         np.testing.assert_almost_equal([0.98846 , 1.03977 , 0.971141, 0.975807, 0.980452, 1.117302,
                             1.016072, 1.093032, 0.854259, 1.016484, 1.138785, 0.894824,
                             1.147242, 0.936766, 0.993315, 1.082031, 1.06693 , 1.109968,
@@ -63,11 +61,9 @@ class TestPCF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_binary}...")
         readdump = DumpReader(self.test_file_binary, ndim=2)
         readdump.read_onefile()
-        gr(readdump.snapshots).getresults(ppp=[1,1], outputfile='gr_binary.dat')
+        gr(readdump.snapshots, ppp=[1,1], rdelta=0.01, outputfile='gr_binary.dat').getresults()
 
-        with open(r'gr_binary.dat') as f:
-            content = f.readlines()
-        result = np.array([list(map(np.float64, line.strip().split())) for line in content[1:]])
+        result = np.loadtxt('gr_binary.dat', skiprows=1)
         np.testing.assert_almost_equal([1.001236, 0.993005, 1.000139, 0.997416, 0.995915, 1.002123,
                             0.997806, 0.996772, 1.000836, 0.995445, 1.002179, 0.994418,
                             1.001498, 0.994907, 1.01135 , 0.998206, 1.003196, 0.99749 ,
@@ -131,11 +127,9 @@ class TestPCF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_ternary}...")
         readdump = DumpReader(self.test_file_ternary, ndim=3)
         readdump.read_onefile()
-        gr(readdump.snapshots).getresults(ppp=[1,1,1], outputfile='gr_ternary.dat')
+        gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_ternary.dat').getresults()
 
-        with open(r'gr_ternary.dat') as f:
-            content = f.readlines()
-        result = np.array([list(map(np.float64, line.strip().split())) for line in content[1:]])
+        result = np.loadtxt('gr_ternary.dat', skiprows=1)
         np.testing.assert_almost_equal([1.0168  , 1.009425, 1.005704, 1.007394, 0.999105, 0.996447,
                             0.999955, 1.008682, 0.992835, 0.988212, 0.996981, 1.002667,
                             0.99821 , 0.997044, 1.009004, 0.998432, 1.005349, 1.00778 ,
@@ -217,11 +211,9 @@ class TestPCF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_quarternary}...")
         readdump = DumpReader(self.test_file_quarternary, ndim=3)
         readdump.read_onefile()
-        gr(readdump.snapshots).getresults(ppp=[1,1,1], outputfile='gr_quarternary.dat')
+        gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_quarternary.dat').getresults()
 
-        with open(r'gr_quarternary.dat') as f:
-            content = f.readlines()
-        result = np.array([list(map(np.float64, line.strip().split())) for line in content[1:]])
+        result = np.loadtxt('gr_quarternary.dat', skiprows=1)
         np.testing.assert_almost_equal([0.      , 0.      , 0.      , 0.      , 0.      , 0.      ,
                         0.      , 0.      , 0.      , 0.      , 0.      , 0.      ,
                         0.      , 0.      , 0.      , 0.      , 0.      , 0.      ,

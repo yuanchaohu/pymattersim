@@ -2,7 +2,7 @@
 
 """see documentation @ ../docs/static.md"""
 
-from typing import Optional, Callable
+from typing import Optional, Callable, Tuple
 import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
@@ -25,7 +25,13 @@ class sq:
     This module is used to calculate static structure factors
     covering unary to senary systems.
     """
-    def __init__(self, snapshots: Snapshots, qrange=10, onlypositive=False) -> None:
+    def __init__(
+            self,
+            snapshots: Snapshots,
+            qrange: float=10,
+            onlypositive: bool=False,
+            outputfile: str=None
+            ) -> None:
         """
         Initializing sq class
 
@@ -59,43 +65,42 @@ class sq:
         self.qvector = choosewavevector(self.ndim, Numofq, self.onlypositive).astype(np.float64)
         self.qvector *= self.twopidl[np.newaxis, :]
         self.qvalue = np.linalg.norm(self.qvector, axis=1)
+        self.outputfile = outputfile
 
-    def getresults(self, outputfile: str=None) -> Optional[Callable]:
+    def getresults(self) -> Optional[Callable]:
         """
         Calculating S(q) for system with different particle type numbers
-
-        Inputs:
-            outputfile (str): the file name to save the calculated S(q)
 
         Return: Optional[Callable]
         """
         if len(self.type) == 1:
-            return self.unary(outputfile)
+            return self.unary()
         if len(self.type) == 2: 
-            return self.binary(outputfile)
+            return self.binary()
         if len(self.type) == 3: 
-            return self.ternary(outputfile)
+            return self.ternary()
         if len(self.type) == 4: 
-            return self.quarternary(outputfile)
+            return self.quarternary()
         if len(self.type) == 5: 
-            return self.quinary(outputfile)
+            return self.quinary()
         if len(self.type) == 6: 
-            return self.senary(outputfile)
+            return self.senary()
         if len(self.type) > 6:
             logger.info('This is a system with more than 6 species, only overall Sq is calculated')
-            return self.unary(outputfile)
+            return self.unary()
 
-    def unary(self, outputfile: str=None) -> None:
+    def unary(self) -> Tuple[np.ndarray, str]:
         """
-        Calculating SF for unary system
+        Calculating Sq for unary system
         
         Inputs:
-            outputfile (str): the file name to save the calculated S(q)
+            self.outputfile (str): the file name to save the calculated S(q)
 
         Return:
-            None [output calculated S(q) to a document]
+            calculated sq and header name
+            [output calculated S(q) also saved to a document]
         """
-        logger.info('Start Calculating SF of a Unary System')
+        logger.info('Start Calculating Sq of a Unary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
@@ -113,21 +118,21 @@ class sq:
         sqresults = pd.DataFrame(sqresults).round(6)
         results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header=names, comments='')
-        logger.info('Finish Calculating SF of a Unary System')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header=names, comments='')
+        logger.info('Finish Calculating Sq of a Unary System')
 
-    def binary(self, outputfile=None) -> None:
+        return (results, names)
+
+    def binary(self) -> Tuple[np.ndarray, str]:
         """
-        Calculating SF for binary system
-        
-        Inputs:
-            outputfile (str): the file name to save the calculated S(q)
+        Calculating Sq for binary system
 
         Return:
-            None [output calculated S(q) to a document]
+            calculated sq and header name
+            [output calculated S(q) also saved to a document]
         """
-        logger.info('Start Calculating SF of a Binary System')
+        logger.info('Start Calculating Sq of a Binary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
@@ -158,21 +163,21 @@ class sq:
         sqresults = pd.DataFrame(sqresults).round(6)
         results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)  S11(q)  S22(q)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
-        logger.info('Finish Calculating SF of a Binary System')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header = names, comments = '')
+        logger.info('Finish Calculating Sq of a Binary System')
 
-    def ternary(self, outputfile=None) -> None:
+        return (results, names)
+
+    def ternary(self) -> Tuple[np.ndarray, str]:
         """
-        Calculating SF for ternary system
-        
-        Inputs:
-            outputfile (str): the file name to save the calculated S(q)
+        Calculating Sq for ternary system
 
         Return:
-            None [output calculated S(q) to a document]
+            calculated sq and header name
+            [output calculated S(q) also saved to a document]
         """
-        logger.info('Start Calculating SF of a Ternary System')
+        logger.info('Start Calculating Sq of a Ternary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
@@ -205,21 +210,21 @@ class sq:
         sqresults = pd.DataFrame(sqresults).round(6)
         results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
-        logger.info('Finish Calculating SF of a Ternary System')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header = names, comments = '')
+        logger.info('Finish Calculating Sq of a Ternary System')
 
-    def quarternary(self, outputfile=None) -> None:
+        return (results, names)
+
+    def quarternary(self) -> Tuple[np.ndarray, str]:
         """
-        Calculating SF for quarternary system
-        
-        Inputs:
-            outputfile (str): the file name to save the calculated S(q)
+        Calculating Sq for quarternary system
 
         Return:
-            None [output calculated S(q) to a document]
+            calculated sq and header name
+            [output calculated S(q) also saved to a document]
         """
-        logger.info('Start Calculating SF of a Quarternary System')
+        logger.info('Start Calculating Sq of a Quarternary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
@@ -255,21 +260,21 @@ class sq:
         sqresults = pd.DataFrame(sqresults).round(6)
         results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
-        logger.info('Finish Calculating SF of a Quarternary System')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header = names, comments = '')
+        logger.info('Finish Calculating Sq of a Quarternary System')
 
-    def quinary(self, outputfile=None) -> None:
+        return (results, names)
+
+    def quinary(self) -> Tuple[np.ndarray, str]:
         """
-        Calculating SF for quinary system
-        
-        Inputs:
-            outputfile (str): the file name to save the calculated S(q)
+        Calculating Sq for senary system
 
         Return:
-            None [output calculated S(q) to a document]
+            calculated sq and header name
+            [output calculated S(q) also saved to a document]
         """
-        logger.info('Start Calculating SF of a Quinary System')
+        logger.info('Start Calculating Sq of a Quinary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
@@ -309,21 +314,21 @@ class sq:
         sqresults = pd.DataFrame(sqresults).round(6)
         results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)  S55(q)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
-        logger.info('Finish Calculating SF of a Quinary System')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header = names, comments = '')
+        logger.info('Finish Calculating Sq of a Quinary System')
 
-    def senary(self, outputfile=None) -> None:
+        return (results, names)
+
+    def senary(self) -> Tuple[np.ndarray, str]:
         """
-        Calculating SF for senary system
-        
-        Inputs:
-            outputfile (str): the file name to save the calculated S(q)
+        Calculating Sq for senary system
 
         Return:
-            None [output calculated S(q) to a document]
+            calculated sq and header name
+            [output calculated S(q) also saved to a document]
         """
-        logger.info('Start Calculating SF of a Senary System')
+        logger.info('Start Calculating Sq of a Senary System')
         logger.info('Only calculate the overall S(q) at this stage')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
@@ -368,7 +373,9 @@ class sq:
         sqresults = pd.DataFrame(sqresults).round(6)
         results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)  S55(q)  S66(q)'
-        if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
-        logger.info('Finish Calculating SF of a Senary System')
+        if self.outputfile:
+            np.savetxt(self.outputfile, results, fmt='%.6f', header = names, comments = '')
+        logger.info('Finish Calculating Sq of a Senary System')
         logger.info('Only the overall g(r) is calculated')
+
+        return (results, names)

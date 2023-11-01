@@ -4,7 +4,7 @@ import os
 import unittest
 import numpy as np
 from reader.dump_reader import DumpReader
-from static.sf import sq
+from static.sq import sq
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -31,7 +31,7 @@ class TestSF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_unary}...")
         readdump = DumpReader(self.test_file_unary, ndim=3)
         readdump.read_onefile()
-        sq(readdump.snapshots).getresults(outputfile='sq_unary.dat')
+        sq(readdump.snapshots, qrange=10, outputfile='sq_unary.dat').getresults()
 
         result = np.loadtxt('sq_unary.dat', skiprows=1)
         np.testing.assert_almost_equal([0.036721, 0.098449, 0.0966  , 0.087589, 0.102995, 0.167968,
@@ -61,7 +61,7 @@ class TestSF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_binary}...")
         readdump = DumpReader(self.test_file_binary, ndim=2)
         readdump.read_onefile()
-        sq(readdump.snapshots).getresults(outputfile='sq_binary.dat')
+        sq(readdump.snapshots, qrange=10, outputfile='sq_binary.dat').getresults()
 
         result = np.loadtxt('sq_binary.dat', skiprows=1)
         np.testing.assert_almost_equal([0.038646, 0.008722, 0.01594 , 0.032078, 0.02863 , 0.024956,
@@ -99,7 +99,7 @@ class TestSF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_ternary}...")
         readdump = DumpReader(self.test_file_ternary, ndim=3)
         readdump.read_onefile()
-        sq(readdump.snapshots).getresults(outputfile='sq_ternary.dat')
+        sq(readdump.snapshots, qrange=10, outputfile='sq_ternary.dat').getresults()
 
         result = np.loadtxt('sq_ternary.dat', skiprows=1)
         np.testing.assert_almost_equal([0.093943, 0.043634, 0.06753 , 0.131979, 1.701307, 1.393587,
@@ -141,7 +141,7 @@ class TestSF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_quarternary}...")
         readdump = DumpReader(self.test_file_quarternary, ndim=3)
         readdump.read_onefile()
-        sq(readdump.snapshots).getresults(outputfile='sq_quarternary.dat')
+        sq(readdump.snapshots, qrange=10, outputfile='sq_quarternary.dat').getresults()
 
         result = np.loadtxt('sq_quarternary.dat', skiprows=1)
         np.testing.assert_almost_equal([0.066408, 0.203192, 1.116248, 0.708799, 0.93104 , 1.011818,
