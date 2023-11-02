@@ -14,13 +14,13 @@ logger = get_logger_handle(__name__)
 
 def wavevector3d(numofq: int=500) -> list:
     """
-    Define Wave Vector for Structure Factors at three dimension
+    Define wave vector for three dimensional systems
     
     Inputs:
         numofq (int): number of q
 
     Return:
-        wavevector (list): Wave Vector for Structure Factors at three dimension
+        wavevector (list)
     """
 
     wavenumber = np.square(np.arange(numofq))
@@ -29,7 +29,7 @@ def wavevector3d(numofq: int=500) -> list:
         for b in range(numofq):
             for c in range(numofq):
                 d = a**2 + b**2 + c**2
-                if d in wavenumber: 
+                if d in wavenumber:
                     wavevector.append(np.array([d, a, b, c]))
     wavevector = np.ravel(np.array(wavevector))[4:].reshape((-1, 4))
     wavevector = wavevector[wavevector[:, 0].argsort()]
@@ -37,13 +37,13 @@ def wavevector3d(numofq: int=500) -> list:
 
 def wavevector2d(numofq: int=500) -> list:
     """
-    Define Wave Vector for Structure Factors at two dimension
+    Define Wave Vector for two dimensional system
     
     Inputs:
         numofq (int): number of q
 
     Return:
-        wavevector (list): Wave Vector for Structure Factors at two dimension
+        wavevector (list)
     """
 
     wavenumber = np.square(np.arange(numofq))
@@ -57,7 +57,7 @@ def wavevector2d(numofq: int=500) -> list:
     wavevector = wavevector[wavevector[:, 0].argsort()]
     return wavevector
 
-def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.array:
+def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.ndarray:
     """
     define wave vector for [nx, ny, nz] as long as they are integers
     considering qvector values from [-N/2, N/2] or from [0, N/2] (onlypositive=True)
@@ -68,7 +68,8 @@ def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.arr
         2. numofq (int): number of q
         3. onlypositive (bool): whether only consider positive wave vectors
 
-    Return: qvectors (np.array)
+    Return: 
+        qvectors (np.array)
     """
 
     qvectors = np.zeros((numofq**ndim, ndim), dtype=np.int32)
@@ -83,9 +84,11 @@ def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.arr
                     index += 1
         #choose wavevector along a specific dimension 'x', 'y', or 'z'
         if onlypositive=='x':
+            #[x, 0]
             condition = (qvectors[:, 0]>0) * (qvectors[:, 1]==0)
             qvectors = qvectors[condition]
         elif onlypositive=='y':
+            #[0, y]
             condition = (qvectors[:, 0]==0) * (qvectors[:, 1]>0)
             qvectors = qvectors[condition]
 
@@ -99,12 +102,15 @@ def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.arr
                         index += 1
         #choose wavevector along a specific dimension 'x', 'y', or 'z'
         if onlypositive=='x':
+            #[x, 0, 0]
             condition = (qvectors[:, 0]>0) * (qvectors[:, 1]==0) * (qvectors[:, 2]==0)
             qvectors = qvectors[condition]
         elif onlypositive=='y':
+            #[0, y, 0]
             condition = (qvectors[:, 0]==0) * (qvectors[:, 1]>0) * (qvectors[:, 2]==0)
             qvectors = qvectors[condition]
         elif onlypositive=='z':
+            #[0, 0, z]
             condition = (qvectors[:, 0]==0) * (qvectors[:, 1]==0) * (qvectors[:, 2]>0)
             qvectors = qvectors[condition]
 
@@ -118,10 +124,18 @@ def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.arr
 
     return qvectors
 
-def continuousvector(ndim, numofq=100, onlypositive=False):
+def continuousvector(ndim, numofq=100, onlypositive=False) -> np.ndarray:
     """
     define wave vector for [nx, ny, nz] as long as they are integers
     considering qvector values from [-N/2, N/2]
+
+    Inputs:
+        1. ndim (int): dimensionality
+        2. numofq (int): number of q
+        3. onlypositive (bool): whether only consider positive wave vectors
+
+    Return: 
+        qvectors (np.array)
     """
 
     qvectors = np.zeros((numofq**ndim, ndim), dtype=np.int32)
