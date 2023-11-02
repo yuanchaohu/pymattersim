@@ -2,8 +2,10 @@
 
 """see documentation @ ../docs/static.md"""
 
-from typing import Optional, Callable, Tuple
 import numpy as np
+import pandas as pd
+
+from typing import Optional, Callable, Tuple
 from reader.reader_utils import Snapshots
 from utils.pbc import remove_pbc
 from utils.logging_utils import get_logger_handle
@@ -33,7 +35,7 @@ class gr:
             outputfile: str=None
             ) -> None:
         """
-        Initializing gr class
+        Initializing g(r) class
 
         Inputs:
             1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
@@ -48,26 +50,29 @@ class gr:
             None
         """
         self.snapshots = snapshots
-        self.ppp = ppp
         self.rdelta = rdelta
         self.outputfile = outputfile
+
         self.nsnapshots = self.snapshots.nsnapshots
         self.ndim = self.snapshots.snapshots[0].positions.shape[1]
+        self.ppp = ppp[self.ndim]
         self.nparticle = self.snapshots.snapshots[0].nparticle
         assert self.snapshots.snapshots[0].nparticle == self.snapshots.snapshots[-1].nparticle,\
             "Paticle Number Changes during simulation"
         assert (self.snapshots.snapshots[0].boxlength == self.snapshots.snapshots[-1].boxlength).all(),\
             "Simulation Box Length Changes during simulation"
+
         self.boxvolume = np.prod(self.snapshots.snapshots[0].boxlength)
         self.typecounts = np.unique(self.snapshots.snapshots[0].particle_type, return_counts=True)
         self.type = self.typecounts[0]
         self.typenumber = self.typecounts[1]
         assert np.sum(self.typenumber) == self.nparticle,\
             "Sum of Indivdual Types is Not the Total Amount"
+
         self.nidealfac = 4.0 / 3 if self.ndim == 3 else 1.0
         self.rhototal = self.nparticle / self.boxvolume
         self.rhotype = self.typenumber / self.boxvolume
-        self.maxbin = int(self.snapshots.snapshots[0].boxlength.min() / 2.0 / self.rdelta)
+        self.maxbin = int(self.snapshots.snapshots[0].boxlength.min()/2.0/self.rdelta)
 
     def getresults(self) -> Optional[Callable]:
         """
@@ -92,15 +97,14 @@ class gr:
             logger.info('This is a system with more than 6 species, only overall gr is calculated')
             return self.unary()
 
-    def unary(self) -> Tuple[np.ndarray, str]:
+    def unary(self) -> np.ndarray:
         """
         Calculating PCF for unary system
 
         Return:
-            calculated gr and header name
-            [output calculated g(r) also saved to a document]
+            calculated gr (np.ndarray)
         """
-        logger.info('Start Calculating PCF of a Unary System')
+        logger.info('Start Calculating g(r) of a Unary System')
 
         grresults = np.zeros(self.maxbin)
         for snapshot in self.snapshots.snapshots:
@@ -108,23 +112,21 @@ class gr:
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
                 RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
                 distance = np.linalg.norm(RIJ, axis=1)
-                countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0,self.maxbin * self.rdelta))
+                countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0,self.maxbin*self.rdelta))
                 grresults += countvalue
         binleft = binedge[:-1]
         binright = binedge[1:]
         nideal = self.nidealfac * np.pi * (binright**self.ndim - binleft**self.ndim)
         grresults = grresults * 2 / self.nparticle / self.nsnapshots / (nideal * self.rhototal)
 
-        # middle of each bin
         binright = binright - 0.5 * self.rdelta
-        results  = np.column_stack((binright, grresults))
         names = 'r  g(r)'
+        results = pd.DataFrame(np.column_stack((binright, grresults)), columns=names.split())
         if self.outputfile:
-            np.savetxt(self.outputfile, results, fmt='%.6f', header=names, comments='')
+            results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating PCF of a Unary System')
-
-        return (results, names)
+        return results
 
     def binary(self) -> Tuple[np.ndarray, str]:
         """
