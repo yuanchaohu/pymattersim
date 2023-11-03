@@ -102,6 +102,7 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Unary System')
+        logger.info(f'System Composition: {self.typenumber[0]}')
 
         sqresults = np.zeros((self.qvector.shape[0], 2))
         sqresults[:, 0] = self.qvalue
@@ -131,8 +132,7 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Binary System')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}')
 
         sqresults = np.zeros((self.qvector.shape[0], 4))
         sqresults[:, 0] = self.qvalue
@@ -175,8 +175,7 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Ternary System')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}')
 
         sqresults = np.zeros((self.qvector.shape[0], 5))
         sqresults[:, 0] = self.qvalue
@@ -221,8 +220,7 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Quarternary System')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:{self.typenumber[3]}')
 
         sqresults = np.zeros((self.qvector.shape[0], 6))
         sqresults[:, 0] = self.qvalue
@@ -270,8 +268,8 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Quinary System')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:'
+                    f'{self.typenumber[3]}:{self.typenumber[4]}')
 
         sqresults = np.zeros((self.qvector.shape[0], 7))
         sqresults[:, 0] = self.qvalue
@@ -324,8 +322,8 @@ class sq:
         """
         logger.info('Start Calculating S(q) of a Senary System')
         logger.info('Only calculate the overall S(q) at this stage')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:'
+                    f'{self.typenumber[3]}:{self.typenumber[4]}:{self.typenumber[5]}')
 
         sqresults = np.zeros((self.qvector.shape[0], 8))
         sqresults[:, 0] = self.qvalue

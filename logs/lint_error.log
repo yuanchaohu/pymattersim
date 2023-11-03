@@ -7,7 +7,9 @@ reader\simulation_log.py:1:0: R0801: Similar lines in 2 files
             boxbounds=boxbounds,
             realbounds=None,
             hmatrix=hmatrix,
-        ) (duplicate-code)
+        )
+
+    # -------Read Triclinic Boxes--------- (duplicate-code)
 
 ------------------------------------------------------------------
 Your code has been rated at 9.97/10 (previous run: 9.97/10, +0.00)
@@ -46,5 +48,5 @@ static\sq.py:1:0: R0801: Similar lines in 2 files
         if len(self.type) > 6: (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.95/10 (previous run: 9.93/10, +0.02)
+Your code has been rated at 9.94/10 (previous run: 9.95/10, -0.00)
 

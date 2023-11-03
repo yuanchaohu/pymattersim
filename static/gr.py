@@ -104,6 +104,7 @@ class gr:
             calculated g(r) (pd.DataFrame)
         """
         logger.info('Start Calculating g(r) of a Unary System')
+        logger.info(f'System Composition: {self.typenumber[0]}')
 
         grresults = np.zeros(self.maxbin)
         for snapshot in self.snapshots.snapshots:
@@ -136,8 +137,7 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a Binary System')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}')
 
         grresults = np.zeros((self.maxbin, 4))
         for snapshot in self.snapshots.snapshots:
@@ -190,8 +190,7 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a Ternary System')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}')
 
         grresults   = np.zeros((self.maxbin, 7))
         for snapshot in self.snapshots.snapshots:
@@ -249,8 +248,7 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a quarternary System')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:{self.typenumber[3]}')
 
         grresults = np.zeros((self.maxbin, 11))
         for snapshot in self.snapshots.snapshots:
@@ -321,8 +319,8 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a Quinary System')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:'
+                    f'{self.typenumber[3]}:{self.typenumber[4]}')
 
         grresults = np.zeros((self.maxbin, 16))
         for snapshot in self.snapshots.snapshots:
@@ -409,8 +407,8 @@ class gr:
 
         logger.info('Start Calculating g(r) of a Senary System')
         logger.info('Only calculate the overall g(r) at this stage')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:'
+                    f'{self.typenumber[3]}:{self.typenumber[4]}:{self.typenumber[5]}')
 
         grresults = np.zeros(self.maxbin)
         for snapshot in self.snapshots.snapshots:
