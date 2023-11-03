@@ -49,12 +49,12 @@ class gr:
             None
         """
         self.snapshots = snapshots
+        self.ppp = ppp
         self.rdelta = rdelta
         self.outputfile = outputfile
 
         self.nsnapshots = self.snapshots.nsnapshots
         self.ndim = self.snapshots.snapshots[0].positions.shape[1]
-        self.ppp = ppp[:self.ndim]
         self.nparticle = self.snapshots.snapshots[0].nparticle
         assert self.snapshots.snapshots[0].nparticle == self.snapshots.snapshots[-1].nparticle,\
             "Paticle Number Changes during simulation"
@@ -90,9 +90,7 @@ class gr:
             return self.quarternary()
         if len(self.type) == 5:
             return self.quinary()
-        if len(self.type) == 6:
-            return self.senary()
-        if len(self.type) > 6:
+        if len(self.type) >= 6:
             logger.info('This is a system with more than 6 species, only overall gr is calculated')
             return self.unary()
 
@@ -104,7 +102,6 @@ class gr:
             calculated g(r) (pd.DataFrame)
         """
         logger.info('Start Calculating g(r) of a Unary System')
-        logger.info(f'System Composition: {self.typenumber[0]}')
 
         grresults = np.zeros(self.maxbin)
         for snapshot in self.snapshots.snapshots:
@@ -137,7 +134,7 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a Binary System')
-        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
 
         grresults = np.zeros((self.maxbin, 4))
         for snapshot in self.snapshots.snapshots:
@@ -190,7 +187,7 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a Ternary System')
-        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
 
         grresults   = np.zeros((self.maxbin, 7))
         for snapshot in self.snapshots.snapshots:
@@ -248,7 +245,7 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a quarternary System')
-        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:{self.typenumber[3]}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
 
         grresults = np.zeros((self.maxbin, 11))
         for snapshot in self.snapshots.snapshots:
@@ -319,8 +316,7 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a Quinary System')
-        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:'
-                    f'{self.typenumber[3]}:{self.typenumber[4]}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
 
         grresults = np.zeros((self.maxbin, 16))
         for snapshot in self.snapshots.snapshots:
@@ -394,42 +390,5 @@ class gr:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
         
         logger.info('Finish Calculating g(r) of a Quinary System')
-
-        return results
-
-    def senary(self) -> pd.DataFrame:
-        """
-        Calculating pair correlation function g(r) for senary system
-
-        Return:
-            calculated g(r) (pd.DataFrame)
-        """
-
-        logger.info('Start Calculating g(r) of a Senary System')
-        logger.info('Only calculate the overall g(r) at this stage')
-        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:'
-                    f'{self.typenumber[3]}:{self.typenumber[4]}:{self.typenumber[5]}')
-
-        grresults = np.zeros(self.maxbin)
-        for snapshot in self.snapshots.snapshots:
-            for i in range(self.nparticle-1):
-                RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
-                RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
-                distance = np.linalg.norm(RIJ, axis=1)
-                countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults += countvalue
-        binleft = binedge[:-1]
-        binright = binedge[1:]
-        nideal = self.nidealfac * np.pi * (binright**self.ndim-binleft**self.ndim)
-        grresults = grresults * 2 / self.nparticle / self.nsnapshots / (nideal*self.rhototal)
-        
-        binright = binright - 0.5 * self.rdelta
-        names = 'r  g(r)'
-        results = pd.DataFrame(np.column_stack((binright, grresults)), columns=names.split())
-        if self.outputfile:
-            results.to_csv(self.outputfile, float_format="%.6f", index=False)
-        
-        logger.info('Finish Calculating g(r) of a Senary System')
-        logger.info('Only the overall g(r) is calculated')
 
         return results
