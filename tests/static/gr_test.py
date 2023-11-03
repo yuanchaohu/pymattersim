@@ -3,6 +3,7 @@
 import os
 import unittest
 import numpy as np
+import pandas as pd
 from reader.dump_reader import DumpReader
 from static.gr import gr
 from utils.logging_utils import get_logger_handle
@@ -31,9 +32,9 @@ class TestPCF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_unary}...")
         readdump = DumpReader(self.test_file_unary, ndim=3)
         readdump.read_onefile()
-        gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_unary.dat').getresults()
+        gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_unary.csv').getresults()
 
-        result = np.loadtxt('gr_unary.dat', skiprows=1)
+        result = pd.read_csv('gr_unary.csv')
         np.testing.assert_almost_equal([0.98846 , 1.03977 , 0.971141, 0.975807, 0.980452, 1.117302,
                             1.016072, 1.093032, 0.854259, 1.016484, 1.138785, 0.894824,
                             1.147242, 0.936766, 0.993315, 1.082031, 1.06693 , 1.109968,
@@ -51,8 +52,8 @@ class TestPCF(unittest.TestCase):
                             1.014435, 1.097382, 0.829965, 0.997475, 0.989986, 1.027438,
                             0.969482, 1.051577, 1.099867, 0.958503, 1.067968, 0.971601,
                             0.997507, 1.128412, 1.026941, 0.925844],
-                          result[-100:, 1])
-        os.remove("gr_unary.dat")
+                          result.iloc[-100:, 1])
+        os.remove("gr_unary.csv")
 
     def test_PCF_binary(self) -> None:
         """
@@ -61,9 +62,9 @@ class TestPCF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_binary}...")
         readdump = DumpReader(self.test_file_binary, ndim=2)
         readdump.read_onefile()
-        gr(readdump.snapshots, ppp=[1,1], rdelta=0.01, outputfile='gr_binary.dat').getresults()
+        gr(readdump.snapshots, ppp=[1,1], rdelta=0.01, outputfile='gr_binary.csv').getresults()
 
-        result = np.loadtxt('gr_binary.dat', skiprows=1)
+        result = pd.read_csv('gr_binary.csv')
         np.testing.assert_almost_equal([1.001236, 0.993005, 1.000139, 0.997416, 0.995915, 1.002123,
                             0.997806, 0.996772, 1.000836, 0.995445, 1.002179, 0.994418,
                             1.001498, 0.994907, 1.01135 , 0.998206, 1.003196, 0.99749 ,
@@ -81,7 +82,7 @@ class TestPCF(unittest.TestCase):
                             0.998859, 1.002732, 0.998548, 0.996126, 0.994446, 0.991427,
                             0.9991  , 0.999371, 1.001568, 0.999047, 1.000798, 1.004331,
                             1.000537, 1.001522, 1.002302, 1.003935],
-                          result[-100:, 1])
+                          result.iloc[-100:, 1])
         np.testing.assert_almost_equal([1.011121, 0.989807, 1.006009, 1.005307, 0.996787, 0.998568,
                             1.005743, 1.002534, 1.000231, 0.997579, 1.000232, 0.987413,
                             0.999067, 0.988554, 1.016451, 0.998574, 0.998633, 0.996073,
@@ -99,7 +100,7 @@ class TestPCF(unittest.TestCase):
                             0.999076, 1.001889, 0.994859, 0.994774, 0.997816, 0.987205,
                             0.99733 , 1.003122, 1.006934, 0.99653 , 1.001431, 1.003379,
                             0.999054, 1.006957, 1.004838, 1.00893],
-                          result[-100:, 2])
+                          result.iloc[-100:, 2])
         np.testing.assert_almost_equal([0.994273, 0.993837, 0.997843, 0.989573, 0.991563, 1.009474,
                             0.991247, 0.989643, 1.000361, 0.998552, 1.003952, 1.004185,
                             1.003426, 1.001851, 1.006517, 0.998557, 1.008585, 1.004475,
@@ -117,8 +118,8 @@ class TestPCF(unittest.TestCase):
                             1.000375, 0.999542, 1.005664, 0.994659, 0.993827, 0.996127,
                             0.996904, 0.99768 , 1.000207, 1.000036, 0.997626, 1.006922,
                             1.002017, 0.993357, 0.999379, 0.998148],
-                          result[-100:, 3])
-        os.remove("gr_binary.dat")
+                          result.iloc[-100:, 3])
+        os.remove("gr_binary.csv")
 
     def test_PCF_ternary(self) -> None:
         """
@@ -127,9 +128,9 @@ class TestPCF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_ternary}...")
         readdump = DumpReader(self.test_file_ternary, ndim=3)
         readdump.read_onefile()
-        gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_ternary.dat').getresults()
+        gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_ternary.csv').getresults()
 
-        result = np.loadtxt('gr_ternary.dat', skiprows=1)
+        result = pd.read_csv('gr_ternary.csv')
         np.testing.assert_almost_equal([1.0168  , 1.009425, 1.005704, 1.007394, 0.999105, 0.996447,
                             0.999955, 1.008682, 0.992835, 0.988212, 0.996981, 1.002667,
                             0.99821 , 0.997044, 1.009004, 0.998432, 1.005349, 1.00778 ,
@@ -147,7 +148,7 @@ class TestPCF(unittest.TestCase):
                             1.013786, 0.989253, 0.991499, 1.006145, 0.990091, 1.01514 ,
                             0.997247, 0.999683, 1.003196, 0.997237, 0.999615, 1.000499,
                             1.002819, 1.010829, 0.995967, 0.994699],
-                          result[-100:, 1])
+                          result.iloc[-100:, 1])
         np.testing.assert_almost_equal([1.017506, 1.004011, 1.013535, 1.002278, 1.002175, 0.992544,
                             1.005931, 1.01199 , 0.992943, 0.986084, 0.996091, 0.99622 ,
                             0.9965  , 0.999506, 0.999403, 1.004292, 1.009551, 1.008685,
@@ -165,7 +166,7 @@ class TestPCF(unittest.TestCase):
                             1.014981, 0.98863 , 0.99167 , 1.00608 , 0.988158, 1.013048,
                             0.999786, 1.003732, 1.004537, 0.998574, 0.997815, 1.008007,
                             0.997721, 1.011872, 0.99117 , 0.988078],
-                          result[-100:, 2])
+                          result.iloc[-100:, 2])
         np.testing.assert_almost_equal([0.995237, 0.861859, 0.905343, 1.1694  , 0.925965, 1.299737,
                             0.968533, 1.011761, 1.076899, 0.85645 , 1.009379, 0.789329,
                             1.073521, 0.831873, 1.006215, 0.917998, 0.917279, 0.741978,
@@ -183,7 +184,7 @@ class TestPCF(unittest.TestCase):
                             0.994619, 0.745395, 0.848275, 1.054367, 1.074222, 0.990834,
                             1.155093, 0.989326, 1.173931, 1.008401, 1.254403, 0.780837,
                             1.252497, 0.86172 , 0.758558, 1.126731],
-                          result[-100:, 3])
+                          result.iloc[-100:, 3])
         np.testing.assert_almost_equal([1.056057, 0.939205, 1.065434, 1.053563, 1.008641, 1.101472,
                             1.029066, 1.011761, 0.857123, 0.894881, 0.877721, 1.030512,
                             0.991364, 0.952276, 1.006215, 0.90707 , 1.048319, 0.905649,
@@ -201,8 +202,8 @@ class TestPCF(unittest.TestCase):
                             0.942816, 0.905862, 0.915516, 0.899313, 0.970931, 1.155973,
                             1.05196 , 0.886271, 0.947383, 1.137024, 1.012776, 0.97091 ,
                             0.995838, 0.928401, 0.927696, 1.05503],
-                          result[-100:, 4])
-        os.remove("gr_ternary.dat")
+                          result.iloc[-100:, 4])
+        os.remove("gr_ternary.csv")
 
     def test_PCF_quarternary(self) -> None:
         """
@@ -211,9 +212,9 @@ class TestPCF(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_quarternary}...")
         readdump = DumpReader(self.test_file_quarternary, ndim=3)
         readdump.read_onefile()
-        gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_quarternary.dat').getresults()
+        gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_quarternary.csv').getresults()
 
-        result = np.loadtxt('gr_quarternary.dat', skiprows=1)
+        result = pd.read_csv('gr_quarternary.csv')
         np.testing.assert_almost_equal([0.      , 0.      , 0.      , 0.      , 0.      , 0.      ,
                         0.      , 0.      , 0.      , 0.      , 0.      , 0.      ,
                         0.      , 0.      , 0.      , 0.      , 0.      , 0.      ,
@@ -233,7 +234,7 @@ class TestPCF(unittest.TestCase):
                         0.991415, 0.986448, 1.004047, 0.999291, 1.007004, 0.983952,
                         0.989387, 0.973993, 1.029458, 0.981352, 1.02549 , 1.005847,
                         1.012659],
-                        result[:, 1][::10])
+                        result.iloc[:, 1][::10])
         np.testing.assert_almost_equal([0.      , 0.      , 0.      , 0.      , 0.      , 0.      ,
                         0.      , 0.      , 0.      , 0.      , 0.      , 0.      ,
                         0.      , 0.      , 0.      , 0.      , 0.      , 0.      ,
@@ -253,5 +254,5 @@ class TestPCF(unittest.TestCase):
                         0.995378, 0.983662, 0.993888, 0.998193, 1.008075, 0.982392,
                         0.981812, 0.977565, 1.031725, 0.97239 , 1.010381, 1.008476,
                         1.014755],
-                        result[:, 2][::10])
-        os.remove("gr_quarternary.dat")
+                        result.iloc[:, 2][::10])
+        os.remove("gr_quarternary.csv")

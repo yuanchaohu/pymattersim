@@ -103,15 +103,15 @@ def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.nda
         #choose wavevector along a specific dimension 'x', 'y', or 'z'
         if onlypositive=='x':
             #[x, 0, 0]
-            condition = (qvectors[:, 0]>0) * (qvectors[:, 1]==0) * (qvectors[:, 2]==0)
+            condition = (qvectors[:, 0]>0)*(qvectors[:, 1]==0)*(qvectors[:, 2]==0)
             qvectors = qvectors[condition]
         elif onlypositive=='y':
             #[0, y, 0]
-            condition = (qvectors[:, 0]==0) * (qvectors[:, 1]>0) * (qvectors[:, 2]==0)
+            condition = (qvectors[:, 0]==0)*(qvectors[:, 1]>0)*(qvectors[:, 2]==0)
             qvectors = qvectors[condition]
         elif onlypositive=='z':
             #[0, 0, z]
-            condition = (qvectors[:, 0]==0) * (qvectors[:, 1]==0) * (qvectors[:, 2]>0)
+            condition = (qvectors[:, 0]==0)*(qvectors[:, 1]==0)*(qvectors[:, 2]>0)
             qvectors = qvectors[condition]
 
     condition = (qvectors==0).all(axis=1)

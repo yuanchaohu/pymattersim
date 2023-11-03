@@ -25,12 +25,12 @@ Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 ************* Module static.gr
-static\gr.py:72:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+static\gr.py:76:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 ************* Module static.sq
-static\sq.py:70:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+static\sq.py:74:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 static\sq.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[78:91]
-==static.sq:[75:88]
+==static.gr:[82:95]
+==static.sq:[80:93]
         if len(self.type) == 1:
             return self.unary()
         if len(self.type) == 2:
@@ -46,5 +46,5 @@ static\sq.py:1:0: R0801: Similar lines in 2 files
         if len(self.type) > 6: (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.95/10 (previous run: 9.95/10, +0.00)
+Your code has been rated at 9.95/10 (previous run: 9.93/10, +0.02)
 

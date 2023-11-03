@@ -2,7 +2,7 @@
 
 """see documentation @ ../docs/static.md"""
 
-from typing import Optional, Callable, Tuple
+from typing import Optional, Callable
 import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
@@ -16,6 +16,7 @@ logger = get_logger_handle(__name__)
 # pylint: disable=dangerous-default-value
 # pylint: disable=too-many-locals
 # pylint: disable=too-many-return-statements
+# pylint: disable=line-too-long
 # pylint: disable=too-many-statements
 # pylint: disable=trailing-whitespace
 
@@ -28,21 +29,28 @@ class sq:
     def __init__(
             self,
             snapshots: Snapshots,
-            qrange: float=10,
+            qrange: float=10.0,
             onlypositive: bool=False,
             outputfile: str=None
             ) -> None:
         """
-        Initializing sq class
+        Initializing S(q) class
 
         Inputs:
-            snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
-                      (returned by reader.dump_reader.DumpReader)
+            1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
+                         (returned by reader.dump_reader.DumpReader)
+            2. qrange (float): the wave number range to be calculated, default is 10
+            3. onlypositive (bool): whether only consider positive wave vectors
+            4. outputfile (str): the name of csv file to save the calculated S(q)
 
         Return:
             None
         """
         self.snapshots = snapshots
+        self.qrange = qrange * 2.0
+        self.onlypositive = onlypositive
+        self.outputfile = outputfile
+
         self.nsnapshots = snapshots.nsnapshots
         self.ndim = snapshots.snapshots[0].positions.shape[1]
         self.nparticle = snapshots.snapshots[0].nparticle
@@ -51,27 +59,24 @@ class sq:
         self.boxlength = snapshots.snapshots[0].boxlength
         assert (snapshots.snapshots[0].boxlength == snapshots.snapshots[-1].boxlength).all(),\
             "Paticle Number Changes during simulation"
-        self.typecounts = np.unique(snapshots.snapshots[0].particle_type, return_counts = True)
+        self.typecounts = np.unique(snapshots.snapshots[0].particle_type, return_counts=True)
         self.type = self.typecounts[0]
         self.typenumber = self.typecounts[1]
         assert np.sum(self.typenumber) == self.nparticle,\
             "Sum of Indivdual types is Not the Total Amount"
         
         self.twopidl = 2 * np.pi / self.boxlength #[2PI/Lx, 2PI/Ly]
-        #set up wave vectors
-        self.qrange = qrange*2.0
-        self.onlypositive = onlypositive #only consider positive wave vectors
-        Numofq = int(self.qrange*2.0 / self.twopidl.min())
+        Numofq = int(self.qrange*2.0/self.twopidl.min())
         self.qvector = choosewavevector(self.ndim, Numofq, self.onlypositive).astype(np.float64)
         self.qvector *= self.twopidl[np.newaxis, :]
         self.qvalue = np.linalg.norm(self.qvector, axis=1)
-        self.outputfile = outputfile
-
+        
     def getresults(self) -> Optional[Callable]:
         """
         Calculating S(q) for system with different particle type numbers
 
-        Return: Optional[Callable]
+        Return:
+            Optional[Callable]
         """
         if len(self.type) == 1:
             return self.unary()
@@ -86,53 +91,46 @@ class sq:
         if len(self.type) == 6: 
             return self.senary()
         if len(self.type) > 6:
-            logger.info('This is a system with more than 6 species, only overall Sq is calculated')
+            logger.info('This is a system with more than 6 species, only overall S(q) is calculated')
             return self.unary()
 
-    def unary(self) -> Tuple[np.ndarray, str]:
+    def unary(self) -> pd.DataFrame:
         """
-        Calculating Sq for unary system
-        
-        Inputs:
-            self.outputfile (str): the file name to save the calculated S(q)
+        Calculating S(q) for unary system
 
         Return:
-            calculated sq and header name
-            [output calculated S(q) also saved to a document]
+            calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating Sq of a Unary System')
-        logger.info(f'Particle Type: {self.type}')
-        logger.info(f'Particle typenumber: {self.typenumber}')
+        logger.info('Start Calculating S(q) of a Unary System')
 
         sqresults = np.zeros((self.qvector.shape[0], 2))
         sqresults[:, 0] = self.qvalue
         for snapshot in self.snapshots.snapshots:
             sqtotal = np.zeros_like(sqresults) #[sin cos]
             for i in range(self.nparticle):
-                thetas = (snapshot.positions[i] * self.qvector).sum(axis=1)
+                thetas = (snapshot.positions[i]*self.qvector).sum(axis=1)
                 sqtotal[:, 0] += np.sin(thetas)
                 sqtotal[:, 1] += np.cos(thetas)    
             sqresults[:, 1] += np.square(sqtotal).sum(axis=1)
-        sqresults[:, 1]  = sqresults[:, 1] / self.nsnapshots / self.nparticle
-        
+        sqresults[:, 1] = sqresults[:, 1] / self.nsnapshots / self.nparticle
+
         sqresults = pd.DataFrame(sqresults).round(6)
-        results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)'
+        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
         if self.outputfile:
-            np.savetxt(self.outputfile, results, fmt='%.6f', header=names, comments='')
-        logger.info('Finish Calculating Sq of a Unary System')
+            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+        logger.info('Finish Calculating S(q) of a Unary System')
 
-        return (results, names)
+        return results
 
-    def binary(self) -> Tuple[np.ndarray, str]:
+    def binary(self) -> pd.DataFrame:
         """
-        Calculating Sq for binary system
+        Calculating S(q) for binary system
 
         Return:
-            calculated sq and header name
-            [output calculated S(q) also saved to a document]
+            calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating Sq of a Binary System')
+        logger.info('Start Calculating S(q) of a Binary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
@@ -140,10 +138,10 @@ class sq:
         sqresults[:, 0] = self.qvalue
         for snapshot in self.snapshots.snapshots:
             sqtotal = np.zeros((self.qvector.shape[0], 2))
-            sq11    = np.zeros_like(sqtotal)
-            sq22    = np.zeros_like(sqtotal)
+            sq11 = np.zeros_like(sqtotal)
+            sq22 = np.zeros_like(sqtotal)
             for i in range(self.nparticle):
-                thetas = (snapshot.positions[i] * self.qvector).sum(axis=1)
+                thetas = (snapshot.positions[i]*self.qvector).sum(axis=1)
                 sin_parts = np.sin(thetas)
                 cos_parts = np.cos(thetas)
                 sqtotal[:, 0] += sin_parts
@@ -161,23 +159,22 @@ class sq:
         sqresults[:, 1:] /= self.nsnapshots
 
         sqresults = pd.DataFrame(sqresults).round(6)
-        results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)  S11(q)  S22(q)'
+        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
         if self.outputfile:
-            np.savetxt(self.outputfile, results, fmt='%.6f', header = names, comments = '')
-        logger.info('Finish Calculating Sq of a Binary System')
+            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+        logger.info('Finish Calculating S(q) of a Binary System')
 
-        return (results, names)
+        return results
 
-    def ternary(self) -> Tuple[np.ndarray, str]:
+    def ternary(self) -> pd.DataFrame:
         """
-        Calculating Sq for ternary system
+        Calculating S(q) for ternary system
 
         Return:
-            calculated sq and header name
-            [output calculated S(q) also saved to a document]
+            calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating Sq of a Ternary System')
+        logger.info('Start Calculating S(q) of a Ternary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
@@ -208,23 +205,22 @@ class sq:
         sqresults[:, 1:] /= self.nsnapshots
 
         sqresults = pd.DataFrame(sqresults).round(6)
-        results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)'
+        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
         if self.outputfile:
-            np.savetxt(self.outputfile, results, fmt='%.6f', header = names, comments = '')
-        logger.info('Finish Calculating Sq of a Ternary System')
+            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+        logger.info('Finish Calculating S(q) of a Ternary System')
 
-        return (results, names)
+        return results
 
-    def quarternary(self) -> Tuple[np.ndarray, str]:
+    def quarternary(self) -> pd.DataFrame:
         """
-        Calculating Sq for quarternary system
+        Calculating S(q) for quarternary system
 
         Return:
-            calculated sq and header name
-            [output calculated S(q) also saved to a document]
+            calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating Sq of a Quarternary System')
+        logger.info('Start Calculating S(q) of a Quarternary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
@@ -258,23 +254,22 @@ class sq:
         sqresults[:, 1:] /= self.nsnapshots
 
         sqresults = pd.DataFrame(sqresults).round(6)
-        results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)'
+        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
         if self.outputfile:
-            np.savetxt(self.outputfile, results, fmt='%.6f', header = names, comments = '')
-        logger.info('Finish Calculating Sq of a Quarternary System')
+            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+        logger.info('Finish Calculating S(q) of a Quarternary System')
 
-        return (results, names)
+        return results
 
-    def quinary(self) -> Tuple[np.ndarray, str]:
+    def quinary(self) -> pd.DataFrame:
         """
-        Calculating Sq for senary system
+        Calculating S(q) for quinary system
 
         Return:
-            calculated sq and header name
-            [output calculated S(q) also saved to a document]
+            calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating Sq of a Quinary System')
+        logger.info('Start Calculating S(q) of a Quinary System')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
 
@@ -312,23 +307,22 @@ class sq:
         sqresults[:, 1:] /= self.nsnapshots
 
         sqresults = pd.DataFrame(sqresults).round(6)
-        results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)  S55(q)'
+        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
         if self.outputfile:
-            np.savetxt(self.outputfile, results, fmt='%.6f', header = names, comments = '')
-        logger.info('Finish Calculating Sq of a Quinary System')
+            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+        logger.info('Finish Calculating S(q) of a Quinary System')
 
-        return (results, names)
+        return results
 
-    def senary(self) -> Tuple[np.ndarray, str]:
+    def senary(self) -> pd.DataFrame:
         """
-        Calculating Sq for senary system
+        Calculating S(q) for senary system
 
         Return:
-            calculated sq and header name
-            [output calculated S(q) also saved to a document]
+            calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating Sq of a Senary System')
+        logger.info('Start Calculating S(q) of a Senary System')
         logger.info('Only calculate the overall S(q) at this stage')
         logger.info(f'Particle Type: {self.type}')
         logger.info(f'Particle typenumber: {self.typenumber}')
@@ -371,11 +365,11 @@ class sq:
         sqresults[:, 1:] /= self.nsnapshots
 
         sqresults = pd.DataFrame(sqresults).round(6)
-        results   = sqresults.groupby(sqresults[0]).mean().reset_index().values
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)  S55(q)  S66(q)'
+        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
         if self.outputfile:
-            np.savetxt(self.outputfile, results, fmt='%.6f', header = names, comments = '')
-        logger.info('Finish Calculating Sq of a Senary System')
-        logger.info('Only the overall g(r) is calculated')
+            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+        logger.info('Finish Calculating S(q) of a Senary System')
+        logger.info('Only the overall S(q) is calculated')
 
-        return (results, names)
+        return results

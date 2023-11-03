@@ -1,83 +1,81 @@
-2023-11-01 23:15:52,929 INFO gr_test Starting test using tests/sample_test_data/dump_2D.atom...
-2023-11-01 23:15:52,929 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
-2023-11-01 23:15:52,929 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-01 23:15:53,003 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-01 23:15:53,003 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-01 23:15:53,003 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07385611534118652 seconds
-2023-11-01 23:15:53,004 INFO static.gr Start Calculating PCF of a Binary System
-2023-11-01 23:15:53,004 INFO static.gr Particle Type: [1 2]
-2023-11-01 23:15:53,004 INFO static.gr Particle typenumber: [6670 3330]
-2023-11-01 23:16:19,815 INFO static.gr Finish Calculating PCF of a Binary System
-.2023-11-01 23:16:19,834 INFO gr_test Starting test using tests/sample_test_data/quarternary.dump...
-2023-11-01 23:16:19,834 INFO reader.dump_reader Start reading file tests/sample_test_data/quarternary.dump of type DumpFileType.LAMMPS
-2023-11-01 23:16:19,834 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-01 23:16:19,843 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-01 23:16:19,843 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-01 23:16:19,843 INFO reader.dump_reader Finish reading file tests/sample_test_data/quarternary.dump in 0.009500265121459961 seconds
-2023-11-01 23:16:19,843 INFO static.gr Start Calculating PCF of a Quarternary System
-2023-11-01 23:16:19,843 INFO static.gr Particle Type: [1 2 3 4]
-2023-11-01 23:16:19,843 INFO static.gr Particle typenumber: [470  10  10  10]
-2023-11-01 23:16:22,454 INFO static.gr Finish Calculating PCF of a Quarternary System
-.2023-11-01 23:16:22,462 INFO gr_test Starting test using tests/sample_test_data/ternary.dump...
-2023-11-01 23:16:22,462 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
-2023-11-01 23:16:22,462 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-01 23:16:22,477 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-01 23:16:22,477 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-01 23:16:22,477 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.015474081039428711 seconds
-2023-11-01 23:16:22,477 INFO static.gr Start Calculating PCF of a Ternary System
-2023-11-01 23:16:22,477 INFO static.gr Particle Type: [1 2 3]
-2023-11-01 23:16:22,477 INFO static.gr Particle typenumber: [6885  405  810]
-2023-11-01 23:16:27,604 INFO static.gr Finish Calculating PCF of a Ternary System
-.2023-11-01 23:16:27,613 INFO gr_test Starting test using tests/sample_test_data/unary.dump...
-2023-11-01 23:16:27,614 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
-2023-11-01 23:16:27,614 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-01 23:16:27,615 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-01 23:16:27,615 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-01 23:16:27,615 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.0010008811950683594 seconds
-2023-11-01 23:16:27,615 INFO static.gr Start Calculating PCF of a Unary System
-2023-11-01 23:16:27,659 INFO static.gr Finish Calculating PCF of a Unary System
-.2023-11-01 23:16:27,669 INFO sq_test Starting test using tests/sample_test_data/dump_2D.atom...
-2023-11-01 23:16:27,669 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
-2023-11-01 23:16:27,670 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-01 23:16:27,745 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-01 23:16:27,745 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-01 23:16:27,745 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07488059997558594 seconds
-2023-11-01 23:16:27,967 INFO static.sq Start Calculating Sq of a Binary System
-2023-11-01 23:16:27,967 INFO static.sq Particle Type: [1 2]
-2023-11-01 23:16:27,967 INFO static.sq Particle typenumber: [6670 3330]
-2023-11-01 23:16:33,837 INFO static.sq Finish Calculating Sq of a Binary System
-.2023-11-01 23:16:33,844 INFO sq_test Starting test using tests/sample_test_data/quarternary.dump...
-2023-11-01 23:16:33,844 INFO reader.dump_reader Start reading file tests/sample_test_data/quarternary.dump of type DumpFileType.LAMMPS
-2023-11-01 23:16:33,844 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-01 23:16:33,854 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-01 23:16:33,854 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-01 23:16:33,854 INFO reader.dump_reader Finish reading file tests/sample_test_data/quarternary.dump in 0.01007080078125 seconds
-2023-11-01 23:16:35,858 INFO static.sq Start Calculating Sq of a Quarternary System
-2023-11-01 23:16:35,858 INFO static.sq Particle Type: [1 2 3 4]
-2023-11-01 23:16:35,859 INFO static.sq Particle typenumber: [470  10  10  10]
-2023-11-01 23:16:39,257 INFO static.sq Finish Calculating Sq of a Quarternary System
-.2023-11-01 23:16:39,259 INFO sq_test Starting test using tests/sample_test_data/ternary.dump...
-2023-11-01 23:16:39,259 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
-2023-11-01 23:16:39,259 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-01 23:16:39,274 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-01 23:16:39,274 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-01 23:16:39,274 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.014539241790771484 seconds
-2023-11-01 23:17:07,297 INFO static.sq Start Calculating Sq of a Ternary System
-2023-11-01 23:17:07,297 INFO static.sq Particle Type: [1 2 3]
-2023-11-01 23:17:07,297 INFO static.sq Particle typenumber: [6885  405  810]
-2023-11-01 23:17:49,043 INFO static.sq Finish Calculating Sq of a Ternary System
-.2023-11-01 23:17:49,054 INFO sq_test Starting test using tests/sample_test_data/unary.dump...
-2023-11-01 23:17:49,055 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
-2023-11-01 23:17:49,055 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-01 23:17:49,056 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-01 23:17:49,056 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-01 23:17:49,056 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.0010004043579101562 seconds
-2023-11-01 23:17:50,924 INFO static.sq Start Calculating Sq of a Unary System
-2023-11-01 23:17:50,924 INFO static.sq Particle Type: [1]
-2023-11-01 23:17:50,924 INFO static.sq Particle typenumber: [500]
-2023-11-01 23:17:51,241 INFO static.sq Finish Calculating Sq of a Unary System
+2023-11-03 14:45:25,702 INFO gr_test Starting test using tests/sample_test_data/dump_2D.atom...
+2023-11-03 14:45:25,717 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2023-11-03 14:45:25,717 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-03 14:45:25,780 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-03 14:45:25,780 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-03 14:45:25,780 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.06292939186096191 seconds
+2023-11-03 14:45:25,780 INFO static.gr Start Calculating g(r) of a Binary System
+2023-11-03 14:45:25,780 INFO static.gr Particle Type: [1 2]
+2023-11-03 14:45:25,780 INFO static.gr Particle typenumber: [6670 3330]
+2023-11-03 14:45:50,461 INFO static.gr Finish Calculating g(r) of a Binary System
+.2023-11-03 14:45:50,477 INFO gr_test Starting test using tests/sample_test_data/quarternary.dump...
+2023-11-03 14:45:50,477 INFO reader.dump_reader Start reading file tests/sample_test_data/quarternary.dump of type DumpFileType.LAMMPS
+2023-11-03 14:45:50,477 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-03 14:45:50,492 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-03 14:45:50,492 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-03 14:45:50,492 INFO reader.dump_reader Finish reading file tests/sample_test_data/quarternary.dump in 0.015644550323486328 seconds
+2023-11-03 14:45:50,492 INFO static.gr Start Calculating g(r) of a quarternary System
+2023-11-03 14:45:50,492 INFO static.gr Particle Type: [1 2 3 4]
+2023-11-03 14:45:50,492 INFO static.gr Particle typenumber: [470  10  10  10]
+2023-11-03 14:45:52,830 INFO static.gr Finish Calculating g(r) of a Quarternary System
+.2023-11-03 14:45:52,830 INFO gr_test Starting test using tests/sample_test_data/ternary.dump...
+2023-11-03 14:45:52,830 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2023-11-03 14:45:52,830 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-03 14:45:52,846 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-03 14:45:52,846 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-03 14:45:52,846 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.01563405990600586 seconds
+2023-11-03 14:45:52,846 INFO static.gr Start Calculating g(r) of a Ternary System
+2023-11-03 14:45:52,846 INFO static.gr Particle Type: [1 2 3]
+2023-11-03 14:45:52,846 INFO static.gr Particle typenumber: [6885  405  810]
+2023-11-03 14:45:57,505 INFO static.gr Finish Calculating g(r) of a Ternary System
+.2023-11-03 14:45:57,521 INFO gr_test Starting test using tests/sample_test_data/unary.dump...
+2023-11-03 14:45:57,521 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
+2023-11-03 14:45:57,521 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-03 14:45:57,521 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-03 14:45:57,521 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-03 14:45:57,521 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.0 seconds
+2023-11-03 14:45:57,521 INFO static.gr Start Calculating g(r) of a Unary System
+2023-11-03 14:45:57,882 INFO static.gr Finish Calculating PCF of a Unary System
+.2023-11-03 14:45:57,897 INFO sq_test Starting test using tests/sample_test_data/dump_2D.atom...
+2023-11-03 14:45:57,897 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2023-11-03 14:45:57,897 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-03 14:45:57,960 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-03 14:45:57,960 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-03 14:45:57,960 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.06291031837463379 seconds
+2023-11-03 14:45:58,180 INFO static.sq Start Calculating S(q) of a Binary System
+2023-11-03 14:45:58,180 INFO static.sq Particle Type: [1 2]
+2023-11-03 14:45:58,180 INFO static.sq Particle typenumber: [6670 3330]
+2023-11-03 14:46:03,718 INFO static.sq Finish Calculating S(q) of a Binary System
+.2023-11-03 14:46:03,718 INFO sq_test Starting test using tests/sample_test_data/quarternary.dump...
+2023-11-03 14:46:03,718 INFO reader.dump_reader Start reading file tests/sample_test_data/quarternary.dump of type DumpFileType.LAMMPS
+2023-11-03 14:46:03,718 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-03 14:46:03,734 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-03 14:46:03,734 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-03 14:46:03,734 INFO reader.dump_reader Finish reading file tests/sample_test_data/quarternary.dump in 0.015629053115844727 seconds
+2023-11-03 14:46:05,664 INFO static.sq Start Calculating S(q) of a Quarternary System
+2023-11-03 14:46:05,664 INFO static.sq Particle Type: [1 2 3 4]
+2023-11-03 14:46:05,664 INFO static.sq Particle typenumber: [470  10  10  10]
+2023-11-03 14:46:08,837 INFO static.sq Finish Calculating S(q) of a Quarternary System
+.2023-11-03 14:46:08,837 INFO sq_test Starting test using tests/sample_test_data/ternary.dump...
+2023-11-03 14:46:08,837 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2023-11-03 14:46:08,837 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-03 14:46:08,856 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-03 14:46:08,856 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-03 14:46:08,856 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.019158124923706055 seconds
+2023-11-03 14:46:35,426 INFO static.sq Start Calculating S(q) of a Ternary System
+2023-11-03 14:46:35,426 INFO static.sq Particle Type: [1 2 3]
+2023-11-03 14:46:35,426 INFO static.sq Particle typenumber: [6885  405  810]
+2023-11-03 14:47:14,699 INFO static.sq Finish Calculating S(q) of a Ternary System
+.2023-11-03 14:47:14,715 INFO sq_test Starting test using tests/sample_test_data/unary.dump...
+2023-11-03 14:47:14,715 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
+2023-11-03 14:47:14,715 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-03 14:47:14,715 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-03 14:47:14,715 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-03 14:47:14,715 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.0 seconds
+2023-11-03 14:47:16,550 INFO static.sq Start Calculating S(q) of a Unary System
+2023-11-03 14:47:16,832 INFO static.sq Finish Calculating S(q) of a Unary System
 .
 ----------------------------------------------------------------------
-Ran 8 tests in 118.314s
+Ran 8 tests in 111.135s
 
 OK
