@@ -136,11 +136,12 @@ class sq:
             exp_thetas_22 = 0
             for i in range(snapshot.nparticle):
                 thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
-                exp_thetas += np.exp(-1j*thetas)
+                medium = np.exp(-1j*thetas)
+                exp_thetas += medium
                 if snapshot.particle_type[i] == 1:
-                    exp_thetas_11 += np.exp(-1j*thetas)
-                if snapshot.particle_type[i] == 2:
-                    exp_thetas_22 += np.exp(-1j*thetas)
+                    exp_thetas_11 += medium
+                else:
+                    exp_thetas_22 += medium
             sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
             sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
             sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
