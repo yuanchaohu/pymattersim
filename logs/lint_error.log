@@ -7,9 +7,7 @@ reader\simulation_log.py:1:0: R0801: Similar lines in 2 files
             boxbounds=boxbounds,
             realbounds=None,
             hmatrix=hmatrix,
-        )
-
-    # -------Read Triclinic Boxes--------- (duplicate-code)
+        ) (duplicate-code)
 
 ------------------------------------------------------------------
 Your code has been rated at 9.97/10 (previous run: 9.97/10, +0.00)
@@ -27,12 +25,12 @@ Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 ************* Module static.gr
-static\gr.py:76:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+static\gr.py:74:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 ************* Module static.sq
-static\sq.py:74:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+static\sq.py:72:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 static\sq.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[82:95]
-==static.sq:[80:93]
+==static.gr:[80:101]
+==static.sq:[78:99]
         if len(self.type) == 1:
             return self.unary()
         if len(self.type) == 2:
@@ -43,10 +41,27 @@ static\sq.py:1:0: R0801: Similar lines in 2 files
             return self.quarternary()
         if len(self.type) == 5:
             return self.quinary()
-        if len(self.type) == 6:
-            return self.senary()
-        if len(self.type) > 6: (duplicate-code)
+        if len(self.type) > 6:
+            logger.info(f"This is a {len(self.type)} system, only overall S(q) calculated")
+            return self.unary()
+
+    def unary(self) -> pd.DataFrame:
+        """
+        Calculating S(q) for unary system
+
+        Return:
+            calculated S(q) (pd.DataFrame)
+        """ (duplicate-code)
+static\sq.py:1:0: R0801: Similar lines in 2 files
+==static.gr:[57:63]
+==static.sq:[56:62]
+        self.nparticle = snapshots.snapshots[0].nparticle
+        assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}) == 1,\
+            "Paticle Number Changes during simulation"
+        assert len({tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}) == 1,\
+            "Simulation Box Length Changes during simulation"
+ (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.94/10 (previous run: 9.95/10, -0.00)
+Your code has been rated at 9.91/10 (previous run: 9.94/10, -0.02)
 

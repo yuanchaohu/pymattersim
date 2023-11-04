@@ -115,7 +115,6 @@ class sq:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
             
         logger.info('Finish Calculating S(q) of a Unary System')
-
         return results
 
     def binary(self) -> pd.DataFrame:
@@ -155,7 +154,6 @@ class sq:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating S(q) of a Binary System')
-
         return results
 
     def ternary(self) -> pd.DataFrame:
@@ -177,13 +175,14 @@ class sq:
             exp_thetas_33 = 0
             for i in range(snapshot.nparticle):
                 thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
-                exp_thetas += np.exp(-1j*thetas)
+                medium = np.exp(-1j*thetas)
+                exp_thetas += medium
                 if snapshot.particle_type[i] == 1:
-                    exp_thetas_11 += np.exp(-1j*thetas)
+                    exp_thetas_11 += medium
                 if snapshot.particle_type[i] == 2:
-                    exp_thetas_22 += np.exp(-1j*thetas)
+                    exp_thetas_22 += medium
                 if snapshot.particle_type[i] == 3:
-                    exp_thetas_33 += np.exp(-1j*thetas)
+                    exp_thetas_33 += medium
             sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
             sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
             sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
@@ -199,7 +198,6 @@ class sq:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating S(q) of a Ternary System')
-
         return results
 
     def quarternary(self) -> pd.DataFrame:
@@ -222,15 +220,16 @@ class sq:
             exp_thetas_44 = 0
             for i in range(snapshot.nparticle):
                 thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
-                exp_thetas += np.exp(-1j*thetas)
+                medium = np.exp(-1j*thetas)
+                exp_thetas += medium
                 if snapshot.particle_type[i] == 1:
-                    exp_thetas_11 += np.exp(-1j*thetas)
+                    exp_thetas_11 += medium
                 if snapshot.particle_type[i] == 2:
-                    exp_thetas_22 += np.exp(-1j*thetas)
+                    exp_thetas_22 += medium
                 if snapshot.particle_type[i] == 3:
-                    exp_thetas_33 += np.exp(-1j*thetas)
+                    exp_thetas_33 += medium
                 if snapshot.particle_type[i] == 4:
-                    exp_thetas_44 += np.exp(-1j*thetas)
+                    exp_thetas_44 += medium
             sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
             sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
             sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
@@ -248,7 +247,6 @@ class sq:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating S(q) of a Quarternary System')
-
         return results
 
     def quinary(self) -> pd.DataFrame:
@@ -272,17 +270,18 @@ class sq:
             exp_thetas_55 = 0
             for i in range(snapshot.nparticle):
                 thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
-                exp_thetas += np.exp(-1j*thetas)
+                medium = np.exp(-1j*thetas)
+                exp_thetas += medium
                 if snapshot.particle_type[i] == 1:
-                    exp_thetas_11 += np.exp(-1j*thetas)
+                    exp_thetas_11 += medium
                 if snapshot.particle_type[i] == 2:
-                    exp_thetas_22 += np.exp(-1j*thetas)
+                    exp_thetas_22 += medium
                 if snapshot.particle_type[i] == 3:
-                    exp_thetas_33 += np.exp(-1j*thetas)
+                    exp_thetas_33 += medium
                 if snapshot.particle_type[i] == 4:
-                    exp_thetas_44 += np.exp(-1j*thetas)
+                    exp_thetas_44 += medium
                 if snapshot.particle_type[i] == 5:
-                    exp_thetas_55 += np.exp(-1j*thetas)
+                    exp_thetas_55 += medium
             sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
             sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
             sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
@@ -302,5 +301,4 @@ class sq:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating S(q) of a Quinary System')
-
         return results

@@ -172,7 +172,6 @@ class gr:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating g(r) of a Binary System')
-
         return results
 
 
@@ -231,7 +230,6 @@ class gr:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating g(r) of a Ternary System')
-
         return results
 
     def quarternary(self) -> pd.DataFrame:
@@ -302,7 +300,6 @@ class gr:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating g(r) of a Quarternary System')
-
         return results
 
     def quinary(self) -> pd.DataFrame:
@@ -388,5 +385,4 @@ class gr:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
         
         logger.info('Finish Calculating g(r) of a Quinary System')
-
         return results
