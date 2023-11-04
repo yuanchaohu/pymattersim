@@ -179,9 +179,9 @@ class sq:
                 exp_thetas += medium
                 if snapshot.particle_type[i] == 1:
                     exp_thetas_11 += medium
-                if snapshot.particle_type[i] == 2:
+                elif snapshot.particle_type[i] == 2:
                     exp_thetas_22 += medium
-                if snapshot.particle_type[i] == 3:
+                else:
                     exp_thetas_33 += medium
             sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
             sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
@@ -224,11 +224,11 @@ class sq:
                 exp_thetas += medium
                 if snapshot.particle_type[i] == 1:
                     exp_thetas_11 += medium
-                if snapshot.particle_type[i] == 2:
+                elif snapshot.particle_type[i] == 2:
                     exp_thetas_22 += medium
-                if snapshot.particle_type[i] == 3:
+                elif snapshot.particle_type[i] == 3:
                     exp_thetas_33 += medium
-                if snapshot.particle_type[i] == 4:
+                else:
                     exp_thetas_44 += medium
             sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
             sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
@@ -274,13 +274,13 @@ class sq:
                 exp_thetas += medium
                 if snapshot.particle_type[i] == 1:
                     exp_thetas_11 += medium
-                if snapshot.particle_type[i] == 2:
+                elif snapshot.particle_type[i] == 2:
                     exp_thetas_22 += medium
-                if snapshot.particle_type[i] == 3:
+                elif snapshot.particle_type[i] == 3:
                     exp_thetas_33 += medium
-                if snapshot.particle_type[i] == 4:
+                elif snapshot.particle_type[i] == 4:
                     exp_thetas_44 += medium
-                if snapshot.particle_type[i] == 5:
+                else:
                     exp_thetas_55 += medium
             sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
             sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
