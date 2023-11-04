@@ -55,16 +55,14 @@ class gr:
 
         self.nsnapshots = self.snapshots.nsnapshots
         self.ndim = self.snapshots.snapshots[0].positions.shape[1]
-        self.nparticle = self.snapshots.snapshots[0].nparticle
-        assert self.snapshots.snapshots[0].nparticle == self.snapshots.snapshots[-1].nparticle,\
+        self.nparticle = snapshots.snapshots[0].nparticle
+        assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}) == 1,\
             "Paticle Number Changes during simulation"
-        assert (self.snapshots.snapshots[0].boxlength == self.snapshots.snapshots[-1].boxlength).all(),\
+        assert len({tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}) == 1,\
             "Simulation Box Length Changes during simulation"
 
         self.boxvolume = np.prod(self.snapshots.snapshots[0].boxlength)
-        self.typecounts = np.unique(self.snapshots.snapshots[0].particle_type, return_counts=True)
-        self.type = self.typecounts[0]
-        self.typenumber = self.typecounts[1]
+        self.type, self.typenumber = np.unique(self.snapshots.snapshots[0].particle_type, return_counts=True)
         assert np.sum(self.typenumber) == self.nparticle,\
             "Sum of Indivdual Types is Not the Total Amount"
 
@@ -90,8 +88,8 @@ class gr:
             return self.quarternary()
         if len(self.type) == 5:
             return self.quinary()
-        if len(self.type) >= 6:
-            logger.info('This is a system with more than 6 species, only overall gr is calculated')
+        if len(self.type) > 6:
+            logger.info(f"This is a {len(self.type)} system, only overall S(q) calculated")
             return self.unary()
 
     def unary(self) -> pd.DataFrame:

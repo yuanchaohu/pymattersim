@@ -53,24 +53,22 @@ class sq:
 
         self.nsnapshots = snapshots.nsnapshots
         self.ndim = snapshots.snapshots[0].positions.shape[1]
+
         self.nparticle = snapshots.snapshots[0].nparticle
-        assert snapshots.snapshots[0].nparticle == snapshots.snapshots[-1].nparticle,\
+        assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}) == 1,\
             "Paticle Number Changes during simulation"
-        self.boxlength = snapshots.snapshots[0].boxlength
-        assert (snapshots.snapshots[0].boxlength == snapshots.snapshots[-1].boxlength).all(),\
-            "Paticle Number Changes during simulation"
-        self.typecounts = np.unique(snapshots.snapshots[0].particle_type, return_counts=True)
-        self.type = self.typecounts[0]
-        self.typenumber = self.typecounts[1]
+        assert len({tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}) == 1,\
+            "Simulation Box Length Changes during simulation"
+        
+        self.type, self.typenumber = np.unique(self.snapshots.snapshots[0].particle_type, return_counts=True)
         assert np.sum(self.typenumber) == self.nparticle,\
             "Sum of Indivdual types is Not the Total Amount"
         
-        self.twopidl = 2 * np.pi / self.boxlength #[2PI/Lx, 2PI/Ly]
-        Numofq = int(self.qrange*2.0/self.twopidl.min())
-        self.qvector = choosewavevector(self.ndim, Numofq, self.onlypositive).astype(np.float64)
-        self.qvector *= self.twopidl[np.newaxis, :]
+        twopidl = 2 * np.pi / self.snapshots.snapshots[0].boxlength #[2PI/Lx, 2PI/Ly]
+        Numofq = int(self.qrange*2.0/twopidl.min())
+        self.qvector = choosewavevector(self.ndim, Numofq, self.onlypositive).astype(np.float64) * twopidl[np.newaxis, :]
         self.qvalue = np.linalg.norm(self.qvector, axis=1)
-        
+ 
     def getresults(self) -> Optional[Callable]:
         """
         Calculating S(q) for system with different particle type numbers
@@ -84,14 +82,12 @@ class sq:
             return self.binary()
         if len(self.type) == 3: 
             return self.ternary()
-        if len(self.type) == 4: 
+        if len(self.type) == 4:
             return self.quarternary()
         if len(self.type) == 5: 
             return self.quinary()
-        if len(self.type) == 6: 
-            return self.senary()
         if len(self.type) > 6:
-            logger.info('This is a system with more than 6 species, only overall S(q) is calculated')
+            logger.info(f"This is a {len(self.type)} system, only overall S(q) calculated")
             return self.unary()
 
     def unary(self) -> pd.DataFrame:
@@ -102,24 +98,22 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Unary System')
-        logger.info(f'System Composition: {self.typenumber[0]}')
 
         sqresults = np.zeros((self.qvector.shape[0], 2))
         sqresults[:, 0] = self.qvalue
         for snapshot in self.snapshots.snapshots:
-            sqtotal = np.zeros_like(sqresults) #[sin cos]
-            for i in range(self.nparticle):
-                thetas = (snapshot.positions[i]*self.qvector).sum(axis=1)
-                sqtotal[:, 0] += np.sin(thetas)
-                sqtotal[:, 1] += np.cos(thetas)    
-            sqresults[:, 1] += np.square(sqtotal).sum(axis=1)
-        sqresults[:, 1] = sqresults[:, 1] / self.nsnapshots / self.nparticle
-
-        sqresults = pd.DataFrame(sqresults).round(6)
+            exp_thetas = 0
+            for i in range(snapshot.nparticle):
+                thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
+                exp_thetas += np.exp(-1j*thetas)
+            sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
+        sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
         names = 'q  S(q)'
-        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
+        sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
+        results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
+            
         logger.info('Finish Calculating S(q) of a Unary System')
 
         return results
@@ -132,37 +126,33 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Binary System')
-        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
 
         sqresults = np.zeros((self.qvector.shape[0], 4))
         sqresults[:, 0] = self.qvalue
         for snapshot in self.snapshots.snapshots:
-            sqtotal = np.zeros((self.qvector.shape[0], 2))
-            sq11 = np.zeros_like(sqtotal)
-            sq22 = np.zeros_like(sqtotal)
-            for i in range(self.nparticle):
-                thetas = (snapshot.positions[i]*self.qvector).sum(axis=1)
-                sin_parts = np.sin(thetas)
-                cos_parts = np.cos(thetas)
-                sqtotal[:, 0] += sin_parts
-                sqtotal[:, 1] += cos_parts
-                if snapshot.particle_type[i] == 1: 
-                    sq11[:, 0] += sin_parts
-                    sq11[:, 1] += cos_parts
-                if snapshot.particle_type[i] == 2: 
-                    sq22[:, 0] += sin_parts
-                    sq22[:, 1] += cos_parts
-            
-            sqresults[:, 1] += np.square(sqtotal).sum(axis=1) / self.nparticle
-            sqresults[:, 2] += np.square(sq11).sum(axis=1) / self.typenumber[0]
-            sqresults[:, 3] += np.square(sq22).sum(axis=1) / self.typenumber[1]
-        sqresults[:, 1:] /= self.nsnapshots
-
-        sqresults = pd.DataFrame(sqresults).round(6)
+            exp_thetas = 0
+            exp_thetas_11 = 0
+            exp_thetas_22 = 0
+            for i in range(snapshot.nparticle):
+                thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
+                exp_thetas += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 1:
+                    exp_thetas_11 += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 2:
+                    exp_thetas_22 += np.exp(-1j*thetas)
+            sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
+            sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
+            sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
+        sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
+        sqresults[:, 2] /= (self.nsnapshots*self.typenumber[0])
+        sqresults[:, 3] /= (self.nsnapshots*self.typenumber[1])
         names = 'q  S(q)  S11(q)  S22(q)'
-        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
+        sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
+        results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
+
         logger.info('Finish Calculating S(q) of a Binary System')
 
         return results
@@ -175,39 +165,38 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Ternary System')
-        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
 
         sqresults = np.zeros((self.qvector.shape[0], 5))
         sqresults[:, 0] = self.qvalue
         for snapshot in self.snapshots.snapshots:
-            sqtotal = np.zeros((self.qvector.shape[0], 2))
-            sq11 = np.zeros_like(sqtotal)
-            sq22 = np.zeros_like(sqtotal)
-            sq33 = np.zeros_like(sqtotal)
-            for i in range(self.nparticle):
-                thetas = (snapshot.positions[i] * self.qvector).sum(axis=1)
-                sin_parts = np.sin(thetas)
-                cos_parts = np.cos(thetas)
-                sqtotal[:, 0] += sin_parts
-                sqtotal[:, 1] += cos_parts
-                if snapshot.particle_type[i] == 1: 
-                    sq11 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 2: 
-                    sq22 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 3: 
-                    sq33 += np.column_stack((sin_parts, cos_parts))
-            
-            sqresults[:, 1] += np.square(sqtotal).sum(axis=1) / self.nparticle
-            sqresults[:, 2] += np.square(sq11).sum(axis=1) / self.typenumber[0]
-            sqresults[:, 3] += np.square(sq22).sum(axis=1) / self.typenumber[1]
-            sqresults[:, 4] += np.square(sq33).sum(axis=1) / self.typenumber[2]
-        sqresults[:, 1:] /= self.nsnapshots
-
-        sqresults = pd.DataFrame(sqresults).round(6)
+            exp_thetas = 0
+            exp_thetas_11 = 0
+            exp_thetas_22 = 0
+            exp_thetas_33 = 0
+            for i in range(snapshot.nparticle):
+                thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
+                exp_thetas += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 1:
+                    exp_thetas_11 += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 2:
+                    exp_thetas_22 += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 3:
+                    exp_thetas_33 += np.exp(-1j*thetas)
+            sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
+            sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
+            sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
+            sqresults[:, 4] += (exp_thetas_33*np.conj(exp_thetas_33)).real
+        sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
+        sqresults[:, 2] /= (self.nsnapshots*self.typenumber[0])
+        sqresults[:, 3] /= (self.nsnapshots*self.typenumber[1])
+        sqresults[:, 4] /= (self.nsnapshots*self.typenumber[2])
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)'
-        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
+        sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
+        results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
+
         logger.info('Finish Calculating S(q) of a Ternary System')
 
         return results
@@ -220,42 +209,43 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Quarternary System')
-        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:{self.typenumber[3]}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
 
         sqresults = np.zeros((self.qvector.shape[0], 6))
         sqresults[:, 0] = self.qvalue
         for snapshot in self.snapshots.snapshots:
-            sqtotal = np.zeros((self.qvector.shape[0], 2))
-            sq11 = np.zeros_like(sqtotal)
-            sq22 = np.zeros_like(sqtotal)
-            sq33 = np.zeros_like(sqtotal)
-            sq44 = np.zeros_like(sqtotal)
-            for i in range(self.nparticle):
-                thetas = (snapshot.positions[i] * self.qvector).sum(axis=1)
-                sin_parts = np.sin(thetas)
-                cos_parts = np.cos(thetas)
-                sqtotal += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 1: 
-                    sq11 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 2: 
-                    sq22 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 3: 
-                    sq33 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 4: 
-                    sq44 += np.column_stack((sin_parts, cos_parts))
-            
-            sqresults[:, 1] += np.square(sqtotal).sum(axis=1) / self.nparticle
-            sqresults[:, 2] += np.square(sq11).sum(axis=1) / self.typenumber[0]
-            sqresults[:, 3] += np.square(sq22).sum(axis=1) / self.typenumber[1]
-            sqresults[:, 4] += np.square(sq33).sum(axis=1) / self.typenumber[2]
-            sqresults[:, 5] += np.square(sq44).sum(axis=1) / self.typenumber[3]
-        sqresults[:, 1:] /= self.nsnapshots
-
-        sqresults = pd.DataFrame(sqresults).round(6)
+            exp_thetas = 0
+            exp_thetas_11 = 0
+            exp_thetas_22 = 0
+            exp_thetas_33 = 0
+            exp_thetas_44 = 0
+            for i in range(snapshot.nparticle):
+                thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
+                exp_thetas += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 1:
+                    exp_thetas_11 += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 2:
+                    exp_thetas_22 += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 3:
+                    exp_thetas_33 += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 4:
+                    exp_thetas_44 += np.exp(-1j*thetas)
+            sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
+            sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
+            sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
+            sqresults[:, 4] += (exp_thetas_33*np.conj(exp_thetas_33)).real
+            sqresults[:, 5] += (exp_thetas_44*np.conj(exp_thetas_44)).real
+        sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
+        sqresults[:, 2] /= (self.nsnapshots*self.typenumber[0])
+        sqresults[:, 3] /= (self.nsnapshots*self.typenumber[1])
+        sqresults[:, 4] /= (self.nsnapshots*self.typenumber[2])
+        sqresults[:, 5] /= (self.nsnapshots*self.typenumber[3])
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)'
-        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
+        sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
+        results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
+
         logger.info('Finish Calculating S(q) of a Quarternary System')
 
         return results
@@ -268,106 +258,48 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Quinary System')
-        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:'
-                    f'{self.typenumber[3]}:{self.typenumber[4]}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
 
         sqresults = np.zeros((self.qvector.shape[0], 7))
         sqresults[:, 0] = self.qvalue
         for snapshot in self.snapshots.snapshots:
-            sqtotal = np.zeros((self.qvector.shape[0], 2))
-            sq11 = np.zeros_like(sqtotal)
-            sq22 = np.zeros_like(sqtotal)
-            sq33 = np.zeros_like(sqtotal)
-            sq44 = np.zeros_like(sqtotal)
-            sq55 = np.zeros_like(sqtotal)
-            for i in range(self.nparticle):
-                thetas = (snapshot.positions[i] * self.qvector).sum(axis=1)
-                sin_parts = np.sin(thetas)
-                cos_parts = np.cos(thetas)
-                sqtotal += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 1: 
-                    sq11 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 2: 
-                    sq22 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 3: 
-                    sq33 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 4: 
-                    sq44 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 5: 
-                    sq55 += np.column_stack((sin_parts, cos_parts))
-            
-            sqresults[:, 1] += np.square(sqtotal).sum(axis = 1) / self.nparticle
-            sqresults[:, 2] += np.square(sq11).sum(axis = 1) / self.typenumber[0]
-            sqresults[:, 3] += np.square(sq22).sum(axis = 1) / self.typenumber[1]
-            sqresults[:, 4] += np.square(sq33).sum(axis = 1) / self.typenumber[2]
-            sqresults[:, 5] += np.square(sq44).sum(axis = 1) / self.typenumber[3]
-            sqresults[:, 6] += np.square(sq55).sum(axis = 1) / self.typenumber[4]
-        sqresults[:, 1:] /= self.nsnapshots
-
-        sqresults = pd.DataFrame(sqresults).round(6)
+            exp_thetas = 0
+            exp_thetas_11 = 0
+            exp_thetas_22 = 0
+            exp_thetas_33 = 0
+            exp_thetas_44 = 0
+            exp_thetas_55 = 0
+            for i in range(snapshot.nparticle):
+                thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
+                exp_thetas += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 1:
+                    exp_thetas_11 += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 2:
+                    exp_thetas_22 += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 3:
+                    exp_thetas_33 += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 4:
+                    exp_thetas_44 += np.exp(-1j*thetas)
+                if snapshot.particle_type[i] == 5:
+                    exp_thetas_55 += np.exp(-1j*thetas)
+            sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
+            sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
+            sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
+            sqresults[:, 4] += (exp_thetas_33*np.conj(exp_thetas_33)).real
+            sqresults[:, 5] += (exp_thetas_44*np.conj(exp_thetas_44)).real
+            sqresults[:, 6] += (exp_thetas_55*np.conj(exp_thetas_55)).real
+        sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
+        sqresults[:, 2] /= (self.nsnapshots*self.typenumber[0])
+        sqresults[:, 3] /= (self.nsnapshots*self.typenumber[1])
+        sqresults[:, 4] /= (self.nsnapshots*self.typenumber[2])
+        sqresults[:, 5] /= (self.nsnapshots*self.typenumber[3])
+        sqresults[:, 6] /= (self.nsnapshots*self.typenumber[4])
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)  S55(q)'
-        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
+        sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
+        results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
+
         logger.info('Finish Calculating S(q) of a Quinary System')
-
-        return results
-
-    def senary(self) -> pd.DataFrame:
-        """
-        Calculating S(q) for senary system
-
-        Return:
-            calculated S(q) (pd.DataFrame)
-        """
-        logger.info('Start Calculating S(q) of a Senary System')
-        logger.info('Only calculate the overall S(q) at this stage')
-        logger.info(f'System Composition: {self.typenumber[0]}:{self.typenumber[1]}:{self.typenumber[2]}:'
-                    f'{self.typenumber[3]}:{self.typenumber[4]}:{self.typenumber[5]}')
-
-        sqresults = np.zeros((self.qvector.shape[0], 8))
-        sqresults[:, 0] = self.qvalue
-        for snapshot in self.snapshots.snapshots:
-            sqtotal = np.zeros((self.qvector.shape[0], 2))
-            sq11 = np.zeros_like(sqtotal)
-            sq22 = np.zeros_like(sqtotal)
-            sq33 = np.zeros_like(sqtotal)
-            sq44 = np.zeros_like(sqtotal)
-            sq55 = np.zeros_like(sqtotal)
-            sq66 = np.zeros_like(sqtotal)
-            for i in range(self.nparticle):
-                thetas = (snapshot.positions[i] * self.qvector).sum(axis=1)
-                sin_parts = np.sin(thetas)
-                cos_parts = np.cos(thetas)
-                sqtotal += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 1: 
-                    sq11 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 2: 
-                    sq22 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 3: 
-                    sq33 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 4: 
-                    sq44 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 5: 
-                    sq55 += np.column_stack((sin_parts, cos_parts))
-                if snapshot.particle_type[i] == 6: 
-                    sq66 += np.column_stack((sin_parts, cos_parts))
-            
-            sqresults[:, 1] += np.square(sqtotal).sum(axis = 1) / self.nparticle
-            sqresults[:, 2] += np.square(sq11).sum(axis = 1) / self.typenumber[0]
-            sqresults[:, 3] += np.square(sq22).sum(axis = 1) / self.typenumber[1]
-            sqresults[:, 4] += np.square(sq33).sum(axis = 1) / self.typenumber[2]
-            sqresults[:, 5] += np.square(sq44).sum(axis = 1) / self.typenumber[3]
-            sqresults[:, 6] += np.square(sq55).sum(axis = 1) / self.typenumber[4]
-            sqresults[:, 7] += np.square(sq66).sum(axis = 1) / self.typenumber[5]
-        sqresults[:, 1:] /= self.nsnapshots
-
-        sqresults = pd.DataFrame(sqresults).round(6)
-        names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)  S55(q)  S66(q)'
-        results = pd.DataFrame(sqresults.groupby(sqresults[0]).mean().reset_index().values, columns=names.split())
-        if self.outputfile:
-            results.to_csv(self.outputfile, float_format="%.6f", index=False)
-        logger.info('Finish Calculating S(q) of a Senary System')
-        logger.info('Only the overall S(q) is calculated')
 
         return results
