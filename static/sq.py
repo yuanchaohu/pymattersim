@@ -32,7 +32,8 @@ class sq:
             snapshots: Snapshots,
             qrange: float=10.0,
             onlypositive: bool=False,
-            outputfile: str=None
+            outputfile: str=None,
+            saveqvectors: bool=False,
             ) -> None:
         """
         Initializing S(q) class
@@ -43,6 +44,7 @@ class sq:
             2. qrange (float): the wave number range to be calculated, default is 10
             3. onlypositive (bool): whether only consider positive wave vectors
             4. outputfile (str): the name of csv file to save the calculated S(q)
+            5. saveqvectors (bool): whether to save S(q) for specific wavevectors
 
         Return:
             None
@@ -51,6 +53,7 @@ class sq:
         self.qrange = qrange * 2.0
         self.onlypositive = onlypositive
         self.outputfile = outputfile
+        self.saveqvectors = saveqvectors
 
         self.nsnapshots = snapshots.nsnapshots
         self.ndim = snapshots.snapshots[0].positions.shape[1]
@@ -70,6 +73,7 @@ class sq:
         Numofq = int(self.qrange*2.0/twopidl.min())
         self.qvector = choosewavevector(self.ndim, Numofq, self.onlypositive).astype(np.float64) * twopidl[np.newaxis, :]
         self.qvalue = np.linalg.norm(self.qvector, axis=1)
+        self.df_qvector = pd.DataFrame(self.qvector, columns=[f"q{i}" for i in range(self.ndim)])
  
     def getresults(self) -> Optional[Callable]:
         """
@@ -101,17 +105,23 @@ class sq:
         """
         logger.info('Start Calculating S(q) of a Unary System')
 
-        sqresults = np.zeros((self.qvector.shape[0], 2))
-        sqresults[:, 0] = self.qvalue
+        sqresults = pd.DataFrame(0, columns=["q Sq".split()])
+        sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
             exp_thetas = 0
             for i in range(snapshot.nparticle):
                 thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
                 exp_thetas += np.exp(-1j*thetas)
-            sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
-        sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
-        names = 'q  S(q)'
-        sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
+            sqresults["Sq"] += (exp_thetas*np.conj(exp_thetas)).real
+        sqresults["Sq"] /= (self.nsnapshots*self.nparticle)
+        if self.saveqvectors:
+            self.df_qvector.join(sqresults).to_csv(
+                self.outputfile+"_qvectors.csv", 
+                float_format="%.6f", 
+                index=False
+            )
+        # ensemble average over same q but different directions
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -152,6 +162,13 @@ class sq:
         sqresults["Sq11"] /= (self.nsnapshots*self.typenumber[0])
         sqresults["Sq22"] /= (self.nsnapshots*self.typenumber[1])
         sqresults["Sq12"] /= (self.nsnapshots*sqrt(self.typenumber[0]*self.typenumber[1]))
+        if self.saveqvectors:
+            self.df_qvector.join(sqresults).to_csv(
+                self.outputfile+"_qvectors.csv", 
+                float_format="%.6f", 
+                index=False
+            )
+        # ensemble average over same q but different directions
         sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
