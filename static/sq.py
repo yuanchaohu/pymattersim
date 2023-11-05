@@ -32,6 +32,7 @@ class sq:
             snapshots: Snapshots,
             qrange: float=10.0,
             onlypositive: bool=False,
+            qvector: np.ndarray=None,
             outputfile: str=None,
             saveqvectors: bool=False,
             ) -> None:
@@ -43,20 +44,18 @@ class sq:
                          (returned by reader.dump_reader.DumpReader)
             2. qrange (float): the wave number range to be calculated, default is 10
             3. onlypositive (bool): whether only consider positive wave vectors
-            4. outputfile (str): the name of csv file to save the calculated S(q)
-            5. saveqvectors (bool): whether to save S(q) for specific wavevectors
+            4. qvector (np.ndarray): input wave vectors, if None (default) use qrange & onlypositive
+            5. outputfile (str): the name of csv file to save the calculated S(q)
+            6. saveqvectors (bool): whether to save S(q) for specific wavevectors
 
         Return:
             None
         """
         self.snapshots = snapshots
-        self.qrange = qrange * 2.0
-        self.onlypositive = onlypositive
         self.outputfile = outputfile
         self.saveqvectors = saveqvectors
 
         self.nsnapshots = snapshots.nsnapshots
-        self.ndim = snapshots.snapshots[0].positions.shape[1]
 
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}) == 1,\
@@ -69,11 +68,16 @@ class sq:
             "Sum of Indivdual types is Not the Total Amount"
         logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
-        twopidl = 2 * np.pi / self.snapshots.snapshots[0].boxlength #[2PI/Lx, 2PI/Ly]
-        Numofq = int(self.qrange*2.0/twopidl.min())
-        self.qvector = choosewavevector(self.ndim, Numofq, self.onlypositive).astype(np.float64) * twopidl[np.newaxis, :]
+        ndim = snapshots.snapshots[0].positions.shape[1]
+        twopidl = 2*np.pi / self.snapshots.snapshots[0].boxlength #[2PI/Lx, 2PI/Ly]
+        if qvector:
+            self.qvector = qvector
+        else:
+            Numofq = int(qrange*2.0/twopidl.min())
+            self.qvector = choosewavevector(ndim, Numofq, onlypositive)
+        self.df_qvector = pd.DataFrame(self.qvector, columns=[f"q{i}" for i in range(ndim)])
+        self.qvector = self.qvector.astype(np.float64) * twopidl
         self.qvalue = np.linalg.norm(self.qvector, axis=1)
-        self.df_qvector = pd.DataFrame(self.qvector, columns=[f"q{i}" for i in range(self.ndim)])
  
     def getresults(self) -> Optional[Callable]:
         """
