@@ -8,6 +8,7 @@ import pandas as pd
 from reader.reader_utils import Snapshots
 from utils.wavevector import choosewavevector
 from utils.logging_utils import get_logger_handle
+from math import sqrt
 
 logger = get_logger_handle(__name__)
 
@@ -63,7 +64,8 @@ class sq:
         self.type, self.typenumber = np.unique(self.snapshots.snapshots[0].particle_type, return_counts=True)
         assert np.sum(self.typenumber) == self.nparticle,\
             "Sum of Indivdual types is Not the Total Amount"
-        
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
+
         twopidl = 2 * np.pi / self.snapshots.snapshots[0].boxlength #[2PI/Lx, 2PI/Ly]
         Numofq = int(self.qrange*2.0/twopidl.min())
         self.qvector = choosewavevector(self.ndim, Numofq, self.onlypositive).astype(np.float64) * twopidl[np.newaxis, :]
@@ -124,31 +126,33 @@ class sq:
         Return:
             calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating S(q) of a Binary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
-
-        sqresults = np.zeros((self.qvector.shape[0], 4))
-        sqresults[:, 0] = self.qvalue
+        logger.info('Start Calculating S(q) for a Binary System')
+        sqresults = pd.DataFrame(0, columns=["q Sqall Sq11 Sq22 Sq12".split()])
+        sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
-            exp_thetas = 0
-            exp_thetas_11 = 0
-            exp_thetas_22 = 0
+            exp_thetas = {
+                "all": 0,
+                "11": 0,
+                "22": 0,
+            }
             for i in range(snapshot.nparticle):
                 thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
                 medium = np.exp(-1j*thetas)
-                exp_thetas += medium
-                if snapshot.particle_type[i] == 1:
-                    exp_thetas_11 += medium
+                exp_thetas["all"] += medium
+                if snapshot.particle_type[i]==1:
+                    exp_thetas["11"] += medium
                 else:
-                    exp_thetas_22 += medium
-            sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
-            sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
-            sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
-        sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
-        sqresults[:, 2] /= (self.nsnapshots*self.typenumber[0])
-        sqresults[:, 3] /= (self.nsnapshots*self.typenumber[1])
-        names = 'q  S(q)  S11(q)  S22(q)'
-        sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
+                    exp_thetas["22"] += medium
+            sqresults["Sqall"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
+            sqresults["Sq11"] += (exp_thetas["11"]*np.conj(exp_thetas["11"])).real
+            sqresults["Sq22"] += (exp_thetas["22"]*np.conj(exp_thetas["22"])).real
+            sqresults["Sq12"] += (exp_thetas["11"]*np.conj(exp_thetas["22"])).real
+
+        sqresults["Sqall"] /= (self.nsnapshots*self.nparticle)
+        sqresults["Sq11"] /= (self.nsnapshots*self.typenumber[0])
+        sqresults["Sq22"] /= (self.nsnapshots*self.typenumber[1])
+        sqresults["Sq12"] /= (self.nsnapshots*sqrt(self.typenumber[0]*self.typenumber[1]))
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
