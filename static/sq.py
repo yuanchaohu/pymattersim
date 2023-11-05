@@ -3,12 +3,12 @@
 """see documentation @ ../docs/static.md"""
 
 from typing import Optional, Callable
+from math import sqrt
 import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
 from utils.wavevector import choosewavevector
 from utils.logging_utils import get_logger_handle
-from math import sqrt
 
 logger = get_logger_handle(__name__)
 
@@ -64,10 +64,10 @@ class sq:
         assert len({tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}) == 1,\
             "Simulation Box Length Changes during simulation"
         
-        self.type, self.typenumber = np.unique(self.snapshots.snapshots[0].particle_type, return_counts=True)
-        assert np.sum(self.typenumber) == self.nparticle,\
+        self.typenumber, self.typecount = np.unique(self.snapshots.snapshots[0].particle_type, return_counts=True)
+        assert np.sum(self.typecount) == self.nparticle,\
             "Sum of Indivdual types is Not the Total Amount"
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
         twopidl = 2 * np.pi / self.snapshots.snapshots[0].boxlength #[2PI/Lx, 2PI/Ly]
         Numofq = int(self.qrange*2.0/twopidl.min())
@@ -82,18 +82,18 @@ class sq:
         Return:
             Optional[Callable]
         """
-        if len(self.type) == 1:
+        if len(self.typenumber) == 1:
             return self.unary()
-        if len(self.type) == 2: 
+        if len(self.typenumber) == 2:
             return self.binary()
-        if len(self.type) == 3: 
+        if len(self.typenumber) == 3:
             return self.ternary()
-        if len(self.type) == 4:
+        if len(self.typenumber) == 4:
             return self.quarternary()
-        if len(self.type) == 5: 
+        if len(self.typenumber) == 5:
             return self.quinary()
-        if len(self.type) > 6:
-            logger.info(f"This is a {len(self.type)} system, only overall S(q) calculated")
+        if len(self.typenumber) > 6:
+            logger.info(f"This is a {len(self.typenumber)} system, only overall S(q) calculated")
             return self.unary()
 
     def unary(self) -> pd.DataFrame:
@@ -137,7 +137,7 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) for a Binary System')
-        sqresults = pd.DataFrame(0, columns=["q Sqall Sq11 Sq22 Sq12".split()])
+        sqresults = pd.DataFrame(0, index=self.df_qvector.index, columns="q Sqall Sq11 Sq22 Sq12".split())
         sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
             exp_thetas = {
@@ -159,9 +159,9 @@ class sq:
             sqresults["Sq12"] += (exp_thetas["11"]*np.conj(exp_thetas["22"])).real
 
         sqresults["Sqall"] /= (self.nsnapshots*self.nparticle)
-        sqresults["Sq11"] /= (self.nsnapshots*self.typenumber[0])
-        sqresults["Sq22"] /= (self.nsnapshots*self.typenumber[1])
-        sqresults["Sq12"] /= (self.nsnapshots*sqrt(self.typenumber[0]*self.typenumber[1]))
+        sqresults["Sq11"] /= (self.nsnapshots * self.typecount[0])
+        sqresults["Sq22"] /= (self.nsnapshots * self.typecount[1])
+        sqresults["Sq12"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[1]))
         if self.saveqvectors:
             self.df_qvector.join(sqresults).to_csv(
                 self.outputfile+"_qvectors.csv", 
@@ -185,7 +185,7 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Ternary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
         sqresults = np.zeros((self.qvector.shape[0], 5))
         sqresults[:, 0] = self.qvalue
@@ -209,9 +209,9 @@ class sq:
             sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
             sqresults[:, 4] += (exp_thetas_33*np.conj(exp_thetas_33)).real
         sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
-        sqresults[:, 2] /= (self.nsnapshots*self.typenumber[0])
-        sqresults[:, 3] /= (self.nsnapshots*self.typenumber[1])
-        sqresults[:, 4] /= (self.nsnapshots*self.typenumber[2])
+        sqresults[:, 2] /= (self.nsnapshots * self.typecount[0])
+        sqresults[:, 3] /= (self.nsnapshots * self.typecount[1])
+        sqresults[:, 4] /= (self.nsnapshots * self.typecount[2])
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)'
         sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
@@ -229,7 +229,7 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Quarternary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
         sqresults = np.zeros((self.qvector.shape[0], 6))
         sqresults[:, 0] = self.qvalue
@@ -257,10 +257,10 @@ class sq:
             sqresults[:, 4] += (exp_thetas_33*np.conj(exp_thetas_33)).real
             sqresults[:, 5] += (exp_thetas_44*np.conj(exp_thetas_44)).real
         sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
-        sqresults[:, 2] /= (self.nsnapshots*self.typenumber[0])
-        sqresults[:, 3] /= (self.nsnapshots*self.typenumber[1])
-        sqresults[:, 4] /= (self.nsnapshots*self.typenumber[2])
-        sqresults[:, 5] /= (self.nsnapshots*self.typenumber[3])
+        sqresults[:, 2] /= (self.nsnapshots * self.typecount[0])
+        sqresults[:, 3] /= (self.nsnapshots * self.typecount[1])
+        sqresults[:, 4] /= (self.nsnapshots * self.typecount[2])
+        sqresults[:, 5] /= (self.nsnapshots * self.typecount[3])
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)'
         sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
@@ -278,7 +278,7 @@ class sq:
             calculated S(q) (pd.DataFrame)
         """
         logger.info('Start Calculating S(q) of a Quinary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
         sqresults = np.zeros((self.qvector.shape[0], 7))
         sqresults[:, 0] = self.qvalue
@@ -310,11 +310,11 @@ class sq:
             sqresults[:, 5] += (exp_thetas_44*np.conj(exp_thetas_44)).real
             sqresults[:, 6] += (exp_thetas_55*np.conj(exp_thetas_55)).real
         sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
-        sqresults[:, 2] /= (self.nsnapshots*self.typenumber[0])
-        sqresults[:, 3] /= (self.nsnapshots*self.typenumber[1])
-        sqresults[:, 4] /= (self.nsnapshots*self.typenumber[2])
-        sqresults[:, 5] /= (self.nsnapshots*self.typenumber[3])
-        sqresults[:, 6] /= (self.nsnapshots*self.typenumber[4])
+        sqresults[:, 2] /= (self.nsnapshots * self.typecount[0])
+        sqresults[:, 3] /= (self.nsnapshots * self.typecount[1])
+        sqresults[:, 4] /= (self.nsnapshots * self.typecount[2])
+        sqresults[:, 5] /= (self.nsnapshots * self.typecount[3])
+        sqresults[:, 6] /= (self.nsnapshots * self.typecount[4])
         names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)  S55(q)'
         sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
