@@ -33,8 +33,8 @@ class sq:
             qrange: float=10.0,
             onlypositive: bool=False,
             qvector: np.ndarray=None,
-            outputfile: str=None,
             saveqvectors: bool=False,
+            outputfile: str=None
             ) -> None:
         """
         Initializing S(q) class
@@ -43,10 +43,10 @@ class sq:
             1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
                          (returned by reader.dump_reader.DumpReader)
             2. qrange (float): the wave number range to be calculated, default is 10
-            3. onlypositive (bool): whether only consider positive wave vectors
+            3. onlypositive (bool): whether only consider positive wave vectors, default False
             4. qvector (np.ndarray): input wave vectors, if None (default) use qrange & onlypositive
-            5. outputfile (str): the name of csv file to save the calculated S(q)
-            6. saveqvectors (bool): whether to save S(q) for specific wavevectors
+            5. saveqvectors (bool): whether to save S(q) for specific wavevectors, default False
+            6. outputfile (str): the name of csv file to save the calculated S(q), default None
 
         Return:
             None
@@ -70,15 +70,15 @@ class sq:
 
         ndim = snapshots.snapshots[0].positions.shape[1]
         twopidl = 2*np.pi / self.snapshots.snapshots[0].boxlength #[2PI/Lx, 2PI/Ly]
-        if qvector:
+        if qvector is not None:
             self.qvector = qvector
         else:
-            Numofq = int(qrange*2.0/twopidl.min())
-            self.qvector = choosewavevector(ndim, Numofq, onlypositive)
+            numofq = int(qrange*2.0/twopidl.min())
+            self.qvector = choosewavevector(ndim, numofq, onlypositive)
         self.df_qvector = pd.DataFrame(self.qvector, columns=[f"q{i}" for i in range(ndim)])
         self.qvector = self.qvector.astype(np.float64) * twopidl
         self.qvalue = np.linalg.norm(self.qvector, axis=1)
- 
+
     def getresults(self) -> Optional[Callable]:
         """
         Calculating S(q) for system with different particle type numbers
@@ -109,7 +109,7 @@ class sq:
         """
         logger.info('Start Calculating S(q) of a Unary System')
 
-        sqresults = pd.DataFrame(0, columns=["q Sq".split()])
+        sqresults = pd.DataFrame(0, index=self.df_qvector.index, columns="q Sq".split())
         sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
             exp_thetas = 0
@@ -120,7 +120,7 @@ class sq:
         sqresults["Sq"] /= (self.nsnapshots*self.nparticle)
         if self.saveqvectors:
             self.df_qvector.join(sqresults).to_csv(
-                self.outputfile+"_qvectors.csv", 
+                self.outputfile[:-4]+"_qvectors.csv", 
                 float_format="%.6f", 
                 index=False
             )
@@ -147,7 +147,7 @@ class sq:
             exp_thetas = {
                 "all": 0,
                 "11": 0,
-                "22": 0,
+                "22": 0
             }
             for i in range(snapshot.nparticle):
                 thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
@@ -168,8 +168,8 @@ class sq:
         sqresults["Sq12"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[1]))
         if self.saveqvectors:
             self.df_qvector.join(sqresults).to_csv(
-                self.outputfile+"_qvectors.csv", 
-                float_format="%.6f", 
+                self.outputfile[:-4]+"_qvectors.csv",
+                float_format="%.6f",
                 index=False
             )
         # ensemble average over same q but different directions
@@ -180,7 +180,7 @@ class sq:
 
         logger.info('Finish Calculating S(q) of a Binary System')
         return results
-
+    
     def ternary(self) -> pd.DataFrame:
         """
         Calculating S(q) for ternary system
@@ -188,36 +188,50 @@ class sq:
         Return:
             calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating S(q) of a Ternary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
-
-        sqresults = np.zeros((self.qvector.shape[0], 5))
-        sqresults[:, 0] = self.qvalue
+        logger.info('Start Calculating S(q) for a Ternary System')
+        sqresults = pd.DataFrame(0, index=self.df_qvector.index,
+                                 columns="q Sqall Sq11 Sq22 Sq33 Sq12 Sq13 Sq23".split())
+        sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
-            exp_thetas = 0
-            exp_thetas_11 = 0
-            exp_thetas_22 = 0
-            exp_thetas_33 = 0
+            exp_thetas = {
+                "all": 0,
+                "11": 0,
+                "22": 0,
+                "33": 0
+            }
             for i in range(snapshot.nparticle):
                 thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
                 medium = np.exp(-1j*thetas)
-                exp_thetas += medium
-                if snapshot.particle_type[i] == 1:
-                    exp_thetas_11 += medium
-                elif snapshot.particle_type[i] == 2:
-                    exp_thetas_22 += medium
+                exp_thetas["all"] += medium
+                if snapshot.particle_type[i]==1:
+                    exp_thetas["11"] += medium
+                elif snapshot.particle_type[i]==2:
+                    exp_thetas["22"] += medium
                 else:
-                    exp_thetas_33 += medium
-            sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
-            sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
-            sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
-            sqresults[:, 4] += (exp_thetas_33*np.conj(exp_thetas_33)).real
-        sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
-        sqresults[:, 2] /= (self.nsnapshots * self.typecount[0])
-        sqresults[:, 3] /= (self.nsnapshots * self.typecount[1])
-        sqresults[:, 4] /= (self.nsnapshots * self.typecount[2])
-        names = 'q  S(q)  S11(q)  S22(q)  S33(q)'
-        sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
+                    exp_thetas["33"] += medium
+            sqresults["Sqall"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
+            sqresults["Sq11"] += (exp_thetas["11"]*np.conj(exp_thetas["11"])).real
+            sqresults["Sq22"] += (exp_thetas["22"]*np.conj(exp_thetas["22"])).real
+            sqresults["Sq33"] += (exp_thetas["33"]*np.conj(exp_thetas["33"])).real
+            sqresults["Sq12"] += (exp_thetas["11"]*np.conj(exp_thetas["22"])).real
+            sqresults["Sq13"] += (exp_thetas["11"]*np.conj(exp_thetas["33"])).real
+            sqresults["Sq23"] += (exp_thetas["22"]*np.conj(exp_thetas["33"])).real
+
+        sqresults["Sqall"] /= (self.nsnapshots*self.nparticle)
+        sqresults["Sq11"] /= (self.nsnapshots * self.typecount[0])
+        sqresults["Sq22"] /= (self.nsnapshots * self.typecount[1])
+        sqresults["Sq33"] /= (self.nsnapshots * self.typecount[2])
+        sqresults["Sq12"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[1]))
+        sqresults["Sq13"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[2]))
+        sqresults["Sq23"] /= (self.nsnapshots * sqrt(self.typecount[1] * self.typecount[2]))
+        if self.saveqvectors:
+            self.df_qvector.join(sqresults).to_csv(
+                self.outputfile[:-4]+"_qvectors.csv",
+                float_format="%.6f",
+                index=False
+            )
+        # ensemble average over same q but different directions
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -232,95 +246,144 @@ class sq:
         Return:
             calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating S(q) of a Quarternary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
-
-        sqresults = np.zeros((self.qvector.shape[0], 6))
-        sqresults[:, 0] = self.qvalue
+        logger.info('Start Calculating S(q) for a Quarternary System')
+        sqresults = pd.DataFrame(0, index=self.df_qvector.index,
+                                 columns="q Sqall Sq11 Sq22 Sq33 Sq44 Sq12 Sq13 Sq14 Sq23 Sq24 Sq34".split())
+        sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
-            exp_thetas = 0
-            exp_thetas_11 = 0
-            exp_thetas_22 = 0
-            exp_thetas_33 = 0
-            exp_thetas_44 = 0
+            exp_thetas = {
+                "all": 0,
+                "11": 0,
+                "22": 0,
+                "33": 0,
+                "44": 0
+            }
             for i in range(snapshot.nparticle):
                 thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
                 medium = np.exp(-1j*thetas)
-                exp_thetas += medium
-                if snapshot.particle_type[i] == 1:
-                    exp_thetas_11 += medium
-                elif snapshot.particle_type[i] == 2:
-                    exp_thetas_22 += medium
-                elif snapshot.particle_type[i] == 3:
-                    exp_thetas_33 += medium
+                exp_thetas["all"] += medium
+                if snapshot.particle_type[i]==1:
+                    exp_thetas["11"] += medium
+                elif snapshot.particle_type[i]==2:
+                    exp_thetas["22"] += medium
+                elif snapshot.particle_type[i]==3:
+                    exp_thetas["33"] += medium
                 else:
-                    exp_thetas_44 += medium
-            sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
-            sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
-            sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
-            sqresults[:, 4] += (exp_thetas_33*np.conj(exp_thetas_33)).real
-            sqresults[:, 5] += (exp_thetas_44*np.conj(exp_thetas_44)).real
-        sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
-        sqresults[:, 2] /= (self.nsnapshots * self.typecount[0])
-        sqresults[:, 3] /= (self.nsnapshots * self.typecount[1])
-        sqresults[:, 4] /= (self.nsnapshots * self.typecount[2])
-        sqresults[:, 5] /= (self.nsnapshots * self.typecount[3])
-        names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)'
-        sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
+                    exp_thetas["44"] += medium
+            sqresults["Sqall"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
+            sqresults["Sq11"] += (exp_thetas["11"]*np.conj(exp_thetas["11"])).real
+            sqresults["Sq22"] += (exp_thetas["22"]*np.conj(exp_thetas["22"])).real
+            sqresults["Sq33"] += (exp_thetas["33"]*np.conj(exp_thetas["33"])).real
+            sqresults["Sq44"] += (exp_thetas["44"]*np.conj(exp_thetas["44"])).real
+            sqresults["Sq12"] += (exp_thetas["11"]*np.conj(exp_thetas["22"])).real
+            sqresults["Sq13"] += (exp_thetas["11"]*np.conj(exp_thetas["33"])).real
+            sqresults["Sq14"] += (exp_thetas["11"]*np.conj(exp_thetas["44"])).real
+            sqresults["Sq23"] += (exp_thetas["22"]*np.conj(exp_thetas["33"])).real
+            sqresults["Sq24"] += (exp_thetas["22"]*np.conj(exp_thetas["44"])).real
+            sqresults["Sq34"] += (exp_thetas["33"]*np.conj(exp_thetas["44"])).real
+
+        sqresults["Sqall"] /= (self.nsnapshots*self.nparticle)
+        sqresults["Sq11"] /= (self.nsnapshots * self.typecount[0])
+        sqresults["Sq22"] /= (self.nsnapshots * self.typecount[1])
+        sqresults["Sq33"] /= (self.nsnapshots * self.typecount[2])
+        sqresults["Sq44"] /= (self.nsnapshots * self.typecount[3])
+        sqresults["Sq12"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[1]))
+        sqresults["Sq13"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[2]))
+        sqresults["Sq14"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[3]))
+        sqresults["Sq23"] /= (self.nsnapshots * sqrt(self.typecount[1] * self.typecount[2]))
+        sqresults["Sq24"] /= (self.nsnapshots * sqrt(self.typecount[1] * self.typecount[3]))
+        sqresults["Sq34"] /= (self.nsnapshots * sqrt(self.typecount[2] * self.typecount[3]))
+        if self.saveqvectors:
+            self.df_qvector.join(sqresults).to_csv(
+                self.outputfile[:-4]+"_qvectors.csv",
+                float_format="%.6f",
+                index=False
+            )
+        # ensemble average over same q but different directions
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating S(q) of a Quarternary System')
         return results
-
+    
     def quinary(self) -> pd.DataFrame:
         """
-        Calculating S(q) for quinary system
+        Calculating S(q) for quainary system
 
         Return:
             calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating S(q) of a Quinary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
-
-        sqresults = np.zeros((self.qvector.shape[0], 7))
-        sqresults[:, 0] = self.qvalue
+        logger.info('Start Calculating S(q) for a Quinary System')
+        sqresults = pd.DataFrame(0, index=self.df_qvector.index,
+                                 columns="q Sqall Sq11 Sq22 Sq33 Sq44 Sq55 Sq12 Sq13 Sq14 Sq15 \
+                                          Sq23 Sq24 Sq25 Sq34 Sq35 Sq45".split())
+        sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
-            exp_thetas = 0
-            exp_thetas_11 = 0
-            exp_thetas_22 = 0
-            exp_thetas_33 = 0
-            exp_thetas_44 = 0
-            exp_thetas_55 = 0
+            exp_thetas = {
+                "all": 0,
+                "11": 0,
+                "22": 0,
+                "33": 0,
+                "44": 0,
+                "55": 0,
+            }
             for i in range(snapshot.nparticle):
                 thetas = (self.qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
                 medium = np.exp(-1j*thetas)
-                exp_thetas += medium
-                if snapshot.particle_type[i] == 1:
-                    exp_thetas_11 += medium
-                elif snapshot.particle_type[i] == 2:
-                    exp_thetas_22 += medium
-                elif snapshot.particle_type[i] == 3:
-                    exp_thetas_33 += medium
-                elif snapshot.particle_type[i] == 4:
-                    exp_thetas_44 += medium
+                exp_thetas["all"] += medium
+                if snapshot.particle_type[i]==1:
+                    exp_thetas["11"] += medium
+                elif snapshot.particle_type[i]==2:
+                    exp_thetas["22"] += medium
+                elif snapshot.particle_type[i]==3:
+                    exp_thetas["33"] += medium
+                elif snapshot.particle_type[i]==4:
+                    exp_thetas["44"] += medium
                 else:
-                    exp_thetas_55 += medium
-            sqresults[:, 1] += (exp_thetas*np.conj(exp_thetas)).real
-            sqresults[:, 2] += (exp_thetas_11*np.conj(exp_thetas_11)).real
-            sqresults[:, 3] += (exp_thetas_22*np.conj(exp_thetas_22)).real
-            sqresults[:, 4] += (exp_thetas_33*np.conj(exp_thetas_33)).real
-            sqresults[:, 5] += (exp_thetas_44*np.conj(exp_thetas_44)).real
-            sqresults[:, 6] += (exp_thetas_55*np.conj(exp_thetas_55)).real
-        sqresults[:, 1] /= (self.nsnapshots*self.nparticle)
-        sqresults[:, 2] /= (self.nsnapshots * self.typecount[0])
-        sqresults[:, 3] /= (self.nsnapshots * self.typecount[1])
-        sqresults[:, 4] /= (self.nsnapshots * self.typecount[2])
-        sqresults[:, 5] /= (self.nsnapshots * self.typecount[3])
-        sqresults[:, 6] /= (self.nsnapshots * self.typecount[4])
-        names = 'q  S(q)  S11(q)  S22(q)  S33(q)  S44(q)  S55(q)'
-        sqresults = pd.DataFrame(sqresults, columns=names.split()).round(6)
+                    exp_thetas["55"] += medium
+            sqresults["Sqall"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
+            sqresults["Sq11"] += (exp_thetas["11"]*np.conj(exp_thetas["11"])).real
+            sqresults["Sq22"] += (exp_thetas["22"]*np.conj(exp_thetas["22"])).real
+            sqresults["Sq33"] += (exp_thetas["33"]*np.conj(exp_thetas["33"])).real
+            sqresults["Sq44"] += (exp_thetas["44"]*np.conj(exp_thetas["44"])).real
+            sqresults["Sq55"] += (exp_thetas["55"]*np.conj(exp_thetas["55"])).real
+            sqresults["Sq12"] += (exp_thetas["11"]*np.conj(exp_thetas["22"])).real
+            sqresults["Sq13"] += (exp_thetas["11"]*np.conj(exp_thetas["33"])).real
+            sqresults["Sq14"] += (exp_thetas["11"]*np.conj(exp_thetas["44"])).real
+            sqresults["Sq15"] += (exp_thetas["11"]*np.conj(exp_thetas["55"])).real
+            sqresults["Sq23"] += (exp_thetas["22"]*np.conj(exp_thetas["33"])).real
+            sqresults["Sq24"] += (exp_thetas["22"]*np.conj(exp_thetas["44"])).real
+            sqresults["Sq25"] += (exp_thetas["22"]*np.conj(exp_thetas["55"])).real
+            sqresults["Sq34"] += (exp_thetas["33"]*np.conj(exp_thetas["44"])).real
+            sqresults["Sq35"] += (exp_thetas["33"]*np.conj(exp_thetas["55"])).real
+            sqresults["Sq45"] += (exp_thetas["44"]*np.conj(exp_thetas["55"])).real
+
+        sqresults["Sqall"] /= (self.nsnapshots*self.nparticle)
+        sqresults["Sq11"] /= (self.nsnapshots * self.typecount[0])
+        sqresults["Sq22"] /= (self.nsnapshots * self.typecount[1])
+        sqresults["Sq33"] /= (self.nsnapshots * self.typecount[2])
+        sqresults["Sq44"] /= (self.nsnapshots * self.typecount[3])
+        sqresults["Sq55"] /= (self.nsnapshots * self.typecount[4])
+        sqresults["Sq12"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[1]))
+        sqresults["Sq13"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[2]))
+        sqresults["Sq14"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[3]))
+        sqresults["Sq15"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[4]))
+        sqresults["Sq23"] /= (self.nsnapshots * sqrt(self.typecount[1] * self.typecount[2]))
+        sqresults["Sq24"] /= (self.nsnapshots * sqrt(self.typecount[1] * self.typecount[3]))
+        sqresults["Sq25"] /= (self.nsnapshots * sqrt(self.typecount[1] * self.typecount[4]))
+        sqresults["Sq34"] /= (self.nsnapshots * sqrt(self.typecount[2] * self.typecount[3]))
+        sqresults["Sq35"] /= (self.nsnapshots * sqrt(self.typecount[2] * self.typecount[4]))
+        sqresults["Sq45"] /= (self.nsnapshots * sqrt(self.typecount[3] * self.typecount[4]))
+        if self.saveqvectors:
+            self.df_qvector.join(sqresults).to_csv(
+                self.outputfile[:-4]+"_qvectors.csv",
+                float_format="%.6f",
+                index=False
+            )
+        # ensemble average over same q but different directions
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)

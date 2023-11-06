@@ -62,13 +62,13 @@ class gr:
             "Simulation Box Length Changes during simulation"
 
         self.boxvolume = np.prod(self.snapshots.snapshots[0].boxlength)
-        self.type, self.typenumber = np.unique(self.snapshots.snapshots[0].particle_type, return_counts=True)
-        assert np.sum(self.typenumber) == self.nparticle,\
+        self.typenumber, self.typecount = np.unique(self.snapshots.snapshots[0].particle_type, return_counts=True)
+        assert np.sum(self.typecount) == self.nparticle,\
             "Sum of Indivdual Types is Not the Total Amount"
 
         self.nidealfac = 4.0 / 3 if self.ndim == 3 else 1.0
         self.rhototal = self.nparticle / self.boxvolume
-        self.rhotype = self.typenumber / self.boxvolume
+        self.rhotype = self.typecount / self.boxvolume
         self.maxbin = int(self.snapshots.snapshots[0].boxlength.min()/2.0/self.rdelta)
 
     def getresults(self) -> Optional[Callable]:
@@ -78,18 +78,18 @@ class gr:
         Return:
             Optional[Callable]
         """
-        if len(self.type) == 1:
+        if len(self.typenumber) == 1:
             return self.unary()
-        if len(self.type) == 2:
+        if len(self.typenumber) == 2:
             return self.binary()
-        if len(self.type) == 3:
+        if len(self.typenumber) == 3:
             return self.ternary()
-        if len(self.type) == 4:
+        if len(self.typenumber) == 4:
             return self.quarternary()
-        if len(self.type) == 5:
+        if len(self.typenumber) == 5:
             return self.quinary()
-        if len(self.type) > 6:
-            logger.info(f"This is a {len(self.type)} system, only overall S(q) calculated")
+        if len(self.typenumber) > 6:
+            logger.info(f"This is a {len(self.typenumber)} system, only overall S(q) calculated")
             return self.unary()
 
     def unary(self) -> pd.DataFrame:
@@ -132,7 +132,7 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a Binary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
         grresults = np.zeros((self.maxbin, 4))
         for snapshot in self.snapshots.snapshots:
@@ -161,12 +161,12 @@ class gr:
         binright = binedge[1:]   #len(countvalue) = len(binedge) - 1
         nideal = self.nidealfac * np.pi * (binright**self.ndim - binleft**self.ndim)
         grresults[:, 0] = grresults[:, 0] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
-        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typenumber[0] / (nideal*self.rhotype[0])
-        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[0] / self.typenumber[1] / 2.0
-        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typenumber[1] / (nideal*self.rhotype[1])
+        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
+        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
+        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
 
         binright = binright - 0.5 * self.rdelta
-        names    = 'r  g(r)  g11(r)  g12(r)  g22(r)'
+        names = 'r  g(r)  g11(r)  g12(r)  g22(r)'
         results = pd.DataFrame(np.column_stack((binright, grresults)), columns=names.split())
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -184,9 +184,9 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a Ternary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
-
-        grresults   = np.zeros((self.maxbin, 7))
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
+        
+        grresults = np.zeros((self.maxbin, 7))
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle-1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
@@ -207,24 +207,24 @@ class gr:
                 grresults[:, 3] += countvalue # 33
                 countvalue, binedge = np.histogram(distance[countsum==3], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
                 grresults[:, 4] += countvalue # 12
-                countvalue, binedge = np.histogram(distance[countsum==5], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 5] += countvalue # 23
                 countvalue, binedge = np.histogram(distance[(countsum==4) & (countsub==2)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 6] += countvalue # 13
+                grresults[:, 5] += countvalue # 13
+                countvalue, binedge = np.histogram(distance[countsum==5], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
+                grresults[:, 6] += countvalue # 23
 
-        binleft = binedge[:-1]   #real value of each bin edge, not index
-        binright = binedge[1:]   #len(countvalue) = len(binedge) - 1
+        binleft = binedge[:-1]    # real value of each bin edge, not index
+        binright = binedge[1:]    # len(countvalue) = len(binedge) - 1
         nideal = self.nidealfac * np.pi * (binright**self.ndim-binleft**self.ndim)
         grresults[:, 0] = grresults[:, 0] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
-        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typenumber[0] / (nideal*self.rhotype[0])
-        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / self.typenumber[1] / (nideal*self.rhotype[1])
-        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typenumber[2] / (nideal*self.rhotype[2])
-        grresults[:, 4] = grresults[:, 4] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[0] / self.typenumber[1] / 2.0
-        grresults[:, 5] = grresults[:, 5] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[1] / self.typenumber[2] / 2.0
-        grresults[:, 6] = grresults[:, 6] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[0] / self.typenumber[2] / 2.0
+        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
+        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
+        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typecount[2] / (nideal * self.rhotype[2])
+        grresults[:, 4] = grresults[:, 4] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
+        grresults[:, 5] = grresults[:, 5] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[2] / 2.0
+        grresults[:, 6] = grresults[:, 6] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[2] / 2.0
 
         binright = binright - 0.5 * self.rdelta
-        names    = 'r  g(r)  g11(r)  g22(r)  g33(r)  g12(r)  g23(r)  g13(r)'
+        names = 'r  g(r)  g11(r)  g22(r)  g33(r)  g12(r)  g13(r)  g23(r)'
         results = pd.DataFrame(np.column_stack((binright, grresults)), columns=names.split())
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -241,7 +241,7 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a quarternary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
         grresults = np.zeros((self.maxbin, 11))
         for snapshot in self.snapshots.snapshots:
@@ -281,17 +281,17 @@ class gr:
         binright = binedge[1:]   #len(countvalue) = len(binedge) - 1
         nideal = self.nidealfac * np.pi * (binright**self.ndim - binleft**self.ndim)
         grresults[:, 0] = grresults[:, 0] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
-        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typenumber[0] / (nideal*self.rhotype[0])
-        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / self.typenumber[1] / (nideal*self.rhotype[1])
-        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typenumber[2] / (nideal*self.rhotype[2])
-        grresults[:, 4] = grresults[:, 4] * 2 / self.nsnapshots / self.typenumber[3] / (nideal*self.rhotype[3])
+        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
+        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
+        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typecount[2] / (nideal * self.rhotype[2])
+        grresults[:, 4] = grresults[:, 4] * 2 / self.nsnapshots / self.typecount[3] / (nideal * self.rhotype[3])
 
-        grresults[:, 5] = grresults[:, 5] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[0] / self.typenumber[1] / 2.0
-        grresults[:, 6] = grresults[:, 6] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[0] / self.typenumber[2] / 2.0
-        grresults[:, 7] = grresults[:, 7] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[0] / self.typenumber[3] / 2.0
-        grresults[:, 8] = grresults[:, 8] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[1] / self.typenumber[2] / 2.0
-        grresults[:, 9] = grresults[:, 9] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[1] / self.typenumber[3] / 2.0
-        grresults[:,10] = grresults[:,10] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typenumber[2] / self.typenumber[3] / 2.0
+        grresults[:, 5] = grresults[:, 5] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
+        grresults[:, 6] = grresults[:, 6] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[2] / 2.0
+        grresults[:, 7] = grresults[:, 7] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[3] / 2.0
+        grresults[:, 8] = grresults[:, 8] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[2] / 2.0
+        grresults[:, 9] = grresults[:, 9] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[3] / 2.0
+        grresults[:,10] = grresults[:,10] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[2] / self.typecount[3] / 2.0
 
         binright = binright - 0.5 * self.rdelta
         names = 'r  g(r)  g11(r)  g22(r)  g33(r)  g44(r)  g12(r)  g13(r)  g14(r)  g23(r)  g24(r)  g34(r)'
@@ -311,7 +311,7 @@ class gr:
         """
 
         logger.info('Start Calculating g(r) of a Quinary System')
-        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typenumber/self.nparticle, 3)])}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
         grresults = np.zeros((self.maxbin, 16))
         for snapshot in self.snapshots.snapshots:
@@ -361,22 +361,22 @@ class gr:
         binright = binedge[1:]   #len(countvalue) = len(binedge) - 1
         nideal = self.nidealfac * np.pi * (binright**self.ndim-binleft**self.ndim)
         grresults[:, 0] = grresults[:, 0] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
-        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typenumber[0] / (nideal*self.rhotype[0])
-        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / self.typenumber[1] / (nideal*self.rhotype[1])
-        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typenumber[2] / (nideal*self.rhotype[2])
-        grresults[:, 4] = grresults[:, 4] * 2 / self.nsnapshots / self.typenumber[3] / (nideal*self.rhotype[3])
-        grresults[:, 5] = grresults[:, 5] * 2 / self.nsnapshots / self.typenumber[4] / (nideal*self.rhotype[4])
+        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
+        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
+        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typecount[2] / (nideal * self.rhotype[2])
+        grresults[:, 4] = grresults[:, 4] * 2 / self.nsnapshots / self.typecount[3] / (nideal * self.rhotype[3])
+        grresults[:, 5] = grresults[:, 5] * 2 / self.nsnapshots / self.typecount[4] / (nideal * self.rhotype[4])
 
-        grresults[:, 6] = grresults[:, 6] * 2 / self.nsnapshots/ nideal * self.boxvolume / self.typenumber[0] / self.typenumber[1] / 2.0
-        grresults[:, 7] = grresults[:, 7] * 2 / self.nsnapshots/ nideal * self.boxvolume / self.typenumber[0] / self.typenumber[2] / 2.0
-        grresults[:, 8] = grresults[:, 8] * 2 / self.nsnapshots/ nideal * self.boxvolume / self.typenumber[0] / self.typenumber[3] / 2.0
-        grresults[:, 9] = grresults[:, 9] * 2 / self.nsnapshots/ nideal * self.boxvolume / self.typenumber[0] / self.typenumber[4] / 2.0
-        grresults[:,10] = grresults[:,10] * 2 / self.nsnapshots/ nideal * self.boxvolume / self.typenumber[1] / self.typenumber[2] / 2.0
-        grresults[:,11] = grresults[:,11] * 2 / self.nsnapshots/ nideal * self.boxvolume / self.typenumber[1] / self.typenumber[3] / 2.0
-        grresults[:,12] = grresults[:,12] * 2 / self.nsnapshots/ nideal * self.boxvolume / self.typenumber[1] / self.typenumber[4] / 2.0
-        grresults[:,13] = grresults[:,13] * 2 / self.nsnapshots/ nideal * self.boxvolume / self.typenumber[2] / self.typenumber[3] / 2.0
-        grresults[:,14] = grresults[:,14] * 2 / self.nsnapshots/ nideal * self.boxvolume / self.typenumber[2] / self.typenumber[4] / 2.0
-        grresults[:,15] = grresults[:,15] * 2 / self.nsnapshots/ nideal * self.boxvolume / self.typenumber[3] / self.typenumber[4] / 2.0
+        grresults[:, 6] = grresults[:, 6] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
+        grresults[:, 7] = grresults[:, 7] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[2] / 2.0
+        grresults[:, 8] = grresults[:, 8] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[3] / 2.0
+        grresults[:, 9] = grresults[:, 9] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[4] / 2.0
+        grresults[:,10] = grresults[:,10] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[2] / 2.0
+        grresults[:,11] = grresults[:,11] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[3] / 2.0
+        grresults[:,12] = grresults[:,12] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[4] / 2.0
+        grresults[:,13] = grresults[:,13] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[2] / self.typecount[3] / 2.0
+        grresults[:,14] = grresults[:,14] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[2] / self.typecount[4] / 2.0
+        grresults[:,15] = grresults[:,15] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[3] / self.typecount[4] / 2.0
 
         binright = binright - 0.5 * self.rdelta
         names = 'r  g(r)  g11(r)  g22(r)  g33(r)  g44(r)  g55(r)  g12(r)  g13(r)  g14(r)  g15(r)  g23(r)  g24(r)  g25(r)  g34(r)  g35(r)  g45(r)'
