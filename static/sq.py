@@ -21,6 +21,30 @@ logger = get_logger_handle(__name__)
 # pylint: disable=too-many-statements
 # pylint: disable=trailing-whitespace
 
+def selection_sq(
+    positions: np.ndarray,
+    qvector: np.ndarray,
+) -> pd.DataFrame:
+    """
+    Calculate the structure factor of a single configuration for selected particles
+
+    Input:
+        positions (np.ndarray): particle positions of selected particles of a snapshot
+        qvector (np.ndarray): wavevectors for the structure factor
+    
+    Return:
+        calculated S(q) (pd.DataFrame)
+    """
+    Natom = positions.shape[0]
+    logger.info(f"Calculating S(q) for {Natom}-selected atoms")
+    sqresults = pd.DataFrame(0, columns=["q Sq".split()])
+    sqresults["q"] = np.linalg.norm(qvector, axis=1)
+    exp_thetas = 0
+    for i in range(Natom):
+        thetas = (qvector*positions[i][np.newaxis,:]).sum(axis=1)
+        exp_thetas += np.exp(-1j*thetas)
+    sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)).real / Natom
+    return sqresults
 
 class sq:
     """
