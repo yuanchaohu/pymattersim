@@ -24,26 +24,34 @@ logger = get_logger_handle(__name__)
 def selection_sq(
     positions: np.ndarray,
     qvector: np.ndarray,
+    selection: np.ndarray,
 ) -> pd.DataFrame:
     """
-    Calculate the structure factor of a single configuration for selected particles
+    Calculate the structure factor of a single configuration for selected particles,
+    it is also useful to calculate the Fourier-Transform of a physical quantity
 
     Input:
-        positions (np.ndarray): particle positions of selected particles of a snapshot
+        positions (np.ndarray): ALL particle positions of a snapshot
         qvector (np.ndarray): wavevectors for the structure factor
+        selection (np.ndarray): particle-level condition for S(q)
     
     Return:
-        calculated S(q) (pd.DataFrame)
+        calculated conditional S(q) in complex number (pd.DataFrame)
     """
     Natom = positions.shape[0]
-    logger.info(f"Calculating S(q) for {Natom}-selected atoms")
-    sqresults = pd.DataFrame(0, columns=["q Sq".split()])
+    logger.info(f"Calculating conditional S(q) for {Natom}-atom system")
+
+    sqresults = pd.DataFrame(0, columns="q Sq".split())
     sqresults["q"] = np.linalg.norm(qvector, axis=1)
+    if np.array(selection).dtype=="bool":
+        selection = selection.astype(np.int32)
+        Natom = selection.sum()
+
     exp_thetas = 0
-    for i in range(Natom):
+    for i in range(positions.shape[0]):
         thetas = (qvector*positions[i][np.newaxis,:]).sum(axis=1)
-        exp_thetas += np.exp(-1j*thetas)
-    sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)).real / Natom
+        exp_thetas += np.exp(-1j*thetas)*selection[i]
+    sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)) / Natom
     return sqresults
 
 class sq:
