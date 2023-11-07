@@ -1,9 +1,13 @@
-def Nidealfac(ndim: int) -> float:
+# coding = utf-8
+
+"""small mathmatical functions for feasible computation"""
+
+def nidealfac(ndim: int=3) -> float:
     """
     Choose factor of Nideal in g(r) calculation
     
     Inputs:
-        ndim (int): system dimensionality
+        ndim (int): system dimensionality, default 3
 
     Return:
         (float): Nideal
