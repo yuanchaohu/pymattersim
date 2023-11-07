@@ -2,7 +2,7 @@
 
 """see documentation @ ../docs/static_properties.md"""
 
-from typing import Optional, Callable
+from typing import Optional, Callable, Tuple
 from math import sqrt
 import numpy as np
 import pandas as pd
@@ -25,25 +25,28 @@ def conditional_sq(
     snapshot: SingleSnapshot,
     qvector: np.ndarray,
     condition: np.ndarray
-) -> pd.DataFrame:
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Calculate the structure factor of a single configuration for selected particles,
     Also useful to calculate the Fourier-Transform of a physical quantity "A"
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
-        2. qvector (np.ndarray of int): designed wavevectors (integers, see utils.wavevector)
+        2. qvector (np.ndarray of int): designed wavevectors in two-dimensional np.array (see utils.wavevector)
         3. condition (np.ndarray): particle-level condition / property
     
     Return:
-        calculated conditional S(q) (pd.DataFrame)
+        calculated conditional S(q) for each input wavevector (pd.DataFrame)
+        and the ensemble averaged S(q) over the same wavenumber (pd.DataFrame)
         (FFT in complex number is also returned for reference)
     """
     Natom = snapshot.nparticle
     twopidl = 2*np.pi / snapshot.boxlength
-    qvector = qvector.astype(np.float64) * twopidl[np.newaxis,:]
+    ndim = snapshot.positions.shape[1]
+    df_qvector = pd.DataFrame(qvector, columns=[f"q{i}" for i in range(ndim)])
 
     sqresults = pd.DataFrame(0, index=range(qvector.shape[0]), columns="q Sq FFT".split())
+    qvector = qvector.astype(np.float64) * twopidl[np.newaxis,:]
     sqresults["q"] = np.linalg.norm(qvector, axis=1)
 
     if np.array(condition).dtype=="bool":
@@ -58,9 +61,15 @@ def conditional_sq(
         thetas = (qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
         exp_thetas += np.exp(-1j*thetas)*condition[i]
     exp_thetas /= sqrt(Natom)
-    sqresults["Sq"] = exp_thetas*np.conj(exp_thetas)
+    sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)).real
     sqresults["FFT"] = exp_thetas
-    return sqresults
+    sqresults = df_qvector.join(sqresults)
+
+    # ensemble average over same q but different directions
+    sqresults = sqresults.round(6)
+    ave_sqresults = sqresults["Sq"].groupby(sqresults["q"]).mean().reset_index()
+
+    return sqresults, ave_sqresults
 
 class sq:
     """
@@ -82,9 +91,10 @@ class sq:
         Inputs:
             1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
                          (returned by reader.dump_reader.DumpReader)
-            2. qrange (float): the wave number range to be calculated, default is 10
+            2. qrange (float): the wave number range to be calculated, default 10
             3. onlypositive (bool): whether only consider positive wave vectors, default False
-            4. qvector (np.ndarray): input wave vectors, if None (default) use qrange & onlypositive
+            4. qvector (np.ndarray of int): input wave vectors in integers as two-dimensional np.array,
+                                            if None (default) use qrange & onlypositive
             5. saveqvectors (bool): whether to save S(q) for specific wavevectors, default False
             6. outputfile (str): the name of csv file to save the calculated S(q), default None
 
@@ -96,7 +106,6 @@ class sq:
         self.saveqvectors = saveqvectors
 
         self.nsnapshots = snapshots.nsnapshots
-
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}) == 1,\
             "Paticle Number Changes during simulation"
@@ -109,14 +118,14 @@ class sq:
         logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
         ndim = snapshots.snapshots[0].positions.shape[1]
-        twopidl = 2*np.pi / self.snapshots.snapshots[0].boxlength #[2PI/Lx, 2PI/Ly]
+        twopidl = 2*np.pi / self.snapshots.snapshots[0].boxlength
         if qvector is not None:
             self.qvector = qvector
         else:
             numofq = int(qrange*2.0/twopidl.min())
             self.qvector = choosewavevector(ndim, numofq, onlypositive)
         self.df_qvector = pd.DataFrame(self.qvector, columns=[f"q{i}" for i in range(ndim)])
-        self.qvector = self.qvector.astype(np.float64) * twopidl
+        self.qvector = self.qvector.astype(np.float64) * twopidl[np.newaxis,:]
         self.qvalue = np.linalg.norm(self.qvector, axis=1)
 
     def getresults(self) -> Optional[Callable]:
@@ -147,7 +156,7 @@ class sq:
         Return:
             calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating S(q) of a Unary System')
+        logger.info('Start calculating S(q) of a unary system')
 
         sqresults = pd.DataFrame(0, index=self.df_qvector.index, columns="q Sq".split())
         sqresults["q"] = self.qvalue
@@ -170,7 +179,7 @@ class sq:
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
             
-        logger.info('Finish Calculating S(q) of a Unary System')
+        logger.info('Finish calculating S(q) of a unary system')
         return results
 
     def binary(self) -> pd.DataFrame:
@@ -180,8 +189,12 @@ class sq:
         Return:
             calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating S(q) for a Binary System')
-        sqresults = pd.DataFrame(0, index=self.df_qvector.index, columns="q Sqall Sq11 Sq22 Sq12".split())
+        logger.info('Start calculating S(q) for a binary system')
+        sqresults = pd.DataFrame(
+            0, 
+            index=self.df_qvector.index, 
+            columns="q Sqall Sq11 Sq22 Sq12".split()
+        )
         sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
             exp_thetas = {
@@ -218,7 +231,7 @@ class sq:
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
-        logger.info('Finish Calculating S(q) of a Binary System')
+        logger.info('Finish calculating S(q) of a binary system')
         return results
     
     def ternary(self) -> pd.DataFrame:
@@ -228,9 +241,12 @@ class sq:
         Return:
             calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating S(q) for a Ternary System')
-        sqresults = pd.DataFrame(0, index=self.df_qvector.index,
-                                 columns="q Sqall Sq11 Sq22 Sq33 Sq12 Sq13 Sq23".split())
+        logger.info('Start calculating S(q) for a ternary system')
+        sqresults = pd.DataFrame(
+            0, 
+            index=self.df_qvector.index,
+            columns="q Sqall Sq11 Sq22 Sq33 Sq12 Sq13 Sq23".split()
+        )
         sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
             exp_thetas = {
@@ -276,7 +292,7 @@ class sq:
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
-        logger.info('Finish Calculating S(q) of a Ternary System')
+        logger.info('Finish calculating S(q) of a ternary system')
         return results
 
     def quarternary(self) -> pd.DataFrame:
@@ -286,9 +302,12 @@ class sq:
         Return:
             calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating S(q) for a Quarternary System')
-        sqresults = pd.DataFrame(0, index=self.df_qvector.index,
-                                 columns="q Sqall Sq11 Sq22 Sq33 Sq44 Sq12 Sq13 Sq14 Sq23 Sq24 Sq34".split())
+        logger.info('Start calculating S(q) for a quarternary system')
+        sqresults = pd.DataFrame(
+            0, 
+            index=self.df_qvector.index,
+            columns="q Sqall Sq11 Sq22 Sq33 Sq44 Sq12 Sq13 Sq14 Sq23 Sq24 Sq34".split()
+        )
         sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
             exp_thetas = {
@@ -345,7 +364,7 @@ class sq:
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
-        logger.info('Finish Calculating S(q) of a Quarternary System')
+        logger.info('Finish calculating S(q) of a quarternary system')
         return results
     
     def quinary(self) -> pd.DataFrame:
@@ -355,10 +374,13 @@ class sq:
         Return:
             calculated S(q) (pd.DataFrame)
         """
-        logger.info('Start Calculating S(q) for a Quinary System')
-        sqresults = pd.DataFrame(0, index=self.df_qvector.index,
-                                 columns="q Sqall Sq11 Sq22 Sq33 Sq44 Sq55 Sq12 Sq13 Sq14 Sq15 \
-                                          Sq23 Sq24 Sq25 Sq34 Sq35 Sq45".split())
+        logger.info('Start calculating S(q) for a quinary system')
+        sqresults = pd.DataFrame(
+            0, 
+            index=self.df_qvector.index,
+            columns="q Sqall Sq11 Sq22 Sq33 Sq44 Sq55 Sq12 Sq13 Sq14 Sq15 \
+                    Sq23 Sq24 Sq25 Sq34 Sq35 Sq45".split()
+        )
         sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
             exp_thetas = {
@@ -428,5 +450,5 @@ class sq:
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
 
-        logger.info('Finish Calculating S(q) of a Quinary System')
+        logger.info('Finish calculating S(q) of a quinary system')
         return results
