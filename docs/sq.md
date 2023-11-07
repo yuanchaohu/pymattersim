@@ -4,11 +4,11 @@
 
 Fourier transformation of particle level physical quantity $A_i$ ($A_i=1$ for normal S(q) of unary system). Bool type $A_i$ makes the calculation for only selected particles with $A_i=True$.
 $$
-\rho ({\vec q}) = \frac{1}{\sqrt{N_\alpha}} \sum_i^{N_\alpha} A_i \exp(-i \cdot {\vec q} \cdot {\vec r_i})
+\rho_\alpha ({\vec q}) = \frac{1}{\sqrt{N_\alpha}} \sum_i^{N_\alpha} A_i \exp(-i \cdot {\vec q} \cdot {\vec r_i})
 $$ 
 
 $$
-S({\vec q}) = \lang \rho({\vec q} \rho({-\vec q})) \rang
+S_\alpha({\vec q}) = \lang \rho_\alpha({\vec q} \rho_\alpha({-\vec q})) \rang
 $$
 
 where ***N*** is particle number. The computation time is determined partly by the range of wavenumber, which now is regulated by the input argument `qrange`. The module now is only applicable for cubic systems.
