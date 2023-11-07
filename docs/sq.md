@@ -8,7 +8,7 @@ $$
 $$ 
 
 $$
-S_\alpha({\vec q}) = \lang \rho_\alpha({\vec q} \rho_\alpha({-\vec q})) \rang
+S_{\alpha\beta}({\vec q}) = \lang \rho_\alpha({\vec q}) \rho_\beta({-\vec q})) \rang
 $$
 
 where ***N*** is particle number. The computation time is determined partly by the range of wavenumber, which now is regulated by the input argument `qrange`. The module now is only applicable for cubic systems.
