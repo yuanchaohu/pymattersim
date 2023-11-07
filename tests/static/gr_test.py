@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 import pandas as pd
 from reader.dump_reader import DumpReader
-from static.gr import gr
+from static.gr import gr, selection_gr
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -28,7 +28,7 @@ class TestPCF(unittest.TestCase):
         """
         Test gr works properly for unary system
         """
-        logger.info(f"Starting test using {self.test_file_unary}...")
+        logger.info(f"Starting test gr using {self.test_file_unary}...")
         readdump = DumpReader(self.test_file_unary, ndim=3)
         readdump.read_onefile()
         gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_unary.csv').getresults()
@@ -40,12 +40,13 @@ class TestPCF(unittest.TestCase):
                                         1.007661, 1.089595, 1.092679, 0.944498],
                                         result.iloc[:, 1][::50].values)
         os.remove("gr_unary.csv")
+        logger.info(f"Finishing test gr using {self.test_file_unary}...")
 
     def test_gr_binary(self) -> None:
         """
         Test gr works properly for binary system
         """
-        logger.info(f"Starting test using {self.test_file_binary}...")
+        logger.info(f"Starting test gr using {self.test_file_binary}...")
         readdump = DumpReader(self.test_file_binary, ndim=2)
         readdump.read_onefile()
         gr(readdump.snapshots, ppp=[1,1], rdelta=0.01, outputfile='gr_binary.csv').getresults()
@@ -106,12 +107,13 @@ class TestPCF(unittest.TestCase):
                                         1.004328, 1.005054, 0.994273, 0.999574],
                                         result.iloc[:, 3][::50].values)
         os.remove("gr_binary.csv")
+        logger.info(f"Finishing test gr using {self.test_file_binary}...")
 
     def test_gr_ternary(self) -> None:
         """
         Test gr works properly for ternary system
         """
-        logger.info(f"Starting test using {self.test_file_ternary}...")
+        logger.info(f"Starting test gr using {self.test_file_ternary}...")
         readdump = DumpReader(self.test_file_ternary, ndim=3)
         readdump.read_onefile()
         gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr_ternary.csv').getresults()
@@ -188,3 +190,19 @@ class TestPCF(unittest.TestCase):
                                         1.006255, 1.013002, 1.092374, 0.995278, 0.978415],
                                         result.iloc[:, 7][::50].values)    # g23
         os.remove("gr_ternary.csv")
+        logger.info(f"Finishing test gr using {self.test_file_ternary}...")
+
+    def test_gr_selection(self) -> None:
+        """
+        Test gr selection works properly for ternary system
+        """
+        logger.info(f"Starting test selection_gr using {self.test_file_ternary}...")
+        readdump = DumpReader(self.test_file_ternary, ndim=3)
+        readdump.read_onefile()
+        snapshot = readdump.snapshots.snapshots[0]
+
+        g22r_selected = selection_gr(snapshot, selection = snapshot.particle_type == 2)
+        gr_results = gr(readdump.snapshots).getresults()[['r', 'g22(r)']].values
+
+        np.testing.assert_almost_equal(g22r_selected, gr_results)    # gtotal
+        logger.info(f"Finishing test selection_gr using {self.test_file_ternary}...")

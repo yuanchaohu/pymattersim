@@ -5,8 +5,9 @@
 from typing import Optional, Callable
 import numpy as np
 import pandas as pd
-from reader.reader_utils import Snapshots
+from reader.reader_utils import SingleSnapshot, Snapshots
 from utils.pbc import remove_pbc
+from utils.Nideal import Nidealfac
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -19,6 +20,59 @@ logger = get_logger_handle(__name__)
 # pylint: disable=line-too-long
 # pylint: disable=too-many-statements
 # pylint: disable=trailing-whitespace
+
+def selection_gr(
+    snapshot: SingleSnapshot,
+    selection: np.ndarray,
+    ppp: list=[1,1,1],
+    rdelta: float=0.01
+    ) -> pd.DataFrame:
+    """
+    Calculate the pair correlation function of a single configuration for selected particles,
+    it is also useful to calculate the Fourier-Transform of a physical quantity
+
+    Input:
+        1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
+        2. selection (np.ndarray): particle-level condition for g(r)
+        3. ppp (list): the periodic boundary conditions,
+                       setting 1 for yes and 0 for no, default [1,1,1],
+                       set [1, 1] for two-dimensional systems
+        4. rdelta (float): bin size calculating g(r), the default value is 0.01
+
+    Return:
+        calculated conditional g(r) (pd.DataFrame)
+    """
+    Natom = snapshot.nparticle
+    positions = snapshot.positions
+    ndim = positions.shape[1]
+    boxlength = snapshot.boxlength
+
+    logger.info(f"Calculating conditional g(r) for {Natom}-atom system")
+
+    maxbin = int(boxlength.min() / 2.0 / rdelta)
+    grresults = np.zeros(maxbin)
+
+    if np.array(selection).dtype=="bool":
+        selection = selection.astype(np.int32)
+        Natom = selection.sum()
+
+    for i in range(positions.shape[0]):
+        RIJ = positions[i+1:] - positions[i]
+        RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
+        distance = np.linalg.norm(RIJ, axis = 1)
+        SIJ = selection[i+1:] * selection[i]
+        countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
+        grresults += countvalue
+        
+    binleft = binedge[:-1]
+    binright = binedge[1:]
+    Nideal = Nidealfac(ndim) * np.pi * (binright**ndim-binleft**ndim)
+    rhototal = Natom / np.prod(boxlength)
+    grresults = grresults * 2 / Natom / (Nideal * rhototal)
+
+    binright = binright - 0.5 * rdelta
+    results  = np.column_stack((binright, grresults))
+    return results
 
 
 class gr:
@@ -66,7 +120,7 @@ class gr:
         assert np.sum(self.typecount) == self.nparticle,\
             "Sum of Indivdual Types is Not the Total Amount"
 
-        self.nidealfac = 4.0 / 3 if self.ndim == 3 else 1.0
+        self.nidealfac = Nidealfac(self.ndim)
         self.rhototal = self.nparticle / self.boxvolume
         self.rhotype = self.typecount / self.boxvolume
         self.maxbin = int(self.snapshots.snapshots[0].boxlength.min()/2.0/self.rdelta)

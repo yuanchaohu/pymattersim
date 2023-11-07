@@ -6,7 +6,7 @@ from typing import Optional, Callable
 from math import sqrt
 import numpy as np
 import pandas as pd
-from reader.reader_utils import Snapshots
+from reader.reader_utils import SingleSnapshot, Snapshots
 from utils.wavevector import choosewavevector
 from utils.logging_utils import get_logger_handle
 
@@ -22,26 +22,31 @@ logger = get_logger_handle(__name__)
 # pylint: disable=trailing-whitespace
 
 def selection_sq(
-    positions: np.ndarray,
+    snapshot: SingleSnapshot,
     qvector: np.ndarray,
-    selection: np.ndarray,
-) -> pd.DataFrame:
+    selection: np.ndarray
+    ) -> pd.DataFrame:
     """
     Calculate the structure factor of a single configuration for selected particles,
     it is also useful to calculate the Fourier-Transform of a physical quantity
 
     Input:
-        positions (np.ndarray): ALL particle positions of a snapshot
-        qvector (np.ndarray): wavevectors for the structure factor
-        selection (np.ndarray): particle-level condition for S(q)
+        1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
+        2. qvector (np.ndarray): wavevectors for the structure factor
+        3. selection (np.ndarray): particle-level condition for S(q)
     
     Return:
         calculated conditional S(q) in complex number (pd.DataFrame)
     """
-    Natom = positions.shape[0]
+    Natom = snapshot.nparticle
+    positions = snapshot.positions
+
     logger.info(f"Calculating conditional S(q) for {Natom}-atom system")
 
-    sqresults = pd.DataFrame(0, columns="q Sq".split())
+    twopidl = 2*np.pi / snapshot.boxlength #[2PI/Lx, 2PI/Ly]
+    qvector = qvector.astype(np.float64) * twopidl
+
+    sqresults = pd.DataFrame(0, index=range(qvector.shape[0]), columns="q Sq".split())
     sqresults["q"] = np.linalg.norm(qvector, axis=1)
     if np.array(selection).dtype=="bool":
         selection = selection.astype(np.int32)

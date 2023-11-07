@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 import pandas as pd
 from reader.dump_reader import DumpReader
-from static.sq import sq
+from static.sq import sq, selection_sq
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -28,7 +28,7 @@ class TestSq(unittest.TestCase):
         """
         Test Sq works properly for unary system
         """
-        logger.info(f"Starting test using {self.test_file_unary}...")
+        logger.info(f"Starting test Sq using {self.test_file_unary}...")
         readdump = DumpReader(self.test_file_unary, ndim=3)
         readdump.read_onefile()
         sq(readdump.snapshots, qrange=10, outputfile='sq_unary.csv').getresults()
@@ -45,12 +45,13 @@ class TestSq(unittest.TestCase):
                                         1.142982],
                                         result.iloc[:, 1].values)
         os.remove("sq_unary.csv")
+        logger.info(f"Finishing test Sq using {self.test_file_unary}...")
 
     def test_Sq_binary(self) -> None:
         """
         Test Sq works properly for binary system
         """
-        logger.info(f"Starting test using {self.test_file_binary}...")
+        logger.info(f"Starting test Sq using {self.test_file_binary}...")
         readdump = DumpReader(self.test_file_binary, ndim=2)
         readdump.read_onefile()
         sq(readdump.snapshots, qrange=10, outputfile='sq_binary.csv').getresults()
@@ -78,12 +79,13 @@ class TestSq(unittest.TestCase):
                                         0.439233, 0.896328, 1.218659, 1.200145, 0.942791],
                                         result.iloc[:, 3][::5].values)
         os.remove("sq_binary.csv")
+        logger.info(f"Finishing test Sq using {self.test_file_binary}...")
 
     def test_Sq_ternary(self) -> None:
         """
         Test Sq works properly for ternary system
         """
-        logger.info(f"Starting test using {self.test_file_ternary}...")
+        logger.info(f"Starting test Sq using {self.test_file_ternary}...")
         readdump = DumpReader(self.test_file_ternary, ndim=3)
         readdump.read_onefile()
         sq(readdump.snapshots, qrange=10, outputfile='sq_ternary.csv').getresults()
@@ -114,3 +116,19 @@ class TestSq(unittest.TestCase):
                                         0.897462],
                                         result.iloc[:, 4][::5].values)
         os.remove("sq_ternary.csv")
+        logger.info(f"Finishing test Sq using {self.test_file_ternary}...")
+
+    def test_sq_selection(self) -> None:
+        """
+        Test sq selection works properly for ternary system
+        """
+        logger.info(f"Starting test selection_sq using {self.test_file_ternary}...")
+        readdump = DumpReader(self.test_file_ternary, ndim=3)
+        readdump.read_onefile()
+        snapshot = readdump.snapshots.snapshots[0]
+
+        s22q_selected = selection_sq(snapshot, np.array([[1,1,0]]), selection = snapshot.particle_type==2)["Sq"].values.real
+        s22q_results = sq(readdump.snapshots, qvector=np.array([[1,1,0]])).getresults()["Sq22"].values
+
+        np.testing.assert_almost_equal(s22q_selected.round(4), s22q_results.round(4))
+        logger.info(f"Finishing test selection_sq using {self.test_file_ternary}...")
