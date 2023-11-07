@@ -65,7 +65,7 @@ def conditional_sq(
 class sq:
     """
     This module is used to calculate static structure factors
-    covering unary to senary systems.
+    covering unary to quinary systems.
     """
     def __init__(
             self,

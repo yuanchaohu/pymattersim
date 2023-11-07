@@ -82,7 +82,7 @@ def conditional_gr(
 class gr:
     """
     This module is used to calculate pair correlation functions g(r)
-    covering unary to senary systems.
+    covering unary to quinary systems.
     """
     def __init__(
             self,
