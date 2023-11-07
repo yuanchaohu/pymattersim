@@ -1,6 +1,6 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/static.md"""
+"""see documentation @ ../docs/static_properties.md"""
 
 from typing import Optional, Callable
 from math import sqrt
@@ -25,37 +25,41 @@ def conditional_sq(
     snapshot: SingleSnapshot,
     qvector: np.ndarray,
     condition: np.ndarray
-    ) -> pd.DataFrame:
+) -> pd.DataFrame:
     """
     Calculate the structure factor of a single configuration for selected particles,
-    it is also useful to calculate the Fourier-Transform of a physical quantity
+    Also useful to calculate the Fourier-Transform of a physical quantity "A"
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
-        2. qvector (np.ndarray): wavevectors for the structure factor
-        3. condition (np.ndarray): particle-level condition for S(q)
+        2. qvector (np.ndarray of int): designed wavevectors (integers, see utils.wavevector)
+        3. condition (np.ndarray): particle-level condition / property
     
     Return:
-        calculated conditional S(q) in complex number (pd.DataFrame)
+        calculated conditional S(q) (pd.DataFrame)
+        (FFT in complex number is also returned for reference)
     """
     Natom = snapshot.nparticle
+    twopidl = 2*np.pi / snapshot.boxlength
+    qvector = qvector.astype(np.float64) * twopidl[np.newaxis,:]
 
-    logger.info(f"Calculating conditional S(q) for {Natom}-atom system")
-
-    twopidl = 2*np.pi / snapshot.boxlength #[2PI/Lx, 2PI/Ly]
-    qvector = qvector.astype(np.float64) * twopidl
-
-    sqresults = pd.DataFrame(0, index=range(qvector.shape[0]), columns="q Sq".split())
+    sqresults = pd.DataFrame(0, index=range(qvector.shape[0]), columns="q Sq FFT".split())
     sqresults["q"] = np.linalg.norm(qvector, axis=1)
+
     if np.array(condition).dtype=="bool":
         condition = condition.astype(np.int32)
         Natom = condition.sum()
+        logger.info(f"Calculate S(q) for {Natom} selected atoms")
+    else:
+        logger.info("Calculate Fourier-Transform of physical quantity A")
 
     exp_thetas = 0
     for i in range(snapshot.nparticle):
         thetas = (qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
         exp_thetas += np.exp(-1j*thetas)*condition[i]
-    sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)) / Natom
+    exp_thetas /= sqrt(Natom)
+    sqresults["Sq"] = exp_thetas*np.conj(exp_thetas)
+    sqresults["FFT"] = exp_thetas
     return sqresults
 
 class sq:
