@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 import pandas as pd
 from reader.dump_reader import DumpReader
-from static.gr import gr, selection_gr
+from static.gr import gr, conditional_gr
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -38,7 +38,7 @@ class TestPCF(unittest.TestCase):
                                         1.710015, 0.785585, 0.521454, 0.729149, 1.130114, 1.146455,
                                         1.213279, 0.65381 , 0.81293 , 1.06233 , 0.983969, 0.91615 ,
                                         1.007661, 1.089595, 1.092679, 0.944498],
-                                        result.iloc[:, 1][::50].values)
+                                        result["g(r)"].values[::50])
         os.remove("gr_unary.csv")
         logger.info(f"Finishing test gr using {self.test_file_unary}...")
 
@@ -69,7 +69,7 @@ class TestPCF(unittest.TestCase):
                                         1.002739, 0.999046, 1.003004, 0.99989 , 0.999148, 1.008478,
                                         1.00487 , 0.99853 , 1.004657, 0.997811, 0.995662, 1.000433,
                                         1.005383, 0.999889, 1.001236, 1.001308],
-                                        result.iloc[:, 1][::50].values)
+                                        result["g(r)"].values[::50])
         np.testing.assert_almost_equal([0.      , 0.      , 0.      , 0.246259, 0.279056, 1.912521,
                                         0.956198, 1.5563  , 0.642415, 0.974198, 0.80883 , 0.951376,
                                         1.099018, 0.962408, 1.194818, 0.910821, 1.035728, 0.901313,
@@ -87,7 +87,7 @@ class TestPCF(unittest.TestCase):
                                         1.003395, 1.000782, 1.005418, 0.995606, 0.989886, 1.006352,
                                         1.003153, 0.999898, 1.007786, 0.996982, 1.000807, 0.996207,
                                         1.00786 , 0.994609, 1.011121, 1.003596],
-                                        result.iloc[:, 2][::50].values)
+                                        result["g11(r)"].values[::50])
         np.testing.assert_almost_equal([0.      , 0.      , 1.639879, 0.371371, 1.439545, 0.84156 ,
                                         1.060646, 0.688139, 1.054527, 1.122313, 1.035964, 1.136337,
                                         0.86989 , 1.05462 , 0.919401, 1.035545, 0.993958, 1.015732,
@@ -105,7 +105,7 @@ class TestPCF(unittest.TestCase):
                                         1.004901, 0.994901, 1.001695, 1.002898, 1.00593 , 1.012758,
                                         1.013193, 0.994502, 0.999113, 1.000636, 0.994687, 1.003254,
                                         1.004328, 1.005054, 0.994273, 0.999574],
-                                        result.iloc[:, 3][::50].values)
+                                        result["g12(r)"].values[::50])
         os.remove("gr_binary.csv")
         logger.info(f"Finishing test gr using {self.test_file_binary}...")
 
@@ -192,17 +192,17 @@ class TestPCF(unittest.TestCase):
         os.remove("gr_ternary.csv")
         logger.info(f"Finishing test gr using {self.test_file_ternary}...")
 
-    def test_gr_selection(self) -> None:
+    def test_gr_condition(self) -> None:
         """
-        Test gr selection works properly for ternary system
+        Test gr condition works properly for ternary system
         """
-        logger.info(f"Starting test selection_gr using {self.test_file_ternary}...")
+        logger.info(f"Starting test conditional_gr using {self.test_file_ternary}...")
         readdump = DumpReader(self.test_file_ternary, ndim=3)
         readdump.read_onefile()
         snapshot = readdump.snapshots.snapshots[0]
 
-        g22r_selected = selection_gr(snapshot, selection = snapshot.particle_type == 2)
+        g22r_selected = conditional_gr(snapshot, condition = snapshot.particle_type == 2)
         gr_results = gr(readdump.snapshots).getresults()[['r', 'g22(r)']].values
 
         np.testing.assert_almost_equal(g22r_selected, gr_results)    # gtotal
-        logger.info(f"Finishing test selection_gr using {self.test_file_ternary}...")
+        logger.info(f"Finishing test conditional_gr using {self.test_file_ternary}...")

@@ -21,9 +21,9 @@ logger = get_logger_handle(__name__)
 # pylint: disable=too-many-statements
 # pylint: disable=trailing-whitespace
 
-def selection_gr(
+def conditional_gr(
     snapshot: SingleSnapshot,
-    selection: np.ndarray,
+    condition: np.ndarray,
     ppp: list=[1,1,1],
     rdelta: float=0.01
     ) -> pd.DataFrame:
@@ -33,7 +33,7 @@ def selection_gr(
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
-        2. selection (np.ndarray): particle-level condition for g(r)
+        2. condition (np.ndarray): particle-level condition for g(r)
         3. ppp (list): the periodic boundary conditions,
                        setting 1 for yes and 0 for no, default [1,1,1],
                        set [1, 1] for two-dimensional systems
@@ -49,15 +49,15 @@ def selection_gr(
     maxbin = int(snapshot.boxlength.min() / 2.0 / rdelta)
     grresults = pd.DataFrame(0, index=range(maxbin), columns="r gr".split())
 
-    if np.array(selection).dtype=="bool":
-        selection = selection.astype(np.int32)
-        Natom = selection.sum()
+    if np.array(condition).dtype=="bool":
+        condition = condition.astype(np.int32)
+        Natom = condition.sum()
 
     for i in range(snapshot.nparticle):
         RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
         RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
         distance = np.linalg.norm(RIJ, axis=1)
-        SIJ = selection[i+1:] * selection[i]
+        SIJ = condition[i+1:] * condition[i]
         countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
         grresults["gr"] += countvalue
         
@@ -151,27 +151,25 @@ class gr:
         """
         logger.info('Start Calculating g(r) of a Unary System')
 
-        grresults = np.zeros(self.maxbin)
+        grresults = pd.DataFrame(0, index=range(self.maxbin), columns='r g(r)'.split())
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle-1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
                 RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
                 distance = np.linalg.norm(RIJ, axis=1)
                 countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0,self.maxbin*self.rdelta))
-                grresults += countvalue
+                grresults["g(r)"] += countvalue
         binleft = binedge[:-1]
         binright = binedge[1:]
         nideal = self.nidealfac * np.pi * (binright**self.ndim - binleft**self.ndim)
-        grresults = grresults * 2 / self.nparticle / self.nsnapshots / (nideal*self.rhototal)
+        grresults["g(r)"] = grresults["g(r)"] * 2 / self.nparticle / self.nsnapshots / (nideal*self.rhototal)
 
-        binright = binright - 0.5 * self.rdelta
-        names = 'r  g(r)'
-        results = pd.DataFrame(np.column_stack((binright, grresults)), columns=names.split())
+        grresults["r"] = binright - 0.5 * self.rdelta
         if self.outputfile:
-            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+            grresults.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating PCF of a Unary System')
-        return results
+        return grresults
 
     def binary(self) -> pd.DataFrame:
         """
@@ -184,7 +182,7 @@ class gr:
         logger.info('Start Calculating g(r) of a Binary System')
         logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
-        grresults = np.zeros((self.maxbin, 4))
+        grresults = pd.DataFrame(0, index=range(self.maxbin), columns='r g(r) g11(r) g22(r) g12(r)'.split())
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle-1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
@@ -194,36 +192,30 @@ class gr:
                 distance = np.linalg.norm(RIJ, axis=1)
 
                 countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 0] += countvalue
+                grresults["g(r)"] += countvalue
 
                 countsum = TIJ.sum(axis=1)
-                countvalue, binedge = np.histogram(distance[countsum==2],
-                                                   bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 1] += countvalue
-                countvalue, binedge = np.histogram(distance[countsum==3],
-                                                   bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 2] += countvalue
-                countvalue, binedge = np.histogram(distance[countsum==4],
-                                                   bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 3] += countvalue
+                countvalue, binedge = np.histogram(distance[countsum==2], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
+                grresults["g11(r)"] += countvalue
+                countvalue, binedge = np.histogram(distance[countsum==4], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
+                grresults["g22(r)"] += countvalue
+                countvalue, binedge = np.histogram(distance[countsum==3], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
+                grresults["g12(r)"] += countvalue
 
         binleft = binedge[:-1]   #real value of each bin edge, not index
         binright = binedge[1:]   #len(countvalue) = len(binedge) - 1
         nideal = self.nidealfac * np.pi * (binright**self.ndim - binleft**self.ndim)
-        grresults[:, 0] = grresults[:, 0] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
-        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
-        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
-        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
+        grresults["g(r)"] = grresults["g(r)"] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
+        grresults["g11(r)"] = grresults["g11(r)"] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
+        grresults["g22(r)"] = grresults["g22(r)"] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
+        grresults["g12(r)"] = grresults["g12(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
 
-        binright = binright - 0.5 * self.rdelta
-        names = 'r  g(r)  g11(r)  g12(r)  g22(r)'
-        results = pd.DataFrame(np.column_stack((binright, grresults)), columns=names.split())
+        grresults["r"] = binright - 0.5 * self.rdelta
         if self.outputfile:
-            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+            grresults.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating g(r) of a Binary System')
-        return results
-
+        return grresults
 
     def ternary(self) -> pd.DataFrame:
         """
@@ -236,7 +228,7 @@ class gr:
         logger.info('Start Calculating g(r) of a Ternary System')
         logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
         
-        grresults = np.zeros((self.maxbin, 7))
+        grresults = pd.DataFrame(0, index=range(self.maxbin), columns='r g(r) g11(r) g22(r) g33(r) g12(r) g13(r) g23(r)'.split())
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle-1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
@@ -245,42 +237,40 @@ class gr:
                 distance = np.linalg.norm(RIJ, axis=1)
 
                 countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 0] += countvalue
+                grresults["g(r)"] += countvalue
 
                 countsum = TIJ.sum(axis=1)
                 countsub = np.abs(TIJ[:, 0]-TIJ[:, 1])
                 countvalue, binedge = np.histogram(distance[countsum== 2], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 1] += countvalue # 11
+                grresults["g11(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==4) & (countsub==0)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 2] += countvalue # 22
+                grresults["g22(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum==6], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 3] += countvalue # 33
+                grresults["g33(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum==3], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 4] += countvalue # 12
+                grresults["g12(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==4) & (countsub==2)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 5] += countvalue # 13
+                grresults["g13(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum==5], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 6] += countvalue # 23
+                grresults["g23(r)"] += countvalue
 
         binleft = binedge[:-1]    # real value of each bin edge, not index
         binright = binedge[1:]    # len(countvalue) = len(binedge) - 1
         nideal = self.nidealfac * np.pi * (binright**self.ndim-binleft**self.ndim)
-        grresults[:, 0] = grresults[:, 0] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
-        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
-        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
-        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typecount[2] / (nideal * self.rhotype[2])
-        grresults[:, 4] = grresults[:, 4] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
-        grresults[:, 5] = grresults[:, 5] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[2] / 2.0
-        grresults[:, 6] = grresults[:, 6] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[2] / 2.0
+        grresults["g(r)"] = grresults["g(r)"] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
+        grresults["g11(r)"] = grresults["g11(r)"] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
+        grresults["g22(r)"] = grresults["g22(r)"] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
+        grresults["g33(r)"] = grresults["g33(r)"] * 2 / self.nsnapshots / self.typecount[2] / (nideal * self.rhotype[2])
+        grresults["g12(r)"] = grresults["g12(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
+        grresults["g13(r)"] = grresults["g13(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[2] / 2.0
+        grresults["g23(r)"] = grresults["g23(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[2] / 2.0
 
-        binright = binright - 0.5 * self.rdelta
-        names = 'r  g(r)  g11(r)  g22(r)  g33(r)  g12(r)  g13(r)  g23(r)'
-        results = pd.DataFrame(np.column_stack((binright, grresults)), columns=names.split())
+        grresults["r"] = binright - 0.5 * self.rdelta
         if self.outputfile:
-            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+            grresults.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating g(r) of a Ternary System')
-        return results
+        return grresults
 
     def quarternary(self) -> pd.DataFrame:
         """
@@ -293,7 +283,7 @@ class gr:
         logger.info('Start Calculating g(r) of a quarternary System')
         logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
-        grresults = np.zeros((self.maxbin, 11))
+        grresults = pd.DataFrame(0, index=range(self.maxbin), columns='r g(r) g11(r) g22(r) g33(r) g44(r) g12(r) g13(r) g14(r) g23(r) g24(r) g34(r)'.split())
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle-1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
@@ -302,55 +292,53 @@ class gr:
                 distance = np.linalg.norm(RIJ, axis=1)
 
                 countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 0] += countvalue
+                grresults["g(r)"] += countvalue
 
                 countsum = TIJ.sum(axis = 1)
                 countsub = np.abs(TIJ[:, 0]-TIJ[:, 1])
                 countvalue, binedge = np.histogram(distance[countsum==2], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 1] += countvalue #11
+                grresults["g11(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum== 4)&(countsub==0)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 2] += countvalue #22
+                grresults["g22(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum== 6)&(countsub==0)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 3] += countvalue #33
+                grresults["g33(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum== 8], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 4] += countvalue #44
+                grresults["g44(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum==3], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 5] += countvalue #12
+                grresults["g12(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum== 4)&(countsub==2)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 6] += countvalue #13
+                grresults["g13(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[countsub==3], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 7] += countvalue #14
+                grresults["g14(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==5)&(countsub==1)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 8] += countvalue #23
+                grresults["g23(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==6)&(countsub==2)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 9] += countvalue #24
+                grresults["g24(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum==7], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:,10] += countvalue #34
+                grresults["g34(r)"] += countvalue
 
         binleft  = binedge[:-1]   #real value of each bin edge, not index
         binright = binedge[1:]   #len(countvalue) = len(binedge) - 1
         nideal = self.nidealfac * np.pi * (binright**self.ndim - binleft**self.ndim)
-        grresults[:, 0] = grresults[:, 0] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
-        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
-        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
-        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typecount[2] / (nideal * self.rhotype[2])
-        grresults[:, 4] = grresults[:, 4] * 2 / self.nsnapshots / self.typecount[3] / (nideal * self.rhotype[3])
+        grresults["g(r)"] = grresults["g(r)"] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
+        grresults["g11(r)"] = grresults["g11(r)"] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
+        grresults["g22(r)"] = grresults["g22(r)"] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
+        grresults["g33(r)"] = grresults["g33(r)"] * 2 / self.nsnapshots / self.typecount[2] / (nideal * self.rhotype[2])
+        grresults["g44(r)"] = grresults["g44(r)"] * 2 / self.nsnapshots / self.typecount[3] / (nideal * self.rhotype[3])
 
-        grresults[:, 5] = grresults[:, 5] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
-        grresults[:, 6] = grresults[:, 6] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[2] / 2.0
-        grresults[:, 7] = grresults[:, 7] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[3] / 2.0
-        grresults[:, 8] = grresults[:, 8] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[2] / 2.0
-        grresults[:, 9] = grresults[:, 9] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[3] / 2.0
-        grresults[:,10] = grresults[:,10] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[2] / self.typecount[3] / 2.0
+        grresults["g12(r)"] = grresults["g12(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
+        grresults["g13(r)"] = grresults["g13(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[2] / 2.0
+        grresults["g14(r)"] = grresults["g14(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[3] / 2.0
+        grresults["g23(r)"] = grresults["g23(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[2] / 2.0
+        grresults["g24(r)"] = grresults["g24(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[3] / 2.0
+        grresults["g34(r)"] = grresults["g34(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[2] / self.typecount[3] / 2.0
 
-        binright = binright - 0.5 * self.rdelta
-        names = 'r  g(r)  g11(r)  g22(r)  g33(r)  g44(r)  g12(r)  g13(r)  g14(r)  g23(r)  g24(r)  g34(r)'
-        results = pd.DataFrame(np.column_stack((binright, grresults)), columns=names.split())
+        grresults["r"] = binright - 0.5 * self.rdelta
         if self.outputfile:
-            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+            grresults.to_csv(self.outputfile, float_format="%.6f", index=False)
 
         logger.info('Finish Calculating g(r) of a Quarternary System')
-        return results
+        return grresults
 
     def quinary(self) -> pd.DataFrame:
         """
@@ -363,7 +351,8 @@ class gr:
         logger.info('Start Calculating g(r) of a Quinary System')
         logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
-        grresults = np.zeros((self.maxbin, 16))
+        grresults = pd.DataFrame(0, index=range(self.maxbin), columns='r g(r) g11(r) g22(r) g33(r) g44(r) g55(r) g12(r) g13(r) g14(r) \
+                                                                       g15(r) g23(r) g24(r) g25(r) g34(r) g35(r) g45(r)'.split())
         for snapshot in self.snapshots.snapshots:
             for i in range(self.nparticle - 1):
                 RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
@@ -372,67 +361,65 @@ class gr:
                 distance = np.linalg.norm(RIJ, axis=1)
 
                 countvalue, binedge = np.histogram(distance, bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 0] += countvalue
+                grresults["g(r)"] += countvalue
 
                 countsum = TIJ.sum(axis = 1)
                 countsub = np.abs(TIJ[:, 0]-TIJ[:, 1])
                 countvalue, binedge = np.histogram(distance[countsum==2], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 1] += countvalue #11
+                grresults["g11(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==4)&(countsub==0)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 2] += countvalue #22
+                grresults["g22(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==6)&(countsub==0)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 3] += countvalue #33
+                grresults["g33(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==8)&(countsub==0)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 4] += countvalue #44
+                grresults["g44(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum==10], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 5] += countvalue #55
+                grresults["g55(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum==3], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 6] += countvalue #12
+                grresults["g12(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==4)&(countsub==2)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 7] += countvalue #13
+                grresults["g13(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==5)&(countsub==3)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 8] += countvalue #14
+                grresults["g14(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==6)&(countsub==4)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:, 9] += countvalue #15
+                grresults["g15(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum== 5)&(countsub==1)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:,10] += countvalue #23
+                grresults["g23(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==6)&(countsub==2)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:,11] += countvalue #24
+                grresults["g24(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==7)&(countsub==3)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:,12] += countvalue #25
+                grresults["g25(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==7)&(countsub==1)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:,13] += countvalue #34
+                grresults["g34(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[(countsum==8)&(countsub==2)], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:,14] += countvalue #35
+                grresults["g35(r)"] += countvalue
                 countvalue, binedge = np.histogram(distance[countsum==9], bins=self.maxbin, range=(0, self.maxbin*self.rdelta))
-                grresults[:,15] += countvalue #45
+                grresults["g45(r)"] += countvalue
 
         binleft = binedge[:-1]   #real value of each bin edge, not index
         binright = binedge[1:]   #len(countvalue) = len(binedge) - 1
         nideal = self.nidealfac * np.pi * (binright**self.ndim-binleft**self.ndim)
-        grresults[:, 0] = grresults[:, 0] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
-        grresults[:, 1] = grresults[:, 1] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
-        grresults[:, 2] = grresults[:, 2] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
-        grresults[:, 3] = grresults[:, 3] * 2 / self.nsnapshots / self.typecount[2] / (nideal * self.rhotype[2])
-        grresults[:, 4] = grresults[:, 4] * 2 / self.nsnapshots / self.typecount[3] / (nideal * self.rhotype[3])
-        grresults[:, 5] = grresults[:, 5] * 2 / self.nsnapshots / self.typecount[4] / (nideal * self.rhotype[4])
+        grresults["g(r)"] = grresults["g(r)"] * 2 / self.nsnapshots / self.nparticle / (nideal*self.rhototal)
+        grresults["g11(r)"] = grresults["g11(r)"] * 2 / self.nsnapshots / self.typecount[0] / (nideal * self.rhotype[0])
+        grresults["g22(r)"] = grresults["g22(r)"] * 2 / self.nsnapshots / self.typecount[1] / (nideal * self.rhotype[1])
+        grresults["g33(r)"] = grresults["g33(r)"] * 2 / self.nsnapshots / self.typecount[2] / (nideal * self.rhotype[2])
+        grresults["g44(r)"] = grresults["g44(r)"] * 2 / self.nsnapshots / self.typecount[3] / (nideal * self.rhotype[3])
+        grresults["g55(r)"] = grresults["g55(r)"] * 2 / self.nsnapshots / self.typecount[4] / (nideal * self.rhotype[4])
 
-        grresults[:, 6] = grresults[:, 6] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
-        grresults[:, 7] = grresults[:, 7] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[2] / 2.0
-        grresults[:, 8] = grresults[:, 8] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[3] / 2.0
-        grresults[:, 9] = grresults[:, 9] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[4] / 2.0
-        grresults[:,10] = grresults[:,10] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[2] / 2.0
-        grresults[:,11] = grresults[:,11] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[3] / 2.0
-        grresults[:,12] = grresults[:,12] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[4] / 2.0
-        grresults[:,13] = grresults[:,13] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[2] / self.typecount[3] / 2.0
-        grresults[:,14] = grresults[:,14] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[2] / self.typecount[4] / 2.0
-        grresults[:,15] = grresults[:,15] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[3] / self.typecount[4] / 2.0
+        grresults["g12(r)"] = grresults["g12(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[1] / 2.0
+        grresults["g13(r)"] = grresults["g13(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[2] / 2.0
+        grresults["g14(r)"] = grresults["g14(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[3] / 2.0
+        grresults["g15(r)"] = grresults["g15(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[0] / self.typecount[4] / 2.0
+        grresults["g23(r)"] = grresults["g23(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[2] / 2.0
+        grresults["g24(r)"] = grresults["g24(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[3] / 2.0
+        grresults["g25(r)"] = grresults["g25(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[1] / self.typecount[4] / 2.0
+        grresults["g34(r)"] = grresults["g34(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[2] / self.typecount[3] / 2.0
+        grresults["g35(r)"] = grresults["g35(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[2] / self.typecount[4] / 2.0
+        grresults["g45(r)"] = grresults["g45(r)"] * 2 / self.nsnapshots / nideal * self.boxvolume / self.typecount[3] / self.typecount[4] / 2.0
 
-        binright = binright - 0.5 * self.rdelta
-        names = 'r  g(r)  g11(r)  g22(r)  g33(r)  g44(r)  g55(r)  g12(r)  g13(r)  g14(r)  g15(r)  g23(r)  g24(r)  g25(r)  g34(r)  g35(r)  g45(r)'
-        results = pd.DataFrame(np.column_stack((binright, grresults)), columns=names.split())
+        grresults["r"] = binright - 0.5 * self.rdelta
         if self.outputfile:
-            results.to_csv(self.outputfile, float_format="%.6f", index=False)
+            grresults.to_csv(self.outputfile, float_format="%.6f", index=False)
         
         logger.info('Finish Calculating g(r) of a Quinary System')
-        return results
+        return grresults

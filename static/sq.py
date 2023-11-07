@@ -21,10 +21,10 @@ logger = get_logger_handle(__name__)
 # pylint: disable=too-many-statements
 # pylint: disable=trailing-whitespace
 
-def selection_sq(
+def conditional_sq(
     snapshot: SingleSnapshot,
     qvector: np.ndarray,
-    selection: np.ndarray
+    condition: np.ndarray
     ) -> pd.DataFrame:
     """
     Calculate the structure factor of a single configuration for selected particles,
@@ -33,13 +33,12 @@ def selection_sq(
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
         2. qvector (np.ndarray): wavevectors for the structure factor
-        3. selection (np.ndarray): particle-level condition for S(q)
+        3. condition (np.ndarray): particle-level condition for S(q)
     
     Return:
         calculated conditional S(q) in complex number (pd.DataFrame)
     """
     Natom = snapshot.nparticle
-    positions = snapshot.positions
 
     logger.info(f"Calculating conditional S(q) for {Natom}-atom system")
 
@@ -48,14 +47,14 @@ def selection_sq(
 
     sqresults = pd.DataFrame(0, index=range(qvector.shape[0]), columns="q Sq".split())
     sqresults["q"] = np.linalg.norm(qvector, axis=1)
-    if np.array(selection).dtype=="bool":
-        selection = selection.astype(np.int32)
-        Natom = selection.sum()
+    if np.array(condition).dtype=="bool":
+        condition = condition.astype(np.int32)
+        Natom = condition.sum()
 
     exp_thetas = 0
-    for i in range(positions.shape[0]):
-        thetas = (qvector*positions[i][np.newaxis,:]).sum(axis=1)
-        exp_thetas += np.exp(-1j*thetas)*selection[i]
+    for i in range(snapshot.nparticle):
+        thetas = (qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
+        exp_thetas += np.exp(-1j*thetas)*condition[i]
     sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)) / Natom
     return sqresults
 

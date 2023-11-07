@@ -5,7 +5,7 @@ import unittest
 import numpy as np
 import pandas as pd
 from reader.dump_reader import DumpReader
-from static.sq import sq, selection_sq
+from static.sq import sq, conditional_sq
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -118,17 +118,17 @@ class TestSq(unittest.TestCase):
         os.remove("sq_ternary.csv")
         logger.info(f"Finishing test Sq using {self.test_file_ternary}...")
 
-    def test_sq_selection(self) -> None:
+    def test_sq_condition(self) -> None:
         """
-        Test sq selection works properly for ternary system
+        Test sq condition works properly for ternary system
         """
-        logger.info(f"Starting test selection_sq using {self.test_file_ternary}...")
+        logger.info(f"Starting test conditional_sq using {self.test_file_ternary}...")
         readdump = DumpReader(self.test_file_ternary, ndim=3)
         readdump.read_onefile()
         snapshot = readdump.snapshots.snapshots[0]
 
-        s22q_selected = selection_sq(snapshot, np.array([[1,1,0]]), selection = snapshot.particle_type==2)["Sq"].values.real
+        s22q_selected = conditional_sq(snapshot, np.array([[1,1,0]]), condition = snapshot.particle_type==2)["Sq"].values.real
         s22q_results = sq(readdump.snapshots, qvector=np.array([[1,1,0]])).getresults()["Sq22"].values
 
         np.testing.assert_almost_equal(s22q_selected.round(4), s22q_results.round(4))
-        logger.info(f"Finishing test selection_sq using {self.test_file_ternary}...")
+        logger.info(f"Finishing test conditional_sq using {self.test_file_ternary}...")
