@@ -1,13 +1,13 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/static.md"""
+"""see documentation @ ../docs/static_properties.md"""
 
 from typing import Optional, Callable
 import numpy as np
 import pandas as pd
 from reader.reader_utils import SingleSnapshot, Snapshots
 from utils.pbc import remove_pbc
-from utils.Nideal import Nidealfac
+from utils.funcs import nidealfac
 from utils.logging_utils import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -43,36 +43,32 @@ def selection_gr(
         calculated conditional g(r) (pd.DataFrame)
     """
     Natom = snapshot.nparticle
-    positions = snapshot.positions
-    ndim = positions.shape[1]
-    boxlength = snapshot.boxlength
-
+    ndim = snapshot.positions.shape[1]
+    
     logger.info(f"Calculating conditional g(r) for {Natom}-atom system")
-
-    maxbin = int(boxlength.min() / 2.0 / rdelta)
-    grresults = np.zeros(maxbin)
+    maxbin = int(snapshot.boxlength.min() / 2.0 / rdelta)
+    grresults = pd.DataFrame(0, index=range(maxbin), columns="r gr".split())
 
     if np.array(selection).dtype=="bool":
         selection = selection.astype(np.int32)
         Natom = selection.sum()
 
-    for i in range(positions.shape[0]):
-        RIJ = positions[i+1:] - positions[i]
+    for i in range(snapshot.nparticle):
+        RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
         RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
-        distance = np.linalg.norm(RIJ, axis = 1)
+        distance = np.linalg.norm(RIJ, axis=1)
         SIJ = selection[i+1:] * selection[i]
         countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
-        grresults += countvalue
+        grresults["gr"] += countvalue
         
     binleft = binedge[:-1]
     binright = binedge[1:]
-    Nideal = Nidealfac(ndim) * np.pi * (binright**ndim-binleft**ndim)
-    rhototal = Natom / np.prod(boxlength)
-    grresults = grresults * 2 / Natom / (Nideal * rhototal)
+    Nideal = nidealfac(ndim) * np.pi * (binright**ndim-binleft**ndim)
+    rhototal = Natom / np.prod(snapshot.boxlength)
+    grresults["gr"] = grresults["gr"]*2 / Natom / (Nideal*rhototal)
 
-    binright = binright - 0.5 * rdelta
-    results  = np.column_stack((binright, grresults))
-    return results
+    grresults["r"] = binright - 0.5*rdelta
+    return grresults
 
 
 class gr:
@@ -120,7 +116,7 @@ class gr:
         assert np.sum(self.typecount) == self.nparticle,\
             "Sum of Indivdual Types is Not the Total Amount"
 
-        self.nidealfac = Nidealfac(self.ndim)
+        self.nidealfac = nidealfac(self.ndim)
         self.rhototal = self.nparticle / self.boxvolume
         self.rhotype = self.typecount / self.boxvolume
         self.maxbin = int(self.snapshots.snapshots[0].boxlength.min()/2.0/self.rdelta)
