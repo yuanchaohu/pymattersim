@@ -1,6 +1,19 @@
 # Pair Correlation Function
 
 `static.gr.gr` class is used to calculate the overall and partial pair correlation functions ***g(r)*** in orthogonal and triclinic cells at various dimensional systems. This module is suitable for multi-component systems, from unary to senary. ***g(r)*** is defined as:
+$$
+g(r) = \lang \sum_{i \neq j} \delta (r - |\vec r_{ij}|) \rang
+$$
+
+$$
+g_{\alpha \beta}(r) = \lang \sum_{i \neq j; i \in \alpha; j \in \beta} \delta (r - |\vec r_{ij}|) \rang
+$$
+
+$$
+g_A(r) = \lang \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i A_j \rang = \lang A(r) A(0) \rang
+$$
+
+spatial correlation function of particle-level quantity $A_i$ is $g_A(r) / g(r)$.
 
 where ***N*** is particle number, ***ρ*** is number density. ***g(r)*** ranges to half of the box length minimum (***L_min/2***).
 
