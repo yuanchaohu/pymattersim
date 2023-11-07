@@ -2,6 +2,15 @@
 
 `static.sq.sq` class is used to calculate the overall and partial static structure factors ***S(q)*** in orthogonal cells at various dimensional systems. This module is suitable for multi-component systems, from unary to senary. S(q) is defined as:
 
+Fourier transformation of particle level physical quantity $A_i$ ($A_i=1$ for normal S(q) of unary system). Bool type $A_i$ makes the calculation for only selected particles with $A_i=True$.
+$$
+\rho ({\vec q}) = \frac{1}{\sqrt{N_\alpha}} \sum_i^{N_\alpha} A_i \exp(-i \cdot {\vec q} \cdot {\vec r_i})
+$$ 
+
+$$
+S({\vec q}) = \lang \rho({\vec q} \rho({-\vec q})) \rang
+$$
+
 where ***N*** is particle number. The computation time is determined partly by the range of wavenumber, which now is regulated by the input argument `qrange`. The module now is only applicable for cubic systems.
 
 ## 1. Initializing Method
