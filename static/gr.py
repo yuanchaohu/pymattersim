@@ -29,7 +29,7 @@ def conditional_gr(
     ) -> pd.DataFrame:
     """
     Calculate the pair correlation function of a single configuration for selected particles,
-    it is also useful to calculate the Fourier-Transform of a physical quantity
+    Also useful to calculate the spatial correlation of a physical quantity "A"
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
@@ -37,37 +37,45 @@ def conditional_gr(
         3. ppp (list): the periodic boundary conditions,
                        setting 1 for yes and 0 for no, default [1,1,1],
                        set [1, 1] for two-dimensional systems
-        4. rdelta (float): bin size calculating g(r), the default value is 0.01
+        4. rdelta (float): bin size calculating g(r), default 0.01
 
     Return:
         calculated conditional g(r) (pd.DataFrame)
+        (original g(r) is calculated for reference or post-processing)
     """
     Natom = snapshot.nparticle
     ndim = snapshot.positions.shape[1]
-    
-    logger.info(f"Calculating conditional g(r) for {Natom}-atom system")
     maxbin = int(snapshot.boxlength.min() / 2.0 / rdelta)
-    grresults = pd.DataFrame(0, index=range(maxbin), columns="r gr".split())
+    grresults = pd.DataFrame(0, index=range(maxbin), columns="r gr gA".split())
 
     if np.array(condition).dtype=="bool":
         condition = condition.astype(np.int32)
         Natom = condition.sum()
+        logger.info(f"Calculate g(r) for {Natom} selected atoms")
+    else:
+        logger.info("Calculate spatial correlation of physical quantity 'A'")
 
-    for i in range(snapshot.nparticle):
+    for i in range(snapshot.nparticle-1):
         RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
         RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
         distance = np.linalg.norm(RIJ, axis=1)
+        # original g(r)
+        countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
+        grresults["gr"] += countvalue
+        # conditional g(r)
         SIJ = condition[i+1:] * condition[i]
         countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
-        grresults["gr"] += countvalue
+        grresults["gA"] += countvalue
         
     binleft = binedge[:-1]
     binright = binedge[1:]
     Nideal = nidealfac(ndim) * np.pi * (binright**ndim-binleft**ndim)
     rhototal = Natom / np.prod(snapshot.boxlength)
-    grresults["gr"] = grresults["gr"]*2 / Natom / (Nideal*rhototal)
 
     grresults["r"] = binright - 0.5*rdelta
+    grresults["gr"] = grresults["gr"]*2 / snapshot.nparticle / (Nideal*rhototal)
+    grresults["gA"] = grresults["gA"]*2 / Natom / (Nideal*rhototal)
+
     return grresults
 
 
