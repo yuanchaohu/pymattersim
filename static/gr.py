@@ -69,12 +69,13 @@ def conditional_gr(
         
     binleft = binedge[:-1]
     binright = binedge[1:]
-    Nideal = nidealfac(ndim) * np.pi * (binright**ndim-binleft**ndim)
-    rhototal = Natom / np.prod(snapshot.boxlength)
+    nideal = nidealfac(ndim) * np.pi * (binright**ndim-binleft**ndim)
 
     grresults["r"] = binright - 0.5*rdelta
-    grresults["gr"] = grresults["gr"]*2 / snapshot.nparticle / (Nideal*rhototal)
-    grresults["gA"] = grresults["gA"]*2 / Natom / (Nideal*rhototal)
+    rhototal = snapshot.nparticle / np.prod(snapshot.boxlength)
+    grresults["gr"] = grresults["gr"]*2 / snapshot.nparticle / (nideal*rhototal)
+    rhototal = Natom / np.prod(snapshot.boxlength)
+    grresults["gA"] = grresults["gA"]*2 / Natom / (nideal*rhototal)
 
     return grresults
 
@@ -147,7 +148,7 @@ class gr:
             return self.quarternary()
         if len(self.typenumber) == 5:
             return self.quinary()
-        if len(self.typenumber) > 6:
+        if len(self.typenumber) >= 6:
             logger.info(f"This is a {len(self.typenumber)} system, only overall g(r) calculated")
             return self.unary()
 

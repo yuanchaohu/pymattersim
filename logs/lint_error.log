@@ -7,9 +7,7 @@ reader\simulation_log.py:1:0: R0801: Similar lines in 2 files
             boxbounds=boxbounds,
             realbounds=None,
             hmatrix=hmatrix,
-        )
-
-    # -------Read Triclinic Boxes--------- (duplicate-code)
+        ) (duplicate-code)
 
 ------------------------------------------------------------------
 Your code has been rated at 9.97/10 (previous run: 9.97/10, +0.00)
@@ -27,13 +25,13 @@ Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
 
 ************* Module static.gr
-static\gr.py:128:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+static\gr.py:134:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 ************* Module static.sq
-static\sq.py:67:4: R0913: Too many arguments (7/5) (too-many-arguments)
-static\sq.py:119:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+static\sq.py:79:4: R0913: Too many arguments (7/5) (too-many-arguments)
+static\sq.py:131:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 static\sq.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[134:155]
-==static.sq:[125:146]
+==static.gr:[140:151]
+==static.sq:[137:148]
         if len(self.typenumber) == 1:
             return self.unary()
         if len(self.typenumber) == 2:
@@ -44,20 +42,10 @@ static\sq.py:1:0: R0801: Similar lines in 2 files
             return self.quarternary()
         if len(self.typenumber) == 5:
             return self.quinary()
-        if len(self.typenumber) > 6:
-            logger.info(f"This is a {len(self.typenumber)} system, only overall S(q) calculated")
-            return self.unary()
-
-    def unary(self) -> pd.DataFrame:
-        """
-        Calculating pair correlation function g(r) for unary system
-
-        Return:
-            calculated g(r) (pd.DataFrame)
-        """ (duplicate-code)
+        if len(self.typenumber) >= 6: (duplicate-code)
 static\sq.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[111:117]
-==static.sq:[96:102]
+==static.gr:[116:122]
+==static.sq:[108:114]
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}) == 1,\
             "Paticle Number Changes during simulation"
@@ -66,5 +54,5 @@ static\sq.py:1:0: R0801: Similar lines in 2 files
  (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.91/10 (previous run: 9.90/10, +0.01)
+Your code has been rated at 9.91/10 (previous run: 9.91/10, +0.00)
 

@@ -145,7 +145,7 @@ class sq:
             return self.quarternary()
         if len(self.typenumber) == 5:
             return self.quinary()
-        if len(self.typenumber) > 6:
+        if len(self.typenumber) >= 6:
             logger.info(f"This is a {len(self.typenumber)} system, only overall S(q) calculated")
             return self.unary()
 
@@ -193,7 +193,7 @@ class sq:
         sqresults = pd.DataFrame(
             0, 
             index=self.df_qvector.index, 
-            columns="q Sqall Sq11 Sq22 Sq12".split()
+            columns="q Sq Sq11 Sq22 Sq12".split()
         )
         sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
@@ -210,12 +210,12 @@ class sq:
                     exp_thetas["11"] += medium
                 else:
                     exp_thetas["22"] += medium
-            sqresults["Sqall"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
+            sqresults["Sq"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
             sqresults["Sq11"] += (exp_thetas["11"]*np.conj(exp_thetas["11"])).real
             sqresults["Sq22"] += (exp_thetas["22"]*np.conj(exp_thetas["22"])).real
             sqresults["Sq12"] += (exp_thetas["11"]*np.conj(exp_thetas["22"])).real
 
-        sqresults["Sqall"] /= (self.nsnapshots*self.nparticle)
+        sqresults["Sq"] /= (self.nsnapshots*self.nparticle)
         sqresults["Sq11"] /= (self.nsnapshots * self.typecount[0])
         sqresults["Sq22"] /= (self.nsnapshots * self.typecount[1])
         sqresults["Sq12"] /= (self.nsnapshots * sqrt(self.typecount[0] * self.typecount[1]))
@@ -245,7 +245,7 @@ class sq:
         sqresults = pd.DataFrame(
             0, 
             index=self.df_qvector.index,
-            columns="q Sqall Sq11 Sq22 Sq33 Sq12 Sq13 Sq23".split()
+            columns="q Sq Sq11 Sq22 Sq33 Sq12 Sq13 Sq23".split()
         )
         sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
@@ -265,7 +265,7 @@ class sq:
                     exp_thetas["22"] += medium
                 else:
                     exp_thetas["33"] += medium
-            sqresults["Sqall"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
+            sqresults["Sq"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
             sqresults["Sq11"] += (exp_thetas["11"]*np.conj(exp_thetas["11"])).real
             sqresults["Sq22"] += (exp_thetas["22"]*np.conj(exp_thetas["22"])).real
             sqresults["Sq33"] += (exp_thetas["33"]*np.conj(exp_thetas["33"])).real
@@ -273,7 +273,7 @@ class sq:
             sqresults["Sq13"] += (exp_thetas["11"]*np.conj(exp_thetas["33"])).real
             sqresults["Sq23"] += (exp_thetas["22"]*np.conj(exp_thetas["33"])).real
 
-        sqresults["Sqall"] /= (self.nsnapshots*self.nparticle)
+        sqresults["Sq"] /= (self.nsnapshots*self.nparticle)
         sqresults["Sq11"] /= (self.nsnapshots * self.typecount[0])
         sqresults["Sq22"] /= (self.nsnapshots * self.typecount[1])
         sqresults["Sq33"] /= (self.nsnapshots * self.typecount[2])
@@ -306,7 +306,7 @@ class sq:
         sqresults = pd.DataFrame(
             0, 
             index=self.df_qvector.index,
-            columns="q Sqall Sq11 Sq22 Sq33 Sq44 Sq12 Sq13 Sq14 Sq23 Sq24 Sq34".split()
+            columns="q Sq Sq11 Sq22 Sq33 Sq44 Sq12 Sq13 Sq14 Sq23 Sq24 Sq34".split()
         )
         sqresults["q"] = self.qvalue
         for snapshot in self.snapshots.snapshots:
@@ -329,7 +329,7 @@ class sq:
                     exp_thetas["33"] += medium
                 else:
                     exp_thetas["44"] += medium
-            sqresults["Sqall"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
+            sqresults["Sq"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
             sqresults["Sq11"] += (exp_thetas["11"]*np.conj(exp_thetas["11"])).real
             sqresults["Sq22"] += (exp_thetas["22"]*np.conj(exp_thetas["22"])).real
             sqresults["Sq33"] += (exp_thetas["33"]*np.conj(exp_thetas["33"])).real
@@ -341,7 +341,7 @@ class sq:
             sqresults["Sq24"] += (exp_thetas["22"]*np.conj(exp_thetas["44"])).real
             sqresults["Sq34"] += (exp_thetas["33"]*np.conj(exp_thetas["44"])).real
 
-        sqresults["Sqall"] /= (self.nsnapshots*self.nparticle)
+        sqresults["Sq"] /= (self.nsnapshots*self.nparticle)
         sqresults["Sq11"] /= (self.nsnapshots * self.typecount[0])
         sqresults["Sq22"] /= (self.nsnapshots * self.typecount[1])
         sqresults["Sq33"] /= (self.nsnapshots * self.typecount[2])
@@ -378,7 +378,7 @@ class sq:
         sqresults = pd.DataFrame(
             0, 
             index=self.df_qvector.index,
-            columns="q Sqall Sq11 Sq22 Sq33 Sq44 Sq55 Sq12 Sq13 Sq14 Sq15 \
+            columns="q Sq Sq11 Sq22 Sq33 Sq44 Sq55 Sq12 Sq13 Sq14 Sq15 \
                     Sq23 Sq24 Sq25 Sq34 Sq35 Sq45".split()
         )
         sqresults["q"] = self.qvalue
@@ -405,7 +405,7 @@ class sq:
                     exp_thetas["44"] += medium
                 else:
                     exp_thetas["55"] += medium
-            sqresults["Sqall"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
+            sqresults["Sq"] += (exp_thetas["all"]*np.conj(exp_thetas["all"])).real
             sqresults["Sq11"] += (exp_thetas["11"]*np.conj(exp_thetas["11"])).real
             sqresults["Sq22"] += (exp_thetas["22"]*np.conj(exp_thetas["22"])).real
             sqresults["Sq33"] += (exp_thetas["33"]*np.conj(exp_thetas["33"])).real
@@ -422,7 +422,7 @@ class sq:
             sqresults["Sq35"] += (exp_thetas["33"]*np.conj(exp_thetas["55"])).real
             sqresults["Sq45"] += (exp_thetas["44"]*np.conj(exp_thetas["55"])).real
 
-        sqresults["Sqall"] /= (self.nsnapshots*self.nparticle)
+        sqresults["Sq"] /= (self.nsnapshots*self.nparticle)
         sqresults["Sq11"] /= (self.nsnapshots * self.typecount[0])
         sqresults["Sq22"] /= (self.nsnapshots * self.typecount[1])
         sqresults["Sq33"] /= (self.nsnapshots * self.typecount[2])
