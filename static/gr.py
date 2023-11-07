@@ -1,6 +1,6 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/static_properties.md"""
+"""see documentation @ ../docs/gr.md"""
 
 from typing import Optional, Callable
 import numpy as np
@@ -148,7 +148,7 @@ class gr:
             return self.quarternary()
         if len(self.typenumber) == 5:
             return self.quinary()
-        if len(self.typenumber) >= 6:
+        if len(self.typenumber) > 5:
             logger.info(f"This is a {len(self.typenumber)} system, only overall g(r) calculated")
             return self.unary()
 
