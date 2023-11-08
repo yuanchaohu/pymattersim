@@ -48,12 +48,12 @@ def conditional_gr(
     maxbin = int(snapshot.boxlength.min() / 2.0 / rdelta)
     grresults = pd.DataFrame(0, index=range(maxbin), columns="r gr gA".split())
 
-    if np.array(condition).dtype=="bool":
+    if condition.dtype=="bool":
         condition = condition.astype(np.int32)
         Natom = condition.sum()
         logger.info(f"Calculate g(r) for {Natom} selected atoms")
         conj_condition = condition.copy()
-    elif np.array(condition).dtype=="complex128":
+    elif condition.dtype=="complex128":
         logger.info("Calculate spatial correlation gA of complex-number physical quantity 'A'")
         conj_condition = np.conj(condition)
     else:
