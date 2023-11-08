@@ -52,8 +52,13 @@ def conditional_gr(
         condition = condition.astype(np.int32)
         Natom = condition.sum()
         logger.info(f"Calculate g(r) for {Natom} selected atoms")
+        conj_condition = condition.copy()
+    elif np.array(condition).dtype=="complex128":
+        logger.info("Calculate spatial correlation gA of complex-number physical quantity 'A'")
+        conj_condition = np.conj(condition)
     else:
-        logger.info("Calculate spatial correlation of physical quantity 'A'")
+        logger.info("Calculate spatial correlation gA of float-scalar physical quantity 'A'")
+        conj_condition = condition.copy()
 
     for i in range(snapshot.nparticle-1):
         RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
@@ -62,8 +67,8 @@ def conditional_gr(
         # original g(r)
         countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
         grresults["gr"] += countvalue
-        # conditional g(r)
-        SIJ = condition[i+1:] * condition[i]
+        # conditional g(r) for bool or scalar or complex data type
+        SIJ = (condition[i+1:] * conj_condition[i]).real
         countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
         grresults["gA"] += countvalue
         
