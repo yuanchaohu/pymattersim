@@ -16,7 +16,7 @@ from scipy.special import sph_harm
 # pylint: disable=line-too-long
 # pylint: disable=no-name-in-module
 
-def SphHarm0() -> list:
+def SphHarm0() -> np.ndarray:
     """
     Spherical Harmonics l = 0
 
@@ -24,15 +24,11 @@ def SphHarm0() -> list:
         None
 
     Return:
-        spherical harmonics for l=0 (list)
+        spherical harmonics for l=0 (np.ndarray)
     """
-    results = []
+    return [(1/2) * np.sqrt(1/np.pi)]
 
-    m0 = (1/2) * np.sqrt(1/np.pi)
-    results.append(m0)
-    return results
-
-def SphHarm1(theta: float, phi: float) -> list:
+def SphHarm1(theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonics l = 1
 
@@ -41,7 +37,7 @@ def SphHarm1(theta: float, phi: float) -> list:
         2. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l=1 (list)
+        spherical harmonics for l=1 (np.ndarray)
     """
     results = []
 
@@ -51,9 +47,9 @@ def SphHarm1(theta: float, phi: float) -> list:
     results.append(m0)
     m1 = -(1/2) * np.sqrt(3/2/np.pi) * cmath.exp(1j*phi) * np.sin(theta)
     results.append(m1)
-    return results
+    return np.array(results)
 
-def SphHarm2(theta: float, phi: float) -> list:
+def SphHarm2(theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonics l = 2
 
@@ -62,7 +58,7 @@ def SphHarm2(theta: float, phi: float) -> list:
         2. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l=2 (list)
+        spherical harmonics for l=2 (np.ndarray)
     """
     results = []
 
@@ -76,9 +72,9 @@ def SphHarm2(theta: float, phi: float) -> list:
     results.append(m1)
     m2 = (1/4) * np.sqrt(15/2/np.pi) * cmath.exp(2j*phi) * (np.sin(theta))**2
     results.append(m2)
-    return results
+    return np.array(results)
 
-def SphHarm3(theta: float, phi: float) -> list:
+def SphHarm3(theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonics l = 3
 
@@ -87,7 +83,7 @@ def SphHarm3(theta: float, phi: float) -> list:
         2. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l=3 (list)
+        spherical harmonics for l=3 (np.ndarray)
     """
     results = []
 
@@ -105,9 +101,9 @@ def SphHarm3(theta: float, phi: float) -> list:
     results.append(m2)
     m3 = -(1/8) * np.sqrt(35/np.pi) * cmath.exp(3j*phi) * (np.sin(theta))**3
     results.append(m3)
-    return results
+    return np.array(results)
 
-def SphHarm4(theta: float, phi: float) -> list:
+def SphHarm4(theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonics l = 4
 
@@ -116,7 +112,7 @@ def SphHarm4(theta: float, phi: float) -> list:
         2. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l=4 (list)
+        spherical harmonics for l=4 (np.ndarray)
     """
     results  =  []
 
@@ -138,9 +134,9 @@ def SphHarm4(theta: float, phi: float) -> list:
     results.append(m3)
     m4 = (3/16) * np.sqrt(35/2/np.pi) * cmath.exp(4j*phi) * (np.sin(theta))**4
     results.append(m4)
-    return results
+    return np.array(results)
 
-def SphHarm5(theta: float, phi: float) -> list:
+def SphHarm5(theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonics l = 5
 
@@ -149,7 +145,7 @@ def SphHarm5(theta: float, phi: float) -> list:
         2. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l=5 (list)
+        spherical harmonics for l=5 (np.ndarray)
     """
     results = []
 
@@ -175,9 +171,9 @@ def SphHarm5(theta: float, phi: float) -> list:
     results.append(m4)
     m5 = -(3/32)*np.sqrt(77/np.pi)*cmath.exp(5j*phi)*(np.sin(theta))**5
     results.append(m5)
-    return results
+    return np.array(results)
 
-def SphHarm6(theta: float, phi: float) -> list:
+def SphHarm6(theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonics l = 6
 
@@ -186,7 +182,7 @@ def SphHarm6(theta: float, phi: float) -> list:
         2. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l=6 (list)
+        spherical harmonics for l=6 (np.ndarray)
     """
     results = []
 
@@ -216,9 +212,9 @@ def SphHarm6(theta: float, phi: float) -> list:
     results.append(m5)
     m6 = (1/64)*np.sqrt(3003/np.pi)*cmath.exp(6j*phi)*(np.sin(theta))**6
     results.append(m6)
-    return results
+    return np.array(results)
 
-def SphHarm7(theta: float, phi: float) -> list:
+def SphHarm7(theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonics l = 7
 
@@ -227,7 +223,7 @@ def SphHarm7(theta: float, phi: float) -> list:
         2. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l=7 (list)
+        spherical harmonics for l=7 (np.ndarray)
     """
     results = []
 
@@ -261,9 +257,9 @@ def SphHarm7(theta: float, phi: float) -> list:
     results.append(m6)
     m7 = -(3/64) * np.sqrt(715/2/np.pi) * cmath.exp(7j*phi) * (np.sin(theta))**7
     results.append(m7)
-    return results
+    return np.array(results)
 
-def SphHarm8(theta: float, phi: float) -> list:
+def SphHarm8(theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonics l = 8
 
@@ -272,7 +268,7 @@ def SphHarm8(theta: float, phi: float) -> list:
         2. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l=8 (list)
+        spherical harmonics for l=8 (np.ndarray)
     """
     results = []
 
@@ -310,9 +306,9 @@ def SphHarm8(theta: float, phi: float) -> list:
     results.append(m7)
     m8 = (3/256)*np.sqrt(12155/2/np.pi)*cmath.exp(8j*phi)*(np.sin(theta))**8
     results.append(m8)
-    return results
+    return np.array(results)
 
-def SphHarm9(theta: float, phi: float) -> list:
+def SphHarm9(theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonics l = 9
 
@@ -321,7 +317,7 @@ def SphHarm9(theta: float, phi: float) -> list:
         2. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l=9 (list)
+        spherical harmonics for l=9 (np.ndarray)
     """
     results = []
 
@@ -363,9 +359,9 @@ def SphHarm9(theta: float, phi: float) -> list:
     results.append(m8)
     m9 = -(1/512)*np.sqrt(230945/np.pi)*cmath.exp(9j*phi)*(np.sin(theta))**9
     results.append(m9)
-    return results
+    return np.array(results)
 
-def SphHarm10(theta: float, phi: float) -> list:
+def SphHarm10(theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonics l = 10
 
@@ -374,7 +370,7 @@ def SphHarm10(theta: float, phi: float) -> list:
         2. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l=10 (list)
+        spherical harmonics for l=10 (np.ndarray)
     """
     results = []
 
@@ -420,9 +416,9 @@ def SphHarm10(theta: float, phi: float) -> list:
     results.append(m9)
     m10 = (1/1024)*np.sqrt(969969/np.pi)*cmath.exp(10j*phi)*(np.sin(theta))**10
     results.append(m10)
-    return results
+    return np.array(results)
 
-def SphHarm_above(l: int, theta: float, phi: float) -> list:
+def SphHarm_above(l: int, theta: float, phi: float) -> np.ndarray:
     """
     Spherical Harmonicsl > 10
     be aware of theta and phi used for scipy is inverse to the above equations
@@ -434,12 +430,13 @@ def SphHarm_above(l: int, theta: float, phi: float) -> list:
     3. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
 
     Return:
-        spherical harmonics for l>10 (list)
+        spherical harmonics for l>10 (np.ndarray)
     """
 
-    if phi < 0: phi += 2 * np.pi
+    if phi < 0:
+        phi += 2 * np.pi
 
     results = []
     for m in range(-l, l+1):
         results.append(sph_harm(m,l,phi,theta))
-    return results
+    return np.array(results)
