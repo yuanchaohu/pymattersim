@@ -1,6 +1,6 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/static_properties.md"""
+"""see documentation @ ../docs/gr.md"""
 
 from typing import Optional, Callable
 import numpy as np
@@ -30,6 +30,10 @@ def conditional_gr(
     """
     Calculate the pair correlation function of a single configuration for selected particles,
     Also useful to calculate the spatial correlation of a physical quantity "A"
+    There are three conditions considered:
+    1. condition is bool type, so calculate partial g(r) for selected particles
+    2. condition is complex number, so calculate spatial correlation of complex number
+    3. condition is float scalar, so calculate spatial correlation of scalar number
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
@@ -48,12 +52,17 @@ def conditional_gr(
     maxbin = int(snapshot.boxlength.min() / 2.0 / rdelta)
     grresults = pd.DataFrame(0, index=range(maxbin), columns="r gr gA".split())
 
-    if np.array(condition).dtype=="bool":
+    if condition.dtype=="bool":
         condition = condition.astype(np.int32)
         Natom = condition.sum()
         logger.info(f"Calculate g(r) for {Natom} selected atoms")
+        conj_condition = condition.copy()
+    elif condition.dtype=="complex128":
+        logger.info("Calculate spatial correlation gA of complex-number physical quantity 'A'")
+        conj_condition = np.conj(condition)
     else:
-        logger.info("Calculate spatial correlation of physical quantity 'A'")
+        logger.info("Calculate spatial correlation gA of float-scalar physical quantity 'A'")
+        conj_condition = condition.copy()
 
     for i in range(snapshot.nparticle-1):
         RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
@@ -62,8 +71,8 @@ def conditional_gr(
         # original g(r)
         countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
         grresults["gr"] += countvalue
-        # conditional g(r)
-        SIJ = condition[i+1:] * condition[i]
+        # conditional g(r) for bool or scalar or complex data type
+        SIJ = (condition[i+1:] * conj_condition[i]).real
         countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
         grresults["gA"] += countvalue
         
@@ -148,7 +157,7 @@ class gr:
             return self.quarternary()
         if len(self.typenumber) == 5:
             return self.quinary()
-        if len(self.typenumber) >= 6:
+        if len(self.typenumber) > 5:
             logger.info(f"This is a {len(self.typenumber)} system, only overall g(r) calculated")
             return self.unary()
 
