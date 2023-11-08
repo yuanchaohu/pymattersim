@@ -28,7 +28,11 @@ def conditional_sq(
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Calculate the structure factor of a single configuration for selected particles,
-    Also useful to calculate the Fourier-Transform of a physical quantity "A"
+    Also useful to calculate the Fourier-Transform of a physical quantity "A".
+    There are three cases considered:
+    1. condition is bool type, so calculate S(q) & FFT for selected particles
+    2. condition is float vector type, so calculate spectral & FFT of vector quantity
+    3. condition is float scalar type, so calculate spectral & FFT of scalar quantity
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
@@ -40,31 +44,46 @@ def conditional_sq(
         and the ensemble averaged S(q) over the same wavenumber (pd.DataFrame)
         (FFT in complex number is also returned for reference)
     """
-    Natom = snapshot.nparticle
-    twopidl = 2*np.pi / snapshot.boxlength
     ndim = snapshot.positions.shape[1]
     df_qvector = pd.DataFrame(qvector, columns=[f"q{i}" for i in range(ndim)])
 
-    sqresults = pd.DataFrame(0, index=range(qvector.shape[0]), columns="q Sq FFT".split())
+    sqresults = pd.DataFrame(0, index=range(qvector.shape[0]), columns="q Sq".split())
+    twopidl = 2*np.pi / snapshot.boxlength
     qvector = qvector.astype(np.float64) * twopidl[np.newaxis,:]
     sqresults["q"] = np.linalg.norm(qvector, axis=1)
 
-    if np.array(condition).dtype=="bool":
-        condition = condition.astype(np.int32)
+    if condition.dtype=="bool":
         Natom = condition.sum()
         logger.info(f"Calculate S(q) for {Natom} selected atoms")
+        exp_thetas = 0
+        positions = snapshot.positions[condition]
+        for i in range(Natom):
+            thetas = (qvector*positions[i][np.newaxis,:]).sum(axis=1)
+            exp_thetas += np.exp(-1j*thetas)
+        exp_thetas /= sqrt(Natom)
+        sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)).real
+        sqresults["FFT"] = exp_thetas
+    elif len(condition.shape)>1:
+        logger.info("Calculate Fourier-Transform of float-Vector physical quantity A")
+        exp_thetas = 0
+        for i in range(snapshot.nparticle):
+            thetas = (qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
+            exp_thetas += np.exp(-1j*thetas)[:, np.newaxis]*condition[i][np.newaxis,:]
+        exp_thetas /= sqrt(snapshot.nparticle)
+        sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)).sum(axis=1).real
+        dim_fft = pd.DataFrame(exp_thetas, columns=[f"FFT{i}" for i in range(ndim)])
+        sqresults = sqresults.join(dim_fft)
     else:
-        logger.info("Calculate Fourier-Transform of physical quantity A")
+        logger.info("Calculate Fourier-Transform of float-Scalar physical quantity A")
+        exp_thetas = 0
+        for i in range(snapshot.nparticle):
+            thetas = (qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
+            exp_thetas += np.exp(-1j*thetas)*condition[i]
+        exp_thetas /= sqrt(snapshot.nparticle)
+        sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)).real
+        sqresults["FFT"] = exp_thetas
 
-    exp_thetas = 0
-    for i in range(snapshot.nparticle):
-        thetas = (qvector*snapshot.positions[i][np.newaxis,:]).sum(axis=1)
-        exp_thetas += np.exp(-1j*thetas)*condition[i]
-    exp_thetas /= sqrt(Natom)
-    sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)).real
-    sqresults["FFT"] = exp_thetas
     sqresults = df_qvector.join(sqresults)
-
     # ensemble average over same q but different directions
     sqresults = sqresults.round(6)
     ave_sqresults = sqresults["Sq"].groupby(sqresults["q"]).mean().reset_index()
