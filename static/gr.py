@@ -30,6 +30,10 @@ def conditional_gr(
     """
     Calculate the pair correlation function of a single configuration for selected particles,
     Also useful to calculate the spatial correlation of a physical quantity "A"
+    There are three conditions considered:
+    1. condition is bool type, so calculate partial g(r) for selected particles
+    2. condition is complex number, so calculate spatial correlation of complex number
+    3. condition is float scalar, so calculate spatial correlation of scalar number
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
