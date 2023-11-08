@@ -12,6 +12,7 @@ from utils.logging_utils import get_logger_handle
 logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
+# pylint: disable=dangerous-default-value
 
 def triangle_area(
     positions: np.ndarray,
