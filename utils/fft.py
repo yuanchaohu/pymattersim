@@ -25,13 +25,14 @@ def Filon_COS(C: np.ndarray, t: np.ndarray, a: float=0, outputfile: str=None) ->
     Return:
         FFT results (pd.DataFrame)
     """
+    logger.info("Calculate the Fast Fourier Transformation using Filon COS method")
 
     if len(C)%2 == 0:
         logger.info("Warning: number of input data is not odd")
         C = C[:-1]
         t = t[:-1]
 
-    if a == 0: #a is not specified
+    if a==0: # a is not specified
         a = 2 * np.pi / t[-1]
 
     Nmax = len(C)
