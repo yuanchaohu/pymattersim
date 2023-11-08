@@ -12,7 +12,12 @@ $$
 g_{\alpha \beta}(r) = \frac{V}{N_{\alpha} N_{\beta}} \lang \sum_{i \neq j; i \in \alpha; j \in \beta} \delta (r - |\vec r_{ij}|) \rang
 $$
 
-`static.gr.conditional_gr` function is used to calculate $g(r)$ of a single configuration for selected particles, and is also useful to calculate the spatial correlation of a particle-level physical quantity $A_i$. $A_i=1$ for normal overall $g(r)$, representing all particle are selected. Bool type $A_i$ makes the calculation for only selected particles with $A_i=True$. $A_i$ supports both complex-number and float-scalar particle-level physical quantity. Pleause see more details in example.
+`static.gr.conditional_gr` function is used to calculate $g(r)$ of a single configuration for selected particles, and is also useful to calculate the spatial correlation of a particle-level physical quantity $A_i$. There are three conditions considered for $A_i$:
+- condition is bool type, so calculate partial g(r) for selected particles
+- condition is complex number, so calculate spatial correlation of complex number
+- condition is float scalar, so calculate spatial correlation of scalar number
+ 
+$A_i=1$ for normal overall $g(r)$, representing all particle are selected. Bool type $A_i$ makes the calculation for only selected particles with $A_i=True$. Pleause see more details in example.
 
 $$
 g_A(r) = \frac{1}{N \rho} \lang \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i A_j \rang = \lang A(r) A(0) \rang
@@ -81,14 +86,16 @@ original overall `g(r)` is also calculated for reference or post-processing, `gr
 
 ### Example
 ```python
+from static.gr import conditional_gr
+
 for snapshot in readdump.snapshots.snapshots:
-    
-    # Randomly generating values for particle quantity, ranging from 0 to 1
-    particle_quantity = np.random.rand(snapshot.nparticle)
     
     # Select particles with a particle type of 2 for g(r) calculation
     # in the returned DataFrame, the column gA is actually gr22 in this case
     grresults_selection = conditional_gr(snapshot, condition=snapshot.particle_type == 2)
+
+    # Randomly generating values for particle quantity, ranging from 0 to 1
+    particle_quantity = np.random.rand(snapshot.nparticle)
     
     # particle level quantity as conditoin to calculate g(r), also support complex-number quantity
     grresults_quantity = conditional_gr(snapshot, condition=particle_quantity)
@@ -96,5 +103,3 @@ for snapshot in readdump.snapshots.snapshots:
     # calculate the spatial correlation function of particle-level quantity
     grresults_quantity["gA"] / grresults_quantity["gr"]
 ```
-
-

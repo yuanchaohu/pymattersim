@@ -1,30 +1,60 @@
 # Structure Factors
 
-`static.sq.sq` class is used to calculate the overall and partial static structure factors ***S(q)*** in orthogonal cells at various dimensional systems. This module is suitable for multi-component systems, from unary to senary. S(q) is defined as:
-
-Fourier transformation of particle level physical quantity $A_i$ ($A_i=1$ for normal S(q) of unary system). Bool type $A_i$ makes the calculation for only selected particles with $A_i=True$.
+`static.sq.sq` class is used to calculate the overall and partial structure factors $S(q)$ in orthogonal cells at various dimensional systems directly. This module is suitable for multi-component systems, from unary to quinary.   The overall $S(q)$ is defined as:
 $$
-\rho_\alpha ({\vec q}) = \frac{1}{\sqrt{N_\alpha}} \sum_i^{N_\alpha} A_i \exp(-i \cdot {\vec q} \cdot {\vec r_i})
-$$ 
+\rho({\vec q}) = \sum_i^{N} \exp(-i {\vec q} \cdot {\vec r_i})
+$$
+
+$$
+S({\vec q}) = \frac{1}{N} \lang \rho({\vec q}) \rho({{-\vec q}}) \rang
+$$
+
+$\rho({\vec q})$ is the spatial Fourier transformation of the number density. $\vec q$ is wavevector, $\vec q = \frac{2\pi} {[L_x, L_y, L_z]} (n_x, n_y, n_z)$, where $L_x$, $L_y$, $L_z$, is box length in three dimensions, respectively, and  $n_x$, $n_y$, $n_z$ are integers. The $S(q)$ can be calculated by specifying a wavevector or by wavevector design method (`utils.wavevector`). $\vec r_i$ is particle position.
+
+The partial $S_{\alpha \beta}(\vec q)$ is defined as:
+$$
+\rho_\alpha ({\vec q}) = \sum_i^{N_\alpha} \exp(-i {\vec q} \cdot {\vec r_i})
+$$
+
+$$
+S_{\alpha\beta}({\vec q}) = \frac{1}{\sqrt{N_\alpha} \sqrt{N_\beta}} \lang \rho_\alpha({\vec q}) \rho_\beta({-\vec q})) \rang
+$$
+
+where $\alpha$ and $\beta$ represent two particle types, and $N_{\alpha}$ and $N_{\beta}$ are corresponding particle numbers.
+
+`static.sq.conditional_sq` can be used to calculate the structure factor of a single configuration for selected particles, and is also useful to calculate the Fourier transformation of particle-level physical quantity $A_i$. There are three cases considered for $A_i$:
+
+- `condition` is bool type, so calculate S(q) & FFT for selected particles
+- `condition` is float vector type, so calculate spectral & FFT of vector quantity
+- `condition` is float scalar type, so calculate spectral & FFT of scalar quantity
+
+$$
+\rho_\alpha ({\vec q}) = \frac{1}{\sqrt{N_\alpha}} \sum_i^{N_\alpha} A_i \exp(-i {\vec q} \cdot {\vec r_i})
+$$
 
 $$
 S_{\alpha\beta}({\vec q}) = \lang \rho_\alpha({\vec q}) \rho_\beta({-\vec q})) \rang
 $$
 
-where ***N*** is particle number. The computation time is determined partly by the range of wavenumber, which now is regulated by the input argument `qrange`. The module now is only applicable for cubic systems.
+$A_i=1$ for normal overall $S(q)$, representing all particle are selected. Bool type $A_i$
+makes the calculation for only selected particles with $A_i=True$. Pleause see more details
+in example.
 
-## 1. Initializing Method
-Initializing ***S(q)*** class
 
-### Input Arguments
+## 1. `S(q)` class
+
+### Initializing method
+Initializing $S(q)$ class
+
+#### Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
-- `qrange` (`float`): the wave number range to be calculated, default 10
+- `qrange` (`float`): the wave number range to be calculated, default 10.0
 - `onlypositive` (`bool`): whether only consider positive wave vectors, default `False`
-- `qvector` (`np.ndarray`): input wave vectors, if `None` (default) use qrange & onlypositive
+- `qvector` (`np.ndarray`): input wavevectors in two-dimensional `np.ndarray`, if `None` (default) use qrange & onlypositive (call `utils.wavevector` to generate wavevectors)
 - `saveqvectors` (`bool`): whether to save ***S(q)*** for specific wavevectors, default `False`
 - `outputfile` (`str`): the name of csv file to save the calulated ***S(q)***, default `None`
 
-### Example
+#### Example
 
 ```python
 from reader.dump_reader import DumpReader
@@ -38,16 +68,56 @@ readdump.read_onefile()
 sq_cal = sq(readdump.snapshots, outputfile='sq.csv')
 ```
 
-## 2. getresults
-`getresults` method is used to to determine which function to call for calculating ***S(q)*** based on the number of different particle types in the system.
+### `getresults`
+`getresults` method is used to to determine which function to call for calculating $S(q)$ based on the number of different particle types in the system.
 
-### Input Arguments
+#### Input Arguments
 `None`
 
-### Example
+#### Example
 ```python
 sq_cal.getresults()
 ```
 
+#### Return
+`Optional[Callable]`. For the sytem with one particle type, calling `self.unary()` function to calculate $S(q)$, also including `self.binary()`, `self.ternary()`, `self.quarternary`, `self.quinary` for binary, ternary, quarternary, and quinary systems. For systems with more than five particle types, only overall $S(q)$ will be calcuated by calling `self.unary()` function.
+
+The calculated $S(q)$ is storted in the `outputfile`. Taken ternary sytem as an example, each column in `outputfile` is ***q Sq Sq11 Sq22  Sq33 Sq12 Sq13 Sq23***.
+
+## 2. `conditional_sq`
+
+### Input Arguments
+- `snapshot` (`reader.reader_utils.SingleSnapshot`): single snapshot object of input trajectory
+- `qvector` (`np.ndarray` of int): input wavevectors in two-dimensional `np.ndarray`. `qvector` can also be generated by calling `utils.wavevector`.
+- `condition` (`np.ndarray`): particle-level condition/property for S(q)
+
 ### Return
-`Optional[Callable]`. For the sytem with one particle type, calling `self.unary()` function to calculate ***S(q)***, also including `self.binary()`, `self.ternary()`, `self.quarternary`, `self.quinary` for binary, ternary, quarternary, and quinary systems. For systems with more than five particle types, only overall ***S(q)*** will be calcuated by calling `self.unary()` function.
+
+calculated conditional $S(q)$ for each input wavevector (`pd.DataFrame`) and the ensemble averaged $S(q)$ over the same wavenumber (`pd.DataFrame`). FFT in complex number is also returned for reference.
+
+### Example
+```python
+from static.sq import conditional_sq
+from utils.wavevector import choosewavevector
+
+qrange = 10.0
+
+
+for snapshot in readdump.snapshots.snapshots:
+
+    twopidl = 2*np.pi / snapshot.boxlength
+    numofq = int(qrange*2.0/twopidl.min())
+    qvector = choosewavevector(ndim=3, numofq=numofq, onlypositive=False)
+    
+    # Select particles with a particle type of 2 for S(q) calculation
+    sqresults_selection = conditional_sq(snapshot, qvector=qvector,
+                                         condition=snapshot.particle_type==2)
+    
+    # Randomly generating values for particle quantity, ranging from 0 to 1
+    particle_quantity = np.random.rand(snapshot.nparticle)
+
+    # particle level quantity as conditoin to calculate S(q), also support complex-number quantity
+    sqresults, sqresults_ave = conditional_sq(snapshot, qvector=qvector, condition=particle_quantity)
+
+```
+
