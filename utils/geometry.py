@@ -95,7 +95,7 @@ def lines_intersection(
     Px /= D
     Py = (x1*y2-y1*x2)*(y3-y4) - (y1-y2)*(x3*y4-y3*x4)
     Py /= D
-    return np.ndarray([Px, Py])
+    return np.array([Px, Py])
 
 def LineWithinSquare(
     P1: np.ndarray,

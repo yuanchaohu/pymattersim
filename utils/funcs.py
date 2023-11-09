@@ -55,4 +55,4 @@ def moment_of_inertia(
     if matrix:
         return Iij
     else:
-        return np.ndarray([Iij[0,0], Iij[1,1], Iij[2,2], Iij[0,1], Iij[0,2], Iij[1,2]])
+        return np.array([Iij[0,0], Iij[1,1], Iij[2,2], Iij[0,1], Iij[0,2], Iij[1,2]])

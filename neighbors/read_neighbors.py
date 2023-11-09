@@ -10,7 +10,7 @@ logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
 
-def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.array:
+def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.ndarray:
     """
     Read the property of neighboring particles from a saved file,
     as long as the format of file is compatible, as like neighborlist.dat

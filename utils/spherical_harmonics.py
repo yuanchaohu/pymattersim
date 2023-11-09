@@ -16,7 +16,7 @@ from scipy.special import sph_harm
 # pylint: disable=line-too-long
 # pylint: disable=no-name-in-module
 
-def SphHarm0() -> np.ndarray:
+def SphHarm0() -> float:
     """
     Spherical Harmonics l = 0
 
@@ -26,7 +26,7 @@ def SphHarm0() -> np.ndarray:
     Return:
         spherical harmonics for l=0 (np.ndarray)
     """
-    return [(1/2) * np.sqrt(1/np.pi)]
+    return (1/2) * np.sqrt(1/np.pi)
 
 def SphHarm1(theta: float, phi: float) -> np.ndarray:
     """
@@ -41,7 +41,7 @@ def SphHarm1(theta: float, phi: float) -> np.ndarray:
     """
     results = []
 
-    mN1 = (1/2) * np.np.sqrt(3/2/np.pi) * cmath.exp(-1j*phi) * np.sin(theta)
+    mN1 = (1/2) * np.sqrt(3/2/np.pi) * cmath.exp(-1j*phi) * np.sin(theta)
     results.append(mN1)
     m0 = (1/2) * np.sqrt(3/np.pi) * np.cos(theta)
     results.append(m0)

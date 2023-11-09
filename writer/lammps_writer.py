@@ -5,14 +5,14 @@
 import numpy as np
 
 def write_dump_header(
-	timestep: int, nparticle: int, boxbounds: np.array, addson:str=None) -> str:
+	timestep: int, nparticle: int, boxbounds: np.ndarray, addson:str=None) -> str:
     """
     write the headers of lammps dump file
 
     Inputs:
     	1. timestep (int): timestep for the current snapshot
     	2. nparticle (int): number of particle
-    	3. boxbounds (np.array): the bounds of the simulation box
+    	3. boxbounds (np.ndarray): the bounds of the simulation box
     						     for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
     						     for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
     						     wherein xho and xhi represent minimum and maximum coordinate values
@@ -43,14 +43,14 @@ def write_dump_header(
 
 
 def write_data_header(
-    nparticle: int, nparticle_type: int, boxbounds: np.array) -> str:
+    nparticle: int, nparticle_type: int, boxbounds: np.ndarray) -> str:
     """
     write the headers of lammps data file
 
     Inputs:
         1. nparticle (int): number of particle
         2. nparticle_type (int): number of particle type
-        3. boxbounds (np.array): the bounds of the simulation box
+        3. boxbounds (np.ndarray): the bounds of the simulation box
                                  for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
                                  for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
                                  wherein xho and xhi represent minimum and maximum coordinate values

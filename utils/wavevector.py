@@ -69,7 +69,7 @@ def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.nda
         3. onlypositive (bool): whether only consider positive wave vectors
 
     Return: 
-        qvectors (np.array)
+        qvectors (np.ndarray)
     """
 
     qvectors = np.zeros((numofq**ndim, ndim), dtype=np.int32)
@@ -124,7 +124,7 @@ def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.nda
 
     return qvectors
 
-def continuousvector(ndim, numofq=100, onlypositive=False) -> np.ndarray:
+def continuousvector(ndim: int, numofq: int=100, onlypositive: bool=False) -> np.ndarray:
     """
     define wave vector for [nx, ny, nz] as long as they are integers
     considering qvector values from [-N/2, N/2]
@@ -135,7 +135,7 @@ def continuousvector(ndim, numofq=100, onlypositive=False) -> np.ndarray:
         3. onlypositive (bool): whether only consider positive wave vectors
 
     Return: 
-        qvectors (np.array)
+        qvectors (np.ndarray)
     """
 
     qvectors = np.zeros((numofq**ndim, ndim), dtype=np.int32)
