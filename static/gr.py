@@ -24,9 +24,10 @@ logger = get_logger_handle(__name__)
 def conditional_gr(
     snapshot: SingleSnapshot,
     condition: np.ndarray,
+    conditiontype: str=None,
     ppp: list=[1,1,1],
-    rdelta: float=0.01
-    ) -> pd.DataFrame:
+    rdelta: float=0.01,
+) -> pd.DataFrame:
     """
     Calculate the pair correlation function of a single configuration for selected particles,
     Also useful to calculate the spatial correlation of a physical quantity "A"
@@ -34,14 +35,18 @@ def conditional_gr(
     1. condition is bool type, so calculate partial g(r) for selected particles
     2. condition is complex number, so calculate spatial correlation of complex number
     3. condition is float scalar, so calculate spatial correlation of scalar number
+    4. condition is vector type, so calculate spatial correlation of vector field
+    5. condition is tensorial type, so calculate spatial correlation of tensorial field
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
         2. condition (np.ndarray): particle-level condition for g(r)
-        3. ppp (list): the periodic boundary conditions,
+        3. conditiontype (str): whether condition is vector or tensor, 
+                                choosing from None (default), vector, tensor
+        4. ppp (list): the periodic boundary conditions,
                        setting 1 for yes and 0 for no, default [1,1,1],
                        set [1, 1] for two-dimensional systems
-        4. rdelta (float): bin size calculating g(r), default 0.01
+        5. rdelta (float): bin size calculating g(r), default 0.01
 
     Return:
         calculated conditional g(r) (pd.DataFrame)
@@ -61,7 +66,12 @@ def conditional_gr(
         logger.info("Calculate spatial correlation gA of complex-number physical quantity 'A'")
         conj_condition = np.conj(condition)
     else:
-        logger.info("Calculate spatial correlation gA of float-scalar physical quantity 'A'")
+        if conditiontype=="vector":
+            logger.info("Calculate spatial correlation gA of vector-type physical quantity 'A'")
+        elif conditiontype=="tensor":
+            logger.info("Calculate spatial correlation gA of tensor-type physical quantity 'A'")
+        else:
+            logger.info("Calculate spatial correlation gA of float-scalar physical quantity 'A'")
         conj_condition = condition.copy()
 
     for i in range(snapshot.nparticle-1):
@@ -71,8 +81,17 @@ def conditional_gr(
         # original g(r)
         countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
         grresults["gr"] += countvalue
-        # conditional g(r) for bool or scalar or complex data type
-        SIJ = (condition[i+1:] * conj_condition[i]).real
+
+        if not conditiontype:
+            # conditional g(r) for bool or scalar or complex data type
+            SIJ = (condition[i+1:] * conj_condition[i]).real
+        elif conditiontype=="vector":
+            SIJ = (condition[i+1:] * conj_condition[i][np.newaxis,:]).sum(axis=1)
+        elif conditiontype=="tensor":
+            SIJ = np.zeros(snapshot.nparticle - (i+1))
+            for j in range(SIJ.shape[0]):
+                SIJ[j] = np.trace(np.matmul(condition[i], conj_condition[j+i+1]))
+            
         countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
         grresults["gA"] += countvalue
         
