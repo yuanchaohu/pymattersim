@@ -1,24 +1,24 @@
-# utils
-## [I. funcs](#i-funcs-1)
-## [II. Remove PBC](#ii-remove-pbc-1)
+# util functions
+## [I. math funcs](#i-funcs-1)
+## [II. remove periodic boundary conditions](#ii-remove-pbc-1)
 ## [III. geometry](#iii-geometry-1)
 ## [IV. wavevector](#iv-wavevector-1)
-## [V. fft](#v-fft-1)
-## [VI. spherical_harmonics](#vi-spherical_harmonics-1)
+## [V. Fast Fourier Transformation](#v-fast-fourier-transformation-1)
+## [VI. spherical harmonics](#vi-spherical-harmonics-1)
 
 ---
 
 # I. funcs
-mathmatical functions for feasible computation
+mathmatical functions for feasible computations
 
 ## 1. nidealfac
-`nidealfac` is used to choose factor of `Nideal` in g(r) calculation.
+`nidealfac` is used to choose pre-factor of `Nideal` in g(r) calculation.
 
 ### Input Arguments
 - `ndim` (`int`): system dimensionality, default 3
 
 ### Return
-Nideal (`float`)
+- Nideal (`float`)
 
 ## 2. moment_of_inertia
 `moment_of_inertia` is used to calculate moment of inertia for a rigid body made of n points/particles.
@@ -26,10 +26,10 @@ Nideal (`float`)
 ### Input Arguments
 - `positions` (`np.ndarray`): positions of the point particles as [numofatoms, 3]
 - `m` (`int`): assuming each point mass is 1.0/numofatoms
-- `matrix` (`bool`): return the results as a matrix of [ixx iyy izz ixy ixz iyz]
+- `matrix` (`bool`): to return the results as a matrix of [ixx iyy izz ixy ixz iyz]
 
 ### Return
-moment of inertia (`np.ndarray`)
+- moment of inertia (`np.ndarray`)
 
 
 # II. Remove PBC
@@ -37,29 +37,27 @@ moment of inertia (`np.ndarray`)
 The module `utils.pbc` is used to remove periodic boundary conditions (PBC) and is usually embedded in other analysis modules.
 
 ## Input Arguments
-
-- `RIJ` (`np.array`): position difference between particle ***i*** (center) and ***j*** (neighbors) with PBC
-- `hmatrix` (`np.array`): h-matrix of the box
+- `RIJ` (`np.ndarray`): position difference between particle pairs $i$ and $j$
+- `hmatrix` (`np.ndarray`): h-matrix of the box
 - `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no. Default `[1, 1, 1]`, that is, PBC is applied in all three dimensions for 3D box
 
 ## Return
-
-A `np.array` for the position difference between particle ***i*** (center) and ***j*** (neighbors) after removing PBC
+- A `np.ndarray` for the position difference between particle pairs $i$ and $j$ after removing PBC
 
 ## Example
 
 ```python
 from utils.pbc import remove_pbc
 
-remove_pbc(RIJ, hmatrix, ppp)
+remove_pbc(RIJ, hmatrix, ppp=[1,1,1])
 ```
 
 # III. geometry
-`utils.geometry` contain math geometrical functions to assist other analysis
+`utils.geometry` includes math geometrical functions to assist other analysis
 
 ## 1. triangle_area
 
-`triangle_area` function is used to claculate the area of a triangle using Heron's equation
+`triangle_area` function claculates the area of a triangle using Heron's equation
 
 ### Input Arguments
 - `positions` (`np.ndarray`): numpy array of particle positions, `shape=(3, 2)` for 2D, `shape=(3, 3)` for 3D
@@ -67,23 +65,21 @@ remove_pbc(RIJ, hmatrix, ppp)
 - `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no. default [1, 1], that is, PBC is applied in all two dimensions
 
 ### Return
-area of triangle (float)
+- area of triangle (float)
 
 ## 2. triangle_angle
 
-`triangle_angle` function is used to calculate the angle of a triangle based on side lengths
+`triangle_angle` function calculates the angle of a triangle based on side lengths
 
 ### Input Arguments
-
 - `a`, `b`, `c` (float): side length
 
 ### Return
-
-corresponding angles `A`, `B`, `C` (`np.ndarray`)
+- corresponding angles `A`, `B`, `C` (`np.ndarray`)
 
 ## 3. lines_intersection
 
-`lines_intersection` function is used to extract the line-line intersection for two lines `[P1, P2]` and `[P3, P4]` in two dimensions
+`lines_intersection` function extracts the line-line intersection for two lines `[P1, P2]` and `[P3, P4]` in two dimensions
 
 ### Input Arguments
 - `P1` (`np.ndarray`): one point on line 1
@@ -96,55 +92,63 @@ corresponding angles `A`, `B`, `C` (`np.ndarray`)
 - `vector` (`np.ndarray`): pointing to R0 from R1 outside the square
 
 ### Return
-line segment (`np.ndarray`)
+- line segment (`np.ndarray`)
 
 
 # IV. wavevector
-`utils.wavevector` module is used to generate wave-vector for calculations like static/dynamic structure factor.
+`utils.wavevector` module generates wave-vector for calculations like static/dynamic structure factor.
 
 ## 1. wavevector3d
-`wavevector3d` is used to define wave vector for three dimensional systems.
+`wavevector3d` is used to define wave vectors for three dimensional systems.
 
 ### Input Arguments
 - `numofq` (`int`): number of q
 
 ### Return
-wavevector (`list`)
+- wavevector (`np.ndarray`)
 
 ## 2. wavevector2d
-`wavevector2d` is used to define wave vector for two dimensional systems.
+`wavevector2d` is used to define wave vectors for two dimensional systems.
 
 ### Input Arguments
 - `numofq` (`int`): number of q
 
 ### Return
-wavevector (`list`)
+- wavevector (`np.ndarray`)
 
 ## 3. choosewavevector
-`choosewavevector` is used to define wave vector for $[n_x, n_y, n_z]$ as long as they are integers. Considering qvector values from $[-N/2, N/2]$ or from $[0, N/2]$ (`onlypositive=True`). Only get the sqrt-able wave vector.
+`choosewavevector` is used to define wave vector for 
+$$
+[n_x, n_y, n_z]
+$$ 
+as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ or from $[0, N/2]$ (`onlypositive=True`). Only get the sqrt-able wave vector.
 
 ### Input Arguments
 - `ndim` (`int`): dimensionality
-- `numofq` (`int`): number of q
+- `numofq` (`int`): number of wave vectors
 - `onlypositive` (`bool`): whether only consider positive wave vectors
 
 ### Return
-qvectors (`np.array`)
+- qvectors (`np.ndarray`)
 
 ## 4. continuousvector
-`continuousvector` is used to define wave vector for $[n_x, n_y, n_z]$ as long as they are integers. Considering qvector values from $[-N/2, N/2]$ or from $[0, N/2]$ (`onlypositive=True`).
+`continuousvector` is used to define wave vector for 
+$$
+[n_x, n_y, n_z]
+$$ 
+as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ or from $[0, N/2]$ (`onlypositive=True`).
 
 ### Input Arguments
 - `ndim` (`int`): dimensionality
-- `numofq` (`int`): number of q
+- `numofq` (`int`): number of wave vectors
 - `onlypositive` (`bool`): whether only consider positive wave vectors
 
 ### Return
-qvectors (`np.array`)
+- qvectors (`np.ndarray`)
 
 
-# V. fft
-`utils.fft` is used to calculates the Fourier transformation of an autocorrelation function by Filon's integration method
+# V. Fast Fourier Transformation
+`utils.fft` calculates the Fourier transformation of an autocorrelation function by Filon's integration method
 
 ## Input Arguments
 - `C` (`np.ndarray`): the auto-correlation function
@@ -153,20 +157,20 @@ qvectors (`np.array`)
 - `outputfile` (`str`): filename to save the calculated results, default `None`
   
 ## Return
-FFT results (`pd.DataFrame`)
+- FFT results (`pd.DataFrame`)
 
 
-# VI. spherical_harmonics
-`utils.spherical_harmonics` is used to calculate spherical harmonics of given ($\theta$, $\phi$) from ($l$ = 0) to ($l$ = 10). From `SphHarm0()` to `SphHarm10()` a list of [$-l$, $l$] values will be returned, if $l$>10 use scipy.special.sph_harm (this may be slower).
+# VI. Spherical Harmonics
+`utils.spherical_harmonics` calculates spherical harmonics of given ($\theta$, $\phi$) from ($l$ = 0) to ($l$ = 10). From `SphHarm0()` to `SphHarm10()` a list of [$-l$, $l$] values will be returned, if $l$>10 use scipy.special.sph_harm (this may be slower).
 
 ## Input Arguments
-For degree of harmonics $l$=0, the input is `None`.
+- For degree of harmonics $l$=0, the input is `None`.
 
-For $1<l\leq10$, the input is:
-- `theta` (`float`): Azimuthal (longitudinal) coordinate; must be in $[0, 2\pi]$
-- `phi` (`float`): Polar (colatitudinal) coordinate; must be in $[0, \pi]$
+- For $1<l\leq10$, the input is:
+  - `theta` (`float`): Azimuthal (longitudinal) coordinate; must be in $[0, 2\pi]$
+  - `phi` (`float`): Polar (colatitudinal) coordinate; must be in $[0, \pi]$
 
-For $l>10$, beside `theta` and `phi`, `l` should also be taken as input.
+- For $l>10$, beside `theta` and `phi`, `l` should also be taken as input.
 
 ## Return
-spherical harmonics (`np.ndarray`)
+- spherical harmonics (`np.ndarray`)
