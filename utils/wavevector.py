@@ -12,7 +12,7 @@ logger = get_logger_handle(__name__)
 
 # pylint: disable=too-many-branches
 
-def wavevector3d(numofq: int=500) -> list:
+def wavevector3d(numofq: int=500) -> np.ndarray:
     """
     Define wave vector for three dimensional systems
     
@@ -20,7 +20,7 @@ def wavevector3d(numofq: int=500) -> list:
         numofq (int): number of q
 
     Return:
-        wavevector (list)
+        wavevector (np.ndarray)
     """
 
     wavenumber = np.square(np.arange(numofq))
@@ -33,9 +33,9 @@ def wavevector3d(numofq: int=500) -> list:
                     wavevector.append(np.array([d, a, b, c]))
     wavevector = np.ravel(np.array(wavevector))[4:].reshape((-1, 4))
     wavevector = wavevector[wavevector[:, 0].argsort()]
-    return wavevector
+    return np.array(wavevector)
 
-def wavevector2d(numofq: int=500) -> list:
+def wavevector2d(numofq: int=500) -> np.ndarray:
     """
     Define Wave Vector for two dimensional system
     
@@ -43,7 +43,7 @@ def wavevector2d(numofq: int=500) -> list:
         numofq (int): number of q
 
     Return:
-        wavevector (list)
+        wavevector (np.ndarray)
     """
 
     wavenumber = np.square(np.arange(numofq))
@@ -55,7 +55,7 @@ def wavevector2d(numofq: int=500) -> list:
                 wavevector.append(np.array([d, a, b]))
     wavevector = np.ravel(np.array(wavevector))[3:].reshape((-1, 3))
     wavevector = wavevector[wavevector[:, 0].argsort()]
-    return wavevector
+    return np.array(wavevector)
 
 def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.ndarray:
     """
