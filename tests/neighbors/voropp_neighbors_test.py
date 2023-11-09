@@ -4,9 +4,9 @@ import os
 import unittest
 from reader.dump_reader import DumpReader
 
-from neighbors.voronoi_neighbors import cal_voro, voronowalls, indicehis
+from neighbors.voropp_neighbors import cal_voro, voronowalls, indicehis
 
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

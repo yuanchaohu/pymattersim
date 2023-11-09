@@ -3,7 +3,7 @@
 """mathmatical functions for feasible computation"""
 
 import numpy as np
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

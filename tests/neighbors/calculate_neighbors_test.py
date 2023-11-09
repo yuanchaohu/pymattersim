@@ -8,7 +8,7 @@ from neighbors.calculate_neighbors import Nnearests
 from neighbors.calculate_neighbors import cutoffneighbors
 from neighbors.calculate_neighbors import cutoffneighbors_particletype
 
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

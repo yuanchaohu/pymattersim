@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from reader.dump_reader import DumpReader
 from static.gr import gr, conditional_gr
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

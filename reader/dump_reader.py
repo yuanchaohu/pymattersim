@@ -3,7 +3,7 @@
 """see documentation @ ../docs/reader.md"""
 
 from time import time
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 from reader.reader_utils import DumpFileType, Snapshots
 from reader.lammps_reader_helper import read_lammps_wrapper, read_lammps_centertype_wrapper
 from reader.gsd_reader_helper import read_gsd_wrapper, read_gsd_dcd_wrapper

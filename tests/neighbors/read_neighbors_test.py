@@ -4,7 +4,7 @@ import unittest
 import numpy as np
 from neighbors.read_neighbors import read_neighbors
 
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

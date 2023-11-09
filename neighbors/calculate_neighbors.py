@@ -6,7 +6,7 @@ import re
 import numpy as np
 from reader.reader_utils import Snapshots
 from utils.pbc import remove_pbc
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

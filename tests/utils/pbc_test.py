@@ -5,7 +5,7 @@ import numpy as np
 from utils.pbc import remove_pbc
 from reader.dump_reader import DumpReader
 
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
@@ -31,7 +31,6 @@ class TestPBC(unittest.TestCase):
         readdump.read_onefile()
         positions = readdump.snapshots.snapshots[0].positions
         hmatrix = readdump.snapshots.snapshots[0].hmatrix
-        boxlength = readdump.snapshots.snapshots[0].boxlength
         RIJ = positions[1:] - positions[0]
         RIJ_removed = remove_pbc(RIJ = RIJ, hmatrix = hmatrix, ppp = [1, 1])
 
@@ -48,7 +47,6 @@ class TestPBC(unittest.TestCase):
         readdump.read_onefile()
         positions = readdump.snapshots.snapshots[0].positions
         hmatrix = readdump.snapshots.snapshots[0].hmatrix
-        boxlength = readdump.snapshots.snapshots[0].boxlength
         RIJ = positions[1:] - positions[0]
         RIJ_removed = remove_pbc(RIJ = RIJ, hmatrix = hmatrix, ppp = [1, 1, 1])
 

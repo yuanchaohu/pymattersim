@@ -7,7 +7,7 @@ see documentation @ ../docs/utils.md
 
 import numpy as np
 from utils.pbc import remove_pbc
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
@@ -30,7 +30,7 @@ def triangle_area(
                        default [1, 1], that is, PBC is applied in all two dimensions
 
     Return:
-        area of triangle (float)             
+        area of triangle (float)
     """
     logger.info(f"Calculate triangle area in a {len(ppp)}-dimensional system")
 
@@ -59,6 +59,7 @@ def triangle_angle(a: float, b: float, c: float) -> float:
     Return:
         corresponding angles: A, B, C (np.ndarray)
     """
+    logger.info("Calculate triangle angle")
 
     cos_theta = (a**2 + b**2 - c**2) / (2*a*b)
     return np.arccos(cos_theta)
@@ -82,6 +83,8 @@ def lines_intersection(
     Return:
         intersection point (np.ndarray)
     """
+    logger.info("Extract the line-line intersection for two lines")
+
     x1, y1 = P1  # one point on line 1
     x2, y2 = P2  # another point on line 1
     x3, y3 = P3  # one point on line 2
@@ -117,6 +120,7 @@ def LineWithinSquare(
     Return:
         line segment (np.ndarray)
     """
+    logger.info("Calculate the line segment within a square")
 
     R1 = R0 - vector
     theta = np.arctan2(-vector[1], -vector[0])
