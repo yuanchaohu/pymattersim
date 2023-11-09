@@ -1,6 +1,6 @@
 # util functions
-## [I. math funcs](#i-funcs-1)
-## [II. remove periodic boundary conditions](#ii-remove-pbc-1)
+## [I. math funcs](#i-funcs)
+## [II. remove periodic boundary conditions](#ii-remove-pbc)
 ## [III. geometry](#iii-geometry-1)
 ## [IV. wavevector](#iv-wavevector-1)
 ## [V. Fast Fourier Transformation](#v-fast-fourier-transformation-1)
@@ -20,16 +20,28 @@ mathmatical functions for feasible computations
 ### Return
 - Nideal (`float`)
 
+### Example
+```python
+from utils import funcs
+funcs.nidealfac(ndim=3)
+```
+
 ## 2. moment_of_inertia
 `moment_of_inertia` is used to calculate moment of inertia for a rigid body made of n points/particles.
 
 ### Input Arguments
 - `positions` (`np.ndarray`): positions of the point particles as [numofatoms, 3]
-- `m` (`int`): assuming each point mass is 1.0/numofatoms
-- `matrix` (`bool`): to return the results as a matrix of [ixx iyy izz ixy ixz iyz]
+- `m` (`int`): assuming each point mass is 1.0/numofatoms, default 1
+- `matrix` (`bool`): to return the results as a matrix of [ixx iyy izz ixy ixz iyz], default `False`
 
 ### Return
 - moment of inertia (`np.ndarray`)
+
+### Example
+```python
+from utils import funcs
+funcs.moment_of_inertia(positions, m=1, matrix=False)
+```
 
 
 # II. Remove PBC
@@ -67,6 +79,13 @@ remove_pbc(RIJ, hmatrix, ppp=[1,1,1])
 ### Return
 - area of triangle (float)
 
+### Example
+
+```python
+from utils import geometry
+geometry.triangle_area(positions, hmatrix, ppp)
+```
+
 ## 2. triangle_angle
 
 `triangle_angle` function calculates the angle of a triangle based on side lengths
@@ -76,6 +95,13 @@ remove_pbc(RIJ, hmatrix, ppp=[1,1,1])
 
 ### Return
 - corresponding angles `A`, `B`, `C` (`np.ndarray`)
+
+### Example
+
+```python
+from utils import geometry
+geometry.triangle_angle(a=3, b=4, c=5)
+```
 
 ## 3. lines_intersection
 
@@ -94,6 +120,15 @@ remove_pbc(RIJ, hmatrix, ppp=[1,1,1])
 ### Return
 - line segment (`np.ndarray`)
 
+### Example
+
+```python
+from utils import geometry
+geometry.lines_intersection(P1=np.array([0, 0]),
+                            P2=np.array([1, 1]),
+                            P3=np.array([1, 0]),
+                            P4=np.array([0, 1]))
+```
 
 # IV. wavevector
 `utils.wavevector` module generates wave-vector for calculations like static/dynamic structure factor.
@@ -107,6 +142,12 @@ remove_pbc(RIJ, hmatrix, ppp=[1,1,1])
 ### Return
 - wavevector (`np.ndarray`)
 
+### Example
+```python
+from utils import wavevector
+wavevector.wavevector3d(numofq=100)
+```
+
 ## 2. wavevector2d
 `wavevector2d` is used to define wave vectors for two dimensional systems.
 
@@ -115,6 +156,12 @@ remove_pbc(RIJ, hmatrix, ppp=[1,1,1])
 
 ### Return
 - wavevector (`np.ndarray`)
+
+### Example
+```python
+from utils import wavevector
+wavevector.wavevector2d(numofq=100)
+```
 
 ## 3. choosewavevector
 `choosewavevector` is used to define wave vector for 
@@ -127,6 +174,12 @@ as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ 
 - `ndim` (`int`): dimensionality
 - `numofq` (`int`): number of wave vectors
 - `onlypositive` (`bool`): whether only consider positive wave vectors
+
+### Example
+```python
+from utils import wavevector
+wavevector.choosewavevector(ndim=3, numofq=100, onlypositive=False)
+```
 
 ### Return
 - qvectors (`np.ndarray`)
@@ -146,6 +199,11 @@ as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ 
 ### Return
 - qvectors (`np.ndarray`)
 
+### Example
+```python
+from utils import wavevector
+wavevector.continuousvector(ndim=3, numofq=100, onlypositive=False)
+```
 
 # V. Fast Fourier Transformation
 `utils.fft` calculates the Fourier transformation of an autocorrelation function by Filon's integration method
@@ -159,6 +217,11 @@ as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ 
 ## Return
 - FFT results (`pd.DataFrame`)
 
+## Example
+```python
+from utils import fft
+fft.Filon_COS(C, t, a, outputfile)
+```
 
 # VI. Spherical Harmonics
 `utils.spherical_harmonics` calculates spherical harmonics of given ($\theta$, $\phi$) from ($l$ = 0) to ($l$ = 10). From `SphHarm0()` to `SphHarm10()` a list of [$-l$, $l$] values will be returned, if $l$>10 use scipy.special.sph_harm (this may be slower).
@@ -174,3 +237,14 @@ as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ 
 
 ## Return
 - spherical harmonics (`np.ndarray`)
+
+## Example
+```python
+from utils import spherical_harmonics
+
+spherical_harmonics.SphHarm4(theta=60*np.pi/180, phi=30*np.pi/180)
+
+spherical_harmonics.SphHarm6(theta=60*np.pi/180, phi=30*np.pi/180)
+
+spherical_harmonics.SphHarm_above(l=12, theta=60*np.pi/180, phi=30*np.pi/180)
+```

@@ -26,7 +26,7 @@ class TestPBC(unittest.TestCase):
         """
         Test pbc works properly for 2D lammps
         """
-        logger.info(f"Starting test using {self.test_file_2d}...")
+        logger.info(f"Starting test pbc using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
         positions = readdump.snapshots.snapshots[0].positions
@@ -42,7 +42,7 @@ class TestPBC(unittest.TestCase):
         """
         Test pbc works properly for 3D lammps
         """
-        logger.info(f"Starting test using {self.test_file_3d}...")
+        logger.info(f"Starting test pbc using {self.test_file_3d}...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
         positions = readdump.snapshots.snapshots[0].positions
