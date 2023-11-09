@@ -10,7 +10,7 @@ import gsd.hoomd
 import numpy as np
 
 from mdtraj.formats import DCDTrajectoryFile
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 from reader.reader_utils import SingleSnapshot, Snapshots
 
 logger = get_logger_handle(__name__)

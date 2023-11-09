@@ -145,7 +145,7 @@ Usually, these cutoff distances can be determined as the position of the individ
 #### Input Arguments
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
-- `r_cut` (`np.array`): the cutoff distances of each particle pair
+- `r_cut` (`np.ndarray`): the cutoff distances of each particle pair
 - `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
 
   default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for a two-dimensional system

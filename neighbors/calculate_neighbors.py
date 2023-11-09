@@ -6,7 +6,7 @@ import re
 import numpy as np
 from reader.reader_utils import Snapshots
 from utils.pbc import remove_pbc
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
@@ -124,7 +124,7 @@ def cutoffneighbors(
 
 def cutoffneighbors_particletype(
         snapshots: Snapshots,
-        r_cut: np.array,
+        r_cut: np.ndarray,
         ppp: list=[1,1,1],
         fnfile: str='neighborlist.dat'
     ) -> None:
@@ -135,7 +135,7 @@ def cutoffneighbors_particletype(
     Inputs:
         1. snapshots (reader.reader_utils.Snapshots): returned by reader.dump_reader.DumpReader
 
-        2. r_cut (np.array): the cutoff distances of each particle pair, for example,
+        2. r_cut (np.ndarray): the cutoff distances of each particle pair, for example,
                              for a binary system A-B should be np.array([[A-A, A-B], [B-A, B-B]]))
                              Usually, these cutoff distances can be determined as the position of
                              the first valley in partial pair correlation function of each pair.

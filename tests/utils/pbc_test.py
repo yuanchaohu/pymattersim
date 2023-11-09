@@ -5,7 +5,7 @@ import numpy as np
 from utils.pbc import remove_pbc
 from reader.dump_reader import DumpReader
 
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
@@ -26,12 +26,11 @@ class TestPBC(unittest.TestCase):
         """
         Test pbc works properly for 2D lammps
         """
-        logger.info(f"Starting test using {self.test_file_2d}...")
+        logger.info(f"Starting test pbc using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
         positions = readdump.snapshots.snapshots[0].positions
         hmatrix = readdump.snapshots.snapshots[0].hmatrix
-        boxlength = readdump.snapshots.snapshots[0].boxlength
         RIJ = positions[1:] - positions[0]
         RIJ_removed = remove_pbc(RIJ = RIJ, hmatrix = hmatrix, ppp = [1, 1])
 
@@ -43,12 +42,11 @@ class TestPBC(unittest.TestCase):
         """
         Test pbc works properly for 3D lammps
         """
-        logger.info(f"Starting test using {self.test_file_3d}...")
+        logger.info(f"Starting test pbc using {self.test_file_3d}...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
         positions = readdump.snapshots.snapshots[0].positions
         hmatrix = readdump.snapshots.snapshots[0].hmatrix
-        boxlength = readdump.snapshots.snapshots[0].boxlength
         RIJ = positions[1:] - positions[0]
         RIJ_removed = remove_pbc(RIJ = RIJ, hmatrix = hmatrix, ppp = [1, 1, 1])
 

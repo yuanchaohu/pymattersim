@@ -5,7 +5,7 @@ from typing import Dict, Any
 import numpy as np
 import pandas as pd
 
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 from reader.reader_utils import SingleSnapshot, Snapshots
 
 logger = get_logger_handle(__name__)

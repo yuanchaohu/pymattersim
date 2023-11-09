@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 from reader.reader_utils import SingleSnapshot, Snapshots
 from utils.wavevector import choosewavevector
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

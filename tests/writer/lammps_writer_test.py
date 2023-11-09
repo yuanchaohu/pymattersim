@@ -5,7 +5,7 @@ import numpy as np
 from writer.lammps_writer import write_dump_header
 from writer.lammps_writer import write_data_header
 
-from utils.logging_utils import get_logger_handle
+from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
