@@ -40,7 +40,7 @@ def Filon_COS(C: np.ndarray, t: np.ndarray, a: float=0, outputfile: str=None) ->
     if dt != round(t[-1]-t[-2], 3):
         raise ValueError('time is not evenly distributed')
 
-    results = pd.DataFrame(0, index=range(Nmax), columns="omega FFT".split())
+    results = pd.DataFrame(0, index=range(Nmax), columns="omega FFT".split()).astype('float64')
     for n in range(Nmax):
         omega = n * a
         results.iloc[n, 0] = omega
