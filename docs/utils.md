@@ -1,5 +1,5 @@
 # util functions
-## [I. math funcs](#i-funcs)
+## [I. math functions](#i-funcs)
 ## [II. remove periodic boundary conditions](#ii-remove-pbc)
 ## [III. geometry](#iii-geometry-1)
 ## [IV. wavevector](#iv-wavevector-1)
@@ -23,11 +23,12 @@ mathmatical functions for feasible computations
 ### Example
 ```python
 from utils import funcs
+
 funcs.nidealfac(ndim=3)
 ```
 
 ## 2. moment_of_inertia
-`moment_of_inertia` is used to calculate moment of inertia for a rigid body made of n points/particles.
+`moment_of_inertia` calculates moment of inertia for a rigid body made of n points/particles.
 
 ### Input Arguments
 - `positions` (`np.ndarray`): positions of the point particles as [numofatoms, 3]
@@ -46,7 +47,7 @@ funcs.moment_of_inertia(positions, m=1, matrix=False)
 
 # II. Remove PBC
 
-The module `utils.pbc` is used to remove periodic boundary conditions (PBC) and is usually embedded in other analysis modules.
+The module `utils.pbc` removes periodic boundary conditions (PBC).
 
 ## Input Arguments
 - `RIJ` (`np.ndarray`): position difference between particle pairs $i$ and $j$
@@ -57,7 +58,6 @@ The module `utils.pbc` is used to remove periodic boundary conditions (PBC) and 
 - A `np.ndarray` for the position difference between particle pairs $i$ and $j$ after removing PBC
 
 ## Example
-
 ```python
 from utils.pbc import remove_pbc
 
@@ -69,7 +69,7 @@ remove_pbc(RIJ, hmatrix, ppp=[1,1,1])
 
 ## 1. triangle_area
 
-`triangle_area` function claculates the area of a triangle using Heron's equation
+`triangle_area` function calculates the area of a triangle using Heron's equation
 
 ### Input Arguments
 - `positions` (`np.ndarray`): numpy array of particle positions, `shape=(3, 2)` for 2D, `shape=(3, 3)` for 3D
@@ -80,9 +80,9 @@ remove_pbc(RIJ, hmatrix, ppp=[1,1,1])
 - area of triangle (float)
 
 ### Example
-
 ```python
 from utils import geometry
+
 geometry.triangle_area(positions, hmatrix, ppp)
 ```
 
@@ -94,12 +94,12 @@ geometry.triangle_area(positions, hmatrix, ppp)
 - `a`, `b`, `c` (float): side length
 
 ### Return
-- corresponding angles `A`, `B`, `C` (`np.ndarray`)
+- corresponding angles `C` (`float`)
 
 ### Example
-
 ```python
 from utils import geometry
+
 geometry.triangle_angle(a=3, b=4, c=5)
 ```
 
@@ -118,12 +118,12 @@ geometry.triangle_angle(a=3, b=4, c=5)
 - `vector` (`np.ndarray`): pointing to R0 from R1 outside the square
 
 ### Return
-- line segment (`np.ndarray`)
+- intersection of two lines (`np.ndarray`)
 
 ### Example
-
 ```python
 from utils import geometry
+
 geometry.lines_intersection(P1=np.array([0, 0]),
                             P2=np.array([1, 1]),
                             P3=np.array([1, 0]),

@@ -57,7 +57,7 @@ def triangle_angle(a: float, b: float, c: float) -> float:
         1. a, b, c (float): side length, 
     
     Return:
-        corresponding angles: A, B, C (np.ndarray)
+        corresponding angles: C (float)
     """
     logger.info("Calculate triangle angle")
 
