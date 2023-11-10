@@ -1,91 +1,97 @@
-2023-11-09 10:37:45,020 INFO gr_test Starting test gr using tests/sample_test_data/dump_2D.atom...
-2023-11-09 10:37:45,020 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:37:45,020 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:37:45,099 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:37:45,099 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:37:45,099 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07852816581726074 seconds
-2023-11-09 10:37:45,100 INFO static.gr System composition: 0.667:0.333
-2023-11-09 10:37:45,100 INFO static.gr Start calculating g(r) of a binary system
-2023-11-09 10:38:37,977 INFO static.gr Finish calculating g(r) of a binary system
-2023-11-09 10:38:37,997 INFO gr_test Finishing test gr using tests/sample_test_data/dump_2D.atom...
-.2023-11-09 10:38:37,998 INFO gr_test Starting test conditional_gr using tests/sample_test_data/ternary.dump...
-2023-11-09 10:38:37,998 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
-2023-11-09 10:38:37,998 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:38:38,050 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:38:38,229 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:38:38,229 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.23112273216247559 seconds
-2023-11-09 10:38:38,229 INFO static.gr Calculate g(r) for 405 selected atoms
-2023-11-09 10:38:43,221 INFO static.gr System composition: 0.85:0.05:0.1
-2023-11-09 10:38:43,221 INFO static.gr Start calculating g(r) of a ternary system
-2023-11-09 10:38:55,004 INFO static.gr Finish calculating g(r) of a ternary system
-2023-11-09 10:38:55,005 INFO static.gr Calculate g(r) for 405 selected atoms
-2023-11-09 10:39:00,073 INFO static.gr System composition: 0.85:0.05:0.1
-2023-11-09 10:39:00,073 INFO static.gr Start calculating g(r) of a ternary system
-2023-11-09 10:39:12,188 INFO static.gr Finish calculating g(r) of a ternary system
-2023-11-09 10:39:12,189 INFO gr_test Finishing test conditional_gr using tests/sample_test_data/ternary.dump...
-.2023-11-09 10:39:12,189 INFO gr_test Starting test gr using tests/sample_test_data/ternary.dump...
-2023-11-09 10:39:12,189 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
-2023-11-09 10:39:12,189 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:39:12,204 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:39:12,204 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:39:12,204 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.01552438735961914 seconds
-2023-11-09 10:39:12,205 INFO static.gr System composition: 0.85:0.05:0.1
-2023-11-09 10:39:12,205 INFO static.gr Start calculating g(r) of a ternary system
-2023-11-09 10:39:24,737 INFO static.gr Finish calculating g(r) of a ternary system
-2023-11-09 10:39:24,757 INFO gr_test Finishing test gr using tests/sample_test_data/ternary.dump...
-.2023-11-09 10:39:24,757 INFO gr_test Starting test gr using tests/sample_test_data/unary.dump...
-2023-11-09 10:39:24,757 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
-2023-11-09 10:39:24,757 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:39:24,769 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:39:24,769 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:39:24,769 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.012000083923339844 seconds
-2023-11-09 10:39:24,770 INFO static.gr System composition: 1.0
-2023-11-09 10:39:24,770 INFO static.gr Start calculating g(r) of a unary system
-2023-11-09 10:39:24,956 INFO static.gr Finish calculating g(r) of a unary system
-2023-11-09 10:39:24,970 INFO gr_test Finishing test gr using tests/sample_test_data/unary.dump...
-.2023-11-09 10:39:24,970 INFO sq_test Starting test Sq using tests/sample_test_data/dump_2D.atom...
-2023-11-09 10:39:24,971 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:39:24,971 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:39:25,067 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:39:25,067 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:39:25,067 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.0955195426940918 seconds
-2023-11-09 10:39:25,067 INFO static.sq System Composition: 0.667:0.333
-2023-11-09 10:39:25,129 INFO static.sq Start calculating S(q) for a binary system
-2023-11-09 10:39:29,967 INFO static.sq Finish calculating S(q) of a binary system
-2023-11-09 10:39:29,975 INFO sq_test Finishing test Sq using tests/sample_test_data/dump_2D.atom...
-.2023-11-09 10:39:29,976 INFO sq_test Starting test Sq using tests/sample_test_data/ternary.dump...
-2023-11-09 10:39:29,976 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
-2023-11-09 10:39:29,976 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:39:29,991 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:39:29,991 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:39:29,992 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.015996694564819336 seconds
-2023-11-09 10:39:29,992 INFO static.sq System Composition: 0.85:0.05:0.1
-2023-11-09 10:39:33,462 INFO static.sq Start calculating S(q) for a ternary system
-2023-11-09 10:39:46,919 INFO static.sq Finish calculating S(q) of a ternary system
-2023-11-09 10:39:46,929 INFO sq_test Finishing test Sq using tests/sample_test_data/ternary.dump...
-.2023-11-09 10:39:46,929 INFO sq_test Starting test Sq using tests/sample_test_data/unary.dump...
-2023-11-09 10:39:46,929 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
-2023-11-09 10:39:46,929 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:39:46,930 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:39:46,930 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:39:46,930 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.0010111331939697266 seconds
-2023-11-09 10:39:46,931 INFO static.sq System Composition: 1.0
-2023-11-09 10:39:47,159 INFO static.sq Start calculating S(q) of a unary system
-2023-11-09 10:39:47,286 INFO static.sq Finish calculating S(q) of a unary system
-2023-11-09 10:39:47,292 INFO sq_test Finishing test Sq using tests/sample_test_data/unary.dump...
-.2023-11-09 10:39:47,292 INFO sq_test Starting test conditional_sq using tests/sample_test_data/ternary.dump...
-2023-11-09 10:39:47,292 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
-2023-11-09 10:39:47,292 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:39:47,306 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:39:47,306 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:39:47,306 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.013956069946289062 seconds
-2023-11-09 10:39:47,307 INFO static.sq Calculate S(q) for 405 selected atoms
-2023-11-09 10:39:47,313 INFO static.sq System Composition: 0.85:0.05:0.1
-2023-11-09 10:39:47,313 INFO static.sq Start calculating S(q) for a ternary system
-2023-11-09 10:39:47,379 INFO static.sq Finish calculating S(q) of a ternary system
-2023-11-09 10:39:47,379 INFO sq_test Finishing test conditional_sq using tests/sample_test_data/ternary.dump...
+2023-11-10 10:57:53,525 INFO gr_test Starting test gr using tests/sample_test_data/dump_2D.atom...
+2023-11-10 10:57:53,525 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2023-11-10 10:57:53,525 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-10 10:57:53,603 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-10 10:57:53,604 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-10 10:57:53,604 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07901120185852051 seconds
+2023-11-10 10:57:53,605 INFO static.gr System composition: 0.667:0.333
+2023-11-10 10:57:53,605 INFO static.gr Start calculating g(r) of a binary system
+2023-11-10 10:58:51,032 INFO static.gr Finish calculating g(r) of a binary system
+2023-11-10 10:58:51,058 INFO gr_test Finishing test gr using tests/sample_test_data/dump_2D.atom...
+.2023-11-10 10:58:51,059 INFO gr_test Starting test conditional_gr...
+2023-11-10 10:58:51,059 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2023-11-10 10:58:51,059 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-10 10:58:51,075 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-10 10:58:51,075 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-10 10:58:51,076 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.017000198364257812 seconds
+2023-11-10 10:58:51,076 INFO static.gr Calculate g(r) for 405 selected atoms
+2023-11-10 10:58:57,659 INFO static.gr System composition: 0.85:0.05:0.1
+2023-11-10 10:58:57,659 INFO static.gr Start calculating g(r) of a ternary system
+2023-11-10 10:59:10,715 INFO static.gr Finish calculating g(r) of a ternary system
+2023-11-10 10:59:10,716 INFO static.gr Calculate g(r) for 405 selected atoms
+2023-11-10 10:59:15,864 INFO static.gr System composition: 0.85:0.05:0.1
+2023-11-10 10:59:15,864 INFO static.gr Start calculating g(r) of a ternary system
+2023-11-10 10:59:28,509 INFO static.gr Finish calculating g(r) of a ternary system
+2023-11-10 10:59:28,529 INFO reader.dump_reader Start reading file tests/sample_test_data/binary_velocity.dump of type DumpFileType.LAMMPS
+2023-11-10 10:59:28,529 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-10 10:59:28,545 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-10 10:59:28,545 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-10 10:59:28,545 INFO reader.dump_reader Finish reading file tests/sample_test_data/binary_velocity.dump in 0.015975475311279297 seconds
+2023-11-10 10:59:28,545 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2023-11-10 10:59:33,473 INFO static.gr Calculate spatial correlation gA of vector-type physical quantity 'A'
+.2023-11-10 10:59:38,608 INFO gr_test Starting test gr using tests/sample_test_data/ternary.dump...
+2023-11-10 10:59:38,608 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2023-11-10 10:59:38,608 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-10 10:59:38,624 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-10 10:59:38,624 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-10 10:59:38,624 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.015510320663452148 seconds
+2023-11-10 10:59:38,624 INFO static.gr System composition: 0.85:0.05:0.1
+2023-11-10 10:59:38,624 INFO static.gr Start calculating g(r) of a ternary system
+2023-11-10 10:59:51,202 INFO static.gr Finish calculating g(r) of a ternary system
+2023-11-10 10:59:51,218 INFO gr_test Finishing test gr using tests/sample_test_data/ternary.dump...
+.2023-11-10 10:59:51,219 INFO gr_test Starting test gr using tests/sample_test_data/unary.dump...
+2023-11-10 10:59:51,219 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
+2023-11-10 10:59:51,219 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-10 10:59:51,220 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-10 10:59:51,220 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-10 10:59:51,220 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.0010113716125488281 seconds
+2023-11-10 10:59:51,220 INFO static.gr System composition: 1.0
+2023-11-10 10:59:51,220 INFO static.gr Start calculating g(r) of a unary system
+2023-11-10 10:59:51,329 INFO static.gr Finish calculating g(r) of a unary system
+2023-11-10 10:59:51,337 INFO gr_test Finishing test gr using tests/sample_test_data/unary.dump...
+.2023-11-10 10:59:51,337 INFO sq_test Starting test Sq using tests/sample_test_data/dump_2D.atom...
+2023-11-10 10:59:51,337 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2023-11-10 10:59:51,337 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-10 10:59:51,411 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-10 10:59:51,411 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-10 10:59:51,411 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07350754737854004 seconds
+2023-11-10 10:59:51,412 INFO static.sq System Composition: 0.667:0.333
+2023-11-10 10:59:51,467 INFO static.sq Start calculating S(q) for a binary system
+2023-11-10 10:59:56,094 INFO static.sq Finish calculating S(q) of a binary system
+2023-11-10 10:59:56,104 INFO sq_test Finishing test Sq using tests/sample_test_data/dump_2D.atom...
+.2023-11-10 10:59:56,105 INFO sq_test Starting test Sq using tests/sample_test_data/ternary.dump...
+2023-11-10 10:59:56,105 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2023-11-10 10:59:56,105 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-10 10:59:56,120 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-10 10:59:56,120 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-10 10:59:56,121 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.016006946563720703 seconds
+2023-11-10 10:59:56,121 INFO static.sq System Composition: 0.85:0.05:0.1
+2023-11-10 10:59:59,618 INFO static.sq Start calculating S(q) for a ternary system
+2023-11-10 11:00:13,652 INFO static.sq Finish calculating S(q) of a ternary system
+2023-11-10 11:00:13,663 INFO sq_test Finishing test Sq using tests/sample_test_data/ternary.dump...
+.2023-11-10 11:00:13,663 INFO sq_test Starting test Sq using tests/sample_test_data/unary.dump...
+2023-11-10 11:00:13,663 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
+2023-11-10 11:00:13,663 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-10 11:00:13,664 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-10 11:00:13,664 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-10 11:00:13,665 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.0019996166229248047 seconds
+2023-11-10 11:00:13,665 INFO static.sq System Composition: 1.0
+2023-11-10 11:00:13,901 INFO static.sq Start calculating S(q) of a unary system
+2023-11-10 11:00:14,151 INFO static.sq Finish calculating S(q) of a unary system
+2023-11-10 11:00:14,157 INFO sq_test Finishing test Sq using tests/sample_test_data/unary.dump...
+.2023-11-10 11:00:14,158 INFO sq_test Starting test conditional_sq using tests/sample_test_data/ternary.dump...
+2023-11-10 11:00:14,158 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2023-11-10 11:00:14,158 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-10 11:00:14,174 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-10 11:00:14,174 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-10 11:00:14,175 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.016000032424926758 seconds
+2023-11-10 11:00:14,175 INFO static.sq Calculate S(q) for 405 selected atoms
+2023-11-10 11:00:14,180 INFO static.sq System Composition: 0.85:0.05:0.1
+2023-11-10 11:00:14,180 INFO static.sq Start calculating S(q) for a ternary system
+2023-11-10 11:00:14,240 INFO static.sq Finish calculating S(q) of a ternary system
+2023-11-10 11:00:14,240 INFO sq_test Finishing test conditional_sq using tests/sample_test_data/ternary.dump...
 .
 ----------------------------------------------------------------------
-Ran 8 tests in 122.359s
+Ran 8 tests in 140.717s
 
 OK
