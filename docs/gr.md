@@ -14,6 +14,8 @@ The function `static.gr.conditional_gr` calculates $g(r)$ of a single configurat
 - condition is bool type, so calculate partial g(r) for selected particles
 - condition is complex number, so calculate spatial correlation of complex number
 - condition is float scalar, so calculate spatial correlation of scalar number
+- condition is vector type, so calculate spatial correlation of vector field
+- condition is tensorial type, so calculate spatial correlation of tensorial field
  
 $A_i=1$ reverts to the overall $g(r)$, representing all particle are selected. Bool type $A_i$ makes the calculation for only selected particles with $A_i=True$. For example, for $g_{\alpha\alpha}(r)$ and $g_{\beta\beta}(r)$, but not for $g_{\alpha\beta}(r)$. The conditional $g(r)$ for $A_i$ is defined as
 $$
@@ -67,13 +69,14 @@ The calculated $g(r)$ is storted in the `outputfile`. Taken ternary sytem as an 
 ### Input Arguments
 - `snapshot` (`reader.reader_utils.SingleSnapshot`): single snapshot object of input trajectory
 - `condition` (`np.ndarray`): particle-level property for g(r)
+- `condition_type` (`str`): whether condition is vector or tensor, choosing from None (`default``), vector, tensor
 - `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
   
   default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for two-dimensional system.
 - `rdelta` (`float`): bin size calculating g(r), default 0.01
 
 ### Return
-- calculated conditional $g(r)$, `gA` (`pd.DataFrame`).
+- calculated conditional $g(r)$, `gA` (`pd.DataFrame`). For float-scalar physical quantity, `gA_norm` with normalization will be returned.
 
 Note that this calculation is for only one snapshot.
 
