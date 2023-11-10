@@ -69,7 +69,7 @@ The calculated $g(r)$ is storted in the `outputfile`. Taken ternary sytem as an 
 ### Input Arguments
 - `snapshot` (`reader.reader_utils.SingleSnapshot`): single snapshot object of input trajectory
 - `condition` (`np.ndarray`): particle-level property for g(r)
-- `condition_type` (`str`): whether condition is vector or tensor, choosing from None (`default``), vector, tensor
+- `condition_type` (`str`): whether condition is vector or tensor, choosing from None (default), 'vector', 'tensor'
 - `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
   
   default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for two-dimensional system.
