@@ -74,26 +74,49 @@ def conditional_gr(
             logger.info("Calculate spatial correlation gA of float-scalar physical quantity 'A'")
         conj_condition = condition.copy()
 
-    for i in range(snapshot.nparticle-1):
-        RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
-        RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
-        distance = np.linalg.norm(RIJ, axis=1)
-        # original g(r)
-        countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
-        grresults["gr"] += countvalue
-
-        if not conditiontype:
+    if not conditiontype:
+        for i in range(snapshot.nparticle-1):
+            RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
+            RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
+            distance = np.linalg.norm(RIJ, axis=1)
+            # original g(r)
+            countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
+            grresults["gr"] += countvalue
             # conditional g(r) for bool or scalar or complex data type
-            SIJ = (condition[i+1:] * conj_condition[i]).real
-        elif conditiontype=="vector":
+            SIJ = (condition[i+1:] * conj_condition[i]).real                
+            countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
+            grresults["gA"] += countvalue
+    elif conditiontype=="vector":
+        for i in range(snapshot.nparticle-1):
+            RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
+            RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
+            distance = np.linalg.norm(RIJ, axis=1)
+            # original g(r)
+            countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
+            grresults["gr"] += countvalue
+            # spatial correlation of vectors
             SIJ = (condition[i+1:] * conj_condition[i][np.newaxis,:]).sum(axis=1)
-        elif conditiontype=="tensor":
+            countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
+            grresults["gA"] += countvalue
+    elif conditiontype=="tensor":
+        for i in range(snapshot.nparticle-1):
+            RIJ = snapshot.positions[i+1:] - snapshot.positions[i]
+            RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
+            distance = np.linalg.norm(RIJ, axis=1)
+            # original g(r)
+            countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
+            grresults["gr"] += countvalue
+            # spatial correlation of tensors
+            # j start from i+1
             SIJ = np.zeros(snapshot.nparticle - (i+1))
             for j in range(SIJ.shape[0]):
                 SIJ[j] = np.trace(np.matmul(condition[i], conj_condition[j+i+1]))
-            
-        countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
-        grresults["gA"] += countvalue
+            countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
+            grresults["gA"] += countvalue
+    else:
+        raise ValueError(
+            f"input conditiontype {conditiontype} is not correct; please choose from None/'vector'/'tensor'"
+        )
         
     binleft = binedge[:-1]
     binright = binedge[1:]
