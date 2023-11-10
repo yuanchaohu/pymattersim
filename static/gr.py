@@ -57,6 +57,7 @@ def conditional_gr(
     maxbin = int(snapshot.boxlength.min() / 2.0 / rdelta)
     grresults = pd.DataFrame(0, index=range(maxbin), columns="r gr gA".split())
 
+    norminator = False
     if condition.dtype=="bool":
         condition = condition.astype(np.int32)
         Natom = condition.sum()
@@ -72,6 +73,7 @@ def conditional_gr(
             logger.info("Calculate spatial correlation gA of tensor-type physical quantity 'A'")
         else:
             logger.info("Calculate spatial correlation gA of float-scalar physical quantity 'A'")
+            norminator = True
         conj_condition = condition.copy()
 
     if not conditiontype:
@@ -127,6 +129,12 @@ def conditional_gr(
     grresults["gr"] = grresults["gr"]*2 / snapshot.nparticle / (nideal*rhototal)
     rhototal = Natom / np.prod(snapshot.boxlength)
     grresults["gA"] = grresults["gA"]*2 / Natom / (nideal*rhototal)
+
+    # normalization if necessary
+    if norminator:
+        mean_square = np.square(condition.mean())
+        square_mean = np.square(condition).mean()
+        grresults["gA_norm"] = (grresults["gA"]-mean_square)/(square_mean-mean_square)
 
     return grresults
 
