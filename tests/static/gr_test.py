@@ -5,6 +5,7 @@ import unittest
 import numpy as np
 import pandas as pd
 from reader.dump_reader import DumpReader
+from reader.lammps_reader_helper import read_additions
 from static.gr import gr, conditional_gr
 from utils.logging import get_logger_handle
 
@@ -13,9 +14,9 @@ logger = get_logger_handle(__name__)
 READ_TEST_FILE_PATH = "tests/sample_test_data"
 
 
-class TestPCF(unittest.TestCase):
+class Testgr(unittest.TestCase):
     """
-    Test class for pcf
+    Test class for gr
     """
 
     def setUp(self) -> None:
@@ -23,6 +24,8 @@ class TestPCF(unittest.TestCase):
         self.test_file_unary = f"{READ_TEST_FILE_PATH}/unary.dump"
         self.test_file_binary = f"{READ_TEST_FILE_PATH}/dump_2D.atom"
         self.test_file_ternary = f"{READ_TEST_FILE_PATH}/ternary.dump"
+        self.test_file_vector = f"{READ_TEST_FILE_PATH}/binary_velocity.dump"
+
 
     def test_gr_unary(self) -> None:
         """
@@ -194,9 +197,9 @@ class TestPCF(unittest.TestCase):
 
     def test_gr_condition(self) -> None:
         """
-        Test gr condition works properly for ternary system
+        Test gr condition works properly
         """
-        logger.info(f"Starting test conditional_gr using {self.test_file_ternary}...")
+        logger.info(f"Starting test conditional_gr...")
         readdump = DumpReader(self.test_file_ternary, ndim=3)
         readdump.read_onefile()
         snapshot = readdump.snapshots.snapshots[0]
@@ -209,4 +212,39 @@ class TestPCF(unittest.TestCase):
         gr22_results = gr(readdump.snapshots).getresults()[['r', 'gr22']].values
         np.testing.assert_almost_equal(gr22_selected, gr22_results)
 
-        logger.info(f"Finishing test conditional_gr using {self.test_file_ternary}...")
+        vx = read_additions(self.test_file_vector, ncol=5)
+        vy = read_additions(self.test_file_vector, ncol=6)
+        vz = read_additions(self.test_file_vector, ncol=7)
+        vector = np.vstack((vx, vy, vz)).T
+
+        readdump = DumpReader(self.test_file_vector, ndim=3)
+        readdump.read_onefile()
+        snapshot = readdump.snapshots.snapshots[0]
+
+        grresults_float = conditional_gr(snapshot, condition=vx.ravel())
+        np.testing.assert_almost_equal(np.array([np.nan, np.nan, np.nan, np.nan, np.nan,
+                                                -0.68633941,  0.44707095,  1.14853632, -0.18622456, -0.26693063,
+                                                2.61779559, -1.33441647,  0.27959398, -0.06522355,  0.59165186,
+                                                0.40821972, -0.09813158, -0.1407156 , -0.73305988, -0.0547678 ,
+                                                -0.25349853,  0.76305551,  0.20946121,  0.83117225, -0.11123542,
+                                                -0.05548569,  0.2326811 ,  0.24431357, -0.00415691, -0.02648211,
+                                                0.16408667,  0.28909996, -0.28155182, -0.18776073, -0.04934026,
+                                                0.32763147,  0.26464412, -0.19693263,  0.07655692, -0.13725776,
+                                                0.11123452, -0.40416159,  0.48699466,  0.19801818, -0.09087962,
+                                                -0.12902979,  0.10347054, -0.01646532, -0.57267094,  0.01568593,
+                                                -0.20689161, -0.36446847, -0.04910013,  0.06117577]),
+                                       (grresults_float["gA"] / grresults_float["gr"]).values[::50])
+
+        grresults_vector = conditional_gr(snapshot, condition=vector, conditiontype='vector')
+        np.testing.assert_almost_equal(np.array([np.nan, np.nan, np.nan, np.nan, np.nan,
+                                                -0.9315299 ,  2.1246504 , -0.42817632,  3.9757448 , -2.02032924,
+                                                1.56137977, -3.15865012, -2.06905277, -1.68972952,  1.49695568,
+                                                0.95324952,  0.23841881, -0.17596337,  0.68157285,  1.00162379,
+                                                -0.15607883,  0.35245528,  2.78187328,  0.05600847, -0.47184815,
+                                                0.13917716,  0.88740995,  0.55349047, -0.21617755,  0.28791209,
+                                                0.23008911, -0.05526148,  0.43465378, -1.34250606, -0.36927568,
+                                                0.41785121,  0.18696626, -0.38810259,  0.24924333,  0.93155147,
+                                                -0.56219654, -0.8035333 ,  0.0806967 , -0.43397226, -0.92165167,
+                                                0.27119987,  0.1445809 , -0.71100812, -0.32399405,  0.15859521,
+                                                -0.14847221, -0.34353328, -0.34054109, -0.63861419]),
+                                       (grresults_vector["gA"] / grresults_vector["gr"]).values[::50])
