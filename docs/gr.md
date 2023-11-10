@@ -10,7 +10,7 @@ $$
 g_{\alpha \beta}(r) = \frac{V}{N_{\alpha} N_{\beta}} \lang \sum_{i \neq j; i \in \alpha; j \in \beta} \delta (r - |\vec r_{ij}|) \rang
 $$
 
-The function `static.gr.conditional_gr` calculates $g(r)$ of a single configuration for particles with conditional properties. It is also useful to calculate the spatial correlation of a particle-level physical quantity $A_i$. There are three conditions considered for $A_i$:
+The function `static.gr.conditional_gr` calculates $g(r)$ of a single configuration for particles with conditional properties. It is also useful to calculate the spatial correlation of a particle-level physical quantity $A_i$. There are five conditions considered for $A_i$:
 - condition is bool type, so calculate partial g(r) for selected particles
 - condition is complex number, so calculate spatial correlation of complex number
 - condition is float scalar, so calculate spatial correlation of scalar number
@@ -78,7 +78,10 @@ The calculated $g(r)$ is storted in the `outputfile`. Taken ternary sytem as an 
 ### Return
 - calculated conditional $g(r)$, `gA` (`pd.DataFrame`). For float-scalar physical quantity, `gA_norm` with normalization will be returned.
 
-Note that this calculation is for only one snapshot.
+Note that this calculation is for only one snapshot. For the float-type conditions, such as the structural ordering per particle, a normalization is performed for `gA` by doing
+$$
+g_A^{\rm norm} = \frac{g_A - \lang A \rang^2}{\lang A^2 \rang - \lang A \rang^2}
+$$
 
 ### Example
 ```python
