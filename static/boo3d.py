@@ -56,6 +56,7 @@ class boo_3d:
             2. l (int): degree of spherical harmonics
             3. neighborfile (str): file name of particle neighbors (see module neighbors)
             4. faceareafile (str): file name of Voronoi particle faceareas (see module neighbors)
+                                   or any other reasonable center-neighbors weights
             4. ppp (list): the periodic boundary conditions,
                            setting 1 for yes and 0 for no, default [1,1,1],
             5. Nmax (int): maximum number for neighbors
@@ -121,9 +122,9 @@ class boo_3d:
                         Particlesmallqlm[i] += sph_harm_l(self.l, theta[j], phi[j])
                 Particlesmallqlm /= (Neighborlist[:, 0])[:, np.newaxis]
                 smallqlm.append(Particlesmallqlm)
-
             else:
                 facearealist = read_neighbors(ffacearea, snapshot.nparticle, self.Nmax)
+                # normalization of center-neighbors weights
                 faceareafrac = facearealist[:, 1:] / facearealist[:, 1:].sum(axis=1)[:, np.newaxis]
                 for i in range(snapshot.nparticle):
                     cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
@@ -133,11 +134,12 @@ class boo_3d:
                     theta = np.arccos(RIJ[:, 2]/distance)
                     phi = np.arctan2(RIJ[:, 1], RIJ[:, 0])
                     for j in range(Neighborlist[i, 0]):
-                        Particlesmallqlm[i] += np.array(sph_harm_l(self.l, theta[j], phi[j])) * faceareafrac[i, j]
+                        Particlesmallqlm[i] += sph_harm_l(self.l,theta[j],phi[j])*faceareafrac[i,j]
                 smallqlm.append(Particlesmallqlm)
 
+            # coarse-graining over the neighbors
             ParticlelargeQlm = np.copy(Particlesmallqlm)
-            for i in range(self.nparticle):
+            for i in range(snapshot.nparticle):
                 for j in range(Neighborlist[i, 0]):
                     ParticlelargeQlm[i] += Particlesmallqlm[Neighborlist[i, j+1]]
             ParticlelargeQlm = ParticlelargeQlm / (1+Neighborlist[:, 0])[:, np.newaxis]
@@ -150,33 +152,28 @@ class boo_3d:
 
     def qlQl(self, outputql: str=None, outputQl: str=None) -> Tuple[np.ndarray, np.ndarray]:
         """
-        Calculate BOO ql and Ql (coarse-grained by the first neighbor shell)
+        Calculate BOO ql (original) and Ql (coarse-grain)
 
         Inputs:
-            1. outputql (str): the file name to store the results of ql
-            2. outputQl (str): the file name to store the results of Ql
+            1. outputql (str): file name for ql results
+            2. outputQl (str): file name for Ql results
         
         Return:
-            calculated ql and Ql (np.ndarray)
+            calculated ql and Ql (np.ndarray) {shape [nsnapshot, nparticle]}
         """
-        logger.info('Start Calculating the rotational invariants ql & Ql')
+        logger.info(f'Start Calculating the rotational invariants ql & Ql for l={self.l}')
 
         (smallqlm, largeQlm) = self.qlmQlm()
-        smallql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(smallqlm)).sum(axis = 2))
-        smallql = np.column_stack((np.arange(self.nparticle)+1, smallql.T))
+        # shape [nsnapshot, nparticle]
+        smallql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(smallqlm)).sum(axis=2))
         if outputql:
-            names = 'id  ql  l=' + str(self.l)
-            numformat = '%d ' + '%.6f ' * (len(smallql[0])-1)
-            np.savetxt(outputql, smallql, fmt=numformat, header=names, comments='')
+            np.savetxt(outputql, smallql, fmt="%.6f", header="", comments="")
 
         largeQl = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(largeQlm)).sum(axis=2))
-        largeQl = np.column_stack((np.arange(self.nparticle)+1, largeQl.T))
         if outputQl:
-            names = 'id  Ql  l=' + str(self.l)
-            numformat = '%d ' + '%.6f ' * (len(largeQl[0])-1)
-            np.savetxt(outputQl, largeQl, fmt=numformat, header=names, comments='')
+            np.savetxt(outputQl, largeQl, fmt="%.6f", header="", comments="")
 
-        logger.info('Finish Calculating the rotational invariants ql & Ql')
+        logger.info(f'Finish Calculating the rotational invariants ql & Ql for l={self.l}')
         return (smallql, largeQl)
 
     def sijsmallql(self, c: float=0.7, outputql: str=None, outputsij: str=None) -> np.ndarray:
