@@ -342,38 +342,32 @@ class boo_3d:
         Calculate wigner 3-j symbol boo based on qlm
 
         Inputs:
-            1. outputw (str): the file name to store the results of w
-            2. outputwcap (str): the file name to store the results of wcap
+            1. outputw (str): file name for w (original)
+            2. outputwcap (str): file name for wcap (normalized)
 
         Return:
             calculated w and wcap (np.adarray)
+            shape [nsnapshot, nparticle]
         """
-        logger.info('Start Calculating bond Orientational order w (normalized) based on qlm')
+        logger.info(f'Start calculating (normalized) w based on qlm for l={self.l}')
 
-        smallqlm, largeQlm = self.qlmQlm()
-        smallqlm = np.array(smallqlm)
-        smallw = np.zeros((self.nsnapshots, self.nparticle))
+        smallqlm = self.qlmQlm()[0]
+        smallw = np.zeros((smallqlm.shape[0], smallqlm.shape[1]))
         Windex = Wignerindex(self.l)
         w3j = Windex[:, 3]
-        Windex = Windex[:, :3].astype(np.int) + self.l 
-        for n in range(self.nsnapshots):
-            for i in range(self.nparticle):
+        Windex = Windex[:, :3].astype(np.int64) + self.l
+        for n in range(smallqlm.shape[0]):
+            for i in range(smallqlm.shape[1]):
                 smallw[n, i] = (np.real(np.prod(smallqlm[n, i, Windex], axis=1))*w3j).sum()
        
-        smallw = np.column_stack((np.arange(self.nparticle)+1, smallw.T))
         if outputw:
-            names = 'id  wl  l=' + str(self.l)
-            numformat = '%d ' + '%.10f ' * (len(smallw[0])-1)
-            np.savetxt(outputw, smallw, fmt=numformat, header=names, comments='')
+            np.savetxt(outputw, smallw, fmt="%.6f", header="", comments="")
    
-        smallwcap = np.power(np.square(np.abs(np.array(smallqlm))).sum(axis = 2), -3/2).T * smallw[:, 1:]
-        smallwcap = np.column_stack((np.arange(self.nparticle)+1, smallwcap))
+        smallwcap = np.power(np.square(np.abs(smallqlm)).sum(axis=2), -3/2) * smallw
         if outputwcap:
-            names = 'id  wlcap  l=' + str(self.l)
-            numformat = '%d ' + '%.8f ' * (len(smallwcap[0])-1) 
-            np.savetxt(outputwcap, smallwcap, fmt=numformat, header=names, comments='')
+            np.savetxt(outputwcap, smallwcap, fmt="%.6f", header="", comments="")
         
-        logger.info('Finish Calculating bond Orientational order w (normalized) based on qlm')
+        logger.info(f'Finish calculating (normalized) w based on qlm for l={self.l}')
         return (smallw, smallwcap)
 
 
