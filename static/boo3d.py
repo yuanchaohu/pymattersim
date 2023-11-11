@@ -44,7 +44,7 @@ class boo_3d:
             l: int,
             neighborfile: str,
             faceareafile: str=None,
-            ppp: list=[1,1,1],
+            ppp: np.ndarray=np.array([1,1,1]),
             Nmax: int=30
             ) -> None:
         """
@@ -57,8 +57,8 @@ class boo_3d:
             3. neighborfile (str): file name of particle neighbors (see module neighbors)
             4. faceareafile (str): file name of Voronoi particle faceareas (see module neighbors)
                                    or any other reasonable center-neighbors weights
-            4. ppp (list): the periodic boundary conditions,
-                           setting 1 for yes and 0 for no, default [1,1,1],
+            4. ppp (np.ndarray): the periodic boundary conditions,
+                                 setting 1 for yes and 0 for no, default [1,1,1],
             5. Nmax (int): maximum number for neighbors
 
         Return:
@@ -90,7 +90,7 @@ class boo_3d:
         assert np.sum(self.typecount) == self.nparticle,\
             "Sum of Indivdual Types is Not the Total Amount"
 
-    def qlmQlm(self) -> Tuple[list[np.ndarray], list[np.ndarray]]:
+    def qlmQlm(self) -> Tuple[np.ndarray, np.ndarray]:
         """
         BOO of the l-fold symmetry as a 2l + 1 vector
 
@@ -99,6 +99,7 @@ class boo_3d:
         
         Return:
             BOO of order-l in vector complex number
+            shape: [nsnapshot, nparticle, 2l+1]
         """
 
         fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
@@ -148,7 +149,8 @@ class boo_3d:
         fneighbor.close()
         if self.faceareafile:
             ffacearea.close()
-        return (smallqlm, largeQlm)
+
+        return np.array(smallqlm), np.array(largeQlm)
 
     def qlQl(self, outputql: str=None, outputQl: str=None) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -159,12 +161,12 @@ class boo_3d:
             2. outputQl (str): file name for Ql results
         
         Return:
-            calculated ql and Ql (np.ndarray) {shape [nsnapshot, nparticle]}
+            calculated ql and Ql (np.ndarray) 
+            shape [nsnapshot, nparticle]
         """
         logger.info(f'Start Calculating the rotational invariants ql & Ql for l={self.l}')
 
         (smallqlm, largeQlm) = self.qlmQlm()
-        # shape [nsnapshot, nparticle]
         smallql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(smallqlm)).sum(axis=2))
         if outputql:
             np.savetxt(outputql, smallql, fmt="%.6f", header="", comments="")
@@ -178,53 +180,60 @@ class boo_3d:
 
     def sijsmallql(self, c: float=0.7, outputql: str=None, outputsij: str=None) -> np.ndarray:
         """
-        Calculate Crystal Nuclei Criterion s(i, j) based on ql
+        Calculate orientation correlation of qlm, named as sij
 
         Inputs:
-            1. c (float): cutoff demonstrating whether a bond is crystalline or not, default 0.7
-            2. outputql (str): the file name to store the results of ql
-            3. outputsij (str): the file name to store the results of sij
+            1. c (float): cutoff defining bond property, such as solid or not, default 0.7
+            2. outputql (str): file name for ql
+            3. outputsij (str): file name for sij of ql
 
         Return:
             calculated sij (np.ndarray)
         """
-        logger.info('Start Calculating Crystal Nuclei Criterion s(i, j) based on ql')
+        logger.info(f'Start calculating bond property sij based on ql for l={self.l}')
 
-        MaxNeighbor = self.Nmax
-        smallqlm, largeQlm = self.qlmQlm()
+        smallqlm = self.qlmQlm()[0]
+        norm_smallqlm = np.sqrt(np.square(np.abs(smallqlm)).sum(axis=2))
+
         fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
+        # particle-level information
         results = np.zeros((1, 3))
-        resultssij = np.zeros((1,  MaxNeighbor+1))
-        for n in range(self.nsnapshots):
-            Neighborlist = read_neighbors(fneighbor, self.nparticle, self.Nmax)
-            sij = np.zeros((self.nparticle, MaxNeighbor))
-            sijresults = np.zeros((self.nparticle, 3))
-            if (Neighborlist[:, 0] > MaxNeighbor).any():
-                raise ValueError('increase Nmax to include all neighbors')
-            for i in range(self.nparticle):
-                for j in range(Neighborlist[i, 0]):
-                    sijup = (smallqlm[n][i]*np.conj(smallqlm[n][Neighborlist[i, j+1]])).sum()
-                    sijdown = np.sqrt(np.square(np.abs(smallqlm[n][i])).sum())*np.sqrt(np.square(np.abs(smallqlm[n][Neighborlist[i, j+1]])).sum())
-                    sij[i, j] = np.real(sijup/sijdown)
+        # particle-neighbors information, with number of neighbors
+        resultssij = np.zeros((1, self.Nmax+1))
+        for n, snapshot in enumerate(self.snapshots.snapshots):
+            Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
+            sij = np.zeros((snapshot.nparticle, self.Nmax))
+            sijresults = np.zeros((snapshot.nparticle, 3))
+            if (Neighborlist[:, 0] > self.Nmax).any():
+                raise ValueError(
+                    f'increase Nmax to include all neighbors, current is {self.Nmax}'
+                )
+            for i in range(snapshot.nparticle):
+                cnlist = Neighborlist[i, 1:Neighborlist[i, 0]+1]
+                sijup = (smallqlm[n, i][np.newaxis,:] * np.conj(smallqlm[n, cnlist])).sum(axis=1)
+                sijdown = norm_smallqlm[n, i] * norm_smallqlm[n, cnlist]
+                sij[i, :Neighborlist[i, 0]] = sijup.real / sijdown
+
             sijresults[:, 0] = np.arange(self.nparticle) + 1
             sijresults[:, 1] = (np.where(sij>c, 1, 0)).sum(axis=1)
-            sijresults[:, 2] = np.where(sijresults[:, 1]>Neighborlist[:, 0]/2, 1, 0)
+            sijresults[:, 2] = Neighborlist[:, 0]
             results = np.vstack((results, sijresults))
             resultssij = np.vstack((resultssij, np.column_stack((Neighborlist[:, 0], sij))))
 
         if outputql:
-            names = 'id  sijcrystalbondnum  crystalline.l=' + str(self.l)
-            np.savetxt(outputql, results[1:], fmt='%d', header=names, comments='')
+            results = pd.DataFrame(results[1:], columns="id sum_sij num_neighbors".split())
+            results.to_csv(outputql, float_format="%d", index=False)
 
+        max_neighbors = resultssij[:, 0].max()
+        resultssij = resultssij[1:, :1+max_neighbors]
         if outputsij:
-            names = 'CN s(i, j)  l=' + str(self.l)
-            formatsij = '%d ' + '%.6f ' * MaxNeighbor
-            np.savetxt(outputsij, resultssij[1:], fmt=formatsij, header=names, comments='')
+            names = 'CN sij'
+            formatsij = '%d ' + '%.6f '*max_neighbors
+            np.savetxt(outputsij, resultssij, fmt=formatsij, header=names, comments='')
 
         fneighbor.close()
-
-        logger.info('Finish Calculating Crystal Nuclei Criterion s(i, j) based on ql')
-        return resultssij[1:]
+        logger.info(f'Finish calculating bond property sij based on ql for l={self.l}')
+        return resultssij
 
     def sijlargeQl(self, c: float=0.7, outputQl: str=None, outputsij: str=None) -> np.ndarray:
         """
