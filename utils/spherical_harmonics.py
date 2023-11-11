@@ -440,3 +440,36 @@ def SphHarm_above(l: int, theta: float, phi: float) -> np.ndarray:
     for m in range(-l, l+1):
         results.append(sph_harm(m,l,phi,theta))
     return np.array(results)
+
+def sph_harm_l(l: int, theta: float, phi: float) -> np.ndarray:
+    """
+    Choose Spherical Harmonics for order l
+    
+    Inputs:
+        1. l (int): degree of spherical harmonics
+        2. theta (float): Azimuthal (longitudinal) coordinate; must be in [0, 2*pi]
+        3. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
+
+    Return:
+        spherical harmonics (np.ndarray)
+    """
+    if l == 2:
+        return SphHarm2(theta, phi)
+    if l == 3:
+        return SphHarm3(theta, phi)
+    if l == 4:
+        return SphHarm4(theta, phi)
+    if l == 5:
+        return SphHarm5(theta, phi)
+    if l == 6:
+        return SphHarm6(theta, phi)
+    if l == 7:
+        return SphHarm7(theta, phi)
+    if l == 8:
+        return SphHarm8(theta, phi)
+    if l == 9:
+        return SphHarm9(theta, phi)
+    if l == 10:
+        return SphHarm10(theta, phi)
+    if l > 10:
+        return SphHarm_above(l, theta, phi)
