@@ -1,95 +1,48 @@
 # coding = utf-8
 
 """
-see documentation @ ../docs/BOO.md
+This module calculates bond orientational order parameters
+in two-dimensions or three-dimensions
 
-This module calculates bond orientational order in 3D
-Including traditional quantatities and area-weighted ones
-Calculate from q (Q) to sij to Gl(r) to w (W) and w_cap (W_cap)
-Calculate both time correlation and spatial correlation
-
-This code accounts for both orthogonal and triclinic cells
+see documentation @ ../docs/boo_3d.md &
+see documentation @ ../docs/boo_2d.md
 """
 
 from typing import Tuple
 import numpy as np
 import pandas as pd
-from sympy.physics.wigner import wigner_3j
 from reader.reader_utils import Snapshots
 from neighbors.read_neighbors import read_neighbors
 from static.gr import conditional_gr
-from utils import spherical_harmonics
+from utils.spherical_harmonics import sph_harm_l
 from utils.pbc import remove_pbc
 from utils.logging import get_logger_handle
+from utils.funcs import Wignerindex
 
 logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
 
-def SPfunction(l: int, theta: float, phi: float) -> np.ndarray:
+class boo_3d:
     """
-    Choose Spherical Harmonics Using l
-    
-    Inputs:
-        1. l (int): degree of harmonics
-        2. theta (float): Azimuthal (longitudinal) coordinate; must be in [0, 2*pi]
-        3. phi (float): Polar (colatitudinal) coordinate; must be in [0, pi]
-
-    Return:
-        spherical harmonics (np.ndarray)
-    """
-    if l == 2:
-        return spherical_harmonics.SphHarm2(theta, phi)
-    if l == 3:
-        return spherical_harmonics.SphHarm3(theta, phi)
-    if l == 4:
-        return spherical_harmonics.SphHarm4(theta, phi)
-    if l == 5:
-        return spherical_harmonics.SphHarm5(theta, phi)
-    if l == 6:
-        return spherical_harmonics.SphHarm6(theta, phi)
-    if l == 7:
-        return spherical_harmonics.SphHarm7(theta, phi)
-    if l == 8:
-        return spherical_harmonics.SphHarm8(theta, phi)
-    if l == 9:
-        return spherical_harmonics.SphHarm9(theta, phi)
-    if l == 10:
-        return spherical_harmonics.SphHarm10(theta, phi)
-    if l > 10:
-        return spherical_harmonics.SphHarm_above(l, theta, phi)
-
-def Wignerindex(l :int) -> np.ndarray:
-    """
-    Define Wigner 3-j symbol
-
-    Inputs:
-        l (int): degree of harmonics
-
-    Return:
-        Wigner 3-j symbol (np.ndarray)
-    """
-    selected = []
-    for m1 in range(-l, l + 1):
-        for m2 in range(-l, l + 1):
-            for m3 in range(-l, l + 1):
-                if m1 + m2 + m3 ==0:
-                    windex = wigner_3j(l, l, l, m1, m2, m3).evalf()
-                    selected.append(np.array([m1, m2, m3, windex]))
-
-    return np.ravel(np.array(selected)).reshape(-1, 4)
-
-
-class BOO3D:
-    """
-    Compute Bond Orientational Order in three dimension
+    This module calculates bond orientational orders in three dimensions
+    Including original quantatities and weighted ones
+    The bond orientational order parameters include
+        q_l (local), 
+        Q_l (coarse-grained),
+        w_l (local),
+        W_l (coarse-grained),
+        sij (original boo, like q_6),
+        Sij (coarse-grained boo, like Q_12)
+    Also calculate both time correlation and spatial correlation
+    This module accounts for both orthogonal and triclinic cells
     """
 
     def __init__(
             self,
             snapshots: Snapshots,
             l: int,
-            Neighborfile: str,
+            neighborfile: str,
             faceareafile: str=None,
             ppp: list=[1,1,1],
             Nmax: int=30
@@ -100,12 +53,11 @@ class BOO3D:
         Inputs:
             1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                          (returned by reader.dump_reader.DumpReader)
-            2. l (int): degree of harmonics
-            3. Neighborfile (str): the file name of the calculated neighborling list by "neighbors" module
-            4. faceareafile (str): the file name of the calculated facearea list by "neighbors" module
+            2. l (int): degree of spherical harmonics
+            3. neighborfile (str): file name of particle neighbors (see module neighbors)
+            4. faceareafile (str): file name of Voronoi particle faceareas (see module neighbors)
             4. ppp (list): the periodic boundary conditions,
                            setting 1 for yes and 0 for no, default [1,1,1],
-                           set [1, 1] for two-dimensional systems
             5. Nmax (int): maximum number for neighbors
 
         Return:
@@ -113,20 +65,20 @@ class BOO3D:
         """
         self.snapshots = snapshots
         self.l = l
-        self.Neighborfile = Neighborfile
+        self.neighborfile = neighborfile
         self.faceareafile = faceareafile
         self.ppp = ppp
         self.Nmax = Nmax
 
-        assert len(set(np.diff([snapshot.timestep for snapshot in self.snapshots.snapshots]))) == 1,\
-            "Warning: Dump Interval Changes during simulation"
+        assert len(set(np.diff([snapshot.timestep for snapshot in self.snapshots.snapshots])))==1,\
+            "Warning: Dump interval changes during simulation"
         self.nparticle = snapshots.snapshots[0].nparticle
-        assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}) == 1,\
-            "Paticle Number Changes during simulation"
+        assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots})==1,\
+            "Paticle number changes during simulation"
         self.boxlength = snapshots.snapshots[0].boxlength
-        assert len({tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}) == 1,\
-            "Simulation Box Length Changes during simulation"
-        
+        assert len({tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots})==1,\
+            "Simulation box length changes during simulation"
+
         self.particle_type = [snapshot.particle_type for snapshot in self.snapshots.snapshots]
         self.positions = [snapshot.positions for snapshot in self.snapshots.snapshots]
         self.nsnapshots = self.snapshots.nsnapshots
@@ -137,7 +89,7 @@ class BOO3D:
         assert np.sum(self.typecount) == self.nparticle,\
             "Sum of Indivdual Types is Not the Total Amount"
 
-    def qlmQlm(self) -> Tuple[list, list]:
+    def qlmQlm(self) -> Tuple[list[np.ndarray], list[np.ndarray]]:
         """
         BOO of the l-fold symmetry as a 2l + 1 vector
 
@@ -145,43 +97,43 @@ class BOO3D:
             None
         
         Return:
-            BOO of the l-fold symmetry (tuple-list-array-complex)
+            BOO of order-l in vector complex number
         """
 
-        fneighbor = open(self.Neighborfile, 'r', encoding="utf-8")
+        fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
         if self.faceareafile:
             ffacearea = open(self.faceareafile, 'r', encoding="utf-8")
 
         smallqlm = []
         largeQlm = []
         for snapshot in self.snapshots.snapshots:
-            if not self.faceareafile == 0:
-                Neighborlist = read_neighbors(fneighbor, self.nparticle, self.Nmax)
-                Particlesmallqlm = np.zeros((self.nparticle, 2*self.l+1), dtype=np.complex128)
-                for i in range(self.nparticle):
-                    RIJ = snapshot.positions[Neighborlist[i, 1:(Neighborlist[i, 0]+1)]] - snapshot.positions[i]
+            Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
+            Particlesmallqlm = np.zeros((snapshot.nparticle, 2*self.l+1), dtype=np.complex128)
+            if not self.faceareafile:
+                for i in range(snapshot.nparticle):
+                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
+                    RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis,:]
                     RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
-
-                    theta = np.arccos(RIJ[:, 2]/np.sqrt(np.square(RIJ).sum(axis=1)))
+                    distance = np.linalg.norm(RIJ, axis=1)
+                    theta = np.arccos(RIJ[:, 2]/distance)
                     phi = np.arctan2(RIJ[:, 1], RIJ[:, 0])
                     for j in range(Neighborlist[i, 0]):
-                        Particlesmallqlm[i] += SPfunction(self.l, theta[j], phi[j])
-                Particlesmallqlm = Particlesmallqlm / (Neighborlist[:, 0])[:, np.newaxis]
+                        Particlesmallqlm[i] += sph_harm_l(self.l, theta[j], phi[j])
+                Particlesmallqlm /= (Neighborlist[:, 0])[:, np.newaxis]
                 smallqlm.append(Particlesmallqlm)
 
             else:
-                Neighborlist = read_neighbors(fneighbor, self.nparticle, self.Nmax)
-                facearealist = read_neighbors(ffacearea, self.nparticle, self.Nmax)
-                facearealist[:, 1:] = np.where(facearealist[:, 1:]!=0, facearealist[:, 1:]+1, facearealist[:, 1:])
+                facearealist = read_neighbors(ffacearea, snapshot.nparticle, self.Nmax)
                 faceareafrac = facearealist[:, 1:] / facearealist[:, 1:].sum(axis=1)[:, np.newaxis]
-                Particlesmallqlm = np.zeros((self.nparticle, 2*self.l+1), dtype = np.complex128)
-                for i in range(self.nparticle):
-                    RIJ = snapshot.positions[Neighborlist[i, 1: (Neighborlist[i, 0]+1)]] - snapshot.positions[i]
+                for i in range(snapshot.nparticle):
+                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
+                    RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis,:]
                     RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
-                    theta = np.arccos(RIJ[:, 2]/np.sqrt(np.square(RIJ).sum(axis = 1)))
+                    distance = np.linalg.norm(RIJ, axis=1)
+                    theta = np.arccos(RIJ[:, 2]/distance)
                     phi = np.arctan2(RIJ[:, 1], RIJ[:, 0])
                     for j in range(Neighborlist[i, 0]):
-                        Particlesmallqlm[i] += np.array(SPfunction(self.l, theta[j], phi[j])) * faceareafrac[i, j]
+                        Particlesmallqlm[i] += np.array(sph_harm_l(self.l, theta[j], phi[j])) * faceareafrac[i, j]
                 smallqlm.append(Particlesmallqlm)
 
             ParticlelargeQlm = np.copy(Particlesmallqlm)
@@ -243,7 +195,7 @@ class BOO3D:
 
         MaxNeighbor = self.Nmax
         smallqlm, largeQlm = self.qlmQlm()
-        fneighbor = open(self.Neighborfile, 'r', encoding="utf-8")
+        fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
         results = np.zeros((1, 3))
         resultssij = np.zeros((1,  MaxNeighbor+1))
         for n in range(self.nsnapshots):
@@ -293,7 +245,7 @@ class BOO3D:
 
         MaxNeighbor = self.Nmax
         smallqlm, largeQlm = self.qlmQlm()
-        fneighbor = open(self.Neighborfile, 'r', encoding="utf-8")
+        fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
         results = np.zeros((1, 3))
         resultssij = np.zeros((1,  MaxNeighbor+1))
         for n in range(self.nsnapshots):
@@ -531,7 +483,7 @@ class BOO3D:
         if csijsmallql:
             logger.info('Start Calculating s(i, j) based on ql')
             MaxNeighbor = self.Nmax
-            fneighbor = open(self.Neighborfile, 'r', encoding="utf-8")
+            fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
             results = np.zeros((1, 3))
             for n in range(self.nsnapshots):
                 Neighborlist = read_neighbors(fneighbor, self.nparticle, self.Nmax)
@@ -558,7 +510,7 @@ class BOO3D:
         if csijlargeQl:
             logger.info('Start Calculating s(i, j) based on Ql')
             MaxNeighbor = self.Nmax
-            fneighbor = open(self.Neighborfile, 'r', encoding="utf-8")
+            fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
             results = np.zeros((1, 3))
             for n in range(self.nsnapshots):
                 Neighborlist = read_neighbors(fneighbor, self.nparticle, self.Nmax)
