@@ -69,12 +69,14 @@ def conditional_gr(
     else:
         if conditiontype=="vector":
             logger.info("Calculate spatial correlation gA of vector-type physical quantity 'A'")
+            conj_condition = np.conj(condition)
         elif conditiontype=="tensor":
             logger.info("Calculate spatial correlation gA of tensor-type physical quantity 'A'")
+            conj_condition = condition.copy()
         else:
             logger.info("Calculate spatial correlation gA of float-scalar physical quantity 'A'")
             norminator = True
-        conj_condition = condition.copy()
+            conj_condition = condition.copy()
 
     if not conditiontype:
         for i in range(snapshot.nparticle-1):
@@ -97,7 +99,7 @@ def conditional_gr(
             countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
             grresults["gr"] += countvalue
             # spatial correlation of vectors
-            SIJ = (condition[i+1:] * conj_condition[i][np.newaxis,:]).sum(axis=1)
+            SIJ = (condition[i+1:] * conj_condition[i][np.newaxis,:]).sum(axis=1).real
             countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
             grresults["gA"] += countvalue
     elif conditiontype=="tensor":

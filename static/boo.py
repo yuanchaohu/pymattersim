@@ -284,7 +284,7 @@ class boo_3d:
         logger.info('Finish Calculating Crystal Nuclei Criterion s(i, j) based on Ql')
         return resultssij[1:]
 
-    def GllargeQ(self, rdelta: float=0.01) -> pd.DataFrame:
+    def GllargeQ(self, rdelta: float=0.01, outputgl: str=None) -> pd.DataFrame:
         """
         Calculate bond order spatial correlation function Gl(r) based on Qlm
 
@@ -297,14 +297,22 @@ class boo_3d:
         """
         logger.info('Start Calculating bond order correlation Gl based on Ql')
 
-        smallqlm, largeQlm = self.qlmQlm()
+        largeQlm = self.qlmQlm()[1]
+        glresults = 0
+        for n, snapshot in enumerate(self.snapshots.snapshots):
+            glresults += conditional_gr(
+                snapshot=snapshot,
+                condition=largeQlm[n],
+                conditiontype="vector",
+                ppp=self.ppp,
+                rdelta=rdelta
+            )
+        glresults /= self.snapshots.nsnapshots
+        if outputgl:
+            glresults.to_csv(outputgl, float_format="%.8f", index=False)
 
-        grresults = []
-        for n in range(self.nsnapshots):
-            grresults.append(conditional_gr(self.snapshots.snapshots[n], condition=largeQlm[n], ppp=self.ppp, rdelta=rdelta))
-
-        logger.info('Finish Calculating bond order correlation Gl based on Ql')
-        return grresults
+        logger.info(f'Finish calculating spatial correlation of Ql for l={self.l}')
+        return glresults
 
     def Glsmallq(self, rdelta=0.01) -> pd.DataFrame:
         """
