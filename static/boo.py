@@ -22,6 +22,8 @@ from utils.funcs import Wignerindex
 logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
+# pylint: disable=too-many-locals
+# pylint: disable=line-too-long
 
 class boo_3d:
     """
@@ -89,6 +91,8 @@ class boo_3d:
         self.typenumber, self.typecount = np.unique(self.particle_type[0], return_counts=True)
         assert np.sum(self.typecount) == self.nparticle,\
             "Sum of Indivdual Types is Not the Total Amount"
+
+        self.smallqlm, self.largeQlm = self.qlmQlm()
 
     def qlmQlm(self) -> Tuple[np.ndarray, np.ndarray]:
         """
@@ -166,12 +170,11 @@ class boo_3d:
         """
         logger.info(f'Start Calculating the rotational invariants ql & Ql for l={self.l}')
 
-        (smallqlm, largeQlm) = self.qlmQlm()
-        smallql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(smallqlm)).sum(axis=2))
+        smallql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(self.smallqlm)).sum(axis=2))
         if outputql:
             np.savetxt(outputql, smallql, fmt="%.6f", header="", comments="")
 
-        largeQl = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(largeQlm)).sum(axis=2))
+        largeQl = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(self.largeQlm)).sum(axis=2))
         if outputQl:
             np.savetxt(outputQl, largeQl, fmt="%.6f", header="", comments="")
 
@@ -192,8 +195,7 @@ class boo_3d:
         """
         logger.info(f'Start calculating bond property sij based on ql for l={self.l}')
 
-        smallqlm = self.qlmQlm()[0]
-        norm_smallqlm = np.sqrt(np.square(np.abs(smallqlm)).sum(axis=2))
+        norm_smallqlm = np.sqrt(np.square(np.abs(self.smallqlm)).sum(axis=2))
 
         fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
         # particle-level information
@@ -210,7 +212,7 @@ class boo_3d:
                 )
             for i in range(snapshot.nparticle):
                 cnlist = Neighborlist[i, 1:Neighborlist[i, 0]+1]
-                sijup = (smallqlm[n, i][np.newaxis,:] * np.conj(smallqlm[n, cnlist])).sum(axis=1)
+                sijup = (self.smallqlm[n, i][np.newaxis,:] * np.conj(self.smallqlm[n, cnlist])).sum(axis=1)
                 sijdown = norm_smallqlm[n, i] * norm_smallqlm[n, cnlist]
                 sij[i, :Neighborlist[i, 0]] = sijup.real / sijdown
 
@@ -225,7 +227,7 @@ class boo_3d:
             results.to_csv(outputql, float_format="%d", index=False)
 
         max_neighbors = resultssij[:, 0].max()
-        resultssij = resultssij[1:, :1+max_neighbors]
+        resultssij = resultssij[1:, :int(1+max_neighbors)]
         if outputsij:
             names = 'CN sij'
             formatsij = '%d ' + '%.6f '*max_neighbors
@@ -237,72 +239,78 @@ class boo_3d:
 
     def sijlargeQl(self, c: float=0.7, outputQl: str=None, outputsij: str=None) -> np.ndarray:
         """
-        Calculate Crystal Nuclei Criterion s(i, j) based on Ql
+        Calculate orientation correlation of Qlm, named as sij
 
         Inputs:
-            1. c (float): cutoff demonstrating whether a bond is crystalline or not, default 0.7
-            2. outputQl (str): the file name to store the results of Ql
-            3. outputsij (str): the file name to store the results of sij
+            1. c (float): cutoff defining bond property, such as solid or not, default 0.7
+            2. outputQl (str): file name for Ql
+            3. outputsij (str): file name for sij of Ql
 
         Return:
             calculated sij (np.ndarray)
         """
-        logger.info('Start Calculating Crystal Nuclei Criterion s(i, j) based on Ql')
+        logger.info(f'Start calculating bond property sij based on Ql for l={self.l}')
 
-        MaxNeighbor = self.Nmax
-        smallqlm, largeQlm = self.qlmQlm()
+        norm_largeQlm = np.sqrt(np.square(np.abs(self.largeQlm)).sum(axis=2))
+
         fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
+        # particle-level information
         results = np.zeros((1, 3))
-        resultssij = np.zeros((1,  MaxNeighbor+1))
-        for n in range(self.nsnapshots):
-            Neighborlist = read_neighbors(fneighbor, self.nparticle, self.Nmax)
-            sij = np.zeros((self.nparticle, MaxNeighbor))
-            sijresults = np.zeros((self.nparticle, 3))
-            if (Neighborlist[:, 0]>MaxNeighbor).any():
-                raise ValueError('increase Nmax to include all neighbors')
-            for i in range(self.nparticle):
-                for j in range(Neighborlist[i, 0]):
-                    sijup = (largeQlm[n][i] * np.conj(largeQlm[n][Neighborlist[i, j+1]])).sum()
-                    sijdown = np.sqrt(np.square(np.abs(largeQlm[n][i])).sum()) * np.sqrt(np.square(np.abs(largeQlm[n][Neighborlist[i, j+1]])).sum())
-                    sij[i, j] = np.real(sijup/sijdown)
+        # particle-neighbors information, with number of neighbors
+        resultssij = np.zeros((1, self.Nmax+1))
+        for n, snapshot in enumerate(self.snapshots.snapshots):
+            Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
+            sij = np.zeros((snapshot.nparticle, self.Nmax))
+            sijresults = np.zeros((snapshot.nparticle, 3))
+            if (Neighborlist[:, 0] > self.Nmax).any():
+                raise ValueError(
+                    f'increase Nmax to include all neighbors, current is {self.Nmax}'
+                )
+            for i in range(snapshot.nparticle):
+                cnlist = Neighborlist[i, 1:Neighborlist[i, 0]+1]
+                sijup = (self.largeQlm[n, i][np.newaxis,:] * np.conj(self.largeQlm[n, cnlist])).sum(axis=1)
+                sijdown = norm_largeQlm[n, i] * norm_largeQlm[n, cnlist]
+                sij[i, :Neighborlist[i, 0]] = sijup.real / sijdown
+
             sijresults[:, 0] = np.arange(self.nparticle) + 1
             sijresults[:, 1] = (np.where(sij>c, 1, 0)).sum(axis=1)
-            sijresults[:, 2] = np.where(sijresults[:, 1] > Neighborlist[:, 0] / 2, 1, 0)
+            sijresults[:, 2] = Neighborlist[:, 0]
             results = np.vstack((results, sijresults))
             resultssij = np.vstack((resultssij, np.column_stack((Neighborlist[:, 0], sij))))
 
         if outputQl:
-            names = 'id  sijcrystalbondnum  crystalline.l=' + str(self.l)
-            np.savetxt(outputQl, results[1:], fmt='%d', header=names, comments='')
-            
+            results = pd.DataFrame(results[1:], columns="id sum_sij num_neighbors".split())
+            results.to_csv(outputQl, float_format="%d", index=False)
+        
+        max_neighbors = resultssij[:, 0].max()
+        resultssij = resultssij[1:, :int(1+max_neighbors)]
         if outputsij:
-            names = 'CN  s(i, j)  l=' + str(self.l)
-            formatsij = '%d ' + '%.6f ' * MaxNeighbor
-            np.savetxt(outputsij, resultssij[1:], fmt=formatsij, header=names, comments='')
-
+            names = 'CN sij'
+            formatsij = '%d ' + '%.6f '*max_neighbors
+            np.savetxt(outputsij, resultssij, fmt=formatsij, header=names, comments='')
+        
         fneighbor.close()
-        logger.info('Finish Calculating Crystal Nuclei Criterion s(i, j) based on Ql')
-        return resultssij[1:]
+        logger.info(f'Finish calculating bond property sij based on Ql for l={self.l}')
+        return resultssij
 
     def GllargeQ(self, rdelta: float=0.01, outputgl: str=None) -> pd.DataFrame:
         """
-        Calculate bond order spatial correlation function Gl(r) based on Qlm
+        Calculate spatial correlation function of Qlm
 
         Inputs:
             1. rdelta (float): bin size in calculating g(r) and Gl(r)
-            2. outputgl (str): the file name to store the results of gl
+            2. outputgl (str): file name for gl for Qlm
         
         Return:
-            calculated bond order spatial correlation function Gl(r) based on Qlm
+            calculated Gl(r) based on Qlm
         """
-        logger.info('Start Calculating bond order correlation Gl based on Ql')
+        logger.info(f'Start calculating spatial correlation of Ql for l={self.l}')
 
-        largeQlm = self.qlmQlm()[1]
         glresults = 0
         for n, snapshot in enumerate(self.snapshots.snapshots):
             glresults += conditional_gr(
                 snapshot=snapshot,
-                condition=largeQlm[n],
+                condition=self.largeQlm[n],
                 conditiontype="vector",
                 ppp=self.ppp,
                 rdelta=rdelta
@@ -314,31 +322,37 @@ class boo_3d:
         logger.info(f'Finish calculating spatial correlation of Ql for l={self.l}')
         return glresults
 
-    def Glsmallq(self, rdelta=0.01) -> pd.DataFrame:
+    def Glsmallq(self, rdelta: float=0.01, outputgl: str=None) -> pd.DataFrame:
         """
-        Calculate bond order spatial correlation function Gl(r) based on qlm
+        Calculate spatial correlation function of qlm
 
         Inputs:
             1. rdelta (float): bin size in calculating g(r) and Gl(r)
-            2. outputgl (str): the file name to store the results of gl
+            2. outputgl (str): file name of gl for Qlm
         
         Return:
-            calculated bond order spatial correlation function Gl(r) based on qlm
+            calculated Gl(r) based on qlm
         """
-        logger.info('Start Calculating bond order correlation Gl based on ql')
+        logger.info('Start calculating spatial correlation of ql for l={self.l}')
 
-        smallqlm, largeQlm = self.qlmQlm()
-
-        grresults = []
-        for n in range(self.nsnapshots):
-            grresults.append(conditional_gr(self.snapshots.snapshots[n], condition=smallqlm[n], ppp=self.ppp, rdelta=rdelta))
-
-        logger.info('Finish Calculating bond order correlation Gl based on ql')
-        return grresults
-
+        glresults = 0
+        for n, snapshot in enumerate(self.snapshots.snapshots):
+            glresults += conditional_gr(
+                snapshot=snapshot,
+                condition=self.smallqlm[n],
+                conditiontype="vector",
+                ppp=self.ppp,
+                rdelta=rdelta
+            )
+        glresults /= self.snapshots.nsnapshots
+        if outputgl:
+            glresults.to_csv(outputgl, float_format="%.8f", index=False)
+        
+        logger.info(f'Finish calculating spatial correlation of ql for l={self.l}')
+        return glresults
 
     def smallwcap(self, outputw: str=None, outputwcap: str=None) -> Tuple[np.ndarray, np.ndarray]:
-        """ 
+        """
         Calculate wigner 3-j symbol boo based on qlm
 
         Inputs:
@@ -351,72 +365,64 @@ class boo_3d:
         """
         logger.info(f'Start calculating (normalized) w based on qlm for l={self.l}')
 
-        smallqlm = self.qlmQlm()[0]
-        smallw = np.zeros((smallqlm.shape[0], smallqlm.shape[1]))
+        smallw = np.zeros((self.smallqlm.shape[0], self.smallqlm.shape[1]))
         Windex = Wignerindex(self.l)
         w3j = Windex[:, 3]
         Windex = Windex[:, :3].astype(np.int64) + self.l
-        for n in range(smallqlm.shape[0]):
-            for i in range(smallqlm.shape[1]):
-                smallw[n, i] = (np.real(np.prod(smallqlm[n, i, Windex], axis=1))*w3j).sum()
+        for n in range(self.smallqlm.shape[0]):
+            for i in range(self.smallqlm.shape[1]):
+                smallw[n, i] = (np.real(np.prod(self.smallqlm[n, i, Windex], axis=1))*w3j).sum()
        
         if outputw:
             np.savetxt(outputw, smallw, fmt="%.6f", header="", comments="")
    
-        smallwcap = np.power(np.square(np.abs(smallqlm)).sum(axis=2), -3/2) * smallw
+        smallwcap = np.power(np.square(np.abs(self.smallqlm)).sum(axis=2), -3/2) * smallw
         if outputwcap:
             np.savetxt(outputwcap, smallwcap, fmt="%.6f", header="", comments="")
         
         logger.info(f'Finish calculating (normalized) w based on qlm for l={self.l}')
         return (smallw, smallwcap)
 
-
     def largeWcap(self, outputW: str=None, outputWcap: str=None) -> Tuple[np.ndarray, np.ndarray]:
-        """ 
-        Calculate wigner 3-j symbol boo based on qlm
+        """
+        Calculate wigner 3-j symbol boo based on Qlm
 
         Inputs:
-            1. outputw (str): the file name to store the results of W
-            2. outputwcap (str): the file name to store the results of Wcap
+            1. outputw (str): file name for W (original)
+            2. outputwcap (str): the file name for Wcap (normalized)
 
         Return:
-            calculated w and wcap (np.adarray)
+            calculated W and Wcap (np.adarray)
+            shape [nsnapshot, nparticle]
         """
-        logger.info('Start Calculating bond Orientational order W (normalized) based on Qlm')
+        logger.info(f'Start calculating (normalized) W based on Qlm for l={self.l}')
 
-        smallqlm, largeQlm = self.qlmQlm()
-        largeQlm = np.array(largeQlm)
-        largew = np.zeros((self.nsnapshots, self.nparticle))
+        largeW = np.zeros((self.largeQlm.shape[0], self.largeQlm.shape[1]))
         Windex = Wignerindex(self.l)
         w3j = Windex[:, 3]
-        Windex = Windex[:, :3].astype(np.int) + self.l
-        for n in range(self.nsnapshots):
-            for i in range(self.nparticle):
-                largew[n, i] = (np.real(np.prod(largeQlm[n, i, Windex], axis=1))*w3j).sum()
+        Windex = Windex[:, :3].astype(np.int64) + self.l
+        for n in range(self.largeQlm.shape[0]):
+            for i in range(self.largeQlm.shape[1]):
+                largeW[n, i] = (np.real(np.prod(self.largeQlm[n, i, Windex], axis=1))*w3j).sum()
 
-        largew = np.column_stack((np.arange(self.nparticle)+1, np.real(largew.T)))
         if outputW:
-            names = 'id  Wl  l=' + str(self.l)
-            numformat = '%d ' + '%.10f ' * (len(largew[0])-1)
-            np.savetxt(outputW, largew, fmt=numformat, header=names, comments='')
-   
-        largewcap = np.power(np.square(np.abs(np.array(largeQlm))).sum(axis=2), -3/2).T * largew[:, 1:]
-        largewcap = np.column_stack((np.arange(self.nparticle)+1, largewcap))
+            np.savetxt(outputW, largeW, fmt="%.6f", header="", comments="")
+
+        largeWcap = np.power(np.square(np.abs(self.largeQlm)).sum(axis=2), -3/2) * largeW
         if outputWcap:
-            names = 'id  Wlcap  l=' + str(self.l)
-            numformat = '%d ' + '%.8f ' * (len(largewcap[0])-1)
-            np.savetxt(outputWcap, largewcap, fmt=numformat, header=names, comments='')
+            np.savetxt(outputWcap, largeWcap, fmt="%.6f", header="", comments="")
 
-        logger.info('Finish Calculating bond Orientational order W (normalized) based on Qlm')
-        return (largew, largewcap)
+        logger.info(f'Finish calculating (normalized) W based on Qlm for l={self.l}')
+        return (largeW, largeWcap)
 
-
+    # TODO: Calling time correlation function to implement this function
     def timecorr(self, l, ppp = [1,1,1], AreaR = 0, dt = 0.002, outputfile = ''):
-        """ Calculate time correlation of qlm and Qlm
+        """Calculate time correlation of qlm and Qlm
 
             AreaR = 0 indicates calculate traditional ql and Ql
             AreaR = 1 indicates calculate voronoi polyhedron face area weighted ql and Ql
         """
+
         print ('----Calculate the time correlation of qlm & Qlm----')
 
         (smallqlm, largeQlm) = self.qlmQlm()
@@ -454,7 +460,7 @@ class boo_3d:
         if outputfile:
             np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
         return results
-
+    # TODO: May be deprecated
     def cal_multiple(
             self,
             c: float=0.7,
@@ -465,9 +471,24 @@ class boo_3d:
             csmallwcap: bool=False,
             clargeWcap: bool=False
             ):
-        """Calculate multiple order parameters at the same time"""
+        """
+        Calculate multiple order parameters at the same time
 
-        logger.info('Start Calculating multiple order parameters together')
+        Inputs:
+            1. c (float): cutoff defining bond property, such as solid or not, default 0.7
+            2. namestr (str): 
+            3. cqlQl (bool):
+            4. csijsmallql (bool):
+            5. csijlargeQl (bool):
+            6. csmallwcap (bool):
+            7. clargeWcap (bool):
+
+        Return:
+
+        
+        """
+
+        logger.info('Start calculating multiple order parameters together')
         smallqlm, largeQlm = self.qlmQlm()
 
         if cqlQl:
@@ -548,17 +569,17 @@ class boo_3d:
             smallw = np.zeros((self.nsnapshots, self.nparticle))
             Windex = Wignerindex(self.l)
             w3j = Windex[:, 3]
-            Windex = Windex[:, :3].astype(np.int) + self.l 
+            Windex = Windex[:, :3].astype(np.int) + self.l
             for n in range(self.nsnapshots):
                 for i in range(self.nparticle):
                     smallw[n, i] = (np.real(np.prod(smallqlm[n, i, Windex], axis=1))*w3j).sum()
-           
+
             smallw = np.column_stack((np.arange(self.nparticle)+1, smallw.T))
             outputw = namestr + '.smallw_l%d.dat'%self.l
             names = 'id  wl  l=' + str(self.l)
             numformat = '%d ' + '%.10f ' * (len(smallw[0])-1)
             np.savetxt(outputw, smallw, fmt=numformat, header=names, comments='')
-       
+
             smallwcap = np.power(np.square(np.abs(np.array(smallqlm))).sum(axis = 2), -3/2).T * smallw[:, 1:]
             smallwcap = np.column_stack((np.arange(self.nparticle)+1, smallwcap))
             outputwcap = namestr + '.smallwcap_l%d.dat'%self.l
@@ -573,7 +594,7 @@ class boo_3d:
             largew = np.zeros((self.nsnapshots, self.nparticle))
             Windex = Wignerindex(self.l)
             w3j    = Windex[:, 3]
-            Windex = Windex[:, :3].astype(np.int) + self.l 
+            Windex = Windex[:, :3].astype(np.int) + self.l
             for n in range(self.nsnapshots):
                 for i in range(self.nparticle):
                     largew[n, i] = (np.real(np.prod(largeQlm[n, i, Windex], axis=1))*w3j).sum()
@@ -589,7 +610,7 @@ class boo_3d:
             outputWcap = namestr + '.largeWcap_l%d.dat'%self.l
             names = 'id  Wlcap  l=' + str(self.l)
             numformat = '%d ' + '%.8f ' * (len(largewcap[0]) - 1)
-            np.savetxt(outputWcap, largewcap, fmt=numformat, header=names, comments='')     
+            np.savetxt(outputWcap, largewcap, fmt=numformat, header=names, comments='')
             logger.info('Finish Calculating BOO W and normalized (cap) Wcap')
 
         logger.info('Finish Calculating multiple order parameters together')
