@@ -2,7 +2,7 @@
 
 """
 This module calculates bond orientational order parameters
-in two-dimensions or three-dimensions
+in two-dimensions and three-dimensions
 
 see documentation @ ../docs/boo_3d.md &
 see documentation @ ../docs/boo_2d.md
@@ -45,7 +45,7 @@ class boo_3d:
             snapshots: Snapshots,
             l: int,
             neighborfile: str,
-            faceareafile: str=None,
+            weightsfile: str=None,
             ppp: np.ndarray=np.array([1,1,1]),
             Nmax: int=30
             ) -> None:
@@ -57,11 +57,12 @@ class boo_3d:
                          (returned by reader.dump_reader.DumpReader)
             2. l (int): degree of spherical harmonics
             3. neighborfile (str): file name of particle neighbors (see module neighbors)
-            4. faceareafile (str): file name of Voronoi particle faceareas (see module neighbors)
-                                   or any other reasonable center-neighbors weights
-            4. ppp (np.ndarray): the periodic boundary conditions,
+            4. weightsfile (str): file name of particle-neighbor weights (see module neighbors)
+                                  one typical example is Voronoi face area of the polyhedron;
+                                  this file should be consistent with neighborfile, default None
+            5. ppp (np.ndarray): the periodic boundary conditions,
                                  setting 1 for yes and 0 for no, default [1,1,1],
-            5. Nmax (int): maximum number for neighbors
+            6. Nmax (int): maximum number for neighbors
 
         Return:
             None
@@ -69,28 +70,21 @@ class boo_3d:
         self.snapshots = snapshots
         self.l = l
         self.neighborfile = neighborfile
-        self.faceareafile = faceareafile
+        self.weightsfile = weightsfile
         self.ppp = ppp
         self.Nmax = Nmax
 
-        assert len(set(np.diff([snapshot.timestep for snapshot in self.snapshots.snapshots])))==1,\
-            "Warning: Dump interval changes during simulation"
+        assert len(set(np.diff(
+            [snapshot.timestep for snapshot in self.snapshots.snapshots]
+        )))==1, "Warning: Dump interval changes during simulation"
         self.nparticle = snapshots.snapshots[0].nparticle
-        assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots})==1,\
-            "Paticle number changes during simulation"
+        assert len(
+            {snapshot.nparticle for snapshot in self.snapshots.snapshots}
+        )==1, "Paticle number changes during simulation"
         self.boxlength = snapshots.snapshots[0].boxlength
-        assert len({tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots})==1,\
-            "Simulation box length changes during simulation"
-
-        self.particle_type = [snapshot.particle_type for snapshot in self.snapshots.snapshots]
-        self.positions = [snapshot.positions for snapshot in self.snapshots.snapshots]
-        self.nsnapshots = self.snapshots.nsnapshots
-
-        self.rhototal = self.nparticle / np.prod(self.boxlength)
-        self.hmatrix = [snapshot.hmatrix for snapshot in self.snapshots.snapshots]
-        self.typenumber, self.typecount = np.unique(self.particle_type[0], return_counts=True)
-        assert np.sum(self.typecount) == self.nparticle,\
-            "Sum of Indivdual Types is Not the Total Amount"
+        assert len(
+            {tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}
+        )==1, "Simulation box length changes during simulation"
 
         self.smallqlm, self.largeQlm = self.qlmQlm()
 
@@ -106,16 +100,17 @@ class boo_3d:
             shape: [nsnapshot, nparticle, 2l+1]
         """
 
+        logger.info(f"Calculate the spherical harmonics of l={self.l}")
         fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
-        if self.faceareafile:
-            ffacearea = open(self.faceareafile, 'r', encoding="utf-8")
+        if self.weightsfile:
+            fweights = open(self.weightsfile, 'r', encoding="utf-8")
 
         smallqlm = []
         largeQlm = []
         for snapshot in self.snapshots.snapshots:
             Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
             Particlesmallqlm = np.zeros((snapshot.nparticle, 2*self.l+1), dtype=np.complex128)
-            if not self.faceareafile:
+            if not self.weightsfile:
                 for i in range(snapshot.nparticle):
                     cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
                     RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis,:]
@@ -128,9 +123,9 @@ class boo_3d:
                 Particlesmallqlm /= (Neighborlist[:, 0])[:, np.newaxis]
                 smallqlm.append(Particlesmallqlm)
             else:
-                facearealist = read_neighbors(ffacearea, snapshot.nparticle, self.Nmax)
+                weightslist = read_neighbors(fweights, snapshot.nparticle, self.Nmax)[:, 1:]
                 # normalization of center-neighbors weights
-                faceareafrac = facearealist[:, 1:] / facearealist[:, 1:].sum(axis=1)[:, np.newaxis]
+                weightsfrac = weightslist / weightslist.sum(axis=1)[:, np.newaxis]
                 for i in range(snapshot.nparticle):
                     cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
                     RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis,:]
@@ -139,7 +134,7 @@ class boo_3d:
                     theta = np.arccos(RIJ[:, 2]/distance)
                     phi = np.arctan2(RIJ[:, 1], RIJ[:, 0])
                     for j in range(Neighborlist[i, 0]):
-                        Particlesmallqlm[i] += sph_harm_l(self.l,theta[j],phi[j])*faceareafrac[i,j]
+                        Particlesmallqlm[i] += sph_harm_l(self.l,theta[j],phi[j])*weightsfrac[i,j]
                 smallqlm.append(Particlesmallqlm)
 
             # coarse-graining over the neighbors
@@ -151,9 +146,10 @@ class boo_3d:
             largeQlm.append(ParticlelargeQlm)
 
         fneighbor.close()
-        if self.faceareafile:
-            ffacearea.close()
+        if self.weightsfile:
+            fweights.close()
 
+        logger.info(f"The spherical harmonics of l={self.l} is ready for further calculations")
         return np.array(smallqlm), np.array(largeQlm)
 
     def qlQl(self, outputql: str=None, outputQl: str=None) -> Tuple[np.ndarray, np.ndarray]:
@@ -161,14 +157,14 @@ class boo_3d:
         Calculate BOO ql (original) and Ql (coarse-grain)
 
         Inputs:
-            1. outputql (str): file name for ql results
-            2. outputQl (str): file name for Ql results
+            1. outputql (str): file name for ql results, default None
+            2. outputQl (str): file name for Ql results, defalut None
         
         Return:
             calculated ql and Ql (np.ndarray) 
             shape [nsnapshot, nparticle]
         """
-        logger.info(f'Start Calculating the rotational invariants ql & Ql for l={self.l}')
+        logger.info(f'Start calculating the rotational invariants ql & Ql for l={self.l}')
 
         smallql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(self.smallqlm)).sum(axis=2))
         if outputql:
@@ -178,7 +174,7 @@ class boo_3d:
         if outputQl:
             np.savetxt(outputQl, largeQl, fmt="%.6f", header="", comments="")
 
-        logger.info(f'Finish Calculating the rotational invariants ql & Ql for l={self.l}')
+        logger.info(f'Finish calculating the rotational invariants ql & Ql for l={self.l}')
         return (smallql, largeQl)
 
     def sijsmallql(self, c: float=0.7, outputql: str=None, outputsij: str=None) -> np.ndarray:
@@ -187,8 +183,8 @@ class boo_3d:
 
         Inputs:
             1. c (float): cutoff defining bond property, such as solid or not, default 0.7
-            2. outputql (str): file name for ql
-            3. outputsij (str): file name for sij of ql
+            2. outputql (str): file name for ql, default None
+            3. outputsij (str): file name for sij of ql, default None
 
         Return:
             calculated sij (np.ndarray)
@@ -243,8 +239,8 @@ class boo_3d:
 
         Inputs:
             1. c (float): cutoff defining bond property, such as solid or not, default 0.7
-            2. outputQl (str): file name for Ql
-            3. outputsij (str): file name for sij of Ql
+            2. outputQl (str): file name for Ql, default None
+            3. outputsij (str): file name for sij of Ql, default None
 
         Return:
             calculated sij (np.ndarray)
@@ -428,7 +424,7 @@ class boo_3d:
         (smallqlm, largeQlm) = self.qlmQlm()
         smallqlm = np.array(smallqlm)
         largeQlm = np.array(largeQlm)
-        results = np.zeros((self.nsnapshots - 1, 3))
+        results = np.zeros((self.snapshots.nsnapshots - 1, 3))
         names = 't   timecorr_q   timecorr_Ql=' + str(l)
 
         cal_smallq = pd.DataFrame(np.zeros((self.snapshots-1))[np.newaxis, :])
@@ -452,7 +448,7 @@ class boo_3d:
         fac_largeQ = fac_largeQ.iloc[1:]
         deltat[:, 0] = np.array(cal_smallq.columns) + 1 #Timeinterval
         deltat[:, 1] = np.array(cal_smallq.count())     #Timeinterval frequency
-       
+
         results[:, 0] = deltat[:, 0] * self.snapshots.snapshots[0].timestep * dt 
         results[:, 1] = cal_smallq.mean() * (4 * np.pi / (2 * l + 1)) / fac_smallq.mean()
         results[:, 2] = cal_largeQ.mean() * (4 * np.pi / (2 * l + 1)) / fac_largeQ.mean()
@@ -460,157 +456,3 @@ class boo_3d:
         if outputfile:
             np.savetxt(outputfile, results, fmt='%.6f', header = names, comments = '')
         return results
-    # TODO: May be deprecated
-    def cal_multiple(
-            self,
-            c: float=0.7,
-            namestr: str=None,
-            cqlQl: bool=False,
-            csijsmallql: bool=False,
-            csijlargeQl: bool=False,
-            csmallwcap: bool=False,
-            clargeWcap: bool=False
-            ):
-        """
-        Calculate multiple order parameters at the same time
-
-        Inputs:
-            1. c (float): cutoff defining bond property, such as solid or not, default 0.7
-            2. namestr (str): 
-            3. cqlQl (bool):
-            4. csijsmallql (bool):
-            5. csijlargeQl (bool):
-            6. csmallwcap (bool):
-            7. clargeWcap (bool):
-
-        Return:
-
-        
-        """
-
-        logger.info('Start calculating multiple order parameters together')
-        smallqlm, largeQlm = self.qlmQlm()
-
-        if cqlQl:
-            logger.info('Start Calculating ql and Ql')
-            smallql = np.sqrt(4*np.pi/(2*self.l+1) * np.square(np.abs(smallqlm)).sum(axis=2))
-            smallql = np.column_stack((np.arange(self.nparticle)+1, smallql.T))
-            outputql = namestr + '.smallq_l%d.dat'%self.l
-            names = 'id  ql  l=' + str(self.l)
-            numformat = '%d ' + '%.6f ' * (len(smallql[0])-1)
-            np.savetxt(outputql, smallql, fmt=numformat, header=names, comments='')
-
-            largeQl = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(largeQlm)).sum(axis=2))
-            largeQl = np.column_stack((np.arange(self.nparticle) + 1, largeQl.T))
-            outputQl = namestr + '.largeQ_l%d.dat'%self.l
-            names = 'id  Ql  l=' + str(self.l)
-            numformat = '%d ' + '%.6f ' * (len(largeQl[0]) - 1)
-            np.savetxt(outputQl, largeQl, fmt=numformat, header=names, comments='')
-
-            logger.info('Finish Calculating ql and Ql')
-
-        if csijsmallql:
-            logger.info('Start Calculating s(i, j) based on ql')
-            MaxNeighbor = self.Nmax
-            fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
-            results = np.zeros((1, 3))
-            for n in range(self.nsnapshots):
-                Neighborlist = read_neighbors(fneighbor, self.nparticle, self.Nmax)
-                sij = np.zeros((self.nparticle, MaxNeighbor))
-                sijresults = np.zeros((self.nparticle, 3))
-                if (Neighborlist[:, 0]>MaxNeighbor).any():
-                    raise ValueError('increase Nmax to include all neighbors')
-                for i in range(self.nparticle):
-                    for j in range(Neighborlist[i, 0]):
-                        sijup = (smallqlm[n][i] * np.conj(smallqlm[n][Neighborlist[i, j+1]])).sum()
-                        sijdown = np.sqrt(np.square(np.abs(smallqlm[n][i])).sum()) * np.sqrt(np.square(np.abs(smallqlm[n][Neighborlist[i, j+1]])).sum())
-                        sij[i, j] = np.real(sijup/sijdown)
-                sijresults[:, 0] = np.arange(self.nparticle) + 1
-                sijresults[:, 1] = (np.where(sij>c, 1, 0)).sum(axis=1)
-                sijresults[:, 2] = np.where(sijresults[:, 1]>Neighborlist[:, 0]/2, 1, 0)
-                results = np.vstack((results, sijresults))
-
-            outputql = namestr + '.sij.smallq_l%d.dat'%self.l
-            names = 'id  sijcrystalbondnum  crystalline.l=' + str(self.l)
-            np.savetxt(outputql, results[1:], fmt='%d', header=names, comments='')
-            fneighbor.close()
-            logger.info('Finish Calculating s(i, j) based on ql')
-
-        if csijlargeQl:
-            logger.info('Start Calculating s(i, j) based on Ql')
-            MaxNeighbor = self.Nmax
-            fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
-            results = np.zeros((1, 3))
-            for n in range(self.nsnapshots):
-                Neighborlist = read_neighbors(fneighbor, self.nparticle, self.Nmax)
-                sij = np.zeros((self.nparticle, MaxNeighbor))
-                sijresults = np.zeros((self.nparticle, 3))
-                if (Neighborlist[:, 0] > MaxNeighbor).any():
-                    raise ValueError('increase Nmax to include all neighbors')
-                for i in range(self.nparticle):
-                    for j in range(Neighborlist[i, 0]):
-                        sijup = (largeQlm[n][i] * np.conj(largeQlm[n][Neighborlist[i, j+1]])).sum()
-                        sijdown = np.sqrt(np.square(np.abs(largeQlm[n][i])).sum()) * np.sqrt(np.square(np.abs(largeQlm[n][Neighborlist[i, j+1]])).sum())
-                        sij[i, j] = np.real(sijup / sijdown)
-                sijresults[:, 0] = np.arange(self.nparticle) + 1
-                sijresults[:, 1] = (np.where(sij > c, 1, 0)).sum(axis=1)
-                sijresults[:, 2] = np.where(sijresults[:, 1] > Neighborlist[:, 0] / 2, 1, 0)
-                results = np.vstack((results, sijresults))
-
-            outputQl = namestr + '.sij.largeQ_l%d.dat'%self.l
-            names = 'id  sijcrystalbondnum  crystalline.l=' + str(self.l)
-            np.savetxt(outputQl, results[1:], fmt='%d', header=names, comments='')
-            fneighbor.close()
-            logger.info('Finish Calculating s(i, j) based on Ql')
-
-        if csmallwcap:
-            logger.info('Start Calculating BOO w and normalized (cap) wcap')
-            smallqlm = np.array(smallqlm)
-            smallw = np.zeros((self.nsnapshots, self.nparticle))
-            Windex = Wignerindex(self.l)
-            w3j = Windex[:, 3]
-            Windex = Windex[:, :3].astype(np.int) + self.l
-            for n in range(self.nsnapshots):
-                for i in range(self.nparticle):
-                    smallw[n, i] = (np.real(np.prod(smallqlm[n, i, Windex], axis=1))*w3j).sum()
-
-            smallw = np.column_stack((np.arange(self.nparticle)+1, smallw.T))
-            outputw = namestr + '.smallw_l%d.dat'%self.l
-            names = 'id  wl  l=' + str(self.l)
-            numformat = '%d ' + '%.10f ' * (len(smallw[0])-1)
-            np.savetxt(outputw, smallw, fmt=numformat, header=names, comments='')
-
-            smallwcap = np.power(np.square(np.abs(np.array(smallqlm))).sum(axis = 2), -3/2).T * smallw[:, 1:]
-            smallwcap = np.column_stack((np.arange(self.nparticle)+1, smallwcap))
-            outputwcap = namestr + '.smallwcap_l%d.dat'%self.l
-            names = 'id  wlcap  l=' + str(self.l)
-            numformat = '%d ' + '%.8f ' * (len(smallwcap[0])-1)
-            np.savetxt(outputwcap, smallwcap, fmt=numformat, header=names, comments='')
-            logger.info('Finish Calculating BOO w and normalized (cap) wcap')
-
-        if clargeWcap:
-            logger.info('Start Calculating BOO W and normalized (cap) Wcap')
-            largeQlm = np.array(largeQlm)
-            largew = np.zeros((self.nsnapshots, self.nparticle))
-            Windex = Wignerindex(self.l)
-            w3j    = Windex[:, 3]
-            Windex = Windex[:, :3].astype(np.int) + self.l
-            for n in range(self.nsnapshots):
-                for i in range(self.nparticle):
-                    largew[n, i] = (np.real(np.prod(largeQlm[n, i, Windex], axis=1))*w3j).sum()
-
-            largew = np.column_stack((np.arange(self.nparticle)+1, np.real(largew.T)))
-            outputW = namestr + '.largeW_l%d.dat'%self.l
-            names = 'id  Wl  l=' + str(self.l)
-            numformat = '%d ' + '%.10f ' * (len(largew[0])-1)
-            np.savetxt(outputW, largew, fmt=numformat, header=names, comments='')
-       
-            largewcap = np.power(np.square(np.abs(np.array(largeQlm))).sum(axis = 2), -3/2).T * largew[:, 1:]
-            largewcap = np.column_stack((np.arange(self.nparticle)+1, largewcap))
-            outputWcap = namestr + '.largeWcap_l%d.dat'%self.l
-            names = 'id  Wlcap  l=' + str(self.l)
-            numformat = '%d ' + '%.8f ' * (len(largewcap[0]) - 1)
-            np.savetxt(outputWcap, largewcap, fmt=numformat, header=names, comments='')
-            logger.info('Finish Calculating BOO W and normalized (cap) Wcap')
-
-        logger.info('Finish Calculating multiple order parameters together')
