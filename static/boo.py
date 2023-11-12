@@ -289,33 +289,42 @@ class boo_3d:
         logger.info(f'Finish calculating bond property sij based on Ql for l={self.l}')
         return resultssij
 
-    def GllargeQ(self, rdelta: float=0.01, outputgl: str=None) -> pd.DataFrame:
+    def spatial_corr(self, rdelta: float=0.01, cal_type: str="local", outputfile: str=None) -> pd.DataFrame:
         """
         Calculate spatial correlation function of Qlm
 
         Inputs:
             1. rdelta (float): bin size in calculating g(r) and Gl(r)
-            2. outputgl (str): file name for gl for Qlm
+            2. cal_type (str): calculation input type, whether qlm (local) or Qlm (coarse-grained)
+            2. outputfile (str): file name for gl for Qlm
         
         Return:
-            calculated Gl(r) based on Qlm
+            calculated Gl(r) based on Qlm or qlm
         """
-        logger.info(f'Start calculating spatial correlation of Ql for l={self.l}')
+        logger.info(f'Start calculating spatial correlation of {cal_type} BOO for l={self.l}')
+        if cal_type=="local":
+            cal_qlmQlm = self.smallqlm.copy()
+        elif cal_type=="coarse-grained":
+            cal_qlmQlm = self.largeQlm.copy()
+        else:
+            raise ValueError(
+                f"Error cal_type as {cal_type}, should be 'local' or 'coarse-grained'"
+            )
 
         glresults = 0
         for n, snapshot in enumerate(self.snapshots.snapshots):
             glresults += conditional_gr(
                 snapshot=snapshot,
-                condition=self.largeQlm[n],
+                condition=cal_qlmQlm[n],
                 conditiontype="vector",
                 ppp=self.ppp,
                 rdelta=rdelta
             )
         glresults /= self.snapshots.nsnapshots
-        if outputgl:
-            glresults.to_csv(outputgl, float_format="%.8f", index=False)
+        if outputfile:
+            glresults.to_csv(outputfile, float_format="%.8f", index=False)
 
-        logger.info(f'Finish calculating spatial correlation of Ql for l={self.l}')
+        logger.info(f'Finish calculating spatial correlation of {cal_type} BOO for l={self.l}')
         return glresults
 
     def Glsmallq(self, rdelta: float=0.01, outputgl: str=None) -> pd.DataFrame:
@@ -343,7 +352,7 @@ class boo_3d:
         glresults /= self.snapshots.nsnapshots
         if outputgl:
             glresults.to_csv(outputgl, float_format="%.8f", index=False)
-        
+
         logger.info(f'Finish calculating spatial correlation of ql for l={self.l}')
         return glresults
 
@@ -368,14 +377,14 @@ class boo_3d:
         for n in range(self.smallqlm.shape[0]):
             for i in range(self.smallqlm.shape[1]):
                 smallw[n, i] = (np.real(np.prod(self.smallqlm[n, i, Windex], axis=1))*w3j).sum()
-       
+
         if outputw:
             np.savetxt(outputw, smallw, fmt="%.6f", header="", comments="")
-   
+
         smallwcap = np.power(np.square(np.abs(self.smallqlm)).sum(axis=2), -3/2) * smallw
         if outputwcap:
             np.savetxt(outputwcap, smallwcap, fmt="%.6f", header="", comments="")
-        
+
         logger.info(f'Finish calculating (normalized) w based on qlm for l={self.l}')
         return (smallw, smallwcap)
 
