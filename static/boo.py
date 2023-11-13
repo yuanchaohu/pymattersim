@@ -92,12 +92,12 @@ class boo_3d:
 
         if self.coarse_graining:
             self.cal_str = "coarse-grained Qlm"
+            self.cal_qlmQlm = self.qlm_Qlm()[1]
         else:
             self.cal_str = 'local qlm'
+            self.cal_qlmQlm = self.qlm_Qlm()[0]
 
-        self.cal_qlmQlm = self.qlmQlm()
-
-    def qlmQlm(self) -> np.ndarray:
+    def qlm_Qlm(self) -> np.ndarray:
         """
         BOO of the l-fold symmetry as a 2l + 1 vector
 
@@ -112,11 +112,8 @@ class boo_3d:
         logger.info(f"Calculate the spherical harmonics of {self.cal_str} for l={self.l}")
         fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
 
-        if self.coarse_graining:
-            smallqlm = []
-            largeQlm = []
-        else:
-            smallqlm = []
+        smallqlm = []
+        largeQlm = []
 
         if self.weightsfile:
             fweights = open(self.weightsfile, 'r', encoding="utf-8")
@@ -151,14 +148,13 @@ class boo_3d:
                         Particlesmallqlm[i] += sph_harm_l(self.l, theta[j], phi[j]) * weightsfrac[i, j]
                 smallqlm.append(Particlesmallqlm)
 
-            if self.coarse_graining:
-                # coarse-graining over the neighbors
-                ParticlelargeQlm = np.copy(Particlesmallqlm)
-                for i in range(snapshot.nparticle):
-                    for j in range(Neighborlist[i, 0]):
-                        ParticlelargeQlm[i] += Particlesmallqlm[Neighborlist[i, j + 1]]
-                ParticlelargeQlm = ParticlelargeQlm / (1 + Neighborlist[:, 0])[:, np.newaxis]
-                largeQlm.append(ParticlelargeQlm)
+            # coarse-graining over the neighbors
+            ParticlelargeQlm = np.copy(Particlesmallqlm)
+            for i in range(snapshot.nparticle):
+                for j in range(Neighborlist[i, 0]):
+                    ParticlelargeQlm[i] += Particlesmallqlm[Neighborlist[i, j + 1]]
+            ParticlelargeQlm = ParticlelargeQlm / (1 + Neighborlist[:, 0])[:, np.newaxis]
+            largeQlm.append(ParticlelargeQlm)
 
         fneighbor.close()
         if self.weightsfile:
@@ -166,12 +162,9 @@ class boo_3d:
 
         logger.info(f"The spherical harmonics of {self.cal_str} for l={self.l} is ready for further calculations")
 
-        if self.coarse_graining:
-            return np.array(largeQlm)
-        else:
-            return np.array(smallqlm)
+        return np.array(smallqlm), np.array(largeQlm)
 
-    def qlQl(self, outputfile: str = None) -> np.ndarray:
+    def ql_Ql(self, outputfile: str = None) -> np.ndarray:
         """
         Calculate BOO ql (original) or Ql (coarse-grain)
 
@@ -184,14 +177,14 @@ class boo_3d:
         """
         logger.info(f'Start calculating the rotational invariants based on {self.cal_str} for l={self.l}')
 
-        qlQl = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(self.cal_qlmQlm)).sum(axis=2))
+        ql_Ql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(self.cal_qlmQlm)).sum(axis=2))
         if outputfile:
-            np.savetxt(outputfile, qlQl, fmt="%.6f", header="", comments="")
+            np.savetxt(outputfile, ql_Ql, fmt="%.6f", header="", comments="")
 
         logger.info(f'Finish calculating the rotational invariants based on {self.cal_str} for l={self.l}')
-        return qlQl
+        return ql_Ql
 
-    def sijqlQl(self, c: float=0.7, outputqlQl: str=None, outputsij: str=None) -> np.ndarray:
+    def sij_ql_Ql(self, c: float=0.7, outputqlQl: str=None, outputsij: str=None) -> np.ndarray:
         """
         Calculate orientation correlation of qlm or Qlm, named as sij
 
@@ -276,7 +269,7 @@ class boo_3d:
         logger.info(f'Finish calculating spatial correlation based on {self.cal_str} BOO for l={self.l}')
         return glresults
 
-    def wWcap(self, outputw: str=None, outputwcap: str=None) -> Tuple[np.ndarray, np.ndarray]:
+    def w_W_cap(self, outputw: str=None, outputwcap: str=None) -> Tuple[np.ndarray, np.ndarray]:
         """
         Calculate wigner 3-j symbol boo based on qlm or Qlm
 
@@ -290,23 +283,23 @@ class boo_3d:
         """
         logger.info(f'Start calculating wigner 3-j symbol boo based on {self.cal_str} for l={self.l}')
 
-        w = np.zeros((self.cal_qlmQlm.shape[0], self.cal_qlmQlm.shape[1]))
+        w_W = np.zeros((self.cal_qlmQlm.shape[0], self.cal_qlmQlm.shape[1]))
         Windex = Wignerindex(self.l)
         w3j = Windex[:, 3]
         Windex = Windex[:, :3].astype(np.int64) + self.l
         for n in range(self.cal_qlmQlm.shape[0]):
             for i in range(self.cal_qlmQlm.shape[1]):
-                w[n, i] = (np.real(np.prod(self.cal_qlmQlm[n, i, Windex], axis=1))*w3j).sum()
+                w_W[n, i] = (np.real(np.prod(self.cal_qlmQlm[n, i, Windex], axis=1))*w3j).sum()
 
         if outputw:
-            np.savetxt(outputw, w, fmt="%.6f", header="", comments="")
+            np.savetxt(outputw, w_W, fmt="%.6f", header="", comments="")
 
-        wcap = np.power(np.square(np.abs(self.cal_qlmQlm)).sum(axis=2), -3/2).T * w
+        w_W_cap = np.power(np.square(np.abs(self.cal_qlmQlm)).sum(axis=2), -3/2).T * w
         if outputwcap:
-            np.savetxt(outputwcap, wcap, fmt="%.6f", header="", comments="")
+            np.savetxt(outputwcap, w_W_cap, fmt="%.6f", header="", comments="")
 
         logger.info(f'Finish calculating wigner 3-j symbol boo based on {self.cal_str} for l={self.l}')
-        return w, wcap
+        return w_W, w_W_cap
 
     # TODO: Calling time correlation function to implement this function
     def timecorr(self, l, ppp=[1, 1, 1], AreaR=0, dt=0.002, outputfile=''):
