@@ -18,6 +18,7 @@ from utils.spherical_harmonics import sph_harm_l
 from utils.pbc import remove_pbc
 from utils.logging import get_logger_handle
 from utils.funcs import Wignerindex
+from dynamic.time_corr import time_correlation
 
 logger = get_logger_handle(__name__)
 
@@ -336,48 +337,39 @@ class boo_3d:
         logger.info(f'Finish calculating wigner 3-j symbol boo for l={self.l}')
         return w_W, w_W_cap
 
-    # TODO: Calling time correlation function to implement this function
-    def timecorr(self, l, ppp=[1, 1, 1], AreaR=0, dt=0.002, outputfile=''):
-        """Calculate time correlation of qlm and Qlm
+    def time_corr(
+        self,
+        coarse_graining: bool=False,
+        dt: float=0.002,
+        outputfile: str=None
+    ) -> pd.DataFrame:
+        """Calculate time correlation of qlm or Qlm
 
-            AreaR = 0 indicates calculate traditional ql and Ql
-            AreaR = 1 indicates calculate voronoi polyhedron face area weighted ql and Ql
+        Inputs:
+            1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
+                                       default False
+            2. dt (float): timestep used in user simulations, default 0.002
+            2. outputfile (str): txt file name for time correlation results, default None
+        
+        Return:
+            time correlation quantity (pd.DataFrame)
         """
 
-        print('----Calculate the time correlation of qlm & Qlm----')
+        if coarse_graining:
+            cal_qlmQlm = self.largeQlm
+            logger.info(f'Start calculating coarse-grained spatial correlation for l={self.l}')
+        else:
+            cal_qlmQlm = self.smallqlm
+            logger.info(f'Start calculating local spatial correlation for l={self.l}')
 
-        (smallqlm, largeQlm) = self.qlmQlm()
-        smallqlm = np.array(smallqlm)
-        largeQlm = np.array(largeQlm)
-        results = np.zeros((self.snapshots.nsnapshots - 1, 3))
-        names = 't   timecorr_q   timecorr_Ql=' + str(l)
+        gl_time = time_correlation(
+            snapshots=self.snapshots,
+            condition=cal_qlmQlm,
+            dt=dt,
+        )
 
-        cal_smallq = pd.DataFrame(np.zeros((self.snapshots - 1))[np.newaxis, :])
-        cal_largeQ = pd.DataFrame(np.zeros((self.snapshots - 1))[np.newaxis, :])
-        fac_smallq = pd.DataFrame(np.zeros((self.snapshots - 1))[np.newaxis, :])
-        fac_largeQ = pd.DataFrame(np.zeros((self.snapshots - 1))[np.newaxis, :])
-        deltat = np.zeros(((self.snapshots - 1), 2), dtype=np.int)  # deltat, deltatcounts
-        for n in range(self.snapshots - 1):
-            CIJsmallq = (np.real((smallqlm[n + 1:] * np.conj(smallqlm[n]))).sum(axis=2)).sum(axis=1)
-            cal_smallq = pd.concat([cal_smallq, pd.DataFrame(CIJsmallq[np.newaxis, :])])
-            CIIsmallq = np.repeat((np.square(np.abs(smallqlm[n])).sum()), len(CIJsmallq))  # consider initial snapshot
-            fac_smallq = pd.concat([fac_smallq, pd.DataFrame(CIIsmallq[np.newaxis, :])])
-            CIJlargeQ = (np.real((largeQlm[n + 1:] * np.conj(largeQlm[n]))).sum(axis=2)).sum(axis=1)
-            cal_largeQ = pd.concat([cal_largeQ, pd.DataFrame(CIJlargeQ[np.newaxis, :])])
-            CIIlargeQ = np.repeat((np.square(np.abs(largeQlm[n])).sum()), len(CIJlargeQ))
-            fac_largeQ = pd.concat([fac_largeQ, pd.DataFrame(CIIlargeQ[np.newaxis, :])])
-
-        cal_smallq = cal_smallq.iloc[1:]
-        cal_largeQ = cal_largeQ.iloc[1:]
-        fac_smallq = fac_smallq.iloc[1:]
-        fac_largeQ = fac_largeQ.iloc[1:]
-        deltat[:, 0] = np.array(cal_smallq.columns) + 1  # Timeinterval
-        deltat[:, 1] = np.array(cal_smallq.count())  # Timeinterval frequency
-
-        results[:, 0] = deltat[:, 0] * self.snapshots.snapshots[0].timestep * dt
-        results[:, 1] = cal_smallq.mean() * (4 * np.pi / (2 * l + 1)) / fac_smallq.mean()
-        results[:, 2] = cal_largeQ.mean() * (4 * np.pi / (2 * l + 1)) / fac_largeQ.mean()
-
+        nominator = np.square(np.abs(cal_qlmQlm)).sum(axis=2).sum(axis=1).mean()
+        gl_time["Ct"] *= 4*np.pi/(self.l+1)/nominator
         if outputfile:
-            np.savetxt(outputfile, results, fmt='%.6f', header=names, comments='')
-        return results
+            gl_time.to_csv(outputfile, float_format="%.6f", index=False)
+        return gl_time
