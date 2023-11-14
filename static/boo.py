@@ -368,8 +368,8 @@ class boo_3d:
             dt=dt,
         )
 
-        nominator = np.square(np.abs(cal_qlmQlm)).sum(axis=2).sum(axis=1).mean()
-        gl_time["Ct"] *= 4*np.pi/(self.l+1)/nominator
+        # normalization
+        gl_time["time_corr"] *= 4*np.pi/(self.l+1)/gl_time.loc[0, "time_corr"]
         if outputfile:
             gl_time.to_csv(outputfile, float_format="%.6f", index=False)
         return gl_time
