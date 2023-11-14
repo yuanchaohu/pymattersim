@@ -1,17 +1,42 @@
-# Bond Orientational Order at 3D
+# Bond Orientational Order Parameters at 3D
 
-The class `static.boo.boo_3d` class calculates the bond orientational order (BOO) parameters in three-dimensions including original quantatities and weighted ones. The BOO parameters include q_l (local) and Q_l (coarse-grained) by `boo_3d.ql_Ql` function, sij (original boo, like q_6) and Sij (coarse-grained boo, like Q_12) by `boo_3d.sij_ql_Ql` function, w_l/w_cap_l (local) and W_l/W_cap_l (coarse-grained) by `boo_3d.w_W_cap` function. Also calculate both spatial correlation by `boo_3d.spatial_corr` function and time correlation by `boo_3d.time_corr` function. This module accounts for both orthogonal and triclinic cells.
+The class `static.boo.boo_3d()` calculates the bond orientational order (BOO) parameters in three-dimensions. All calculations start from measuring the $l$-fold symmetry BOO as a $2l+1$ complex vector $q_{lm}$:
+$$
+q_{{lm}}(i) = \frac{1}{N_i} \sum_i^{N_i} Y_{{lm}} (\theta(\vec r_{ij}), \phi(\vec r_{ij})) 
+\tag{1}
+$$,
+where $Y_{lm}$ are the spherical harmonics and $N_i$ the number of bonds of particles $i$. This is the original one with all ($N_i$) neighboring particles treated the same. However, in some cases, we need to treat these neighboring particles differently based on their properties with respect to the center particle $i$. Then we can obtain the weighted $2l+1$ complex vector $q_{lm}$ as
+$$
+q_{{lm}}(i) = \sum_i^{N_i} \frac{A_j}{\sum A_j} Y_{{lm}} (\theta(\vec r_{ij}), \phi(\vec r_{ij})) 
+\tag{2}
+$$,
+where $A_j$ is the property of the $j-$th neighbor. Therefore, the normalized weights $\frac{A_j}{\sum A_j}$ are used in the calculation. We can treat $A_j=1$ for the case shown in equation (1). The weights are provided in the same way as for the neighbors.
 
-Steinhardt et al. defined the BOO of the 
-$l$-fold symmetry as a $2l+1$ vector:
+Furthermore, dealing with $q_{lm}$ by coarse-graining is sometimes helpful by
 $$
-q_{\text{lm}}(i) = \frac{1}{N_i} \sum_i^{N_i} Y_{\text{lm}} (\theta(\vec r_{ij}), \phi(\vec r_{ij})) \tag{1}
-$$
-where $Y_{lm}$ are the spherical harmonics and $N_i$ the number of bonds of particles $i$. In the calculations, on uses the rotational invariants defined as (2), (3), and (4). In (3), the first part is the Wigner 3-j symbol. The coarse-grained BOO over the neighbors is defined in (5). The coarse-grained $Q_l$, $W_l$, $\hat{W_l}$ can then be defined in the same way as $w$ quantities. One standard method in literature to detect crystal nuclei is calculating the normalized scalar product of the (non-coarse-grained) $q_{\text{lm}}$ ($l=6$). The bond between the center particle and a neighbor is considered crystalline if $s(i,j)>c$ (usually 0.7). A particle is crystalline if the number of crystalline bond is larger than a threshold (usually half of the coordination number). The spatial correlation of bond order can be defined as $G_l(r)$. In (6) and (7), the variable can be replaced by $q_{\text{lm}}$ and $Q_{\text{lm}}$.
+Q_{lm}(i)=\frac {1}{N_i+1} \left(q_{lm}(i) + \sum_{j=1} ^{N_i} q_{lm}(j) \right) 
+\tag{3}
+$$.
+Therefore, we can define the local complex vectors in a flexible way for different purposes. In principal, we name below the local quantities with small letters (associate with $q_{lm}$) and coarse-grained ones with large letters (associate with $Q_{lm}$). In the calculations one can set `coarse_graining=True` to calculate for the latter case.
+
+By either using the complex vetcor $q_{lm}$ or $Q_{lm}$, various BOO parameters can be calculated. For example, 
++ the rotational invariants q_l (local, $q_l$) and Q_l (coarse-grained, $Q_l$) by `boo_3d.ql_Ql()`, 
 
 $$
-q_l=\sqrt{\frac{4\pi}{2l+1} \sum_{m=-l}^{l} \left| q_{lm} \right|^2} \tag{2}
+q_l=\sqrt{\frac{4\pi}{2l+1} \sum_{m=-l}^{l} \left| q_{lm} \right|^2}
+\tag{4}
 $$
+
++ local coherence of the complex vectors sij for $q_{lm}$ and Sij for $Q_{lm}$ by `boo_3d.sij_ql_Ql()`,
+
+$$
+s(i,j)=\frac {\sum_{m=-l}^l q_{lm}(i) q_{lm}(j)}{\sqrt{\sum_{m=-l}^l \left| q_{lm}(i) \right|^2}
+\sqrt{\sum_{m=-l}^l \left| q_{lm}(j) \right|^2}}
+\tag{5}
+$$
+
++  w_l/w_cap_l (local, $w_l$, $\hat w_l$) and W_l/W_cap_l (coarse-grained, $W_l$, 
+$\hat W_l$) by `boo_3d.w_W_cap()` 
 
 $$
 w_{l} = \sum_{m_{1} + m_{2} + m_{3} = 0}^{}
@@ -21,50 +46,48 @@ l & l & l \\
 m_{1} & m_{2} & m_{3} \
 \end{matrix}
 \right)
-q_{lm_{1}}q_{lm_{2}}q_{lm_{3}} \tag{3}
+q_{lm_{1}}q_{lm_{2}}q_{lm_{3}} 
+\tag{6}
 $$
 
 $$
-\hat{w_l}=w_l(\sum_{m=-l}^l \left| q_\text{lm} \right|^2) ^{-\frac {3}{2}} \tag{4}
+\hat{w_l}=w_l \left(\sum_{m=-l}^l \left| q_{lm} \right|^2 \right) ^{-\frac {3}{2}} 
+\tag{7}
 $$
 
-$$
-Q_\text{lm}(i)=\frac {1}{N_i+1} (q_\text{lm}(i) + \sum_{j=0} ^{N_i} q_\text{lm}(j)) \tag{5}
-$$
++  spatial correlation of the complex vectors by `boo_3d.spatial_corr()`
 
 $$
-s(i,j)=\frac {\sum_{m=-l}^l q_\text{lm}(i) q_\text{lm}(j)}{\sqrt{\sum_{m=-l}^l \left| q_\text{lm}(i) \right|^2}
-\sqrt{\sum_{m=-l}^l \left| q_\text{lm}(j) \right|^2}} \tag{6}
+G_l(r)=\frac{4\pi}{2l+1} \frac{\sum_{ij} \sum_{m=-l}^l Q_{lm}(i) Q_{lm}^*(j) \delta(\vec r_{ij} - \vec r)} {\sum_{ij} \delta(\vec r_{ij} - \vec r)} 
+\tag{8}
 $$
 
-$$
-G_l(r)=\frac{4\pi}{2l+1} \frac{\sum_{ij} \sum_{m=-l}^l Q_{lm}(i) Q_{lm}(j) \delta(\vec r_{ij} - \vec r)} {\sum_{ij} \delta(\vec r_{ij} - \vec r)} \tag{7}
-$$
++  time correlation of the complex vectors by `boo_3d.time_corr()`
 
 $$
-C_l(t)=\frac{4\pi}{2l+1} \frac {\langle \sum_i^N \sum_{m=-l}^l Q_{lm}^i(t) Q_{lm}^i(0) \rangle} {\langle \sum_i^N \sum_{m=-l}^l \left| Q_{lm}^i(0) \right|^2 \rangle} \tag{8}
+C_l(t)=\frac{4\pi}{2l+1} \frac {\langle \sum_i^N \sum_{m=-l}^l Q_{lm}(i, t) Q_{lm}^*(i, 0) \rangle} {\langle \sum_i^N \sum_{m=-l}^l \left| Q_{lm}(i, 0) \right|^2 \rangle} \tag{9}
 $$
 
-In these calculations, one important input is the neighbor list of each particle. Currently,
-the module accepts data generated by the given `neighbors` module. One can also reweight BOO by using Voronoi polyhedron face area.
+In equations (4)-(9), one can replace $q_{lm}$ by $Q_{lm}$ to calculate the corresponding coarse-grained values, or vice versa.
 
-## 1. `boo_3d` class
+One example of using $s(i,j)$ with $q_{lm}$ for $l=6$ in computer simulations is to detect the bcc crystal nuclei. The bond between the center particle $i$ and a neighbor $j$ is considered crystalline if $s(i,j)>c$ (such as c=0.7). A particle is crystalline if the number of crystalline bond is larger than a threshold (usually half of the coordination number).
+
+In these calculations, one important input is the neighbor list of each particle. Currently, the module accepts data generated by the `neighbors` module. One can also reweight BOO (see equation (2)) by using Voronoi polyhedron face area. Other weighting methods are acceptable as long as the correct format to account for the center-neighbor property is given, similar to the neighboring particles.
+
+Note that this module accounts for both orthogonal and triclinic cells.
+
+
+## 1. `boo_3d()` class
 
 ### Input Arguments
 
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
 - `l` (`int`): degree of spherical harmonics
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
-- `weightsfile` (`str`): file name of particle-neighbor weights (see module `neighbors`)
-  one typical example is Voronoi face area of the polyhedron; this file should be consistent with `neighborfile`, default `None`. If provided, `weightsfile` will be read to calculate weighted BOO, otherwise original BOO.
+- `weightsfile` (`str`): file name of particle-neighbor weights (see module `neighbors`), default `None`.
+  one typical example is Voronoi face area of the polyhedron; this file should be consistent with `neighborfile`. If provided, `weightsfile` will be read to calculate the weighted BOO, otherwise calculate the original BOO.
 - `ppp` (`np.ndarray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([1,1,1])`,
-- `Nmax` (`int`): maximum number for neighbors
-
-When `weightsfile` provided, $q_{\text{lm}}(i)$ changes to
-$$
-q_{\text{lm}}(i) = \frac{1}{N_i} \sum_i^{N_i} \frac{A_j}{A} Y_{\text{lm}} (\theta(\vec r_{ij}), \phi(\vec r_{ij})) \tag{9}
-$$
-where $A_j$ Sis the particle-neighbor weights between particle $i$ and $j$ and $A$ is the total particle-neighbor weights around $i$. In this way, a series of BOO parameters can be calculated according to the above.
+- `Nmax` (`int`): maximum number for neighbors, default 30
 
 ### Return:
 - None
@@ -87,96 +110,95 @@ boo = boo_3d(readdump.snapshots,
              weightsfile='test.facearea.dat')
 ```
 
-## 2. `qlm_Qlm`
-`qlm_Qlm` method gives $q_{lm}$ and $Q_{lm}$ values of different particles in complex numbers, actually in numpy array. The results in
-different snapshots are stored in an array for each of them, separately. And then they are
-returned in a tuple as ($q_{lm}$, $Q_{lm}$). Note that this method will be called automatically when initiallizing `boo_3d` class.
+## 2. `qlm_Qlm()`
+`qlm_Qlm` method gives $q_{lm}$ and $Q_{lm}$ values of different particles in complex vectors as numpy array. The results in
+different snapshots are stored in an array for each of them, separately. Both of them are returned as ($q_{lm}$, $Q_{lm}$). Note that this method will be called automatically when initiallizing the `boo_3d()` class.
 
 ### Input Arguments
 - None
 
 ### Return
-$q_{lm}$ and $Q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
+- $q_{lm}$ and $Q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
 
 ### Example
 ```python
 qlm, Qlm = boo.qlm_Qlm()
 ```
 
-## 3. `ql_Ql`
+## 3. `ql_Ql()`
 `ql_Ql` method calculates $q_l$ (local) or $Q_l$ (coarse-grained).
 
 ### Input Arguments
-- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$
+- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
 - `outputfile` (`str`): txt file name for $q_l$ or $Q_l$ results, default `None`
 
 ### Return
-calculated $q_l$ or $Q_l$ in `np.ndarray` with shape `[nsnapshot, nparticle]`
+- calculated $q_l$ or $Q_l$ in `np.ndarray` with shape `[nsnapshot, nparticle]`
 
 ### Example
 ```python
 Ql = boo.ql_Ql(coarse_graining=True, outputfile='./results/Ql.dat')
 ```
 
-## 4. `sij_ql_Ql`
-`sij_ql_Ql` method calculates the orientation correlation of $q_{lm}$ or $Q_{lm}$, named as $s_{ij}$. 
+## 4. `sij_ql_Ql()`
+`sij_ql_Ql()` method calculates the orientation correlation of $q_{lm}$ or $Q_{lm}$, named as $s_{ij}$ or $S_{ij}$. 
 
 ### Input Arguments
-- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$
+- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
 - `c` (`float`): cutoff defining bond property, such as solid or not, default 0.7
 - `outputqlQl` (`str`): csv file name of ql or Ql, default `None`
 - `outputsij` (`str`): txt file name for sij of ql or Ql, default `None`
 
 ### Return
-- calculated $s_{ij}$ in `np.ndarray`, also stored in `outputsij` file
+- calculated $s_{ij}$ or $S_{ij}$ in `np.ndarray`, also stored in `outputsij` file for each pair
 
 In `outputqlQl` file, the first column is particle index, the second is the sum of $s_{ij}$, and third one is number of neighbors.
 
-`outputsij` file stores the $s_{ij}$ value of each particle with its every neighbor. Results in different snapshots are written in sequence. Thus, this file is very large akin to the neighbor list file. If the value in the list is 0, it represents there is no particle. The non-zero value in a row excluding particle index is equal to its neighbor number. These values are helpful to identify which pair or bond is crystalline using different criterion.
+`outputsij` file stores the $s_{ij}$ value of each particle with each of its neighbors. Results in different snapshots are written in sequence. Thus, this file is very large akin to the neighbor list file. This file is readable by `neighbors.read_neighbors.read_neighbors`.
 
 ### Example
 ```python
 sij_Ql = boo.sij_ql_Ql(coarse_graining=True, 
-                       outputqlQl='./results/sum_sij.dat',
-                       outputsij='./results/sij_Ql.dat')
+                       outputqlQl='sum_sij.dat',
+                       outputsij='sij_Ql.dat')
 ```
 
 ## 5. `w_W_cap`
-`w_W_cap` calculates wigner 3-j symbol boo based on qlm or Qlm (eqution (3) and (4)).
+`w_W_cap` calculates the Wigner 3-j symbol boo based on qlm or Qlm.
 
 ### Input Arguments
-- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$
+- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
 - `outputw` (`str`): txt file name for w (original) based on $q_{lm}$ or $Q_{lm}$
 - `outputwcap` (`str`): txt file name for wcap (normalized) based on $q_{lm}$ or $Q_{lm}$
 
 ### Return
-calculated $w$ and $w_{cap}$ (`np.adarray`) or $W$ and $W_{cap}$ (`np.adarray`) with shape `[nsnapshot, nparticle]`
+- calculated $w$ and $w_{cap}$ (`np.adarray`) or $W$ and $W_{cap}$ (`np.adarray`) with shape `[nsnapshot, nparticle]`
 
 ### Example
 ```python
 W, W_cap = boo.w_W_cap(coarse_graining=True, 
-                       outputw='./results/W.dat',
-                       outputwcap='./results/W_cap.dat')
+                       outputw='W.dat',
+                       outputwcap='W_cap.dat')
 ```
 
-## 6. `spatial_corr`
-`spatial_corr` method calculates spatial correlation function of $q_{lm}$ or $Q_{lm}$
+## 6. `spatial_corr()`
+`spatial_corr()` method calculates spatial correlation function of $q_{lm}$ or $Q_{lm}$
 
 ### Inputs
-- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$
+- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
 - `rdelta` (`float`): bin size in calculating g(r) and Gl(r)
 - `outputfile` (`str`): csv file name for $g_l$, default `None`
   
 ### Example
 ```python
-Gl_Q = boo.spatial_corr(coarse_graining=True, outputfile='./results/Gl_Q.csv')
+Gl_Q = boo.spatial_corr(coarse_graining=True, outputfile='Gl_Q.csv')
 ```
 
-## 7. `time_corr`
-`time_corr` method calculates time correlation of $q_{lm}$ or $Q_{lm}$
+## 7. `time_corr()`
+`time_corr()` method calculates time correlation of $q_{lm}$ or $Q_{lm}$
 
 ### Inputs
-- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$
+- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
 - `dt` (`float`): timestep used in user simulations, default 0.002
 - `outputfile` (`str`): csv file name for time correlation results, default `None`
 
