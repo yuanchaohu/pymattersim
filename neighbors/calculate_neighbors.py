@@ -19,7 +19,7 @@ logger = get_logger_handle(__name__)
 def Nnearests(
         snapshots: Snapshots,
         N: int=12,
-        ppp: list=[1,1,1],
+        ppp: np.ndarray=np.array([1,1,1]),
         fnfile: str='neighborlist.dat'
     ) -> None:
     """
@@ -31,9 +31,9 @@ def Nnearests(
 
         2. N (int): the number of nearest neighbors, default=12
 
-        3. ppp (list): the periodic boundary conditions, setting 1 for yes and 0 for no
-                       default [1,1,1], that is, PBC is applied in all three dimensions for 3D box.
-                       set [1, 1] for two-dimensional systems
+        3. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no
+                       default np.array([1,1,1]), that is, PBC is applied in all three dimensions for 3D box.
+                       set np.array([1,1]) for two-dimensional systems
 
         4. fnfile (str): the name of output file that stores the calculated neighborlist
                          default is 'neighborlist.dat'
@@ -73,7 +73,7 @@ def Nnearests(
 def cutoffneighbors(
         snapshots: Snapshots,
         r_cut: float,
-        ppp: list=[1,1,1],
+        ppp: np.ndarray=np.array([1,1,1]),
         fnfile: str='neighborlist.dat'
     ) -> None:
     """
@@ -84,9 +84,9 @@ def cutoffneighbors(
 
         2. r_cut (float): the global cutoff distance to screen the nearest neighbors
 
-        3. ppp (list): the periodic boundary conditions, setting 1 for yes and 0 for no
-                       default [1, 1, 1], that is, PBC is applied in all three dimensions for 3D box
-                       set [1,1] for two dimensional systems
+        3. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no
+                       default np.array([1,1,1]), that is, PBC is applied in all three dimensions for 3D box
+                       set np.array([1,1]) for two dimensional systems
 
         4. fnfile (str): the name of output file that stores the calculated neighborlist
                          default is 'neighborlist.dat'
@@ -125,7 +125,7 @@ def cutoffneighbors(
 def cutoffneighbors_particletype(
         snapshots: Snapshots,
         r_cut: np.ndarray,
-        ppp: list=[1,1,1],
+        ppp: np.ndarray=np.array([1,1,1]),
         fnfile: str='neighborlist.dat'
     ) -> None:
     """
@@ -140,9 +140,9 @@ def cutoffneighbors_particletype(
                              Usually, these cutoff distances can be determined as the position of
                              the first valley in partial pair correlation function of each pair.
 
-        3. ppp (list): the periodic boundary conditions, setting 1 for yes and 0 for no
-                       default [1, 1, 1], that is, PBC is applied in all three dimensions for 3D box
-                       set [1,1] for two-dimensional system
+        3. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no
+                       default np.array([1,1,1]), that is, PBC is applied in all three dimensions for 3D box
+                       set np.array([1,1]) for two-dimensional system
 
         4. fnfile (str): the name of output file that stores the calculated neighborlist
                          default is 'neighborlist.dat'

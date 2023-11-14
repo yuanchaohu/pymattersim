@@ -52,7 +52,7 @@ The module `utils.pbc` removes periodic boundary conditions (PBC).
 ## Input Arguments
 - `RIJ` (`np.ndarray`): position difference between particle pairs $i$ and $j$
 - `hmatrix` (`np.ndarray`): h-matrix of the box
-- `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no. Default `[1, 1, 1]`, that is, PBC is applied in all three dimensions for 3D box
+- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no. Default `np.array([1, 1, 1])`, that is, PBC is applied in all three dimensions for 3D box
 
 ## Return
 - A `np.ndarray` for the position difference between particle pairs $i$ and $j$ after removing PBC
@@ -61,7 +61,7 @@ The module `utils.pbc` removes periodic boundary conditions (PBC).
 ```python
 from utils.pbc import remove_pbc
 
-remove_pbc(RIJ, hmatrix, ppp=[1,1,1])
+remove_pbc(RIJ, hmatrix, ppp=np.array([1, 1, 1]))
 ```
 
 # III. geometry
@@ -74,7 +74,7 @@ remove_pbc(RIJ, hmatrix, ppp=[1,1,1])
 ### Input Arguments
 - `positions` (`np.ndarray`): numpy array of particle positions, `shape=(3, 2)` for 2D, `shape=(3, 3)` for 3D
 - `hmatrix` (`np.ndarray`): h-matrix of the box
-- `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no. default [1, 1], that is, PBC is applied in all two dimensions
+- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no. default `np.array([1, 1])`, that is, PBC is applied in all two dimensions
 
 ### Return
 - area of triangle (float)

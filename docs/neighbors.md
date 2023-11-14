@@ -83,9 +83,9 @@ In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `N` (`int`): the specified number of nearest neighbors, default 12
-- `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
+- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no
 
-  default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for two-dimensional system.
+  default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for two-dimensional system.
 - `fnfile` (`str`): the name of output file that stores the neighbor list, default ***neighborlist.dat***
 
 #### Example
@@ -99,7 +99,7 @@ filename = 'dump.atom'
 readdump = DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS, moltypes=None)
 readdump.read_onefile()
 
-Nnearests(readdump.snapshots, N=12, ppp=[1,1,1], fnfile='neighborlist.dat')
+Nnearests(readdump.snapshots, N=12, ppp=np.array([1,1,1]), fnfile='neighborlist.dat')
 ```
 
 ### 2. cutoffneighbors
@@ -110,9 +110,9 @@ Nnearests(readdump.snapshots, N=12, ppp=[1,1,1], fnfile='neighborlist.dat')
 
 - `snapshots` (`reader.reader_utils.Snapshots`):`Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `r_cut` (`float`): the global cutoff distance to screen the nearest neighbors
-- `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
+- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no
 
-  default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for two-dimensional system.
+  default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for two-dimensional system.
 - `fnfile` (`str`): the name of output file that stores the neighbor list, default ***neighborlist.dat***
 
 #### Example
@@ -126,7 +126,7 @@ filename = 'dump.atom'
 readdump = DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS, moltypes=None)
 readdump.read_onefile()
 
-cutoffneighbors(readdump.snapshots, r_cut=3.8, ppp=[1,1,1], fnfile='neighborlist.dat')
+cutoffneighbors(readdump.snapshots, r_cut=3.8, ppp=np.array([1,1,1]), fnfile='neighborlist.dat')
 ```
 
 ### 3. cutoffneighbors_particletype
@@ -146,9 +146,9 @@ Usually, these cutoff distances can be determined as the position of the individ
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `r_cut` (`np.ndarray`): the cutoff distances of each particle pair
-- `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
+- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no
 
-  default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for a two-dimensional system
+  default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for a two-dimensional system
 - `fnfile` (`str`): the name of output file that stores the neighbor list, default ***neighborlist.dat***
 
 #### Example
@@ -169,7 +169,7 @@ r_cut[0, 0] = 3.6
 r_cut[0, 1] = 3.4
 r_cut[1, 0] = 3.4
 r_cut[1, 1] = 3.9
-cutoffneighbors_particletype(readdump.snapshots, r_cut=r_cut, ppp=[1,1,1], fnfile='neighborlist.dat')
+cutoffneighbors_particletype(readdump.snapshots, r_cut=r_cut, ppp=np.array([1,1,1]), fnfile='neighborlist.dat')
 ```
 
 ### III. Freud Neighbors
