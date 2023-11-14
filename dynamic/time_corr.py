@@ -18,10 +18,9 @@ def time_correlation(
     """calculate the time correlation of the condition"""
 
     logger.info("Calculate time correlation of input conditional property")
-    results = np.zeros((snapshots.nsnapshots, 2))
+    results = np.zeros(snapshots.nsnapshots)
     counts = np.zeros(snapshots.nsnapshots)
     timesteps = np.array([snapshot.timestep for snapshot in snapshots.snapshots])
-    results[:, 0] = (timesteps - timesteps[0]) * dt
 
     # linear output -- moving average
     if len(set(np.diff(timesteps)))==1:
@@ -29,13 +28,14 @@ def time_correlation(
             for nn in range(n+1):
                 results[nn] += (condition[n] * np.conj(condition[n-nn])).sum().real
                 counts[nn] += 1
-        results[:, 1] /= counts
+        results /= counts
 
     # log output -- single calculation
     else:
         for n in range(snapshots.nsnapshots):
             results[n] = (condition[n] * np.conj(condition[0])).sum().real
 
+    results = np.column_stack(((timesteps - timesteps[0])*dt, results))
     results = pd.DataFrame(results, columns="t time_corr".split())
     if outputfile:
         results.to_csv(outputfile, float_format="%.6f", index=False)
