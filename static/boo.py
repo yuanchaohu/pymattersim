@@ -91,7 +91,7 @@ class boo_3d:
         # for easy reuse and extendability
         self.smallqlm, self.largeQlm = self.qlm_Qlm()
 
-    def qlm_Qlm(self) -> np.ndarray:
+    def qlm_Qlm(self) -> Tuple[np.ndarray, np.ndarray]:
         """
         BOO of the l-fold symmetry as a 2l + 1 vector
 
@@ -158,7 +158,7 @@ class boo_3d:
 
     def ql_Ql(self, coarse_graining: bool=False, outputfile: str=None) -> np.ndarray:
         """
-        Calculate BOO ql (original) or Ql (coarse-grain)
+        Calculate BOO ql (local) or Ql (coarse-grained)
 
         Inputs:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
@@ -197,7 +197,7 @@ class boo_3d:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
             2. c (float): cutoff defining bond property, such as solid or not, default 0.7
-            3. outputqlQl (str): txt file name of ql or Ql, default None
+            3. outputqlQl (str): csv file name of ql or Ql, default None
             4. outputsij (str): txt file name for sij of ql or Ql, default None
 
         Return:
@@ -252,6 +252,50 @@ class boo_3d:
         logger.info(f'Finish calculating bond property sij for l={self.l}')
         return resultssij
 
+    def w_W_cap(
+        self,
+        coarse_graining: bool=False,
+        outputw: str=None,
+        outputwcap: str=None
+    ) -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Calculate wigner 3-j symbol boo based on qlm or Qlm
+
+        Inputs:
+            1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
+                                       default False
+            2. outputw (str): txt file name for w (original) based on qlm or Qlm
+            3. outputwcap (str): txt file name for wcap (normalized) based on qlm or Qlm
+
+        Return:
+            calculated w and wcap (np.adarray) or W and Wcap (np.adarray)
+            shape [nsnapshot, nparticle]
+        """
+        if coarse_graining:
+            cal_qlmQlm = self.largeQlm
+            logger.info(f'Start calculating coarse-grained Wigner 3-j symbol boo for l={self.l}')
+        else:
+            cal_qlmQlm = self.smallqlm
+            logger.info(f'Start calculating local Wigner 3-j symbol boo for l={self.l}')
+
+        w_W = np.zeros((cal_qlmQlm.shape[0], cal_qlmQlm.shape[1]))
+        Windex = Wignerindex(self.l)
+        w3j = Windex[:, 3]
+        Windex = Windex[:, :3].astype(np.int64) + self.l
+        for n in range(cal_qlmQlm.shape[0]):
+            for i in range(cal_qlmQlm.shape[1]):
+                w_W[n, i] = (np.real(np.prod(cal_qlmQlm[n, i, Windex], axis=1))*w3j).sum()
+
+        if outputw:
+            np.savetxt(outputw, w_W, fmt="%.6f", header="", comments="")
+
+        w_W_cap = np.power(np.square(np.abs(cal_qlmQlm)).sum(axis=2), -3/2) * w_W
+        if outputwcap:
+            np.savetxt(outputwcap, w_W_cap, fmt="%.6f", header="", comments="")
+
+        logger.info(f'Finish calculating wigner 3-j symbol boo for l={self.l}')
+        return w_W, w_W_cap
+
     def spatial_corr(
         self,
         coarse_graining: bool=False,
@@ -293,50 +337,6 @@ class boo_3d:
         logger.info(f'Finish calculating spatial correlation for l={self.l}')
         return glresults
 
-    def w_W_cap(
-        self,
-        coarse_graining: bool=False,
-        outputw: str=None,
-        outputwcap: str=None
-    ) -> Tuple[np.ndarray, np.ndarray]:
-        """
-        Calculate wigner 3-j symbol boo based on qlm or Qlm
-
-        Inputs:
-            1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
-                                       default False
-            2. outputw (str): txt file name for w (original) based on qlm or Qlm
-            3. outputwcap (str): txt file name for wcap (normalized) based on qlm or Qlm
-
-        Return:
-            calculated w and wcap (np.adarray) or W and Wcap (np.adarray)
-            shape [nsnapshot, nparticle]
-        """
-        if coarse_graining:
-            cal_qlmQlm = self.largeQlm
-            logger.info(f'Start calculating coarse-grained Wigner 3-j symbol boo for l={self.l}')
-        else:
-            cal_qlmQlm = self.smallqlm
-            logger.info(f'Start calculating local Wigner 3-j symbol boo for l={self.l}')
-
-        w_W = np.zeros((cal_qlmQlm.shape[0], cal_qlmQlm.shape[1]))
-        Windex = Wignerindex(self.l)
-        w3j = Windex[:, 3]
-        Windex = Windex[:, :3].astype(np.int64) + self.l
-        for n in range(cal_qlmQlm.shape[0]):
-            for i in range(cal_qlmQlm.shape[1]):
-                w_W[n, i] = (np.real(np.prod(cal_qlmQlm[n, i, Windex], axis=1))*w3j).sum()
-
-        if outputw:
-            np.savetxt(outputw, w_W, fmt="%.6f", header="", comments="")
-
-        w_W_cap = np.power(np.square(np.abs(cal_qlmQlm)).sum(axis=2), -3/2).T * w
-        if outputwcap:
-            np.savetxt(outputwcap, w_W_cap, fmt="%.6f", header="", comments="")
-
-        logger.info(f'Finish calculating wigner 3-j symbol boo for l={self.l}')
-        return w_W, w_W_cap
-
     def time_corr(
         self,
         coarse_graining: bool=False,
@@ -349,7 +349,7 @@ class boo_3d:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
             2. dt (float): timestep used in user simulations, default 0.002
-            2. outputfile (str): txt file name for time correlation results, default None
+            2. outputfile (str): csv file name for time correlation results, default None
         
         Return:
             time correlation quantity (pd.DataFrame)
