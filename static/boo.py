@@ -216,7 +216,7 @@ class boo_3d:
         # particle-level information
         results = np.zeros((1, 3))
         # particle-neighbors information, with number of neighbors
-        resultssij = np.zeros((1, self.Nmax + 1))
+        resultssij = np.zeros((1, self.Nmax + 1))   # I comment this
         for n, snapshot in enumerate(self.snapshots.snapshots):
             Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
             sij = np.zeros((snapshot.nparticle, self.Nmax))
@@ -235,7 +235,8 @@ class boo_3d:
             sijresults[:, 1] = (np.where(sij>c, 1, 0)).sum(axis=1)
             sijresults[:, 2] = Neighborlist[:, 0]
             results = np.vstack((results, sijresults))
-            resultssij = np.vstack((resultssij, np.column_stack((Neighborlist[:, 0], sij))))
+            # resultssij = np.vstack((resultssij, np.column_stack((Neighborlist[:, 0], sij))))    # I comment this
+            resultssij = np.hstack(((np.arange(self.nparticle)+1)[:,np.newaxis], resultssij))    # added
 
         if outputqlQl:
             results = pd.DataFrame(results[1:], columns="id sum_sij num_neighbors".split())
@@ -244,8 +245,8 @@ class boo_3d:
         max_neighbors = int(resultssij[:, 0].max())
         resultssij = resultssij[1:, :int(1+max_neighbors)]
         if outputsij:
-            names = 'CN sij'
-            formatsij = '%d ' + '%.6f ' * max_neighbors
+            names = 'id CN sij'    # changed
+            formatsij = '%d ' * 2 + '%.6f ' * max_neighbors  # changed
             np.savetxt(outputsij, resultssij, fmt=formatsij, header=names, comments='')
 
         fneighbor.close()
