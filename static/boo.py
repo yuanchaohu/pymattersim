@@ -190,7 +190,7 @@ class boo_3d:
         c: float=0.7,
         outputqlQl: str=None,
         outputsij: str=None
-    ) -> np.ndarray:
+    ) -> list[np.ndarray]:
         """
         Calculate orientation correlation of qlm or Qlm, named as sij
 
@@ -202,7 +202,7 @@ class boo_3d:
             4. outputsij (str): txt file name for sij of ql or Ql, default None
 
         Return:
-            calculated sij (np.ndarray)
+            calculated sij (np.ndarray in a list for each snapshot)
         """
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
@@ -238,8 +238,7 @@ class boo_3d:
             sijresults[:, 1] = (np.where(sij>c, 1, 0)).sum(axis=1)
             sijresults[:, 2] = Neighborlist[:, 0]
             results.append(sijresults)
-            if outputsij:
-                resultssij.append(np.column_stack((sijresults[:, 0], Neighborlist[:, 0], sij)))
+            resultssij.append(np.column_stack((sijresults[:, 0], Neighborlist[:, 0], sij)))
 
         results = np.concatenate(results, axis=0)
         if outputqlQl:
@@ -247,15 +246,12 @@ class boo_3d:
             results.to_csv(outputqlQl, float_format="%d", index=False)
 
         if outputsij:
+            resultssij = np.concatenate(resultssij, axis=0)
             names = 'id CN sij'
-            fsij = open(outputsij, "w", encoding="utf-8")
-            for sij in resultssij:
-                max_neighbors = int(sij[:, 1].max())
-                sij = sij[:, :2+max_neighbors]
-                np.set_printoptions(threshold=np.inf, linewidth=np.inf)
-                fsij.write(names+"\n")
-                fsij.write(re.sub(r'[\[\]]', ' ', np.array2string(sij) + '\n'))
-            fsij.close()
+            max_neighbors = int(resultssij[:, 1].max())
+            resultssij = resultssij[:, 2+max_neighbors]
+            data_format = "%d "*2 + "%.6f"*max_neighbors
+            np.savetxt(outputsij, resultssij, header=names, fmt=data_format, comments="")
 
         fneighbor.close()
         logger.info(f'Finish calculating bond property sij for l={self.l}')
