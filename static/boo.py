@@ -8,6 +8,7 @@ see documentation @ ../docs/boo_3d.md &
 see documentation @ ../docs/boo_2d.md
 """
 
+import re
 from typing import Tuple
 import numpy as np
 import pandas as pd
@@ -214,17 +215,19 @@ class boo_3d:
 
         fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
         # particle-level information
-        results = np.zeros((1, 3))
+        results = []
         # particle-neighbors information, with number of neighbors
-        resultssij = np.zeros((1, self.Nmax + 1))   # I comment this
+        resultssij = []
         for n, snapshot in enumerate(self.snapshots.snapshots):
             Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
             sij = np.zeros((snapshot.nparticle, self.Nmax))
             sijresults = np.zeros((snapshot.nparticle, 3))
+
             if (Neighborlist[:, 0] > self.Nmax).any():
                 raise ValueError(
                     f'increase Nmax to include all neighbors, current is {self.Nmax}'
                 )
+
             for i in range(snapshot.nparticle):
                 cnlist = Neighborlist[i, 1:Neighborlist[i, 0]+1]
                 sijup = (cal_qlmQlm[n, i][np.newaxis, :] * np.conj(cal_qlmQlm[n, cnlist])).sum(axis=1)
@@ -234,20 +237,25 @@ class boo_3d:
             sijresults[:, 0] = np.arange(self.nparticle) + 1
             sijresults[:, 1] = (np.where(sij>c, 1, 0)).sum(axis=1)
             sijresults[:, 2] = Neighborlist[:, 0]
-            results = np.vstack((results, sijresults))
-            # resultssij = np.vstack((resultssij, np.column_stack((Neighborlist[:, 0], sij))))    # I comment this
-            resultssij = np.hstack(((np.arange(self.nparticle)+1)[:,np.newaxis], resultssij))    # added
+            results.append(sijresults)
+            if outputsij:
+                resultssij.append(np.column_stack((sijresults[:, 0], Neighborlist[:, 0], sij)))
 
+        results = np.concatenate(results, axis=0)
         if outputqlQl:
-            results = pd.DataFrame(results[1:], columns="id sum_sij num_neighbors".split())
+            results = pd.DataFrame(results, columns="id sum_sij num_neighbors".split())
             results.to_csv(outputqlQl, float_format="%d", index=False)
 
-        max_neighbors = int(resultssij[:, 0].max())
-        resultssij = resultssij[1:, :int(1+max_neighbors)]
         if outputsij:
-            names = 'id CN sij'    # changed
-            formatsij = '%d ' * 2 + '%.6f ' * max_neighbors  # changed
-            np.savetxt(outputsij, resultssij, fmt=formatsij, header=names, comments='')
+            names = 'id CN sij'
+            fsij = open(outputsij, "w", encoding="utf-8")
+            for sij in resultssij:
+                max_neighbors = sij[:, 1].max()
+                sij = sij[:, :2+max_neighbors]
+                np.set_printoptions(threshold=np.inf, linewidth=np.inf)
+                fsij.write(names+"\n")
+                fsij.write(re.sub(r'[\[\]]', ' ', np.array2string(sij) + '\n'))
+            fsij.close()
 
         fneighbor.close()
         logger.info(f'Finish calculating bond property sij for l={self.l}')
