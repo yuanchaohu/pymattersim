@@ -220,7 +220,7 @@ class boo_3d:
         resultssij = []
         for n, snapshot in enumerate(self.snapshots.snapshots):
             Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
-            sij = np.zeros((snapshot.nparticle, self.Nmax))
+            sij = np.zeros((snapshot.nparticle, self.Nmax), dtype=np.float32)
             sijresults = np.zeros((snapshot.nparticle, 3))
 
             if (Neighborlist[:, 0] > self.Nmax).any():
@@ -250,7 +250,7 @@ class boo_3d:
             names = 'id CN sij'
             fsij = open(outputsij, "w", encoding="utf-8")
             for sij in resultssij:
-                max_neighbors = sij[:, 1].max()
+                max_neighbors = int(sij[:, 1].max())
                 sij = sij[:, :2+max_neighbors]
                 np.set_printoptions(threshold=np.inf, linewidth=np.inf)
                 fsij.write(names+"\n")
