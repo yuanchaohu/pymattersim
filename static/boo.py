@@ -249,8 +249,8 @@ class boo_3d:
             resultssij = np.concatenate(resultssij, axis=0)
             names = 'id CN sij'
             max_neighbors = int(resultssij[:, 1].max())
-            resultssij = resultssij[:, 2+max_neighbors]
-            data_format = "%d "*2 + "%.6f"*max_neighbors
+            resultssij = resultssij[:, :2+max_neighbors]
+            data_format = "%d "*2 + "%.6f "*max_neighbors
             np.savetxt(outputsij, resultssij, header=names, fmt=data_format, comments="")
 
         fneighbor.close()

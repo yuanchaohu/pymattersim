@@ -133,7 +133,7 @@ qlm, Qlm = boo.qlm_Qlm()
 - `outputfile` (`str`): txt file name for $q_l$ or $Q_l$ results, default `None`
 
 ### Return
-- calculated $q_l$ or $Q_l$ in `np.ndarray` with shape `[nsnapshot, nparticle]`
+- calculated $q_l$ or $Q_l$ in `np.ndarray` with shape `[nsnapshots, nparticle]`
 
 ### Example
 ```python
@@ -146,20 +146,20 @@ Ql = boo.ql_Ql(coarse_graining=True, outputfile='./results/Ql.dat')
 ### Input Arguments
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
 - `c` (`float`): cutoff defining bond property, such as solid or not, default 0.7
-- `outputqlQl` (`str`): csv file name of ql or Ql, default `None`
-- `outputsij` (`str`): txt file name for sij of ql or Ql, default `None`
+- `outputqlQl` (`str`): csv file name of $q_l$ or $Q_l$, default `None`
+- `outputsij` (`str`): txt file name for $s_{ij}$ of $q_l$ or $Q_l$, default `None`
 
 ### Return
-- calculated $s_{ij}$ or $S_{ij}$ in `np.ndarray`, also stored in `outputsij` file for each pair
+- calculated $s_{ij}$ or $S_{ij}$ in `np.ndarray` with shape `[nsnapshots*nparticle, 2+max_neighbors]`, where `max_neighbors` is the maximum number of neighbors and the first two columns are particle index and coordination number. The returned result is also stored in `outputsij` file for each pair
 
 In `outputqlQl` file, the first column is particle index, the second is the sum of $s_{ij}$, and third one is number of neighbors.
 
-`outputsij` file stores the $s_{ij}$ value of each particle with each of its neighbors. Results in different snapshots are written in sequence. Thus, this file is very large akin to the neighbor list file. This file is readable by `neighbors.read_neighbors.read_neighbors`.
+`outputsij` file stores the $s_{ij}$ value of each particle with each of its neighbors. Results in different snapshots are written in sequence, with one header "id cn sij".
 
 ### Example
 ```python
 sij_Ql = boo.sij_ql_Ql(coarse_graining=True, 
-                       outputqlQl='sum_sij.dat',
+                       outputqlQl='sum_sij.csv',
                        outputsij='sij_Ql.dat')
 ```
 
@@ -172,7 +172,7 @@ sij_Ql = boo.sij_ql_Ql(coarse_graining=True,
 - `outputwcap` (`str`): txt file name for wcap (normalized) based on $q_{lm}$ or $Q_{lm}$
 
 ### Return
-- calculated $w$ and $w_{cap}$ (`np.adarray`) or $W$ and $W_{cap}$ (`np.adarray`) with shape `[nsnapshot, nparticle]`
+- calculated $w$ and $w_{cap}$ (`np.adarray`) or $W$ and $W_{cap}$ (`np.adarray`) with shape `[nsnapshots, nparticle]`
 
 ### Example
 ```python
