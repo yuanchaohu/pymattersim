@@ -25,7 +25,7 @@ def conditional_gr(
     snapshot: SingleSnapshot,
     condition: np.ndarray,
     conditiontype: str=None,
-    ppp: list=[1,1,1],
+    ppp: np.ndarray=np.array([1,1,1]),
     rdelta: float=0.01,
 ) -> pd.DataFrame:
     """
@@ -43,9 +43,9 @@ def conditional_gr(
         2. condition (np.ndarray): particle-level condition for g(r)
         3. conditiontype (str): whether condition is vector or tensor, 
                                 choosing from None (default), vector, tensor
-        4. ppp (list): the periodic boundary conditions,
-                       setting 1 for yes and 0 for no, default [1,1,1],
-                       set [1, 1] for two-dimensional systems
+        4. ppp (np.ndarray): the periodic boundary conditions,
+                       setting 1 for yes and 0 for no, default np.array([1,1,1]),
+                       set np.array([1,1]) for two-dimensional systems
         5. rdelta (float): bin size calculating g(r), default 0.01
 
     Return:
@@ -69,12 +69,14 @@ def conditional_gr(
     else:
         if conditiontype=="vector":
             logger.info("Calculate spatial correlation gA of vector-type physical quantity 'A'")
+            conj_condition = np.conj(condition)
         elif conditiontype=="tensor":
             logger.info("Calculate spatial correlation gA of tensor-type physical quantity 'A'")
+            conj_condition = condition.copy()
         else:
             logger.info("Calculate spatial correlation gA of float-scalar physical quantity 'A'")
             norminator = True
-        conj_condition = condition.copy()
+            conj_condition = condition.copy()
 
     if not conditiontype:
         for i in range(snapshot.nparticle-1):
@@ -97,7 +99,7 @@ def conditional_gr(
             countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta))
             grresults["gr"] += countvalue
             # spatial correlation of vectors
-            SIJ = (condition[i+1:] * conj_condition[i][np.newaxis,:]).sum(axis=1)
+            SIJ = (condition[i+1:] * conj_condition[i][np.newaxis,:]).sum(axis=1).real
             countvalue, binedge = np.histogram(distance, bins=maxbin, range=(0, maxbin*rdelta), weights=SIJ)
             grresults["gA"] += countvalue
     elif conditiontype=="tensor":
@@ -147,7 +149,7 @@ class gr:
     def __init__(
             self,
             snapshots: Snapshots,
-            ppp: list=[1,1,1],
+            ppp: np.ndarray=np.array([1,1,1]),
             rdelta: float=0.01,
             outputfile: str=None
             ) -> None:
@@ -157,9 +159,9 @@ class gr:
         Inputs:
             1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
                          (returned by reader.dump_reader.DumpReader)
-            2. ppp (list): the periodic boundary conditions,
-                           setting 1 for yes and 0 for no, default [1,1,1],
-                           set [1, 1] for two-dimensional systems
+            2. ppp (np.ndarray): the periodic boundary conditions,
+                           setting 1 for yes and 0 for no, default np.ndarray=np.array([1,1,1]),
+                           set np.ndarray=np.array([1,1]) for two-dimensional systems
             3. rdelta (float): bin size calculating g(r), the default value is 0.01
             4. outputfile (str): the name of csv file to save the calculated g(r)
 

@@ -17,7 +17,7 @@ logger = get_logger_handle(__name__)
 def triangle_area(
     positions: np.ndarray,
     hmatrix: np.ndarray,
-    ppp: list=[1,1]
+    ppp: np.ndarray=np.array([1,1])
 ) -> float:
     """
     claculate the area of a triangle using Heron's equation
@@ -26,8 +26,8 @@ def triangle_area(
         1. positions (np.ndarray): numpy array of particle positions,
                                  shape=(3, 2) for 2D, shape=(3, 3) for 3D
         2. hmatrix (np.ndarray): h-matrix of the box
-        3. ppp (list): the periodic boundary conditions, setting 1 for yes and 0 for no
-                       default [1, 1], that is, PBC is applied in all two dimensions
+        3. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no
+                       default np.array([1,1]), that is, PBC is applied in all two dimensions
 
     Return:
         area of triangle (float)

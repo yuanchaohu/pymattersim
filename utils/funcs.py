@@ -3,6 +3,7 @@
 """mathmatical functions for feasible computation"""
 
 import numpy as np
+from sympy.physics.wigner import wigner_3j
 from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -56,3 +57,23 @@ def moment_of_inertia(
         return Iij
     else:
         return np.array([Iij[0,0], Iij[1,1], Iij[2,2], Iij[0,1], Iij[0,2], Iij[1,2]])
+
+def Wignerindex(l :int) -> np.ndarray:
+    """
+    Define Wigner 3-j symbol
+
+    Inputs:
+        l (int): degree of harmonics
+
+    Return:
+        Wigner 3-j symbol (np.ndarray)
+    """
+    selected = []
+    for m1 in range(-l, l + 1):
+        for m2 in range(-l, l + 1):
+            for m3 in range(-l, l + 1):
+                if m1 + m2 + m3 ==0:
+                    windex = wigner_3j(l, l, l, m1, m2, m3).evalf()
+                    selected.append(np.array([m1, m2, m3, windex]))
+
+    return np.ravel(np.array(selected)).reshape(-1, 4)

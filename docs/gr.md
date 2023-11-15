@@ -28,9 +28,9 @@ The spatial correlation function of particle-level quantity $A_i$ is $g_A(r) / g
 
 #### Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
-- `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
+- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no
   
-  default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for two-dimensional system.
+  default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for two-dimensional system.
 - `rdelta` (`float`): bin size calculating g(r), default 0.01
 - `outputfile` (`str`): the name of csv file to save the calculated g(r)
 
@@ -45,7 +45,7 @@ filename = 'dump.atom'
 readdump = DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS, moltypes=None)
 readdump.read_onefile()
 
-gr_cal = gr(readdump.snapshots, ppp=[1,1,1], rdelta=0.01, outputfile='gr.csv')
+gr_cal = gr(readdump.snapshots, ppp=np.array([1,1,1]), rdelta=0.01, outputfile='gr.csv')
 ```
 
 ### `getresults()`
@@ -70,9 +70,9 @@ The calculated $g(r)$ is storted in the `outputfile`. Taken ternary sytem as an 
 - `snapshot` (`reader.reader_utils.SingleSnapshot`): single snapshot object of input trajectory
 - `condition` (`np.ndarray`): particle-level property for g(r)
 - `condition_type` (`str`): whether condition is vector or tensor, choosing from None (default), 'vector', 'tensor'
-- `ppp` (`list`): the periodic boundary conditions, setting 1 for yes and 0 for no
+- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no
   
-  default `[1,1,1]`, that is, PBC is applied in all three dimensions for 3D box. Set `[1,1]` for two-dimensional system.
+  default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for two-dimensional system.
 - `rdelta` (`float`): bin size calculating g(r), default 0.01
 
 ### Return

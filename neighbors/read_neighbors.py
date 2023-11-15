@@ -36,7 +36,7 @@ def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.ndarray:
         For particles with coordination number less than `Nmax_fact` (which is generally the case),
         the unoccupied positions in `neighborprop` (see source code) are padded with `0`.
     """
-    logger.info("Start reading neighboring particle properties")
+    logger.info("Reading neighboring particle properties")
 
     header = f.readline().split()  # header
     neighborprop = np.zeros((nparticle, Nmax + 1))
@@ -77,7 +77,5 @@ def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.ndarray:
 
     if 'neighborlist' in header:  # neighbor list should be integer
         neighborprop = neighborprop.astype(np.int32)
-
-    logger.info("Finish reading neighboring particle properties")
 
     return neighborprop
