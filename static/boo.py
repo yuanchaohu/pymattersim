@@ -549,7 +549,7 @@ class boo_2d:
         for n, snapshot in enumerate(self.snapshots.snapshots):
             glresults += conditional_gr(
                 snapshot=snapshot,
-                condition=ParticlePhi[n],
+                condition=self.ParticlePhi[n],
                 conditiontype=None,
                 ppp=self.ppp,
                 rdelta=rdelta
