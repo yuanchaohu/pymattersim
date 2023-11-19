@@ -562,12 +562,12 @@ class boo_2d:
         return glresults
 
     def time_corr(
-            self,
-            dt: float=0.002,
-            outputfile: str=None
+        self,
+        dt: float=0.002,
+        outputfile: str=None
     ) -> pd.DataFrame:
         """
-        Calculate time correlation of phi in 2D system
+        Calculate time correlation of the orientational order parameter
 
         Inputs:
             1. dt (float): timestep used in user simulations, default 0.002
@@ -578,15 +578,13 @@ class boo_2d:
         """
         logger.info(f'Start calculating time correlation of phi for l={self.l}')
 
-        ParticlePhi = self.lthorder()
         gl_time = time_correlation(
             snapshots=self.snapshots,
-            condition=ParticlePhi,
+            condition=self.ParticlePhi,
             dt=dt
         )
 
         # normalization
-        gl_time["time_corr"] *= 4*np.pi/(2*self.l+1)
         gl_time["time_corr"] /= gl_time.loc[0, "time_corr"]
         if outputfile:
             gl_time.to_csv(outputfile, float_format="%.6f", index=False)
