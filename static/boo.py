@@ -514,10 +514,10 @@ class boo_2d:
                 np.savetxt(outputfile+'_modulus.dat', modulus, fmt="%.6f", header="", comments="")
                 np.savetxt(outputfile+"_phase.dat", phase, fmt="%.6f", header="", comments="")
                 np.savetxt(
-                    outputfile+"_snapshot_id.dat", 
+                    outputfile+"_snapshot_id.dat",
                     average_snapshot_id[:, np.newaxis],
                     fmt="%d", header="middle_snapshot_id", comments="")
-            return modulus, phase, average_snapshot_id
+            return modulus, phase, average_quantity, average_snapshot_id
 
         # original
         logger.info("Calculate orignal modulus and phase of the order parameter")
@@ -529,12 +529,12 @@ class boo_2d:
         return modulus, phase
 
     def spatial_corr(
-            self,
-            rdelta: float=0.01,
-            outputfile: str=None
+        self,
+        rdelta: float=0.01,
+        outputfile: str=None
     ) -> pd.DataFrame:
         """
-        Calculate spatial correlation of phi in 2D system
+        Calculate spatial correlation of the orientational order parameter
 
         Inputs:
             1. rdelta (float): bin size in calculating g(r) and Gl(r), default 0.01
@@ -542,11 +542,9 @@ class boo_2d:
 
         Return:
             calculated gl(r) based on phi
-
         """
         logger.info(f'Start calculating spatial correlation of phi for l={self.l}')
 
-        ParticlePhi = self.lthorder()
         glresults = 0
         for n, snapshot in enumerate(self.snapshots.snapshots):
             glresults += conditional_gr(
