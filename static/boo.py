@@ -396,7 +396,7 @@ class boo_2d:
             neighborfile: str,
             weightsfile: str=None,
             ppp: np.ndarray=np.array([1,1]),
-            Nmax: int=30
+            Nmax: int=10
     ) -> None:
         """
         Initializing class for BOO2D
@@ -404,7 +404,7 @@ class boo_2d:
         Inputs:
             1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                          (returned by reader.dump_reader.DumpReader)
-            2. l (int): degree of spherical harmonics
+            2. l (int): degree of orientational order, like l=6 for hexatic order
             3. neighborfile (str): file name of particle neighbors (see module neighbors)
             4. weightsfile (str): file name of particle-neighbor weights (see module neighbors)
                                   one typical example is Voronoi cell edge length of the polygon;
@@ -435,9 +435,11 @@ class boo_2d:
             {tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}
         ) == 1, "Simulation box length changes during simulation"
 
+        self.ParticlePhi = self.lthorder()
+
     def lthorder(self) -> np.ndarray:
         """
-        Calculate l-th order in 2D, such as hexatic order
+        Calculate l-th orientational order in 2D, such as hexatic order
 
         Inputs:
             None
@@ -447,12 +449,12 @@ class boo_2d:
             shape: [nsnapshots, nparticle]
         """
 
-        logger.info(f"Calculate l-th order in 2D for l={self.l}")
+        logger.info(f"Calculate {self.l}-th orinentational order in 2D")
         fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
         if self.weightsfile:
             fweights = open(self.weightsfile, 'r', encoding="utf-8")
 
-        results = np.zeros((self.snapshots.nsnapshots, self.nparticle), dtype = np.complex128)
+        results = np.zeros((self.snapshots.nsnapshots, self.nparticle), dtype=np.complex128)
         for n, snapshot in enumerate(self.snapshots.snapshots):
             Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
             if not self.weightsfile:
@@ -469,7 +471,7 @@ class boo_2d:
                     RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
                     RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
                     theta = np.arctan2(RIJ[:, 1], RIJ[:, 0])
-                    weights = weightslist[i, 1:Neighborlist[i, 0]+1] + 1.0
+                    weights = weightslist[i, 1:Neighborlist[i, 0]+1]
                     weights /= weights.sum()
                     results[n, i] = (weights*np.exp(1j*self.l*theta)).sum()
         fneighbor.close()
