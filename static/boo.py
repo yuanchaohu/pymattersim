@@ -445,7 +445,7 @@ class boo_2d:
             None
 
         Return:
-            Calculated l-th order (np.ndarray)
+            Calculated l-th order in complex number (np.ndarray)
             shape: [nsnapshots, nparticle]
         """
 
