@@ -362,15 +362,222 @@ class boo_3d:
 
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
-            logger.info(f'Start calculating coarse-grained spatial correlation for l={self.l}')
+            logger.info(f'Start calculating coarse-grained time correlation for l={self.l}')
         else:
             cal_qlmQlm = self.smallqlm
-            logger.info(f'Start calculating local spatial correlation for l={self.l}')
+            logger.info(f'Start calculating time correlation for l={self.l}')
 
         gl_time = time_correlation(
             snapshots=self.snapshots,
             condition=cal_qlmQlm,
             dt=dt,
+        )
+
+        # normalization
+        gl_time["time_corr"] *= 4*np.pi/(2*self.l+1)
+        gl_time["time_corr"] /= gl_time.loc[0, "time_corr"]
+        if outputfile:
+            gl_time.to_csv(outputfile, float_format="%.6f", index=False)
+        return gl_time
+
+
+class boo_2d:
+    """
+    This module calculates bond orientational orders in two dimensions
+    Including original quantatities and weighted ones
+    Also calculate both time correlation and spatial correlation
+    This module accounts for both orthogonal and triclinic cells
+    """
+
+    def __init__(
+            self,
+            snapshots: Snapshots,
+            l: int,
+            neighborfile: str,
+            weightsfile: str=None,
+            ppp: np.ndarray=np.array([1,1]),
+            Nmax: int=30
+    ) -> None:
+        """
+        Initializing class for BOO2D
+
+        Inputs:
+            1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
+                         (returned by reader.dump_reader.DumpReader)
+            2. l (int): degree of spherical harmonics
+            3. neighborfile (str): file name of particle neighbors (see module neighbors)
+            4. weightsfile (str): file name of particle-neighbor weights (see module neighbors)
+                                  one typical example is Voronoi cell edge length of the polygon;
+                                  this file should be consistent with neighborfile, default None
+            5. ppp (np.ndarray): the periodic boundary conditions,
+                                 setting 1 for yes and 0 for no, default np.array([1,1]),
+            7. Nmax (int): maximum number for neighbors
+
+        Return:
+            None
+        """
+        self.snapshots = snapshots
+        self.l = l
+        self.neighborfile = neighborfile
+        self.weightsfile = weightsfile
+        self.ppp = ppp
+        self.Nmax = Nmax
+
+        assert len(
+            set(np.diff([snapshot.timestep for snapshot in self.snapshots.snapshots]))
+        ) == 1, "Warning: Dump interval changes during simulation"
+        self.nparticle = snapshots.snapshots[0].nparticle
+        assert len(
+            {snapshot.nparticle for snapshot in self.snapshots.snapshots}
+        ) == 1, "Paticle number changes during simulation"
+        self.boxlength = snapshots.snapshots[0].boxlength
+        assert len(
+            {tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}
+        ) == 1, "Simulation box length changes during simulation"
+
+    def lthorder(self) -> np.ndarray:
+        """
+        Calculate l-th order in 2D, such as hexatic order
+
+        Inputs:
+            None
+
+        Return:
+            Calculated l-th order (np.ndarray)
+            shape: [nsnapshots, nparticle]
+        """
+
+        logger.info(f"Calculate l-th order in 2D for l={self.l}")
+        fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
+        if self.weightsfile:
+            fweights = open(self.weightsfile, 'r', encoding="utf-8")
+
+        results = np.zeros((self.snapshots.nsnapshots, self.nparticle), dtype = np.complex128)
+        for n, snapshot in enumerate(self.snapshots.snapshots):
+            Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
+            if not self.weightsfile:
+                for i in range(snapshot.nparticle):
+                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
+                    RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
+                    RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                    theta = np.arctan2(RIJ[:, 1], RIJ[:, 0])
+                    results[n, i] = (np.exp(1j*self.l*theta)).mean()
+            else:
+                weightslist = read_neighbors(fweights, snapshot.nparticle, self.Nmax)[:, 1:]
+                for i in range(snapshot.nparticle):
+                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
+                    RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
+                    RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                    theta = np.arctan2(RIJ[:, 1], RIJ[:, 0])
+                    weights = weightslist[i, 1:Neighborlist[i, 0]+1] + 1.0
+                    weights /= weights.sum()
+                    results[n, i] = (weights*np.exp(1j*self.l*theta)).sum()
+        fneighbor.close()
+        if self.weightsfile:
+            fweights.close()
+        return results
+
+    def tavephi(
+            self,
+            outputphi: str=None,
+            outputavephi: str=None,
+            avet: float=0.0,
+            dt: float=0.002
+    ) -> np.ndarray:
+        """
+        Compute PHI value and Time Averaged PHI
+
+        Inputs:
+            1. outputphi (str): file name for absolute values of phi, default None
+            2. outputavephi (str): file name for time averaged phi, default None
+            3. avet (float): time used to average, default 0.0
+            4. dt (float): timestep used in user simulations, default 0.002
+        Return:
+            Calculated phi value or time averaged phi (np.ndarray)
+        """
+        logger.info(f"Calculate PHI value and Time Averaged PHI for l={self.l}")
+        results = np.abs(self.lthorder())
+
+        if avet == 0.0:
+            # compute absolute phi
+            ParticlePhi = np.column_stack((np.arange(self.nparticle)+1, results.T))
+            if outputphi:
+                names = 'id   phil=' + str(self.l)
+                numformat = '%d ' + '%.6f ' * (len(ParticlePhi[0])-1)
+                np.savetxt(outputphi, ParticlePhi, fmt=numformat, header=names, comments='')
+            return ParticlePhi
+        else:
+            # compute time averaged phi
+            timestep = np.diff([snapshot.timestep for snapshot in self.snapshots.snapshots])[0]
+            avet = int(avet/dt/timestep)
+            averesults = np.zeros((self.snapshots.nsnapshots-avet, self.nparticle))
+            for n in range(self.snapshots.nsnapshots-avet):
+                averesults[n] = results[n:n+avet].mean(axis=0)
+
+            averesults = np.column_stack((np.arange(self.nparticle)+1, averesults.T))
+            if outputavephi:
+                names = 'id   ave_phil=' + str(self.l)
+                numformat = '%d ' + '%.6f ' * (len(averesults[0])-1)
+                np.savetxt(outputavephi, averesults, fmt=numformat, header=names, comments='')
+            return averesults
+
+    def spatial_corr(
+            self,
+            rdelta: float=0.01,
+            outputfile: str=None
+    ) -> pd.DataFrame:
+        """
+        Calculate spatial correlation of phi in 2D system
+
+        Inputs:
+            1. rdelta (float): bin size in calculating g(r) and Gl(r), default 0.01
+            2. outputfile (str): csv file name for gl(r)
+
+        Return:
+            calculated gl(r) based on phi
+
+        """
+        logger.info(f'Start calculating spatial correlation of phi for l={self.l}')
+
+        ParticlePhi = self.lthorder()
+        glresults = 0
+        for n, snapshot in enumerate(self.snapshots.snapshots):
+            glresults += conditional_gr(
+                snapshot=snapshot,
+                condition=ParticlePhi[n],
+                conditiontype=None,
+                ppp=self.ppp,
+                rdelta=rdelta
+            )
+        glresults /= self.snapshots.nsnapshots
+        if outputfile:
+            glresults.to_csv(outputfile, float_format="%.8f", index=False)
+
+        logger.info(f'Finish calculating spatial correlation of phi for l={self.l}')
+        return glresults
+
+    def time_corr(
+            self,
+            dt: float=0.002,
+            outputfile: str=None
+    ) -> pd.DataFrame:
+        """
+        Calculate time correlation of phi in 2D system
+
+        Inputs:
+            1. dt (float): timestep used in user simulations, default 0.002
+            2. outputfile (str): csv file name for time correlation results, default None
+
+        Return:
+            time correlation quantity (pd.DataFrame)
+        """
+        logger.info(f'Start calculating time correlation of phi for l={self.l}')
+
+        ParticlePhi = self.lthorder()
+        gl_time = time_correlation(
+            snapshots=self.snapshots,
+            condition=ParticlePhi,
+            dt=dt
         )
 
         # normalization
