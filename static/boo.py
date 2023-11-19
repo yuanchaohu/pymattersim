@@ -8,7 +8,6 @@ see documentation @ ../docs/boo_3d.md &
 see documentation @ ../docs/boo_2d.md
 """
 
-import re
 from typing import Tuple
 import numpy as np
 import pandas as pd
@@ -20,6 +19,7 @@ from utils.pbc import remove_pbc
 from utils.logging import get_logger_handle
 from utils.funcs import Wignerindex
 from dynamic.time_corr import time_correlation
+from utils.coarse_graining import time_average
 
 logger = get_logger_handle(__name__)
 
@@ -481,49 +481,52 @@ class boo_2d:
             fweights.close()
         return results
 
-    def tavephi(
-            self,
-            outputphi: str=None,
-            outputavephi: str=None,
-            avet: float=0.0,
-            dt: float=0.002
-    ) -> np.ndarray:
+    def modulus_phase(
+        self,
+        time_period:float=None,
+        dt: float=0.002,
+        outputfile:str=None
+    )->Tuple[np.ndarray, np.ndarray]:
         """
-        Compute PHI value and Time Averaged PHI
-
+        calculate the modulus and phase of the particle-level orientational order
+        considering time average of the order parameter if time_period not None
+        
         Inputs:
-            1. outputphi (str): file name for absolute values of phi, default None
-            2. outputavephi (str): file name for time averaged phi, default None
-            3. avet (float): time used to average, default 0.0
-            4. dt (float): timestep used in user simulations, default 0.002
+            1. time_period (float): time average period, default None
+            2. dt (float): simulation snapshots time step
+            3. outputfile (float): file name of the output modulus and phase
+        
         Return:
-            Calculated phi value or time averaged phi (np.ndarray)
+            modulus and phase
         """
-        logger.info(f"Calculate PHI value and Time Averaged PHI for l={self.l}")
-        results = np.abs(self.lthorder())
+        # time average
+        if time_period:
+            logger.info("Calculate modulus and phase of time averaged order parameter")
+            average_quantity, average_snapshot_id = time_average(
+                snapshots=self.snapshots,
+                input_property=self.ParticlePhi,
+                time_period=time_period,
+                dt = dt
+            )
+            modulus = np.abs(average_quantity)
+            phase = np.angle(average_quantity)
+            if outputfile:
+                np.savetxt(outputfile+'_modulus.dat', modulus, fmt="%.6f", header="", comments="")
+                np.savetxt(outputfile+"_phase.dat", phase, fmt="%.6f", header="", comments="")
+                np.savetxt(
+                    outputfile+"_snapshot_id.dat", 
+                    average_snapshot_id[:, np.newaxis],
+                    fmt="%d", header="middle_snapshot_id", comments="")
+            return modulus, phase, average_snapshot_id
 
-        if avet == 0.0:
-            # compute absolute phi
-            ParticlePhi = np.column_stack((np.arange(self.nparticle)+1, results.T))
-            if outputphi:
-                names = 'id   phil=' + str(self.l)
-                numformat = '%d ' + '%.6f ' * (len(ParticlePhi[0])-1)
-                np.savetxt(outputphi, ParticlePhi, fmt=numformat, header=names, comments='')
-            return ParticlePhi
-        else:
-            # compute time averaged phi
-            timestep = np.diff([snapshot.timestep for snapshot in self.snapshots.snapshots])[0]
-            avet = int(avet/dt/timestep)
-            averesults = np.zeros((self.snapshots.nsnapshots-avet, self.nparticle))
-            for n in range(self.snapshots.nsnapshots-avet):
-                averesults[n] = results[n:n+avet].mean(axis=0)
-
-            averesults = np.column_stack((np.arange(self.nparticle)+1, averesults.T))
-            if outputavephi:
-                names = 'id   ave_phil=' + str(self.l)
-                numformat = '%d ' + '%.6f ' * (len(averesults[0])-1)
-                np.savetxt(outputavephi, averesults, fmt=numformat, header=names, comments='')
-            return averesults
+        # original
+        logger.info("Calculate orignal modulus and phase of the order parameter")
+        modulus = np.abs(self.ParticlePhi)
+        phase = np.angle(self.ParticlePhi)
+        if outputfile:
+            np.savetxt(outputfile+'_modulus.dat', modulus, fmt="%.6f", header="", comments="")
+            np.savetxt(outputfile+"_phase.dat", phase, fmt="%.6f", header="", comments="")
+        return modulus, phase
 
     def spatial_corr(
             self,
