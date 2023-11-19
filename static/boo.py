@@ -467,7 +467,7 @@ class boo_2d:
             else:
                 weightslist = read_neighbors(fweights, snapshot.nparticle, self.Nmax)[:, 1:]
                 if (weightslist<0).any():
-                    logger(f"Negative values in weights for {n}-snapshot, normalization by sum of absolutes")
+                    logger(f"Negative weights for {n}-snapshot, normalization by sum of absolutes")
                 for i in range(snapshot.nparticle):
                     cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
                     RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
