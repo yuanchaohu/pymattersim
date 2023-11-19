@@ -466,13 +466,15 @@ class boo_2d:
                     results[n, i] = (np.exp(1j*self.l*theta)).mean()
             else:
                 weightslist = read_neighbors(fweights, snapshot.nparticle, self.Nmax)[:, 1:]
+                if (weightslist<0).any():
+                    logger(f"Negative values in weights for {n}-snapshot, normalization by sum of absolutes")
                 for i in range(snapshot.nparticle):
                     cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
                     RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
                     RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
                     theta = np.arctan2(RIJ[:, 1], RIJ[:, 0])
                     weights = weightslist[i, 1:Neighborlist[i, 0]+1]
-                    weights /= weights.sum()
+                    weights /= np.abs(weights).sum()
                     results[n, i] = (weights*np.exp(1j*self.l*theta)).sum()
         fneighbor.close()
         if self.weightsfile:
