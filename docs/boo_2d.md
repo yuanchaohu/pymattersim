@@ -58,7 +58,7 @@ from neighbors.freud_neighbors import cal_neighbors
 from static.boo import boo_2d
 
 filename = 'dump.atom'
-readdump = DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS, moltypes=None)
+readdump = DumpReader(filename, ndim=2, filetype=DumpFileType.LAMMPS, moltypes=None)
 readdump.read_onefile()
 
 cal_neighbors(readdump.snapshots, outputfile='test')
