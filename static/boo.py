@@ -497,7 +497,7 @@ class boo_2d:
         Inputs:
             1. time_period (float): time average period, default None
             2. dt (float): simulation snapshots time step, default 0.002
-            3. average_complex (bool): whether averaging the complex or not, default False
+            3. average_complex (bool): whether averaging the complex order parameter or not, default False
             4. outputfile (float): file name of the output modulus and phase, default None
         
         Return:
