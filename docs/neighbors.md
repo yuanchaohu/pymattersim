@@ -86,7 +86,7 @@ In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in
 - `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no
 
   default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for two-dimensional system.
-- `fnfile` (`str`): the name of output file that stores the neighbor list, default ***neighborlist.dat***
+- `fnfile` (`str`): the name of output file that stores the neighbor list, default `neighborlist.dat`
 
 #### Example
 
@@ -113,7 +113,7 @@ Nnearests(readdump.snapshots, N=12, ppp=np.array([1,1,1]), fnfile='neighborlist.
 - `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no
 
   default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for two-dimensional system.
-- `fnfile` (`str`): the name of output file that stores the neighbor list, default ***neighborlist.dat***
+- `fnfile` (`str`): the name of output file that stores the neighbor list, default `neighborlist.dat`
 
 #### Example
 
@@ -149,7 +149,7 @@ Usually, these cutoff distances can be determined as the position of the individ
 - `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no
 
   default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for a two-dimensional system
-- `fnfile` (`str`): the name of output file that stores the neighbor list, default ***neighborlist.dat***
+- `fnfile` (`str`): the name of output file that stores the neighbor list, default `neighborlist.dat`
 
 #### Example
 
@@ -212,7 +212,7 @@ Calling `neighbors.freud_neighbors.Voro_neighbors` first and then performing Vor
 ##### Input Arguments
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
-- `outputfile` (`str`): filename of neighbor list and bond info, such as edge length (2D) or facearea(3D)
+- `outputfile` (`str`): filename of neighbor list and bond info, such as edge length (2D) or facearea(3D), default `None`
 
 ##### Return
 
@@ -278,7 +278,7 @@ get_input(readdump.snapshots, radii={1:1.0, 2:1.0})
 - `radii` (`dict`): radii of particles, must be a dict like `{1 : 1.28, 2 : 1.60} `
 
   if you do not want to consider radii, set the radii the same, default `{1:0.5, 2:0.5} `
-- `outputfile` (`str`): filename of output, including ***neighborlist***, ***facearealist***, ***voronoi index***, ***overall*** (facearea and volume of particle).
+- `outputfile` (`str`): filename of output, including *neighborlist*, *facearealist*, *voronoi index*, *overall* (facearea and volume of particle).
 
 ##### Return
 
@@ -315,7 +315,7 @@ cal_voro(snapshots, outputfile='dump')
 - `radii` (`dict`): radii of particles, must be a dict like `{1 : 1.28, 2 : 1.60} `
 
   if you do not want to consider radii, set the radii the same, default `{1:0.5, 2:0.5} `
-- `outputfile` (`str`): filename of output, including ***neighborlist***, ***facearealist***, ***voronoi index***, ***overall*** (facearea and volume of particle).
+- `outputfile` (`str`): filename of output, including *neighborlist*, *facearealist*, *voronoi index*, *overall* (facearea and volume of particle).
 
 ##### Return
 
@@ -334,7 +334,7 @@ Statistics the frequency of voronoi index from the output of voronoi analysis. O
 ##### Input Arguments
 
 - `inputfile` (`str`): the filename of saved Voronoi index
-- `outputfile` (`str`): the output filename of the frequency of voronoi index
+- `outputfile` (`str`): the output filename of the frequency of voronoi index, default `None`
 
 ##### Return
 

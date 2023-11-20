@@ -113,6 +113,4 @@ for snapshot in readdump.snapshots.snapshots:
         qvector=qvector, 
         condition=particle_quantity
     )
-
 ```
-

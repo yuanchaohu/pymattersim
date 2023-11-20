@@ -96,8 +96,8 @@ As equation (3) and (4) shows, one snapshot is intended to be averaged from $-\t
 
 - `time_period` (`float`): time average period, default `None`
 - `dt` (`float`): simulation snapshots time step, default 0.002
-- `average_complex` (`bool`): whether averaging the complex order parameter or not, default False
-- `outputfile` (`float`): file name of the output modulus and phase
+- `average_complex` (`bool`): whether averaging the complex order parameter or not, default `False`
+- `outputfile` (`float`): file name of the output modulus and phase, default `None`
 
 ### Return
 - calculated modulus and phase, both in `np.ndarray`
@@ -112,7 +112,7 @@ Calculate spatial correlation of the orientational order parameter
 
 ### Input Arguments
 - `rdelta` (`float`): bin size in calculating g(r) and Gl(r), default 0.01
-- `outputfile` (`str`): csv file name for gl(r)
+- `outputfile` (`str`): csv file name for gl(r), default `None`
 
 ### Return
 - calculated gl(r) based on phi (`pd.DataFrame`)

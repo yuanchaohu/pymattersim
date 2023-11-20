@@ -174,7 +174,7 @@ as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ 
 ### Input Arguments
 - `ndim` (`int`): dimensionality
 - `numofq` (`int`): number of wave vectors
-- `onlypositive` (`bool`): whether only consider positive wave vectors
+- `onlypositive` (`bool`): whether only consider positive wave vectors, , default `False`
 
 ### Example
 ```python
@@ -194,8 +194,8 @@ as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ 
 
 ### Input Arguments
 - `ndim` (`int`): dimensionality
-- `numofq` (`int`): number of wave vectors
-- `onlypositive` (`bool`): whether only consider positive wave vectors
+- `numofq` (`int`): number of wave vectors, default 100
+- `onlypositive` (`bool`): whether only consider positive wave vectors, default `False`
 
 ### Return
 - qvectors (`np.ndarray`)

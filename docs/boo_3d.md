@@ -129,7 +129,7 @@ qlm, Qlm = boo.qlm_Qlm()
 `ql_Ql` method calculates $q_l$ (local) or $Q_l$ (coarse-grained).
 
 ### Input Arguments
-- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
+- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
 - `outputfile` (`str`): txt file name for $q_l$ or $Q_l$ results, default `None`
 
 ### Return
@@ -144,7 +144,7 @@ Ql = boo.ql_Ql(coarse_graining=True, outputfile='./results/Ql.dat')
 `sij_ql_Ql()` method calculates the orientation correlation of $q_{lm}$ or $Q_{lm}$, named as $s_{ij}$ or $S_{ij}$. 
 
 ### Input Arguments
-- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
+- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
 - `c` (`float`): cutoff defining bond property, such as solid or not, default 0.7
 - `outputqlQl` (`str`): csv file name of $q_l$ or $Q_l$, default `None`
 - `outputsij` (`str`): txt file name for $s_{ij}$ of $q_l$ or $Q_l$, default `None`
@@ -167,9 +167,9 @@ sij_Ql = boo.sij_ql_Ql(coarse_graining=True,
 `w_W_cap` calculates the Wigner 3-j symbol boo based on qlm or Qlm.
 
 ### Input Arguments
-- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
-- `outputw` (`str`): txt file name for w (original) based on $q_{lm}$ or $Q_{lm}$
-- `outputwcap` (`str`): txt file name for wcap (normalized) based on $q_{lm}$ or $Q_{lm}$
+- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
+- `outputw` (`str`): txt file name for w (original) based on $q_{lm}$ or $Q_{lm}$, default `None`
+- `outputwcap` (`str`): txt file name for wcap (normalized) based on $q_{lm}$ or $Q_{lm}$, default `None`
 
 ### Return
 - calculated $w$ and $w_{cap}$ (`np.adarray`) or $W$ and $W_{cap}$ (`np.adarray`) with shape `[nsnapshots, nparticle]`
@@ -185,8 +185,8 @@ W, W_cap = boo.w_W_cap(coarse_graining=True,
 `spatial_corr()` method calculates spatial correlation function of $q_{lm}$ or $Q_{lm}$
 
 ### Inputs
-- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
-- `rdelta` (`float`): bin size in calculating g(r) and Gl(r)
+- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
+- `rdelta` (`float`): bin size in calculating g(r) and Gl(r), default 0.01
 - `outputfile` (`str`): csv file name for $g_l$, default `None`
   
 ### Example
@@ -198,7 +198,7 @@ Gl_Q = boo.spatial_corr(coarse_graining=True, outputfile='Gl_Q.csv')
 `time_corr()` method calculates time correlation of $q_{lm}$ or $Q_{lm}$
 
 ### Inputs
-- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default False
+- `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
 - `dt` (`float`): timestep used in user simulations, default 0.002
 - `outputfile` (`str`): csv file name for time correlation results, default `None`
 
