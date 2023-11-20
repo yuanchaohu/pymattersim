@@ -467,7 +467,7 @@ class boo_2d:
                     theta = np.arctan2(RIJ[:, 1], RIJ[:, 0])
                     results[n, i] = (np.exp(1j*self.l*theta)).mean()
             else:
-                weightslist = read_neighbors(fweights, snapshot.nparticle, self.Nmax)[:, 1:]
+                weightslist = read_neighbors(fweights, snapshot.nparticle, self.Nmax)
                 if (weightslist<0).any():
                     logger(f"Negative weights for {n}-snapshot, normalization by sum of absolutes")
                 for i in range(snapshot.nparticle):
