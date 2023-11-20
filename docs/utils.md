@@ -5,6 +5,7 @@
 ## [IV. wavevector](#iv-wavevector-1)
 ## [V. Fast Fourier Transformation](#v-fast-fourier-transformation-1)
 ## [VI. spherical harmonics](#vi-spherical-harmonics-1)
+## [VII. coarse graining](#vii-coarse-graining-1)
 
 ---
 
@@ -247,4 +248,28 @@ spherical_harmonics.SphHarm4(theta=60*np.pi/180, phi=30*np.pi/180)
 spherical_harmonics.SphHarm6(theta=60*np.pi/180, phi=30*np.pi/180)
 
 spherical_harmonics.SphHarm_above(l=12, theta=60*np.pi/180, phi=30*np.pi/180)
+```
+
+# VII. Coarse Graining
+`utils.coarse_graining` calculates the time average, spatial average, gaussian blurring, and atomic position average of input property.
+
+## 1. `time_average()`
+Calculate time average of the input property
+
+### Input Arguments
+- `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory
+(returned by `reader.dump_reader.DumpReader`)
+- `input_property` (`np.ndarray`): the input particle-level property, in `np.ndarray` with shape `[nsnapshots, nparticle]`
+- `time_period` (`float`): time used to average, default 0.0
+- `dt` (`float`): timestep used in user simulations, default 0.002
+
+### Return
+- Calculated time averaged input results (`np.ndarray`) with shape `[nsnapshots_updated, nparticles]`
+- Corresponding snapshot id of the middle snapshot of each time period with shape `[nsnapshots_updated]`
+
+### Example
+```python
+from utils.coarse_graining import time_average
+
+time_average(snapshots, input_property, time_period, dt)
 ```

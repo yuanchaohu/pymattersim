@@ -21,9 +21,10 @@ def time_average(
     Calculate time average of the input property
 
     Input:
-        1. snapshots
-        1. input_parameters (np.ndarray): the input particle-level property,
-                            in np.ndarray with shape [nsnapshots, nparticle]
+        1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
+                     (returned by reader.dump_reader.DumpReader)
+        2. input_property (np.ndarray): the input particle-level property,
+                          in np.ndarray with shape [nsnapshots, nparticle]
         3. time_period (float): time used to average, default 0.0
         4. dt (float): timestep used in user simulations, default 0.002
 
