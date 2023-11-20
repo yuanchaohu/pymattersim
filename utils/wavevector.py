@@ -67,7 +67,7 @@ def choosewavevector(ndim: int, numofq: int, onlypositive: bool=False) -> np.nda
         1. ndim (int): dimensionality
         2. numofq (int): number of q
         3. onlypositive (bool): whether only consider positive wave vectors
-                                default Fase
+                                default False
 
     Return: 
         qvectors (np.ndarray)
