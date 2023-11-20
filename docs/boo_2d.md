@@ -68,7 +68,7 @@ boo = boo_2d(readdump.snapshots,
              weightsfile='test.edgelength.dat')
 ```
 
-## 2. `lthorder`
+## 2. `lthorder()`
 Calculate $l$-th orientational order in 2D, such as hexatic order
 
 ### Input Arguments
@@ -82,14 +82,21 @@ Calculate $l$-th orientational order in 2D, such as hexatic order
 lthorder_results = boo2d.lthorder()
 ```
 
-## 3. `modulus_phase`
-Calculate the modulus and phase of the particle-level orientational order considering time average of the order parameter if `time_period` not `None`.
+## 3. `modulus_phase()`
+Calculate the modulus and phase of the particle-level orientational order considering time average of the order parameter if `time_period` not `None`. 
+
+There are three cases considered in this function:
+- return modulus and phase of the original complex order parameter (`time_period=None` or as default)
+- return time averaged modulus and phase directly (`time_period=1.0` and `average_complex=False` or as default)
+- return modulus and phase of the time averaged complex order parameter (`time_period=1.0` and `average_complex=True`)
+
+As equation (3) and (4) shows, one snapshot is intended to be averaged from $-\tau/2$ to $\tau/2$, so the middle snapshot number (`average_snapshot_id`) is also returned for reference. 
 
 ### Input Arguments
 
 - `time_period` (`float`): time average period, default `None`
-- `dt` (`float`): simulation snapshots time step
-- `average_complex` (`bool`): whether averaging the complex or not
+- `dt` (`float`): simulation snapshots time step, default 0.002
+- `average_complex` (`bool`): whether averaging the complex order parameter or not, default False
 - `outputfile` (`float`): file name of the output modulus and phase
 
 ### Return
@@ -100,7 +107,7 @@ Calculate the modulus and phase of the particle-level orientational order consid
 modulus, phase = boo2d.modulus_phase(time_period=0.0, dt=0.002, average_complex=False)
 ```
 
-## 4. `spatial_corr`
+## 4. `spatial_corr()`
 Calculate spatial correlation of the orientational order parameter
 
 ### Input Arguments
@@ -115,7 +122,7 @@ Calculate spatial correlation of the orientational order parameter
 spatial_corr_results = boo2d.spatial_corr()
 ```
 
-## 5. `time_corr`
+## 5. `time_corr()`
 Calculate time correlation of the orientational order parameter
 
 ### Input Arguments
