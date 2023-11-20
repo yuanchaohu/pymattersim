@@ -82,26 +82,26 @@ Calculate $l$-th orientational order in 2D, such as hexatic order
 lthorder_results = boo2d.lthorder()
 ```
 
-## 3. `tavephi`
-Compute PHI value and Time Averaged PHI
+## 3. `modulus_phase`
+Calculate the modulus and phase of the particle-level orientational order considering time average of the order parameter if `time_period` not `None`.
 
 ### Input Arguments
 
-- `outputphi` (`str`): file name for absolute values of phi, default None
-- `outputavephi` (`str`): file name for time averaged phi, default `None`
-- `avet` (`float`): time used to average, default 0.0
-- `dt` (`float`): timestep used in user simulations, default 0.002
+- `time_period` (`float`): time average period, default `None`
+- `dt` (`float`): simulation snapshots time step
+- `average_complex` (`bool`): whether averaging the complex or not
+- `outputfile` (`float`): file name of the output modulus and phase
 
 ### Return
-- Calculated phi value or time averaged phi (`np.ndarray`)
+- calculated modulus and phase, both in `np.ndarray`
 
 ### Example
 ```python
-tavephi_results = boo2d.tavephi(avet=0.0, dt=0.002)
+modulus, phase = boo2d.modulus_phase(time_period=0.0, dt=0.002, average_complex=False)
 ```
 
 ## 4. `spatial_corr`
-Calculate spatial correlation of phi in 2D system
+Calculate spatial correlation of the orientational order parameter
 
 ### Input Arguments
 - `rdelta` (`float`): bin size in calculating g(r) and Gl(r), default 0.01
@@ -116,7 +116,7 @@ spatial_corr_results = boo2d.spatial_corr()
 ```
 
 ## 5. `time_corr`
-Calculate time correlation of phi in 2D system
+Calculate time correlation of the orientational order parameter
 
 ### Input Arguments
 - `dt` (`float`): timestep used in user simulations, default 0.002
