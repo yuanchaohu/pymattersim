@@ -12,8 +12,8 @@
 # I. funcs
 mathmatical functions for feasible computations
 
-## 1. nidealfac
-`nidealfac` is used to choose pre-factor of `Nideal` in g(r) calculation.
+## `1. nidealfac()`
+`nidealfac()` is used to choose pre-factor of `Nideal` in g(r) calculation.
 
 ### Input Arguments
 - `ndim` (`int`): system dimensionality, default 3
@@ -28,8 +28,8 @@ from utils import funcs
 funcs.nidealfac(ndim=3)
 ```
 
-## 2. moment_of_inertia
-`moment_of_inertia` calculates moment of inertia for a rigid body made of n points/particles.
+## 2. `moment_of_inertia()`
+`moment_of_inertia()` calculates moment of inertia for a rigid body made of n points/particles.
 
 ### Input Arguments
 - `positions` (`np.ndarray`): positions of the point particles as [numofatoms, 3]
@@ -48,7 +48,7 @@ funcs.moment_of_inertia(positions, m=1, matrix=False)
 
 # II. Remove PBC
 
-The module `utils.pbc` removes periodic boundary conditions (PBC).
+The module `utils.pbc()` removes periodic boundary conditions (PBC).
 
 ## Input Arguments
 - `RIJ` (`np.ndarray`): position difference between particle pairs $i$ and $j$
@@ -66,11 +66,11 @@ remove_pbc(RIJ, hmatrix, ppp=np.array([1, 1, 1]))
 ```
 
 # III. geometry
-`utils.geometry` includes math geometrical functions to assist other analysis
+`utils.geometry()` includes math geometrical functions to assist other analysis
 
-## 1. triangle_area
+## 1. `triangle_area()`
 
-`triangle_area` function calculates the area of a triangle using Heron's equation
+`triangle_area()` function calculates the area of a triangle using Heron's equation
 
 ### Input Arguments
 - `positions` (`np.ndarray`): numpy array of particle positions, `shape=(3, 2)` for 2D, `shape=(3, 3)` for 3D
@@ -87,9 +87,9 @@ from utils import geometry
 geometry.triangle_area(positions, hmatrix, ppp)
 ```
 
-## 2. triangle_angle
+## 2. `triangle_angle()`
 
-`triangle_angle` function calculates the angle of a triangle based on side lengths
+`triangle_angle()` function calculates the angle of a triangle based on side lengths
 
 ### Input Arguments
 - `a`, `b`, `c` (float): side length
@@ -104,9 +104,9 @@ from utils import geometry
 geometry.triangle_angle(a=3, b=4, c=5)
 ```
 
-## 3. lines_intersection
+## 3. `lines_intersection()`
 
-`lines_intersection` function extracts the line-line intersection for two lines `[P1, P2]` and `[P3, P4]` in two dimensions
+`lines_intersection()` function extracts the line-line intersection for two lines `[P1, P2]` and `[P3, P4]` in two dimensions
 
 ### Input Arguments
 - `P1` (`np.ndarray`): one point on line 1
@@ -134,8 +134,8 @@ geometry.lines_intersection(P1=np.array([0, 0]),
 # IV. wavevector
 `utils.wavevector` module generates wave-vector for calculations like static/dynamic structure factor.
 
-## 1. wavevector3d
-`wavevector3d` is used to define wave vectors for three dimensional systems.
+## 1. `wavevector3d()`
+`wavevector3d()` is used to define wave vectors for three dimensional systems.
 
 ### Input Arguments
 - `numofq` (`int`): number of q
@@ -149,8 +149,8 @@ from utils import wavevector
 wavevector.wavevector3d(numofq=100)
 ```
 
-## 2. wavevector2d
-`wavevector2d` is used to define wave vectors for two dimensional systems.
+## 2. `wavevector2d()`
+`wavevector2d()` is used to define wave vectors for two dimensional systems.
 
 ### Input Arguments
 - `numofq` (`int`): number of q
@@ -164,8 +164,8 @@ from utils import wavevector
 wavevector.wavevector2d(numofq=100)
 ```
 
-## 3. choosewavevector
-`choosewavevector` is used to define wave vector for 
+## 3. `choosewavevector()`
+`choosewavevector()` is used to define wave vector for 
 $$
 [n_x, n_y, n_z]
 $$ 
@@ -185,8 +185,8 @@ wavevector.choosewavevector(ndim=3, numofq=100, onlypositive=False)
 ### Return
 - qvectors (`np.ndarray`)
 
-## 4. continuousvector
-`continuousvector` is used to define wave vector for 
+## 4. `continuousvector()`
+`continuousvector()` is used to define wave vector for 
 $$
 [n_x, n_y, n_z]
 $$ 

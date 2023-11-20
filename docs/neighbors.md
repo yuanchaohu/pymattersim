@@ -24,7 +24,7 @@ This module is also heavily used to calculate the neighboring particles of a par
 
 ## I. Reading Neighbors
 
-`neighbors.read_neighbors.read_neighbors` is used to read the property of neighboring particles from a saved file, as long as the format of file is compatible, as like ***neighborlist.dat*** (see below). Note that this module reads one snapshot a time to save computer memory. If you have multiple snapshots, you can import this module in a loop (see example).
+`neighbors.read_neighbors.read_neighbors()` is used to read the property of neighboring particles from a saved file, as long as the format of file is compatible, as like ***neighborlist.dat*** (see below). Note that this module reads one snapshot a time to save computer memory. If you have multiple snapshots, you can import this module in a loop (see example).
 
 ### Input Arguments
 
@@ -75,9 +75,9 @@ In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in
 
 ## II. Calculating Neighbors
 
-### 1. Nnearests
+### 1. Nnearests()
 
- `neighbors.calculate_neighbors.Nnearests` gets the `N` nearest neighbors around a particle. In this case, the coordination number is `N` for each particle.
+ `neighbors.calculate_neighbors.Nnearests()` gets the `N` nearest neighbors around a particle. In this case, the coordination number is `N` for each particle.
 
 #### Input Arguments
 
@@ -102,9 +102,9 @@ readdump.read_onefile()
 Nnearests(readdump.snapshots, N=12, ppp=np.array([1,1,1]), fnfile='neighborlist.dat')
 ```
 
-### 2. cutoffneighbors
+### 2. cutoffneighbors()
 
-`neighbors.calculate_neighbors.cutoffneighbors` gets the nearest neighbors around a particle by setting a global cutoff distance `r_cut`.  Usually, the cutoff distance can be determined as the position of the first deep well in total pair correlation function.
+`neighbors.calculate_neighbors.cutoffneighbors()` gets the nearest neighbors around a particle by setting a global cutoff distance `r_cut`.  Usually, the cutoff distance can be determined as the position of the first deep well in total pair correlation function.
 
 #### Input Arguments
 
@@ -129,9 +129,9 @@ readdump.read_onefile()
 cutoffneighbors(readdump.snapshots, r_cut=3.8, ppp=np.array([1,1,1]), fnfile='neighborlist.dat')
 ```
 
-### 3. cutoffneighbors_particletype
+### 3. cutoffneighbors_particletype()
 
-`neighbors.calculate_neighbors.cutoffneighbors_particletype` gets the nearest neighbors around a particle by setting a cutoff distance ` r_cut`. Taken Cu-Zr system as an example, `r_cut` should be a 2D numpy array:
+`neighbors.calculate_neighbors.cutoffneighbors_particletype()` gets the nearest neighbors around a particle by setting a cutoff distance ` r_cut`. Taken Cu-Zr system as an example, `r_cut` should be a 2D numpy array:
 
 $$
 \begin{bmatrix}
@@ -203,7 +203,7 @@ list_box, list_points = convert_configuration(readdump.snapshots)
 
 #### 2. cal_neighbors
 
-Calling `neighbors.freud_neighbors.Voro_neighbors` first and then performing Voronoi analysis with ***[voro++](https://math.lbl.gov/voro++/)*** package to calculate neighbors for both 2D and 3D systems. Three classes of information will be output:
+Calling `neighbors.freud_neighbors.Voro_neighbors()` first and then performing Voronoi analysis with ***[voro++](https://math.lbl.gov/voro++/)*** package to calculate neighbors for both 2D and 3D systems. Three classes of information will be output:
 
 - neighbor list: atom coordination and ids of each atom
 - Voronoi face area (3D) or edge length (2D) list: between the center and each of its neighbors
@@ -231,15 +231,15 @@ cal_neighbors(snapshots, outputfile='dump')
 
 ### IV. Voro++ direct neighbors
 
-`neighbors.voronoi_neighbors` is used to perform radical Voronoi tessellation using [voro++](https://math.lbl.gov/voro++/) for both PBC and non-PBC system. 
+`neighbors.voronoi_neighbors()` is used to perform radical Voronoi tessellation using [voro++](https://math.lbl.gov/voro++/) for both PBC and non-PBC system. 
 
 The voro++ package considers non-periodic boundary conditions by default, so there may be some negative numbers in the neighbor list for non-periodic boundary conditions (please refer to the voro++ manual to know this well). 
-1. `neighbors.voronoi_neighbors.voronowalls`: used for any non-periodic boundary condition(s)
-2. `neighbors.voronoi_neighbors.cal_voro`: used for all periodic boundary conditions
+1. `neighbors.voronoi_neighbors.voronowalls()`: used for any non-periodic boundary condition(s)
+2. `neighbors.voronoi_neighbors.cal_voro()`: used for all periodic boundary conditions
 
-#### 1. get_input
+#### 1. `get_input()`
 
-`neighbors.voronoi_neighbors.get_input` is used to design input file for Voro++ by considering particle radii.
+`neighbors.voronoi_neighbors.get_input()` is used to design input file for Voro++ by considering particle radii.
 
 ##### Input Arguments
 
@@ -267,9 +267,9 @@ readdump.read_onefile()
 get_input(readdump.snapshots, radii={1:1.0, 2:1.0})
 ```
 
-#### 2. cal_voro
+#### 2. `cal_voro()`
 
-`voronoi.voropp.cal_voro` is used to perform radical Voronoi tessellation if radii are given using voro++ for periodic boundary conditions.
+`voronoi.voropp.cal_voro()` is used to perform radical Voronoi tessellation if radii are given using voro++ for periodic boundary conditions.
 
 ##### Input Arguments
 
@@ -302,9 +302,9 @@ snapshots = read_lammps_wrapper(test_file_3d, 3)
 cal_voro(snapshots, outputfile='dump')
 ```
 
-#### 3. voronowalls
+#### 3. `voronowalls()`
 
-`voronoi.voropp.voronowalls` is used to perform radical Voronoi tessellation using voro++ for periodic boundary conditions.
+`voronoi.voropp.voronowalls()` is used to perform radical Voronoi tessellation using voro++ for periodic boundary conditions.
 
 ##### Input Arguments
 
@@ -327,7 +327,7 @@ cal_voro(snapshots, outputfile='dump')
 
 Output files from ***voroindex*** and ***overall*** include a header for all snapshots. ***neighborlist*** and ***facearealist*** output files are in align with the format needed in the module `neighbors` and have headers for each individual snapshot.
 
-#### 4. indicehis
+#### 4. `indicehis()`
 
 Statistics the frequency of voronoi index from the output of voronoi analysis. Only the top 50 voronoi index will be output along with their fractions.
 

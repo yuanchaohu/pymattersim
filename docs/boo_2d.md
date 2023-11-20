@@ -36,7 +36,7 @@ By using the complex number $\varphi_l(j)$, both spatial correlation and time co
   C_l(t)=\frac{\langle \sum_n \varphi_l^n(t) \varphi_l^{n*}(0) \rangle}{\langle \sum_n |\varphi_l^n(0)|^2 \rangle} \tag{5}
   $$
 
-## 1. `boo_2d()` class
+## 1. `boo_2d` class
 
 ### Input Arguments
 

@@ -24,7 +24,7 @@ $$
 
 The spatial correlation function of particle-level quantity $A_i$ is $g_A(r) / g(r)$.
 
-## 1. `g(r)` class
+## 1. `gr` class
 
 #### Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file

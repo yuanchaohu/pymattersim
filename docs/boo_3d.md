@@ -77,7 +77,7 @@ In these calculations, one important input is the neighbor list of each particle
 Note that this module accounts for both orthogonal and triclinic cells.
 
 
-## 1. `boo_3d()` class
+## 1. `boo_3d` class
 
 ### Input Arguments
 
@@ -111,7 +111,7 @@ boo = boo_3d(readdump.snapshots,
 ```
 
 ## 2. `qlm_Qlm()`
-`qlm_Qlm` method gives $q_{lm}$ and $Q_{lm}$ values of different particles in complex vectors as numpy array. The results in
+`qlm_Qlm()` method gives $q_{lm}$ and $Q_{lm}$ values of different particles in complex vectors as numpy array. The results in
 different snapshots are stored in an array for each of them, separately. Both of them are returned as ($q_{lm}$, $Q_{lm}$). Note that this method will be called automatically when initiallizing the `boo_3d()` class.
 
 ### Input Arguments
@@ -126,7 +126,7 @@ qlm, Qlm = boo.qlm_Qlm()
 ```
 
 ## 3. `ql_Ql()`
-`ql_Ql` method calculates $q_l$ (local) or $Q_l$ (coarse-grained).
+`ql_Ql()` method calculates $q_l$ (local) or $Q_l$ (coarse-grained).
 
 ### Input Arguments
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
@@ -163,8 +163,8 @@ sij_Ql = boo.sij_ql_Ql(coarse_graining=True,
                        outputsij='sij_Ql.dat')
 ```
 
-## 5. `w_W_cap`
-`w_W_cap` calculates the Wigner 3-j symbol boo based on qlm or Qlm.
+## 5. `w_W_cap()`
+`w_W_cap()` calculates the Wigner 3-j symbol boo based on qlm or Qlm.
 
 ### Input Arguments
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
