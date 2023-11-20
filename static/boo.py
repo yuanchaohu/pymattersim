@@ -18,8 +18,8 @@ from utils.spherical_harmonics import sph_harm_l
 from utils.pbc import remove_pbc
 from utils.logging import get_logger_handle
 from utils.funcs import Wignerindex
-from dynamic.time_corr import time_correlation
 from utils.coarse_graining import time_average
+from dynamic.time_corr import time_correlation
 
 logger = get_logger_handle(__name__)
 
@@ -65,7 +65,7 @@ class boo_3d:
                                   this file should be consistent with neighborfile, default None
             5. ppp (np.ndarray): the periodic boundary conditions,
                                  setting 1 for yes and 0 for no, default np.array([1,1,1]),
-            7. Nmax (int): maximum number for neighbors
+            7. Nmax (int): maximum number for neighbors, default 30
 
         Return:
             None
@@ -270,7 +270,9 @@ class boo_3d:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
             2. outputw (str): txt file name for w (original) based on qlm or Qlm
+                                       default None
             3. outputwcap (str): txt file name for wcap (normalized) based on qlm or Qlm
+                                       default None
 
         Return:
             calculated w and wcap (np.adarray) or W and Wcap (np.adarray)
@@ -313,8 +315,8 @@ class boo_3d:
         Inputs:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
-            2. rdelta (float): bin size in calculating g(r) and Gl(r)
-            3. outputfile (str): csv file name for gl
+            2. rdelta (float): bin size in calculating g(r) and Gl(r), default 0.01
+            3. outputfile (str): csv file name for gl, default None
         
         Return:
             calculated Gl(r) based on Qlm or qlm
@@ -410,8 +412,8 @@ class boo_2d:
                                   one typical example is Voronoi cell edge length of the polygon;
                                   this file should be consistent with neighborfile, default None
             5. ppp (np.ndarray): the periodic boundary conditions,
-                                 setting 1 for yes and 0 for no, default np.array([1,1]),
-            7. Nmax (int): maximum number for neighbors
+                                 setting 1 for yes and 0 for no, default np.array([1,1])
+            7. Nmax (int): maximum number for neighbors, default 10
 
         Return:
             None
@@ -483,10 +485,10 @@ class boo_2d:
 
     def modulus_phase(
         self,
-        time_period:float=None,
+        time_period: float=None,
         dt: float=0.002,
         average_complex: bool=False,
-        outputfile:str=None
+        outputfile: str=None
     )->Tuple[np.ndarray, np.ndarray]:
         """
         calculate the modulus and phase of the particle-level orientational order
@@ -494,11 +496,12 @@ class boo_2d:
         
         Inputs:
             1. time_period (float): time average period, default None
-            2. dt (float): simulation snapshots time step
-            3. outputfile (float): file name of the output modulus and phase
+            2. dt (float): simulation snapshots time step, default 0.002
+            3. average_complex (bool): whether averaging the complex or not, default False
+            4. outputfile (float): file name of the output modulus and phase, default None
         
         Return:
-            modulus and phase
+            calculated modulus and phase, both in np.ndarray
         """
         # time average
         if time_period:
@@ -508,7 +511,7 @@ class boo_2d:
                     snapshots=self.snapshots,
                     input_property=self.ParticlePhi,
                     time_period=time_period,
-                    dt = dt
+                    dt=dt
                 )
                 modulus = np.abs(average_quantity)
                 phase = np.angle(average_quantity)
@@ -560,7 +563,7 @@ class boo_2d:
 
         Inputs:
             1. rdelta (float): bin size in calculating g(r) and Gl(r), default 0.01
-            2. outputfile (str): csv file name for gl(r)
+            2. outputfile (str): csv file name for gl(r), default None
 
         Return:
             calculated gl(r) based on phi
