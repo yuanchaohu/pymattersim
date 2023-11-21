@@ -34,7 +34,7 @@ def time_average(
         2. Corresponding snapshot id of the middle snapshot of each time period
            shape [nsnapshots_updated]
     """
-    logger(f"Time average of the input variables for time_period={time_period}")
+    logger.info(f"Time average of the input variables for time_period={time_period}")
     time_interval = snapshots.snapshots[1].timestep - snapshots.snapshots[0].timestep
     time_interval *= dt
     time_nsnapshot = int(time_period/time_interval)
