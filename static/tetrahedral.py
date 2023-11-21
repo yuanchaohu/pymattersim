@@ -1,6 +1,6 @@
 # coding = utf-8
 
-""" see xxx @ orderings.md """
+"""see documentation @ ../docs/orderings.md"""
 
 import numpy as np
 from reader.reader_utils import Snapshots
@@ -9,19 +9,27 @@ from utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
 
+# pylint: disable=invalid-name
+
 def q8(
     snapshots: Snapshots,
     ppp: np.ndarray=np.array([1,1,1]),
     outputfile: str=None
-):
+) -> np.ndarray:
     """
     Calculate local tetrahedral order of the simulation system,
     such as for water-type and silicon-type systems
+    Currently this calculation is only available for 3D.
 
     Inputs:
-        snapshots:
-        ppp:
-        outputfile:
+        1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
+                     (returned by reader.dump_reader.DumpReader)
+        2. ppp (np.ndarray): the periodic boundary conditions,
+                        setting 1 for yes and 0 for no, default np.ndarray=np.array([1,1,1])
+        3. outputfile (str): the name of file to save the calculated local tetrahedral order
+
+    Return:
+        calculated local tetrahedral order in np.ndarray with shape [nsnapshots, nparticle]
     """
     logger.info("Start calculating local tetrahedral order of the input system")
 
