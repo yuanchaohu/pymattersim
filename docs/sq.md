@@ -33,7 +33,7 @@ In addition, we design `static.sq.conditional_sq` to calculate the structure fac
 - `condition` is float scalar type, so calculate spectral & FFT of scalar quantity; such as structural ordering
 
 
-## 1. `S(q)` class
+## 1. `sq` class
 
 #### Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
@@ -71,9 +71,9 @@ sq_cal.getresults()
 #### Return
 `Optional[Callable]`. For the sytem with one particle type, calling `self.unary()` function to calculate $S(q)$, also including `self.binary()`, `self.ternary()`, `self.quarternary`, `self.quinary` for binary, ternary, quarternary, and quinary systems. For systems with more than five components, only overall $S(q)$ will be calcuated by calling `self.unary()` function.
 
-The calculated $S(q)$ is storted in the `outputfile`. Taken ternary sytem as an example, each column in `outputfile` is "***q, Sq, Sq11, Sq22, Sq33, Sq12, Sq13, Sq23***".
+The calculated $S(q)$ is storted in the `outputfile`. Taken ternary sytem as an example, each column in `outputfile` is "*q, Sq, Sq11, Sq22, Sq33, Sq12, Sq13, Sq23*".
 
-## 2. `conditional_sq`
+## 2. `conditional_sq()`
 
 ### Input Arguments
 - `snapshot` (`reader.reader_utils.SingleSnapshot`): single snapshot object of input trajectory
@@ -113,6 +113,4 @@ for snapshot in readdump.snapshots.snapshots:
         qvector=qvector, 
         condition=particle_quantity
     )
-
 ```
-

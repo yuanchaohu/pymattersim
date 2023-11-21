@@ -8,7 +8,6 @@ see documentation @ ../docs/boo_3d.md &
 see documentation @ ../docs/boo_2d.md
 """
 
-import re
 from typing import Tuple
 import numpy as np
 import pandas as pd
@@ -19,6 +18,7 @@ from utils.spherical_harmonics import sph_harm_l
 from utils.pbc import remove_pbc
 from utils.logging import get_logger_handle
 from utils.funcs import Wignerindex
+from utils.coarse_graining import time_average
 from dynamic.time_corr import time_correlation
 
 logger = get_logger_handle(__name__)
@@ -65,7 +65,7 @@ class boo_3d:
                                   this file should be consistent with neighborfile, default None
             5. ppp (np.ndarray): the periodic boundary conditions,
                                  setting 1 for yes and 0 for no, default np.array([1,1,1]),
-            7. Nmax (int): maximum number for neighbors
+            7. Nmax (int): maximum number for neighbors, default 30
 
         Return:
             None
@@ -270,7 +270,9 @@ class boo_3d:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
             2. outputw (str): txt file name for w (original) based on qlm or Qlm
+                                       default None
             3. outputwcap (str): txt file name for wcap (normalized) based on qlm or Qlm
+                                       default None
 
         Return:
             calculated w and wcap (np.adarray) or W and Wcap (np.adarray)
@@ -313,8 +315,8 @@ class boo_3d:
         Inputs:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
-            2. rdelta (float): bin size in calculating g(r) and Gl(r)
-            3. outputfile (str): csv file name for gl
+            2. rdelta (float): bin size in calculating g(r) and Gl(r), default 0.01
+            3. outputfile (str): csv file name for gl, default None
         
         Return:
             calculated Gl(r) based on Qlm or qlm
@@ -362,10 +364,10 @@ class boo_3d:
 
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
-            logger.info(f'Start calculating coarse-grained spatial correlation for l={self.l}')
+            logger.info(f'Start calculating coarse-grained time correlation for l={self.l}')
         else:
             cal_qlmQlm = self.smallqlm
-            logger.info(f'Start calculating local spatial correlation for l={self.l}')
+            logger.info(f'Start calculating time correlation for l={self.l}')
 
         gl_time = time_correlation(
             snapshots=self.snapshots,
@@ -375,6 +377,239 @@ class boo_3d:
 
         # normalization
         gl_time["time_corr"] *= 4*np.pi/(2*self.l+1)
+        gl_time["time_corr"] /= gl_time.loc[0, "time_corr"]
+        if outputfile:
+            gl_time.to_csv(outputfile, float_format="%.6f", index=False)
+        return gl_time
+
+
+class boo_2d:
+    """
+    This module calculates bond orientational orders in two dimensions
+    Including original quantatities and weighted ones
+    Also calculate both time correlation and spatial correlation
+    This module accounts for both orthogonal and triclinic cells
+    """
+
+    def __init__(
+            self,
+            snapshots: Snapshots,
+            l: int,
+            neighborfile: str,
+            weightsfile: str=None,
+            ppp: np.ndarray=np.array([1,1]),
+            Nmax: int=10
+    ) -> None:
+        """
+        Initializing class for BOO2D
+
+        Inputs:
+            1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
+                         (returned by reader.dump_reader.DumpReader)
+            2. l (int): degree of orientational order, like l=6 for hexatic order
+            3. neighborfile (str): file name of particle neighbors (see module neighbors)
+            4. weightsfile (str): file name of particle-neighbor weights (see module neighbors)
+                                  one typical example is Voronoi cell edge length of the polygon;
+                                  this file should be consistent with neighborfile, default None
+            5. ppp (np.ndarray): the periodic boundary conditions,
+                                 setting 1 for yes and 0 for no, default np.array([1,1])
+            7. Nmax (int): maximum number for neighbors, default 10
+
+        Return:
+            None
+        """
+        self.snapshots = snapshots
+        self.l = l
+        self.neighborfile = neighborfile
+        self.weightsfile = weightsfile
+        self.ppp = ppp
+        self.Nmax = Nmax
+
+        assert len(
+            set(np.diff([snapshot.timestep for snapshot in self.snapshots.snapshots]))
+        ) == 1, "Warning: Dump interval changes during simulation"
+        self.nparticle = snapshots.snapshots[0].nparticle
+        assert len(
+            {snapshot.nparticle for snapshot in self.snapshots.snapshots}
+        ) == 1, "Paticle number changes during simulation"
+        self.boxlength = snapshots.snapshots[0].boxlength
+        assert len(
+            {tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}
+        ) == 1, "Simulation box length changes during simulation"
+
+        self.ParticlePhi = self.lthorder()
+
+    def lthorder(self) -> np.ndarray:
+        """
+        Calculate l-th orientational order in 2D, such as hexatic order
+
+        Inputs:
+            None
+
+        Return:
+            Calculated l-th order in complex number (np.ndarray)
+            shape: [nsnapshots, nparticle]
+        """
+
+        logger.info(f"Calculate {self.l}-th orinentational order in 2D")
+        fneighbor = open(self.neighborfile, 'r', encoding="utf-8")
+        if self.weightsfile:
+            fweights = open(self.weightsfile, 'r', encoding="utf-8")
+
+        results = np.zeros((self.snapshots.nsnapshots, self.nparticle), dtype=np.complex128)
+        for n, snapshot in enumerate(self.snapshots.snapshots):
+            Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
+            if not self.weightsfile:
+                for i in range(snapshot.nparticle):
+                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
+                    RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
+                    RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                    theta = np.arctan2(RIJ[:, 1], RIJ[:, 0])
+                    results[n, i] = (np.exp(1j*self.l*theta)).mean()
+            else:
+                weightslist = read_neighbors(fweights, snapshot.nparticle, self.Nmax)
+                if (weightslist<0).any():
+                    logger.info(f"Negative weights for {n}-snapshot, normalization by sum of absolutes")
+                for i in range(snapshot.nparticle):
+                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
+                    RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
+                    RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                    theta = np.arctan2(RIJ[:, 1], RIJ[:, 0])
+                    weights = weightslist[i, 1:Neighborlist[i, 0]+1]
+                    weights /= np.abs(weights).sum()
+                    results[n, i] = (weights*np.exp(1j*self.l*theta)).sum()
+        fneighbor.close()
+        if self.weightsfile:
+            fweights.close()
+        return results
+
+    def modulus_phase(
+        self,
+        time_period: float=None,
+        dt: float=0.002,
+        average_complex: bool=False,
+        outputfile: str=None
+    )->Tuple[np.ndarray, np.ndarray]:
+        """
+        calculate the modulus and phase of the particle-level orientational order
+        considering time average of the order parameter if time_period not None
+        
+        Inputs:
+            1. time_period (float): time average period, default None
+            2. dt (float): simulation snapshots time step, default 0.002
+            3. average_complex (bool): whether averaging the complex order parameter or not, default False
+            4. outputfile (float): file name of the output modulus and phase, default None
+        
+        Return:
+            calculated modulus and phase, both in np.ndarray
+        """
+        # time average
+        if time_period:
+            logger.info("Calculate modulus and phase of time averaged order parameter")
+            if average_complex:
+                average_quantity, average_snapshot_id = time_average(
+                    snapshots=self.snapshots,
+                    input_property=self.ParticlePhi,
+                    time_period=time_period,
+                    dt=dt
+                )
+                modulus = np.abs(average_quantity)
+                phase = np.angle(average_quantity)
+                if outputfile:
+                    np.savetxt(outputfile+'_modulus.dat', modulus, fmt="%.6f", header="", comments="")
+                    np.savetxt(outputfile+"_phase.dat", phase, fmt="%.6f", header="", comments="")
+                    np.savetxt(
+                        outputfile+"_snapshot_id.dat",
+                        average_snapshot_id[:, np.newaxis],
+                        fmt="%d", header="middle_snapshot_id", comments="")
+                return modulus, phase, average_quantity, average_snapshot_id
+            else:
+                average_modulus, average_snapshot_id = time_average(
+                    snapshots=self.snapshots,
+                    input_property=np.abs(self.ParticlePhi),
+                    time_period=time_period,
+                    dt=dt
+                )
+                average_phase, average_snapshot_id = time_average(
+                    snapshots=self.snapshots,
+                    input_property=np.angle(self.ParticlePhi),
+                    time_period=time_period,
+                    dt=dt
+                )
+                if outputfile:
+                    np.savetxt(outputfile+'_modulus.dat', average_modulus, fmt="%.6f", header="", comments="")
+                    np.savetxt(outputfile+"_phase.dat", average_phase, fmt="%.6f", header="", comments="")
+                    np.savetxt(
+                        outputfile+"_snapshot_id.dat",
+                        average_snapshot_id[:, np.newaxis],
+                        fmt="%d", header="middle_snapshot_id", comments="")
+                return average_modulus, average_phase, average_snapshot_id
+        # original
+        logger.info("Calculate orignal modulus and phase of the order parameter")
+        modulus = np.abs(self.ParticlePhi)
+        phase = np.angle(self.ParticlePhi)
+        if outputfile:
+            np.savetxt(outputfile+'_modulus.dat', modulus, fmt="%.6f", header="", comments="")
+            np.savetxt(outputfile+"_phase.dat", phase, fmt="%.6f", header="", comments="")
+        return modulus, phase
+
+    def spatial_corr(
+        self,
+        rdelta: float=0.01,
+        outputfile: str=None
+    ) -> pd.DataFrame:
+        """
+        Calculate spatial correlation of the orientational order parameter
+
+        Inputs:
+            1. rdelta (float): bin size in calculating g(r) and Gl(r), default 0.01
+            2. outputfile (str): csv file name for gl(r), default None
+
+        Return:
+            calculated gl(r) based on phi
+        """
+        logger.info(f'Start calculating spatial correlation of phi for l={self.l}')
+
+        glresults = 0
+        for n, snapshot in enumerate(self.snapshots.snapshots):
+            glresults += conditional_gr(
+                snapshot=snapshot,
+                condition=self.ParticlePhi[n],
+                conditiontype=None,
+                ppp=self.ppp,
+                rdelta=rdelta
+            )
+        glresults /= self.snapshots.nsnapshots
+        if outputfile:
+            glresults.to_csv(outputfile, float_format="%.8f", index=False)
+
+        logger.info(f'Finish calculating spatial correlation of phi for l={self.l}')
+        return glresults
+
+    def time_corr(
+        self,
+        dt: float=0.002,
+        outputfile: str=None
+    ) -> pd.DataFrame:
+        """
+        Calculate time correlation of the orientational order parameter
+
+        Inputs:
+            1. dt (float): timestep used in user simulations, default 0.002
+            2. outputfile (str): csv file name for time correlation results, default None
+
+        Return:
+            time correlation quantity (pd.DataFrame)
+        """
+        logger.info(f'Start calculating time correlation of phi for l={self.l}')
+
+        gl_time = time_correlation(
+            snapshots=self.snapshots,
+            condition=self.ParticlePhi,
+            dt=dt
+        )
+
+        # normalization
         gl_time["time_corr"] /= gl_time.loc[0, "time_corr"]
         if outputfile:
             gl_time.to_csv(outputfile, float_format="%.6f", index=False)
