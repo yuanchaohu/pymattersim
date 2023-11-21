@@ -11,7 +11,7 @@ logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
 
-def q8(
+def q_tetra(
     snapshots: Snapshots,
     ppp: np.ndarray=np.array([1,1,1]),
     outputfile: str=None
