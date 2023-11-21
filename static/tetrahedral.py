@@ -18,8 +18,7 @@ def q8(
 ) -> np.ndarray:
     """
     Calculate local tetrahedral order of the simulation system,
-    such as for water-type and silicon-type systems
-    Currently this calculation is only available for 3D.
+    such as for water-type and silicon-type systems in three dimensions
 
     Inputs:
         1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
@@ -31,7 +30,7 @@ def q8(
     Return:
         calculated local tetrahedral order in np.ndarray with shape [nsnapshots, nparticle]
     """
-    logger.info("Start calculating local tetrahedral order of the input system")
+    logger.info("Start calculating local tetrahedral order q8")
 
     assert len(
         {snapshot.nparticle for snapshot in snapshots.snapshots}
@@ -39,6 +38,7 @@ def q8(
     assert len(
         {tuple(snapshot.boxlength) for snapshot in snapshots.snapshots}
         )==1, "Simulation box length changes during simulation"
+    assert ppp.shape[0]==3, "Simulation box is in three dimensions"
 
     # only consider the nearest four neighbors
     num_nearest = 4
@@ -55,6 +55,7 @@ def q8(
                     medium1 = np.dot(RIJ[nearests[j]], RIJ[nearests[k]])
                     medium2 = distance[nearests[j]] * distance[nearests[k]]
                     resutls[n, i] += (medium1 / medium2 + 1.0/3)**2
+    resutls = 1.0 - 3.0/8*resutls/num_nearest
 
     if outputfile:
         np.savetxt(outputfile, resutls, fmt="%.6f", header="", comments="")
