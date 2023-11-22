@@ -1,14 +1,29 @@
-2023-11-22 09:18:46,258 INFO tetrahedral_test Starting test tetrahedral using tests/sample_test_data/test_additional_columns.dump...
-2023-11-22 09:18:46,258 INFO reader.dump_reader Start reading file tests/sample_test_data/test_additional_columns.dump of type DumpFileType.LAMMPS
-2023-11-22 09:18:46,258 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-22 09:18:46,294 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-22 09:18:46,294 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-22 09:18:46,294 INFO reader.dump_reader Finish reading file tests/sample_test_data/test_additional_columns.dump in 0.03650641441345215 seconds
-2023-11-22 09:18:46,294 INFO static.tetrahedral Start calculating local tetrahedral order q8
-2023-11-22 09:18:51,096 INFO static.tetrahedral Finish calculating local tetrahedral order of the input system
-2023-11-22 09:18:51,109 INFO tetrahedral_test Finishing test tetrahedral using tests/sample_test_data/test_additional_columns.dump...
+2023-11-22 10:16:19,832 INFO packing_capability_test Starting test theta2d using tests/sample_test_data/dump_2D.atom...
+2023-11-22 10:16:19,832 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2023-11-22 10:16:19,832 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-22 10:16:19,907 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-22 10:16:19,907 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-22 10:16:19,907 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07499861717224121 seconds
+2023-11-22 10:16:19,907 INFO neighbors.freud_neighbors Start calculating neighbors by freud
+2023-11-22 10:16:24,475 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
+2023-11-22 10:16:24,477 INFO static.packing_capability Start calculating packing capability of a 2D system
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,483 INFO neighbors.read_neighbors Reading neighboring particle properties
+2023-11-22 10:16:27,863 INFO neighbors.read_neighbors Reading neighboring particle properties
+2023-11-22 10:16:31,306 INFO neighbors.read_neighbors Reading neighboring particle properties
+2023-11-22 10:16:34,958 INFO neighbors.read_neighbors Reading neighboring particle properties
+2023-11-22 10:16:38,335 INFO neighbors.read_neighbors Reading neighboring particle properties
+2023-11-22 10:16:41,874 INFO static.packing_capability Finish calculating packing capability of a 2D system
+2023-11-22 10:16:41,881 INFO packing_capability_test Finishing test theta2d using tests/sample_test_data/dump_2D.atom...
 .
 ----------------------------------------------------------------------
-Ran 1 test in 4.852s
+Ran 1 test in 22.051s
 
 OK
