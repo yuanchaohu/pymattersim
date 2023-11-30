@@ -30,7 +30,8 @@ def packing_capability_2d(
         3. neighborfile (str): file name of particle neighbors (see module neighbors)
         4. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no, 
                              default np.ndarray=np.array([1,1])
-        5. outputfile (str): file name to save the calculated packing capability
+        5. outputfile (str): file name to save the calculated packing capability, default None
+                             supporting both binary npy file with extension "npy" and text file with extension "dat" or "txt"
 
     Return:
         Calculated packing capability of a 2D system
@@ -75,6 +76,11 @@ def packing_capability_2d(
     fneighbor.close()
 
     if outputfile:
-        np.savetxt(outputfile, results, fmt="%.6f", header='', comments='')
+        if outputfile[-3:] == 'npy':
+            np.save(outputfile, results)
+        elif outputfile[-3:] == ('dat' or 'txt'):
+            np.savetxt(outputfile, results, fmt='%.6f', header='', comments='')
+        else:
+            logger.info('The format of outputfile supports binary npy file with extension "npy" and text file with extension "dat" or "txt"')
     logger.info("Finish calculating packing capability of a 2D system")
     return results

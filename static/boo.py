@@ -77,9 +77,6 @@ class boo_3d:
         self.ppp = ppp
         self.Nmax = Nmax
 
-        assert len(set(np.diff(
-            [snapshot.timestep for snapshot in self.snapshots.snapshots]
-        ))) == 1, "Warning: Dump interval changes during simulation"
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len(
             {snapshot.nparticle for snapshot in self.snapshots.snapshots}
@@ -164,11 +161,12 @@ class boo_3d:
         Inputs:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
-            2. outputfile (str): txt file name for ql or Ql results, default None
+            2. outputfile (str): file name for ql or Ql results, default None
+                                 supporting both binary npy file with extension "npy" and text file with extension "dat" or "txt"
         
         Return:
-            calculated ql or Ql (np.ndarray) 
-            shape [nsnapshot, nparticle]
+            Calculated ql or Ql (np.ndarray)
+            shape [nsnapshots, nparticle]
         """
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
@@ -179,7 +177,13 @@ class boo_3d:
 
         ql_Ql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(cal_qlmQlm)).sum(axis=2))
         if outputfile:
-            np.savetxt(outputfile, ql_Ql, fmt="%.6f", header="", comments="")
+            if outputfile[-3:] == 'npy':
+                np.save(outputfile, ql_Ql)
+            elif outputfile[-3:] == ('dat' or 'txt'):
+                np.savetxt(outputfile, ql_Ql, fmt='%.6f', header='', comments='')
+            else:
+                logger.info('The format of outputfile supports binary npy file with extension "npy" and text file with extension "dat" or "txt"')
+
 
         logger.info(f'Finish calculating rotational invariants ql or Ql for l={self.l}')
         return ql_Ql
@@ -270,9 +274,9 @@ class boo_3d:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
             2. outputw (str): txt file name for w (original) based on qlm or Qlm
-                                       default None
+                              default None
             3. outputwcap (str): txt file name for wcap (normalized) based on qlm or Qlm
-                                       default None
+                                 default None
 
         Return:
             calculated w and wcap (np.adarray) or W and Wcap (np.adarray)
@@ -425,9 +429,6 @@ class boo_2d:
         self.ppp = ppp
         self.Nmax = Nmax
 
-        assert len(
-            set(np.diff([snapshot.timestep for snapshot in self.snapshots.snapshots]))
-        ) == 1, "Warning: Dump interval changes during simulation"
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len(
             {snapshot.nparticle for snapshot in self.snapshots.snapshots}

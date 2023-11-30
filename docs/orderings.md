@@ -11,7 +11,8 @@ In this calculation, only **4** nearest neighbors are taken into consideration. 
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory
 (returned by `reader.dump_reader.DumpReader`)
 - `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1,1])`
-- `outputfile` (`str`): the name of file to save the calculated local tetrahedral order
+- `outputfile` (`str`): file name to save the calculated local tetrahedral order, default `None`.
+                        supporting both binary npy file with extension *npy* and text file with extension *dat* or *txt*
 
 ## Return
 - calculated local tetrahedral order in `np.ndarray` with shape `[nsnapshots, nparticle]`
@@ -41,7 +42,8 @@ where $N_o$ is the unique nearest pair number around the center, which equals to
 - `sigmas` (`np.ndarray`): particle sizes for each pair type (ascending order) in numpy array, can refer to  first peak position of partial g(r), shape as `[particle_type, particle_type]`
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
 - `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1])`
-- `outputfile` (`str`): the name of file to save the calculated theta_2D
+- `outputfile` (`str`): file name to save the calculated packing capability theta_2D, default `None`.
+                        supporting both binary npy file with extension *npy* and text file with extension *dat* or *txt*
 
 ## Return
 - calculated packing capability of a 2D system in `np.ndarray` with shape `[nsnapshots, nparticle]`

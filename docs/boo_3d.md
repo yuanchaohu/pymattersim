@@ -130,7 +130,7 @@ qlm, Qlm = boo.qlm_Qlm()
 
 ### Input Arguments
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
-- `outputfile` (`str`): txt file name for $q_l$ or $Q_l$ results, default `None`
+- `outputfile` (`str`): file name for $q_l$ or $Q_l$ results, default `None`. Supporting both binary npy file with extension *npy* and text file with extension *dat* or *txt*
 
 ### Return
 - calculated $q_l$ or $Q_l$ in `np.ndarray` with shape `[nsnapshots, nparticle]`
