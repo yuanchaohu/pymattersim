@@ -44,7 +44,7 @@ def time_average(
     results_middle_snapshots = []
 
     for n in range(results.shape[0]):
-        results[n, :] = input_property[n: n+time_nsnapshot].mean(axis=0)
+        results[n, :] = input_property[n:n+time_nsnapshot].mean(axis=0)
         results_middle_snapshots.append(round(n+time_nsnapshot/2))
     return results, np.array(results_middle_snapshots)
 

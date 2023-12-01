@@ -130,7 +130,7 @@ qlm, Qlm = boo.qlm_Qlm()
 
 ### Input Arguments
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
-- `outputfile` (`str`): file name for $q_l$ or $Q_l$ results, default `None`. Supporting both binary npy file with extension *npy* and text file with extension *dat* or *txt*
+- `outputfile` (`str`): file name for $q_l$ or $Q_l$ results, default `None`. To reduce storage size and ensure loading speed, save npy file as default with extension ".npy". If the file extension is ".dat" or ".txt", it is saved as a text file.
 
 ### Return
 - calculated $q_l$ or $Q_l$ in `np.ndarray` with shape `[nsnapshots, nparticle]`
@@ -169,7 +169,7 @@ sij_Ql = boo.sij_ql_Ql(coarse_graining=True,
 ### Input Arguments
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
 - `outputw` (`str`): txt file name for w (original) based on $q_{lm}$ or $Q_{lm}$, default `None`
-- `outputwcap` (`str`): txt file name for wcap (normalized) based on $q_{lm}$ or $Q_{lm}$, default `None`
+- `outputwcap` (`str`): file name for wcap (normalized) based on qlm or Qlm, default None. To reduce storage size and ensure loading speed, save npy file as default with extension ".npy". If the file extension is ".dat" or ".txt", it is saved as a text file.
 
 ### Return
 - calculated $w$ and $w_{cap}$ (`np.adarray`) or $W$ and $W_{cap}$ (`np.adarray`) with shape `[nsnapshots, nparticle]`

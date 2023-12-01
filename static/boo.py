@@ -162,8 +162,9 @@ class boo_3d:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
             2. outputfile (str): file name for ql or Ql results, default None
-                                 supporting both binary npy file with extension "npy" and text file with extension "dat" or "txt"
-        
+                                 To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
+                                 If the file extension is ".dat" or ".txt", it is saved as a text file.
+
         Return:
             Calculated ql or Ql (np.ndarray)
             shape [nsnapshots, nparticle]
@@ -177,14 +178,12 @@ class boo_3d:
 
         ql_Ql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(cal_qlmQlm)).sum(axis=2))
         if outputfile:
-            if outputfile[-3:] == 'npy':
-                np.save(outputfile, ql_Ql)
-            elif outputfile[-3:] == ('dat' or 'txt'):
+            if outputfile.endswith('.dat') or outputfile.endswith('.txt'):
                 np.savetxt(outputfile, ql_Ql, fmt='%.6f', header='', comments='')
+            elif outputfile.endswith('.npy'):
+                np.save(outputfile, ql_Ql)
             else:
-                logger.info('The format of outputfile supports binary npy file with extension "npy" and text file with extension "dat" or "txt"')
-
-
+                logger.info('The default format of outputfile is binary npy with extension "npy" and also supports text file with extension "dat" or "txt"')
         logger.info(f'Finish calculating rotational invariants ql or Ql for l={self.l}')
         return ql_Ql
 
@@ -275,8 +274,9 @@ class boo_3d:
                                        default False
             2. outputw (str): txt file name for w (original) based on qlm or Qlm
                               default None
-            3. outputwcap (str): txt file name for wcap (normalized) based on qlm or Qlm
-                                 default None
+            3. outputwcap (str): file name for wcap (normalized) based on qlm or Qlm, default None
+                                 To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
+                                 If the file extension is ".dat" or ".txt", it is saved as a text file.
 
         Return:
             calculated w and wcap (np.adarray) or W and Wcap (np.adarray)
@@ -296,13 +296,22 @@ class boo_3d:
         for n in range(cal_qlmQlm.shape[0]):
             for i in range(cal_qlmQlm.shape[1]):
                 w_W[n, i] = (np.real(np.prod(cal_qlmQlm[n, i, Windex], axis=1))*w3j).sum()
-
         if outputw:
-            np.savetxt(outputw, w_W, fmt="%.6f", header="", comments="")
+            if outputw.endswith('.dat') or outputw.endswith('.txt'):
+                np.savetxt(outputw, w_W, fmt='%.6f', header="", comments="")
+            elif outputw.endswith('.npy'):
+                np.save(outputw, w_W)
+            else:
+                logger.info('The default format of outputfile is binary npy with extension "npy" and also supports text file with extension "dat" or "txt"')
 
         w_W_cap = np.power(np.square(np.abs(cal_qlmQlm)).sum(axis=2), -3/2) * w_W
         if outputwcap:
-            np.savetxt(outputwcap, w_W_cap, fmt="%.6f", header="", comments="")
+            if outputwcap.endswith('.dat') or outputwcap.endswith('.txt'):
+                np.savetxt(outputwcap, w_W_cap, fmt='%.6f', header="", comments="")
+            elif outputwcap.endswith('.npy'):
+                np.save(outputwcap, w_W_cap)
+            else:
+                logger.info('The default format of outputfile is binary npy with extension "npy" and also supports text file with extension "dat" or "txt"')
 
         logger.info(f'Finish calculating wigner 3-j symbol boo for l={self.l}')
         return w_W, w_W_cap
