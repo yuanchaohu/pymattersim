@@ -32,7 +32,7 @@ def packing_capability_2d(
                              default np.ndarray=np.array([1,1])
         5. outputfile (str): file name to save the calculated packing capability, default None
                              To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
-                             If the file extension is ".dat" or ".txt", it is saved as a text file.
+                             If the file extension is ".dat" or ".txt", also saved a text file.
 
 
     Return:
@@ -78,12 +78,11 @@ def packing_capability_2d(
     fneighbor.close()
 
     if outputfile:
+        np.save(outputfile, results)
         if outputfile.endswith('.dat') or outputfile.endswith('.txt'):
             np.savetxt(outputfile, results, fmt='%.6f', header="", comments="")
-        elif outputfile.endswith('.npy'):
-            np.save(outputfile, results)
         else:
-            logger.info('The default format of outputfile is binary npy with extension "npy" and also supports text file with extension "dat" or "txt"')
+            logger.info('The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
     logger.info("Finish calculating packing capability of a 2D system")
     return results
 
@@ -102,7 +101,8 @@ def q8_tetrahedral(
         2. ppp (np.ndarray): the periodic boundary conditions,
                         setting 1 for yes and 0 for no, default np.ndarray=np.array([1,1,1])
         3. outputfile (str): file name to save the calculated local tetrahedral order, default None
-                             supporting both binary npy file with extension "npy" and text file with extension "dat" or "txt"
+                             To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
+                             If the file extension is ".dat" or ".txt", also saved a text file.
 
     Return:
         calculated local tetrahedral order in np.ndarray with shape [nsnapshots, nparticle]
@@ -133,14 +133,11 @@ def q8_tetrahedral(
                     medium2 = distance[nearests[j]] * distance[nearests[k]]
                     results[n, i] += (medium1 / medium2 + 1.0/3)**2
     results = 1.0 - 3.0/8*results/num_nearest
-
     if outputfile:
+        np.save(outputfile, results)
         if outputfile.endswith('.dat') or outputfile.endswith('.txt'):
             np.savetxt(outputfile, results, fmt='%.6f', header="", comments="")
-        elif outputfile.endswith('.npy'):
-            np.save(outputfile, results)
         else:
-            logger.info('The default format of outputfile is binary npy with extension "npy" and also supports text file with extension "dat" or "txt"')
-
+            logger.info('The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
     logger.info("Finish calculating local tetrahedral order of the input system")
     return results
