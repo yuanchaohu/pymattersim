@@ -29,6 +29,21 @@ def nidealfac(ndim: int=3) -> float:
     elif ndim == 2:
         return 1.0
 
+def areafac(ndim: int=3) -> float:
+    """
+    Choose factor of area in S2 calculation
+
+    Inputs:
+        ndim (int): system dimensionality, default 3
+
+    Return:
+        (float): Areafac
+    """
+    if ndim == 3:
+        return 4.0
+    elif ndim == 2:
+        return 2.0
+
 def moment_of_inertia(
     positions: np.ndarray,
     m: int=1,
