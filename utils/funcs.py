@@ -92,3 +92,15 @@ def Wignerindex(l :int) -> np.ndarray:
                     selected.append(np.array([m1, m2, m3, windex]))
 
     return np.ravel(np.array(selected)).reshape(-1, 4)
+
+def gaussian_smooth(bins: np.ndarray, mu: float=0, sigma: float=1)->np.ndarray:
+    """
+    Calculate the gaussian distribution of the input pproperty
+
+    inputs:
+
+    outputs:
+    
+    """
+    sigma2 = 2*sigma**2
+    return np.exp(-np.square(bins-mu)/sigma2)/np.sqrt(sigma2*np.pi)
