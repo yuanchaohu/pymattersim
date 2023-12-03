@@ -16,8 +16,10 @@ logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name
 # pylint: disable=line-too-long
 
-def s2_integral(gr:np.ndarray):
-    pass
+def s2_integral(gr: np.ndarray, gr_bins: np.ndarray)->float:
+    y = (gr * np.log(gr) - gr + 1) * np.square(gr_bins)
+    return np.trapz(y, gr_bins)
+
 
 class S2:
     """
@@ -71,17 +73,18 @@ class S2:
 
         self.rhototal = self.nparticle / self.boxvolume
         self.rhotype = self.typecount / self.boxvolume
-        self.gr_bins = np.arange(int(self.rmax/self.rdelta))[1:]*self.rdelta
-        self.gr_results = np.zeros((self.nsnapshots, self.nparticle, self.gr_bins.shape[0]))
-        if ppp.shape[0]==2:
-            self.norms = 2*np.pi*self.gr_bins # 2d
-        else:
-            self.norms = 4*np.pi*np.square(self.gr_bins) # 3d
+        self.s2_results = np.zeros((self.nsnapshots, self.nparticle))
 
-    def particle_gr(self):
+    def particle_s2(self):
         """
         calculate the particle-level g(r) by Gaussian smoothing
         """
+
+        gr_bins = np.arange(int(self.rmax/self.rdelta))[1:]*self.rdelta
+        if self.ppp.shape[0]==2:
+            norms = 2*np.pi*gr_bins # 2d
+        else:
+            norms = 4*np.pi*np.square(gr_bins) # 3d
 
         for n, snapshot in enumerate(self.snapshots.snapshots):
             for i in range(self.nparticle):
@@ -90,15 +93,13 @@ class S2:
                 distance = np.linalg.norm(RIJ, axis=1)
                 itype = int(snapshot.particle_type[i]-1)
                 jtypes = (np.delete(snapshot.particle_type, i)-1).astype(np.int64)
+                gr_i = 0
                 for j, rij in enumerate(distance):
                     sigma = self.sigmas[itype, jtypes[j]]
-                    self.gr_results[n, i, :] += gaussian_smooth(gr_bins, rij, sigma)
-            self.gr_results[n, i, :] /= self.rhotype[itype] * norms
-        return self.gr_results
-    
-    def particle_s2(self):
-        pass
-
+                    gr_i += gaussian_smooth(gr_bins, rij, sigma)
+                gr_i /= self.rhotype[itype] * norms
+                self.s2_results[n, i] = s2_integral(gr_i, gr_bins)
+        return self.s2_results
 
     def timeave(
         self,
