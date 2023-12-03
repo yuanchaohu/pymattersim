@@ -1,14 +1,13 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/S2.md"""
+"""see documentation @ ../docs/pair_entropy.md"""
 
-from typing import Tuple
 import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
 from utils.pbc import remove_pbc
 from utils.coarse_graining import time_average
-from utils.funcs import nidealfac, areafac
+from utils.funcs import nidealfac, areafac, gaussian_smooth
 from utils.logging import get_logger_handle
 from static.gr import conditional_gr
 
@@ -16,6 +15,9 @@ logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
 # pylint: disable=line-too-long
+
+def s2_integral(gr:np.ndarray):
+    pass
 
 class S2:
     """
@@ -26,8 +28,10 @@ class S2:
     def __init__(
             self,
             snapshots: Snapshots,
+            sigmas: np.ndarray,
             ppp: np.ndarray=np.array([1,1,1]),
             rdelta: float=0.01,
+            rmax: int=10,
             outputfile: str=None
     ) -> None:
         """
@@ -46,8 +50,10 @@ class S2:
             None
         """
         self.snapshots = snapshots
+        self.sigmas = sigmas
         self.ppp = ppp
         self.rdelta = rdelta
+        self.rmax = rmax
         self.outputfile = outputfile
 
         self.nsnapshots = self.snapshots.nsnapshots
@@ -63,11 +69,36 @@ class S2:
         assert np.sum(self.typecount) == self.nparticle,\
             "Sum of Indivdual Types is Not the Total Amount"
 
-        self.nidealfac = nidealfac(self.ndim)
-        self.areafac = areafac(self.ndim)
         self.rhototal = self.nparticle / self.boxvolume
         self.rhotype = self.typecount / self.boxvolume
-        self.maxbin = int(self.snapshots.snapshots[0].boxlength.min()/2.0/self.rdelta)
+        self.gr_bins = np.arange(int(self.rmax/self.rdelta))[1:]*self.rdelta
+        self.gr_results = np.zeros((self.nsnapshots, self.nparticle, self.gr_bins.shape[0]))
+        if ppp.shape[0]==2:
+            self.norms = 2*np.pi*self.gr_bins # 2d
+        else:
+            self.norms = 4*np.pi*np.square(self.gr_bins) # 3d
+
+    def particle_gr(self):
+        """
+        calculate the particle-level g(r) by Gaussian smoothing
+        """
+
+        for n, snapshot in enumerate(self.snapshots.snapshots):
+            for i in range(self.nparticle):
+                RIJ = np.delete(snapshot.positions, i, axis=0) - snapshot.positions[i]
+                RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
+                distance = np.linalg.norm(RIJ, axis=1)
+                itype = int(snapshot.particle_type[i]-1)
+                jtypes = (np.delete(snapshot.particle_type, i)-1).astype(np.int64)
+                for j, rij in enumerate(distance):
+                    sigma = self.sigmas[itype, jtypes[j]]
+                    self.gr_results[n, i, :] += gaussian_smooth(gr_bins, rij, sigma)
+            self.gr_results[n, i, :] /= self.rhotype[itype] * norms
+        return self.gr_results
+    
+    def particle_s2(self):
+        pass
+
 
     def timeave(
         self,
