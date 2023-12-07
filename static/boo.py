@@ -494,7 +494,7 @@ class boo_2d:
         self,
         time_period: float=None,
         dt: float=0.002,
-        average_complex: bool=False,
+        average_complex: bool=True,
         outputfile: str=None
     )->Tuple[np.ndarray, np.ndarray]:
         """
@@ -504,7 +504,7 @@ class boo_2d:
         Inputs:
             1. time_period (float): time average period, default None
             2. dt (float): simulation snapshots time step, default 0.002
-            3. average_complex (bool): whether averaging the complex order parameter or not, default False
+            3. average_complex (bool): whether averaging the complex order parameter or not, default True
             4. outputfile (float): file name of the output modulus and phase, default None
         
         Return:
@@ -533,7 +533,7 @@ class boo_2d:
                     time_period=time_period,
                     dt=dt
                 )
-                average_quantity = average_modulus * np.exp(1j * average_phase)
+                average_quantity = average_modulus.real * np.exp(1j * average_phase.real)
 
             if outputfile:
                 np.save(outputfile, average_quantity)

@@ -96,7 +96,7 @@ As equation (3) and (4) shows, one snapshot is intended to be averaged from $-\t
 
 - `time_period` (`float`): time average period, default `None`
 - `dt` (`float`): simulation snapshots time step, default 0.002
-- `average_complex` (`bool`): whether averaging the complex order parameter or not, default `False`
+- `average_complex` (`bool`): whether averaging the complex order parameter or not, default `True`
 - `outputfile` (`float`): file name of the output modulus and phase, default `None`
 
 ### Return
