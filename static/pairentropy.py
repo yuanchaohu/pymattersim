@@ -116,7 +116,7 @@ class S2:
                 if savegr:
                     particle_gr[n, i, :] = gr_i
 
-                s2_results[n, i] = -2*np.pi*self.rhototal*s2_integral(gr_i, gr_bins, self.ndim)
+                s2_results[n, i] = -(self.ndim-1)*np.pi*self.rhototal*s2_integral(gr_i, gr_bins, self.ndim)
         self.s2_results = s2_results
         if outputfile:
             np.save(outputfile, s2_results)
