@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
 from utils.pbc import remove_pbc
-from utils.coarse_graining import time_average
 from utils.funcs import gaussian_smooth
 from utils.logging import get_logger_handle
 from static.gr import conditional_gr
