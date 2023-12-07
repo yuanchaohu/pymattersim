@@ -15,10 +15,11 @@ logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name
 # pylint: disable=line-too-long
 
-def s2_integral(gr: np.ndarray, gr_bins: np.ndarray)->float:
+def s2_integral(gr:np.ndarray, gr_bins:np.ndarray, ndim:float=3)->float:
     """spatial integration of derivative g(r) product to get S2"""
 
-    y = (gr * np.log(gr) - gr + 1) * np.square(gr_bins)
+    y = gr * np.log(gr) - gr + 1
+    y *= np.power(gr_bins, ndim-1)
     return np.trapz(y, gr_bins)
 
 
@@ -59,6 +60,7 @@ class S2:
         self.rdelta = rdelta
         self.ndelta = ndelta
 
+        self.ndim = ppp.shape[0]
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}) == 1,\
             "Paticle Number Changes during simulation"
@@ -114,7 +116,7 @@ class S2:
                 if savegr:
                     particle_gr[n, i, :] = gr_i
 
-                s2_results[n, i] = -2*np.pi*self.rhototal*s2_integral(gr_i, gr_bins)
+                s2_results[n, i] = -2*np.pi*self.rhototal*s2_integral(gr_i, gr_bins, self.ndim)
         self.s2_results = s2_results
         if outputfile:
             np.save(outputfile, s2_results)
