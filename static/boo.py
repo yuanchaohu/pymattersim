@@ -490,7 +490,7 @@ class boo_2d:
             fweights.close()
         return results
 
-    def modulus_phase(
+    def time_average(
         self,
         time_period: float=None,
         dt: float=0.002,
@@ -520,17 +520,6 @@ class boo_2d:
                     time_period=time_period,
                     dt=dt
                 )
-                modulus = np.abs(average_quantity)
-                phase = np.angle(average_quantity)
-                if outputfile:
-                    np.savetxt(outputfile+'_modulus.dat', modulus, fmt="%.6f", header="", comments="")
-                    np.savetxt(outputfile+"_phase.dat", phase, fmt="%.6f", header="", comments="")
-                    np.save(outputfile, average_quantity)
-                    np.savetxt(
-                        outputfile+"_snapshot_id.dat",
-                        average_snapshot_id[:, np.newaxis],
-                        fmt="%d", header="middle_snapshot_id", comments="")
-                return modulus, phase, average_quantity, average_snapshot_id
             else:
                 average_modulus, average_snapshot_id = time_average(
                     snapshots=self.snapshots,
@@ -544,22 +533,20 @@ class boo_2d:
                     time_period=time_period,
                     dt=dt
                 )
-                if outputfile:
-                    np.savetxt(outputfile+'_modulus.dat', average_modulus, fmt="%.6f", header="", comments="")
-                    np.savetxt(outputfile+"_phase.dat", average_phase, fmt="%.6f", header="", comments="")
-                    np.savetxt(
-                        outputfile+"_snapshot_id.dat",
-                        average_snapshot_id[:, np.newaxis],
-                        fmt="%d", header="middle_snapshot_id", comments="")
-                return average_modulus, average_phase, average_snapshot_id
+                average_quantity = 0
+
+            if outputfile:
+                np.save(outputfile, average_quantity)
+                np.savetxt(
+                    outputfile+"_snapshot_id.dat",
+                    average_snapshot_id[:, np.newaxis],
+                    fmt="%d", header="middle_snapshot_id", comments="")
+            return average_quantity, average_snapshot_id
         # original
         logger.info("Calculate orignal modulus and phase of the order parameter")
-        modulus = np.abs(self.ParticlePhi)
-        phase = np.angle(self.ParticlePhi)
         if outputfile:
-            np.savetxt(outputfile+'_modulus.dat', modulus, fmt="%.6f", header="", comments="")
-            np.savetxt(outputfile+"_phase.dat", phase, fmt="%.6f", header="", comments="")
-        return modulus, phase
+            np.save(outputfile, self.ParticlePhi)
+        return self.ParticlePhi
 
     def spatial_corr(
         self,
