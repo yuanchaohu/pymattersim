@@ -63,3 +63,5 @@ readdump.read_onefile()
 cal_neighbors(snapshots=readdump.snapshots, outputfile='test')
 theta = theta_2D(readdump.snapshots, sigmas=np.array([[1.5,1.5],[1.5,1.5]]), neighborfile='test.neighbor.dat')
 ```
+
+# Pair entropy $S_2$
