@@ -9,15 +9,25 @@ from utils.pbc import remove_pbc
 from utils.funcs import gaussian_smooth
 from utils.logging import get_logger_handle
 from static.gr import conditional_gr
+from dynamic.time_corr import time_correlation
 
 logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
 # pylint: disable=line-too-long
 
-def s2_integral(gr:np.ndarray, gr_bins:np.ndarray, ndim:float=3)->float:
-    """spatial integration of derivative g(r) product to get S2"""
+def s2_integral(gr:np.ndarray, gr_bins:np.ndarray, ndim:int=3)->float:
+    """
+    spatial integration of derivative g(r) product to get S2
 
+    Inputs:
+        1. gr (np.ndarray): g(r) results, supporting both particle-level gr and system gr
+        2. gr_bins (np.ndarray): r range
+        3. ndim (int): dimensionality of system, default 3
+
+    Return:
+        integral results to get S2 (float)
+    """
     y = gr * np.log(gr) - gr + 1
     y *= np.power(gr_bins, ndim-1)
     return np.trapz(y, gr_bins)
@@ -25,17 +35,16 @@ def s2_integral(gr:np.ndarray, gr_bins:np.ndarray, ndim:float=3)->float:
 
 class S2:
     """
-    Calculate pair entropy S2 by calculating particle g(r) at single snapshot and integral to get S2,
-    and then average S2 over desired time scales.
+    Calculate pair entropy S2 by calculating particle g(r) at single snapshot and integral to get S2.
     The code accounts for both orthogonal and triclinic cells
     """
     def __init__(
-            self,
-            snapshots: Snapshots,
-            sigmas: np.ndarray,
-            ppp: np.ndarray=np.array([1,1,1]),
-            rdelta: float=0.02,
-            ndelta: int=500,
+        self,
+        snapshots: Snapshots,
+        sigmas: np.ndarray,
+        ppp: np.ndarray=np.array([1,1,1]),
+        rdelta: float=0.02,
+        ndelta: int=500,
     ) -> None:
         """
         Initializing S2 instance
@@ -43,13 +52,12 @@ class S2:
         Inputs:
             1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
                          (returned by reader.dump_reader.DumpReader)
-            2. sigmas: gaussian standard deviation for each pair particle type
+            2. sigmas (np.ndarray): gaussian standard deviation for each pair particle type
             3. ppp (np.ndarray): the periodic boundary conditions,
                                  setting 1 for yes and 0 for no, default np.ndarray=np.array([1,1,1]),
                                  set np.ndarray=np.array([1,1]) for two-dimensional systems
             4. rdelta (float): bin size calculating g(r), the default value is 0.02
             5. ndelta (int): number of bins for g(r) calculation, ndelta*rdelta determines the range
-            4. outputfile (str): the name of csv file to save the calculated S2
 
         Return:
             None
@@ -75,17 +83,23 @@ class S2:
         self.rhototal = self.nparticle / self.boxvolume
         self.s2_results = 0
 
-    def particle_s2(self, savegr:bool=False, outputfile:str=None) -> np.ndarray:
+    def particle_s2(
+        self,
+        savegr: bool=False,
+        outputfile: str=None
+    ) -> np.ndarray:
         """
         Calculate the particle-level g(r) by Gaussian smoothing
-        and then calculate the particle level S2
+        and then calculate the particle-level S2
 
         Inputs:
+            1. savegr (bool): whether save particle g(r), default false
+            2. outputfile (str): the name of csv file to save the calculated S2
 
         Return:
-            particle level S2 in shape [nsnapshot, nparticle]
+            particle level S2 in shape [nsnapshots, nparticle]
         """
-
+        logger.info('Start calculating particle S2 in {self.ndim} dimensionality')
         s2_results = np.zeros((self.snapshots.nsnapshots, self.nparticle))
         gr_bins = np.arange(self.ndelta)*self.rdelta + self.rdelta/2
         rmax = gr_bins.max()
@@ -123,25 +137,35 @@ class S2:
         if savegr:
             np.save('particle_gr.'+outputfile, particle_gr)
             return s2_results, particle_gr
+        logger.info('Finish calculating particle S2 in {self.ndim} dimensionality')
         return s2_results
 
     def spatial_corr(
         self,
+        mean_norm: bool=False,
         outputfile: str=None
     ) -> pd.DataFrame:
         """
         Calculate Spatial Correlation of S2
 
         Inputs:
-            1. outputfile (str): csv file name for gl, default None
+            1. mean_norm (bool): whether use mean normalized S2
+            2. outputfile (str): csv file name for gl, default None
 
-        Return
+        Return:
+            calculated Gl(r) based on S2 (pd.DataFrame)
         """
+        logger.info('Start calculating spatial correlation of S2 in {self.ndim} dimensionality')
         glresults = 0
-        for _, snapshot in enumerate(self.snapshots):
+        
+        for n, snapshot in enumerate(self.snapshots.snapshots):
+            if mean_norm:
+                s2_snapshot = self.s2_results[n] / np.mean(self.s2_results[n])
+            else:
+                s2_snapshot = self.s2_results[n]
             glresults += conditional_gr(
                 snapshot=snapshot,
-                condition=self.s2_results,
+                condition=s2_snapshot,
                 conditiontype=None,
                 ppp=self.ppp,
                 rdelta=self.rdelta
@@ -150,8 +174,36 @@ class S2:
         if outputfile:
             glresults.to_csv(outputfile, float_format="%.8f", index=False)
 
-        logger.info('Finish calculating spatial correlation of S2')
+        logger.info('Finish calculating spatial correlation of S2 in {self.ndim} dimensionality')
         return glresults
 
-    def time_corr(self):
-        pass
+    def time_corr(
+        self,
+        dt: float=0.002,
+        outputfile: str=None
+    ) -> pd.DataFrame:
+        """
+        Calculate time correlation of S2
+
+        Inputs:
+            1. dt (float): timestep used in user simulations, default 0.002
+            2. outputfile (str): csv file name for time correlation results, default None
+
+        Return:
+            time correlation of S2 (pd.DataFrame)
+        """
+        logger.info(f'Start calculating time correlation of S2 in {self.ndim} dimensionality')
+
+        gl_time = time_correlation(
+            snapshots=self.snapshots,
+            condition=self.s2_results,
+            dt=dt
+        )
+
+        # normalization
+        gl_time["time_corr"] /= gl_time.loc[0, "time_corr"]
+        if outputfile:
+            gl_time.to_csv(outputfile, float_format="%.6f", index=False)
+
+        logger.info(f'Finish calculating time correlation of S2 in {self.ndim} dimensionality')
+        return gl_time
