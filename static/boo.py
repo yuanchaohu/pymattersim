@@ -525,6 +525,7 @@ class boo_2d:
                 if outputfile:
                     np.savetxt(outputfile+'_modulus.dat', modulus, fmt="%.6f", header="", comments="")
                     np.savetxt(outputfile+"_phase.dat", phase, fmt="%.6f", header="", comments="")
+                    np.save(outputfile, average_quantity)
                     np.savetxt(
                         outputfile+"_snapshot_id.dat",
                         average_snapshot_id[:, np.newaxis],
