@@ -39,7 +39,10 @@ def time_average(
     time_interval *= dt
     time_nsnapshot = int(time_period/time_interval)
     # save the time averaged results
-    results = np.zeros((snapshots.nsnapshots-time_nsnapshot, snapshots.snapshots[0].nparticle), dtype=np.complex128)
+    results = np.zeros((
+        snapshots.nsnapshots-time_nsnapshot,
+        snapshots.snapshots[0].nparticle),
+    dtype=np.complex128)
     # save the middle snapshot id for each time average period
     results_middle_snapshots = []
 
