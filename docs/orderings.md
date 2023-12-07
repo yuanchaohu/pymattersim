@@ -67,14 +67,20 @@ theta = theta_2D(readdump.snapshots, sigmas=np.array([[1.5,1.5],[1.5,1.5]]), nei
 # 3. Pair entropy $S_2$
 The module `static.pair_entropy` calculates the particle-level pair entropy $S_2$, defined as,
 $$
-S_2^i = -2 \pi \rho k_B \int_0^{r_m} [g_m^i(r) \ln g_m^i(r) - g_m^i(r)+1] r^2 dr \tag{1}
+S_2^i = -2 \pi \rho k_B \int_0^{r_m} [g_m^i(r) \ln g_m^i(r) - g_m^i(r)+1] r^2 dr \quad (3D) \\
+S_2^i = -\pi \rho k_B \int_0^{r_m} [g_m^i(r) \ln g_m^i(r) - g_m^i(r)+1] r dr \quad (2D)
+\tag{1}
 $$
 where $r_m$ is is an upper integration limit that, in principle, should
-be taken to infinity, and $g_m^i(r)$ is the pair correlation function centered at the $i$ th particle. We use a Gaussian smeared $g_m^i(r)$ to obtain a continuous and differentiable quantity,
+be taken to infinity ($g(r_m \to \infty)=1$), and $g_m^i(r)$ is the pair correlation function centered at the $i$ th particle. We use a Gaussian smeared $g_m^i(r)$ to obtain a continuous and differentiable quantity,
 $$
-g_m^i(r) = \frac{1}{4 \pi \rho r^2} \sum_j \frac{1}{\sqrt {2 \pi \sigma^2}} e^{-(r-r_{ij})^2/(2 \sigma ^2)} \tag{2}
+g_m^i(r) = \frac{1}{4 \pi \rho r^2} \sum_j \frac{1}{\sqrt {2 \pi \sigma^2}} e^{-(r-r_{ij})^2/(2 \sigma ^2)} \quad (3D) 
+\\
+g_m^i(r) = \frac{1}{2 \pi \rho r} \sum_j \frac{1}{\sqrt {2 \pi \sigma^2}} e^{-(r-r_{ij})^2/(2 \sigma ^2)} \quad (2D)
+\tag{2}
 $$
-where $j$ are the neighbors of atom i, $r_{ij}$ is the distance between atoms $i$ and $j$, and $\sigma$ is a broadening parameter. We shall choose $\sigma$ so small that $g_m(r)$ ~ $g(r)$, yet large enough for the derivatives relative to the atomic positions to be manageable. The integration in Eq. (1) is calculated numerically using the trapezoid rule.
+where $j$ are the neighbors of atom $i$, $r_{ij}$ is the pair distance, and $\sigma$ is a broadening parameter. 
+The integration in Eq. (1) is calculated numerically using the trapezoid rule.
 
 ## `S2` class
 
@@ -89,58 +95,63 @@ where $j$ are the neighbors of atom i, $r_{ij}$ is the distance between atoms $i
 - None
 
 ### Example
-```
+```python
 from static.pairentropy import S2
 s2 = S2(readdump.snapshots,
         sigmas=np.array([[0.3, 0.2], [0.2, 0.4]]))
 ```
 
 ## `particle_S2()`
-The function calculates the particle-level $g_m(r)$ by Gaussian smoothing and then calculate the particle-level $S_2$.
+The function calculates the particle-level $g_m^i(r)$ by Gaussian smoothing and then calculate the particle-level $S_2^i$.
 
 ### Input Arguments
-- `savegr` (`bool`): whether save particle $g_m(r)$, default `False`
-- `outputfile` (`str`): the name of csv file to save the calculated $S_2$
+- `savegr` (`bool`): whether to save particle $g_m^i(r)$, default `False`
+- `outputfile` (`str`): the name of csv file to save the calculated $S_2^i$
 
 ### Return:
-- particle level $S_2$ in shape `[nsnapshots, nparticle]`
+- `s2_results`: particle level $S_2^i$ in shape `[nsnapshots, nparticle]`
+- particle level $g_m^i$ if `savegr=True` in shape `[nsnapshots, nparticle, ndelta]`
 
 ### Example
-```
+```python
 s2.particle_s2(savegr=True)
-
-s2.s2_results    # return the calculated particle-level S2
 ```
 
 ## `spatial_corr()`
-`spatial_corr()` method calculates spatial correlation function of $S_2$
+`spatial_corr()` method calculates spatial correlation function of (normalized) $S_2^i$:
+$$
+g_s(r) = <S_2(0)S_2(r)>
+$$
 
 ### Input Arguments
-- `mean_norm` (`bool`): whether use mean normalized $S_2$
-- `outputfile` (`str`): csv file name for $g_l$ of $S_2$, default `None`
+- `mean_norm` (`bool`): whether use mean normalized $S_2^i$
+- `outputfile` (`str`): csv file name for $g_l$ of $S_2^i$, default `None`
 
 ### Return
-- calculated spatial correlation results of $S_2$ (`pd.DataFrame`)
+- calculated spatial correlation results of $S_2^i$ (`pd.DataFrame`)
 
 ### Example
-```
+```python
 glresults = s2.spatial_corr()
 
 glresults_normalized = s2.spatial_corr(mean_norm=True)
 ```
 
 ## `time_corr()`
-`time_corr()` method calculates time correlation of $S_2$
+`time_corr()` method calculates time correlation of $S_2^i$
+$$
+g_s(t) = <S_2(0)S_2(t)>
+$$
 
 ### Input Arguments
-- `mean_norm` (`bool`): whether use mean normalized $S_2$
-- `outputfile` (`str`): csv file name for $g_l$ of $S_2$, default `None`
+- `mean_norm` (`bool`): whether use mean normalized $S_2^i$
+- `outputfile` (`str`): csv file name for $g_l$ of $S_2^i$, default `None`
 
 ### Return
-- calculated time correlation results of $S_2$ (`pd.DataFrame`)
+- calculated time correlation results of $S_2^i$ (`pd.DataFrame`)
 
 ### Example
-```
+```python
 s2.time_corr()
 ```
 

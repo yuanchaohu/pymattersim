@@ -97,7 +97,8 @@ class S2:
             2. outputfile (str): the name of csv file to save the calculated S2
 
         Return:
-            particle level S2 in shape [nsnapshots, nparticle]
+            s2_results: particle level S2 in shape [nsnapshots, nparticle]
+            particle_gr: particle level g(r) in shape [nsnapshots, nparticle, ndelta]
         """
         logger.info('Start calculating particle S2 in {self.ndim} dimensionality')
         s2_results = np.zeros((self.snapshots.nsnapshots, self.nparticle))
