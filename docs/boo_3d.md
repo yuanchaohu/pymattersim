@@ -118,7 +118,9 @@ different snapshots are stored in an array for each of them, separately. Both of
 - None
 
 ### Return
-- $q_{lm}$ and $Q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
+- `smallqlm` (`np.ndarray`): $q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
+- `largeQlm` (`np.ndarray`): $Q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
+
 
 ### Example
 ```python
@@ -172,7 +174,8 @@ sij_Ql = boo.sij_ql_Ql(coarse_graining=True,
 - `outputwcap` (`str`): file name for wcap (normalized) based on qlm or Qlm, default None. To reduce storage size and ensure loading speed, save npy file as default with extension ".npy". If the file extension is ".dat" or ".txt", also saved a text file.
 
 ### Return
-- calculated $w$ and $w_{cap}$ (`np.adarray`) or $W$ and $W_{cap}$ (`np.adarray`) with shape `[nsnapshots, nparticle]`
+- `w_W` (`np.adarray`), calculated $w$ or $W$ with shape `[nsnapshots, nparticle]`
+- `w_W_cap` (`np.adarray`), calculated $w_{cap}$ or $W_{cap}$ with shape `[nsnapshots, nparticle]`
 
 ### Example
 ```python

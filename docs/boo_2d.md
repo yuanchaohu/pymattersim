@@ -100,7 +100,8 @@ As equation (3) and (4) shows, one snapshot is intended to be averaged from $-\t
 - `outputfile` (`float`): file name of the output modulus and phase, default `None`
 
 ### Return
-- calculated modulus and phase, both in `np.ndarray`
+- `modulus` (`np.ndarray`): calculated modulus
+- `phase` (`np.ndarray`): calculated phase 
 
 ### Example
 ```python
@@ -131,7 +132,7 @@ Calculate time correlation of the orientational order parameter
 
 
 ### Return
-time correlation quantity (`pd.DataFrame`)
+- time correlation quantity (`pd.DataFrame`)
 
 ### Example
 ```python

@@ -81,8 +81,8 @@ The calculated $S(q)$ is storted in the `outputfile`. Taken ternary sytem as an 
 - `condition` (`np.ndarray`): particle-level condition/property
 
 ### Return
-- calculated conditional $S(q)$ for each input wavevector (`pd.DataFrame`) [FFT in complex number is also returned for reference] 
-- the ensemble averaged $S(q)$ over the same wavenumber (`pd.DataFrame`). 
+- `sqresults` (`pd.DataFrame`): calculated conditional $S(q)$ for each input wavevector [FFT in complex number is also returned for reference] 
+- `ave_sqresults` (`pd.DataFrame`): the ensemble averaged $S(q)$ over the same wavenumber
 
 Note that this calculation is only for single snapshot.
 
