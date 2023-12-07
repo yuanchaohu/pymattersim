@@ -533,7 +533,7 @@ class boo_2d:
                     time_period=time_period,
                     dt=dt
                 )
-                average_quantity = average_modulus * (np.cos(average_phase) + 1j*np.sin(average_phase))
+                average_quantity = average_modulus * np.exp(1j * average_phase)
 
             if outputfile:
                 np.save(outputfile, average_quantity)
