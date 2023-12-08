@@ -498,8 +498,7 @@ class boo_2d:
         outputfile: str=None
     )->Tuple[np.ndarray, np.ndarray]:
         """
-        calculate the modulus and phase of the particle-level orientational order
-        considering time average of the order parameter if time_period not None
+        calculate the particle-level phi considering time average of the order parameter if time_period not None
         
         Inputs:
             1. time_period (float): time average period, default None
@@ -508,7 +507,9 @@ class boo_2d:
             4. outputfile (float): file name of the output modulus and phase, default None
         
         Return:
-            calculated modulus and phase, both in np.ndarray
+            1. ParticlePhi (np.ndarray): the original complex order parameter if time_period=None
+            2. average_quantity (np.ndarray): time averaged phi results if time_period not None
+            3. average_snapshot_id (np.ndarray): middle snapshot number between time periods if time_period not None
         """
         # time average
         if time_period:

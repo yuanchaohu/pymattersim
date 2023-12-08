@@ -82,13 +82,10 @@ Calculate $l$-th orientational order in 2D, such as hexatic order
 lthorder_results = boo2d.lthorder()
 ```
 
-## 3. `modulus_phase()`
-Calculate the modulus and phase of the particle-level orientational order considering time average of the order parameter if `time_period` not `None`. 
-
-There are three cases considered in this function:
-- return modulus and phase of the original complex order parameter (`time_period=None` or as default)
-- return time averaged modulus and phase directly (`time_period=1.0` and `average_complex=False` or as default)
-- return modulus and phase of the time averaged complex order parameter (`time_period=1.0` and `average_complex=True`)
+## 3. `time_average()`
+Calculate the time averaged $\varphi_l(j)$. There are two cases considered in this function:
+- return the original complex order parameter (`time_period=None` or as default)
+- return time averaged complex order parameter (`time_period` not `None`) by averaging complex number directly (`average_complex=True`, `default`) or by averaging mudulus and phase of the complex number first and then calculate complex order parameter (`average_complex=False`).
 
 As equation (3) and (4) shows, one snapshot is intended to be averaged from $-\tau/2$ to $\tau/2$, so the middle snapshot number (`average_snapshot_id`) is also returned for reference. 
 
@@ -100,8 +97,9 @@ As equation (3) and (4) shows, one snapshot is intended to be averaged from $-\t
 - `outputfile` (`float`): file name of the output modulus and phase, default `None`
 
 ### Return
-- `modulus` (`np.ndarray`): calculated modulus
-- `phase` (`np.ndarray`): calculated phase 
+- `ParticlePhi` (`np.ndarray`): the original complex order parameter if `time_period=None`
+- `average_quantity` (`np.ndarray`): time averaged $\varphi_l(j)$ results if `time_period` not `None`
+- `average_snapshot_id` (`np.ndarray`): middle snapshot number between time periods if `time_period` not `None`
 
 ### Example
 ```python
