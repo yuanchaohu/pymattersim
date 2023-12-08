@@ -1,255 +1,29 @@
-2023-11-21 13:25:33,029 INFO reader.dump_reader Start reading file tests/sample_test_data/hexatic_2d.atom of type DumpFileType.LAMMPS
-2023-11-21 13:25:33,029 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-21 13:25:33,350 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-21 13:25:33,350 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-21 13:25:33,350 INFO reader.dump_reader Finish reading file tests/sample_test_data/hexatic_2d.atom in 0.32141709327697754 seconds
-2023-11-21 13:25:33,350 INFO neighbors.freud_neighbors Start calculating neighbors by freud
-2023-11-21 13:25:47,925 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
-2023-11-21 13:25:47,925 INFO boo_test Starting test boo_2d without weight using tests/sample_test_data/hexatic_2d.atom...
-2023-11-21 13:25:47,925 INFO static.boo Calculate 6-th orinentational order in 2D
-2023-11-21 13:25:47,935 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:48,170 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:48,406 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:48,626 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:48,845 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:49,096 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:49,378 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:49,628 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:49,859 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:50,094 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:50,327 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:50,594 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:50,841 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:51,077 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:51,325 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:51,536 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:51,815 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:52,090 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:52,311 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:52,580 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:52,813 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:53,044 INFO static.boo Calculate 6-th orinentational order in 2D
-2023-11-21 13:25:53,044 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:53,277 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:53,593 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:53,878 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:54,151 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:54,394 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:54,695 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:54,982 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:55,215 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:55,457 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:55,708 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:55,944 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:56,194 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:56,419 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:56,659 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:56,886 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:57,113 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:57,394 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:57,648 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:57,892 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:58,141 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:25:58,413 INFO static.boo Calculate modulus and phase of time averaged order parameter
-2023-11-21 13:25:58,414 INFO utils.coarse_graining Time average of the input variables for time_period=1320.0
-2023-11-21 13:25:58,419 INFO utils.coarse_graining Time average of the input variables for time_period=1320.0
-2023-11-21 13:25:58,420 INFO static.boo Start calculating spatial correlation of phi for l=6
-2023-11-21 13:25:58,421 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:26:04,693 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:26:10,734 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:26:16,765 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:26:22,657 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:26:28,859 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:26:35,053 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:26:41,255 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:26:47,347 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:26:53,407 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:26:59,561 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:27:05,824 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:27:11,713 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:27:17,920 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:27:23,832 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:27:29,837 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:27:35,752 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:27:41,799 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:27:48,063 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:27:54,318 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:28:00,316 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:28:06,434 INFO static.boo Finish calculating spatial correlation of phi for l=6
-2023-11-21 13:28:06,434 INFO static.boo Start calculating time correlation of phi for l=6
-2023-11-21 13:28:06,434 INFO dynamic.time_corr Calculate time correlation of input conditional property
-2023-11-21 13:28:06,434 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
-2023-11-21 13:28:06,451 INFO boo_test Finishing test boo_2d without weight using tests/sample_test_data/hexatic_2d.atom...
-2023-11-21 13:28:06,451 INFO boo_test Starting test boo_2d with weight using tests/sample_test_data/hexatic_2d.atom...
-2023-11-21 13:28:06,451 INFO static.boo Calculate 6-th orinentational order in 2D
-2023-11-21 13:28:06,451 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:06,485 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:06,734 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:06,768 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:07,046 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:07,077 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:07,319 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:07,351 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:07,608 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:07,637 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:07,867 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:07,911 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:08,186 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:08,217 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:08,469 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:08,501 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:08,754 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:08,769 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:09,005 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:09,036 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:09,319 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:09,350 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:09,589 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:09,617 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:09,865 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:09,889 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:10,147 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:10,188 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:10,434 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:10,468 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:10,744 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:10,768 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:11,022 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:11,053 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:11,291 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:11,320 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:11,555 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:11,592 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:11,884 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:11,916 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:12,167 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:12,199 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:12,497 INFO static.boo Calculate 6-th orinentational order in 2D
-2023-11-21 13:28:12,497 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:12,512 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:12,779 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:12,795 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:13,030 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:13,062 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:13,297 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:13,329 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:13,596 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:13,627 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:13,868 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:13,903 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:14,161 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:14,177 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:14,444 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:14,475 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:14,726 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:14,742 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:15,024 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:15,055 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:15,322 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:15,353 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:15,620 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:15,652 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:15,900 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:15,918 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:16,169 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:16,201 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:16,452 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:16,483 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:16,734 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:16,766 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:17,017 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:17,048 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:17,283 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:17,315 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:17,566 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:17,582 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:17,864 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:17,895 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:18,147 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:18,178 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:28:18,460 INFO static.boo Calculate modulus and phase of time averaged order parameter
-2023-11-21 13:28:18,460 INFO utils.coarse_graining Time average of the input variables for time_period=1320.0
-2023-11-21 13:28:18,460 INFO utils.coarse_graining Time average of the input variables for time_period=1320.0
-2023-11-21 13:28:18,460 INFO static.boo Start calculating spatial correlation of phi for l=6
-2023-11-21 13:28:18,460 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:28:24,718 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:28:30,905 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:28:36,949 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:28:43,103 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:28:49,158 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:28:55,104 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:29:00,955 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:29:06,855 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:29:12,785 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:29:18,715 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:29:24,716 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:29:30,640 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:29:36,601 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:29:42,594 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:29:48,477 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:29:54,476 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:30:00,401 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:30:06,364 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:30:12,312 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:30:18,252 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:30:24,199 INFO static.boo Finish calculating spatial correlation of phi for l=6
-2023-11-21 13:30:24,199 INFO static.boo Start calculating time correlation of phi for l=6
-2023-11-21 13:30:24,199 INFO dynamic.time_corr Calculate time correlation of input conditional property
-2023-11-21 13:30:24,215 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
-2023-11-21 13:30:24,215 INFO boo_test Finishing test boo_2d with weight using tests/sample_test_data/hexatic_2d.atom...
-.2023-11-21 13:30:24,215 INFO reader.dump_reader Start reading file tests/sample_test_data/test_additional_columns.dump of type DumpFileType.LAMMPS
-2023-11-21 13:30:24,215 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-21 13:30:24,246 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-21 13:30:24,246 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-21 13:30:24,246 INFO reader.dump_reader Finish reading file tests/sample_test_data/test_additional_columns.dump in 0.031633853912353516 seconds
-2023-11-21 13:30:24,246 INFO neighbors.freud_neighbors Start calculating neighbors by freud
-2023-11-21 13:30:26,557 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
-2023-11-21 13:30:26,559 INFO boo_test Starting test boo_3d without weight and cg using tests/sample_test_data/test_additional_columns.dump...
-2023-11-21 13:30:26,559 INFO static.boo Calculate spherical harmonics for l=6
-2023-11-21 13:30:26,564 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:30:33,408 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:30:40,337 INFO static.boo Spherical harmonics for l=6 is ready for further calculations
-2023-11-21 13:30:40,555 INFO static.boo Start calculating local rotational invariants for l=6
-2023-11-21 13:30:40,556 INFO static.boo Finish calculating rotational invariants ql or Ql for l=6
-2023-11-21 13:30:40,557 INFO static.boo Start calculating local bond property for l=6
-2023-11-21 13:30:40,558 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:30:40,690 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:30:40,816 INFO static.boo Finish calculating bond property sij for l=6
-2023-11-21 13:30:40,816 INFO static.boo Start calculating local Wigner 3-j symbol boo for l=6
-2023-11-21 13:32:03,592 INFO static.boo Finish calculating wigner 3-j symbol boo for l=6
-2023-11-21 13:32:03,592 INFO static.boo Start calculating local spatial correlation for l=6
-2023-11-21 13:32:03,592 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:32:10,365 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:32:17,142 INFO static.boo Finish calculating spatial correlation for l=6
-2023-11-21 13:32:17,142 INFO static.boo Start calculating time correlation for l=6
-2023-11-21 13:32:17,142 INFO dynamic.time_corr Calculate time correlation of input conditional property
-2023-11-21 13:32:17,142 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
-2023-11-21 13:32:17,142 INFO boo_test Finishing test boo_3d without weight and cg using tests/sample_test_data/test_additional_columns.dump...
-2023-11-21 13:32:17,142 INFO boo_test Starting test boo_3d with weight and cg using tests/sample_test_data/test_additional_columns.dump...
-2023-11-21 13:32:17,142 INFO static.boo Calculate spherical harmonics for l=6
-2023-11-21 13:32:17,142 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:32:17,189 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:32:24,499 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:32:24,546 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:32:31,848 INFO static.boo Spherical harmonics for l=6 is ready for further calculations
-2023-11-21 13:32:31,848 INFO static.boo Start calculating coarse-grained rotational invariants for l=6
-2023-11-21 13:32:31,848 INFO static.boo Finish calculating rotational invariants ql or Ql for l=6
-2023-11-21 13:32:31,848 INFO static.boo Start calculating coarse-grained bond property sij for l=6
-2023-11-21 13:32:31,858 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:32:31,968 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-21 13:32:32,093 INFO static.boo Finish calculating bond property sij for l=6
-2023-11-21 13:32:32,093 INFO static.boo Start calculating coarse-grained Wigner 3-j symbol boo for l=6
-2023-11-21 13:33:55,455 INFO static.boo Finish calculating wigner 3-j symbol boo for l=6
-2023-11-21 13:33:55,455 INFO static.boo Start calculating coarse-grained spatial correlation for l=6
-2023-11-21 13:33:55,455 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:34:02,851 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
-2023-11-21 13:34:09,960 INFO static.boo Finish calculating spatial correlation for l=6
-2023-11-21 13:34:09,960 INFO static.boo Start calculating coarse-grained time correlation for l=6
-2023-11-21 13:34:09,960 INFO dynamic.time_corr Calculate time correlation of input conditional property
-2023-11-21 13:34:09,960 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
-2023-11-21 13:34:09,960 INFO boo_test Finishing test boo_3d with weight and cg using tests/sample_test_data/test_additional_columns.dump...
+2023-11-22 10:16:19,832 INFO packing_capability_test Starting test theta2d using tests/sample_test_data/dump_2D.atom...
+2023-11-22 10:16:19,832 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2023-11-22 10:16:19,832 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2023-11-22 10:16:19,907 INFO reader.lammps_reader_helper Reach end of file.
+2023-11-22 10:16:19,907 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2023-11-22 10:16:19,907 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07499861717224121 seconds
+2023-11-22 10:16:19,907 INFO neighbors.freud_neighbors Start calculating neighbors by freud
+2023-11-22 10:16:24,475 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
+2023-11-22 10:16:24,477 INFO static.packing_capability Start calculating packing capability of a 2D system
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
+2023-11-22 10:16:24,483 INFO neighbors.read_neighbors Reading neighboring particle properties
+2023-11-22 10:16:27,863 INFO neighbors.read_neighbors Reading neighboring particle properties
+2023-11-22 10:16:31,306 INFO neighbors.read_neighbors Reading neighboring particle properties
+2023-11-22 10:16:34,958 INFO neighbors.read_neighbors Reading neighboring particle properties
+2023-11-22 10:16:38,335 INFO neighbors.read_neighbors Reading neighboring particle properties
+2023-11-22 10:16:41,874 INFO static.packing_capability Finish calculating packing capability of a 2D system
+2023-11-22 10:16:41,881 INFO packing_capability_test Finishing test theta2d using tests/sample_test_data/dump_2D.atom...
 .
 ----------------------------------------------------------------------
-Ran 2 tests in 516.944s
+Ran 1 test in 22.051s
 
 OK

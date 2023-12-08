@@ -264,8 +264,8 @@ Calculate time average of the input property
 - `dt` (`float`): timestep used in user simulations, default 0.002
 
 ### Return
-- Calculated time averaged input results (`np.ndarray`) with shape `[nsnapshots_updated, nparticles]`
-- Corresponding snapshot id of the middle snapshot of each time period with shape `[nsnapshots_updated]`
+- `results` (`np.ndarray`): Calculated time averaged input results with shape `[nsnapshots_updated, nparticles]`
+- `results_middle_snapshots` (`np.ndarray`): Corresponding snapshot id of the middle snapshot of each time period with shape `[nsnapshots_updated]`
 
 ### Example
 ```python

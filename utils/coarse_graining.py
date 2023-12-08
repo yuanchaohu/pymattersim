@@ -39,16 +39,22 @@ def time_average(
     time_interval *= dt
     time_nsnapshot = int(time_period/time_interval)
     # save the time averaged results
-    results = np.zeros((snapshots.nsnapshots-time_nsnapshot, snapshots.snapshots[0].nparticle))
+    results = np.zeros((
+        snapshots.nsnapshots-time_nsnapshot,
+        snapshots.snapshots[0].nparticle),
+    dtype=np.complex128)
     # save the middle snapshot id for each time average period
     results_middle_snapshots = []
 
     for n in range(results.shape[0]):
-        results[n, :] = input_property[n: n+time_nsnapshot].mean(axis=0)
+        results[n, :] = input_property[n:n+time_nsnapshot].mean(axis=0)
         results_middle_snapshots.append(round(n+time_nsnapshot/2))
     return results, np.array(results_middle_snapshots)
 
-def spatial_average():
+def spatial_average(
+    neighborfile: str,
+    input_property: np.ndarray
+):
     pass
 
 def gaussian_blurring():

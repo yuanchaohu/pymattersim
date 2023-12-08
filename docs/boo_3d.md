@@ -118,7 +118,9 @@ different snapshots are stored in an array for each of them, separately. Both of
 - None
 
 ### Return
-- $q_{lm}$ and $Q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
+- `smallqlm` (`np.ndarray`): $q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
+- `largeQlm` (`np.ndarray`): $Q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
+
 
 ### Example
 ```python
@@ -130,14 +132,14 @@ qlm, Qlm = boo.qlm_Qlm()
 
 ### Input Arguments
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
-- `outputfile` (`str`): txt file name for $q_l$ or $Q_l$ results, default `None`
+- `outputfile` (`str`): file name for $q_l$ or $Q_l$ results, default `None`. To reduce storage size and ensure loading speed, save npy file as default with extension ".npy". If the file extension is ".dat" or ".txt", also saved a text file.
 
 ### Return
 - calculated $q_l$ or $Q_l$ in `np.ndarray` with shape `[nsnapshots, nparticle]`
 
 ### Example
 ```python
-Ql = boo.ql_Ql(coarse_graining=True, outputfile='./results/Ql.dat')
+Ql = boo.ql_Ql(coarse_graining=True, outputfile='./results/Ql.npy')
 ```
 
 ## 4. `sij_ql_Ql()`
@@ -169,16 +171,17 @@ sij_Ql = boo.sij_ql_Ql(coarse_graining=True,
 ### Input Arguments
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
 - `outputw` (`str`): txt file name for w (original) based on $q_{lm}$ or $Q_{lm}$, default `None`
-- `outputwcap` (`str`): txt file name for wcap (normalized) based on $q_{lm}$ or $Q_{lm}$, default `None`
+- `outputwcap` (`str`): file name for wcap (normalized) based on qlm or Qlm, default None. To reduce storage size and ensure loading speed, save npy file as default with extension ".npy". If the file extension is ".dat" or ".txt", also saved a text file.
 
 ### Return
-- calculated $w$ and $w_{cap}$ (`np.adarray`) or $W$ and $W_{cap}$ (`np.adarray`) with shape `[nsnapshots, nparticle]`
+- `w_W` (`np.adarray`), calculated $w$ or $W$ with shape `[nsnapshots, nparticle]`
+- `w_W_cap` (`np.adarray`), calculated $w_{cap}$ or $W_{cap}$ with shape `[nsnapshots, nparticle]`
 
 ### Example
 ```python
 W, W_cap = boo.w_W_cap(coarse_graining=True, 
                        outputw='W.dat',
-                       outputwcap='W_cap.dat')
+                       outputwcap='W_cap.npy')
 ```
 
 ## 6. `spatial_corr()`

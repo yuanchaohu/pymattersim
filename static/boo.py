@@ -77,9 +77,6 @@ class boo_3d:
         self.ppp = ppp
         self.Nmax = Nmax
 
-        assert len(set(np.diff(
-            [snapshot.timestep for snapshot in self.snapshots.snapshots]
-        ))) == 1, "Warning: Dump interval changes during simulation"
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len(
             {snapshot.nparticle for snapshot in self.snapshots.snapshots}
@@ -164,11 +161,13 @@ class boo_3d:
         Inputs:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
-            2. outputfile (str): txt file name for ql or Ql results, default None
-        
+            2. outputfile (str): file name for ql or Ql results, default None
+                                 To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
+                                 If the file extension is ".dat" or ".txt", also saved a text file.
+
         Return:
-            calculated ql or Ql (np.ndarray) 
-            shape [nsnapshot, nparticle]
+            Calculated ql or Ql (np.ndarray)
+            shape [nsnapshots, nparticle]
         """
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
@@ -179,8 +178,11 @@ class boo_3d:
 
         ql_Ql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(cal_qlmQlm)).sum(axis=2))
         if outputfile:
-            np.savetxt(outputfile, ql_Ql, fmt="%.6f", header="", comments="")
-
+            np.save(outputfile, ql_Ql)
+            if outputfile.endswith('.dat') or outputfile.endswith('.txt'):
+                np.savetxt(outputfile, ql_Ql, fmt='%.6f', header="", comments="")
+            else:
+                logger.info('The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
         logger.info(f'Finish calculating rotational invariants ql or Ql for l={self.l}')
         return ql_Ql
 
@@ -270,9 +272,10 @@ class boo_3d:
             1. coarse_graining (bool): whether use coarse-grained Qlm or qlm or not
                                        default False
             2. outputw (str): txt file name for w (original) based on qlm or Qlm
-                                       default None
-            3. outputwcap (str): txt file name for wcap (normalized) based on qlm or Qlm
-                                       default None
+                              default None
+            3. outputwcap (str): file name for wcap (normalized) based on qlm or Qlm, default None
+                                 To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
+                                 If the file extension is ".dat" or ".txt", also saved a text file.
 
         Return:
             calculated w and wcap (np.adarray) or W and Wcap (np.adarray)
@@ -292,13 +295,20 @@ class boo_3d:
         for n in range(cal_qlmQlm.shape[0]):
             for i in range(cal_qlmQlm.shape[1]):
                 w_W[n, i] = (np.real(np.prod(cal_qlmQlm[n, i, Windex], axis=1))*w3j).sum()
-
         if outputw:
-            np.savetxt(outputw, w_W, fmt="%.6f", header="", comments="")
+            np.save(outputw, w_W)
+            if outputw.endswith('.dat') or outputw.endswith('.txt'):
+                np.savetxt(outputw, w_W, fmt='%.6f', header="", comments="")
+            else:
+                logger.info('The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
 
         w_W_cap = np.power(np.square(np.abs(cal_qlmQlm)).sum(axis=2), -3/2) * w_W
         if outputwcap:
-            np.savetxt(outputwcap, w_W_cap, fmt="%.6f", header="", comments="")
+            np.save(outputwcap, w_W_cap)
+            if outputwcap.endswith('.dat') or outputwcap.endswith('.txt'):
+                np.savetxt(outputwcap, w_W_cap, fmt='%.6f', header="", comments="")
+            else:
+                logger.info('The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
 
         logger.info(f'Finish calculating wigner 3-j symbol boo for l={self.l}')
         return w_W, w_W_cap
@@ -425,9 +435,6 @@ class boo_2d:
         self.ppp = ppp
         self.Nmax = Nmax
 
-        assert len(
-            set(np.diff([snapshot.timestep for snapshot in self.snapshots.snapshots]))
-        ) == 1, "Warning: Dump interval changes during simulation"
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len(
             {snapshot.nparticle for snapshot in self.snapshots.snapshots}
@@ -483,25 +490,26 @@ class boo_2d:
             fweights.close()
         return results
 
-    def modulus_phase(
+    def time_average(
         self,
         time_period: float=None,
         dt: float=0.002,
-        average_complex: bool=False,
+        average_complex: bool=True,
         outputfile: str=None
     )->Tuple[np.ndarray, np.ndarray]:
         """
-        calculate the modulus and phase of the particle-level orientational order
-        considering time average of the order parameter if time_period not None
+        calculate the particle-level phi considering time average of the order parameter if time_period not None
         
         Inputs:
             1. time_period (float): time average period, default None
             2. dt (float): simulation snapshots time step, default 0.002
-            3. average_complex (bool): whether averaging the complex order parameter or not, default False
+            3. average_complex (bool): whether averaging the complex order parameter or not, default True
             4. outputfile (float): file name of the output modulus and phase, default None
         
         Return:
-            calculated modulus and phase, both in np.ndarray
+            1. ParticlePhi (np.ndarray): the original complex order parameter if time_period=None
+            2. average_quantity (np.ndarray): time averaged phi results if time_period not None
+            3. average_snapshot_id (np.ndarray): middle snapshot number between time periods if time_period not None
         """
         # time average
         if time_period:
@@ -513,16 +521,6 @@ class boo_2d:
                     time_period=time_period,
                     dt=dt
                 )
-                modulus = np.abs(average_quantity)
-                phase = np.angle(average_quantity)
-                if outputfile:
-                    np.savetxt(outputfile+'_modulus.dat', modulus, fmt="%.6f", header="", comments="")
-                    np.savetxt(outputfile+"_phase.dat", phase, fmt="%.6f", header="", comments="")
-                    np.savetxt(
-                        outputfile+"_snapshot_id.dat",
-                        average_snapshot_id[:, np.newaxis],
-                        fmt="%d", header="middle_snapshot_id", comments="")
-                return modulus, phase, average_quantity, average_snapshot_id
             else:
                 average_modulus, average_snapshot_id = time_average(
                     snapshots=self.snapshots,
@@ -536,22 +534,20 @@ class boo_2d:
                     time_period=time_period,
                     dt=dt
                 )
-                if outputfile:
-                    np.savetxt(outputfile+'_modulus.dat', average_modulus, fmt="%.6f", header="", comments="")
-                    np.savetxt(outputfile+"_phase.dat", average_phase, fmt="%.6f", header="", comments="")
-                    np.savetxt(
-                        outputfile+"_snapshot_id.dat",
-                        average_snapshot_id[:, np.newaxis],
-                        fmt="%d", header="middle_snapshot_id", comments="")
-                return average_modulus, average_phase, average_snapshot_id
+                average_quantity = average_modulus.real * np.exp(1j * average_phase.real)
+
+            if outputfile:
+                np.save(outputfile, average_quantity)
+                np.savetxt(
+                    outputfile+"_snapshot_id.dat",
+                    average_snapshot_id[:, np.newaxis],
+                    fmt="%d", header="middle_snapshot_id", comments="")
+            return average_quantity, average_snapshot_id
         # original
         logger.info("Calculate orignal modulus and phase of the order parameter")
-        modulus = np.abs(self.ParticlePhi)
-        phase = np.angle(self.ParticlePhi)
         if outputfile:
-            np.savetxt(outputfile+'_modulus.dat', modulus, fmt="%.6f", header="", comments="")
-            np.savetxt(outputfile+"_phase.dat", phase, fmt="%.6f", header="", comments="")
-        return modulus, phase
+            np.save(outputfile, self.ParticlePhi)
+        return self.ParticlePhi
 
     def spatial_corr(
         self,

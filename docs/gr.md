@@ -52,7 +52,7 @@ gr_cal = gr(readdump.snapshots, ppp=np.array([1,1,1]), rdelta=0.01, outputfile='
 `getresults()` determines which function to call to calculate $g(r)$ based on the component.
 
 #### Input Arguments
-`None`
+- `None`
 
 #### Example
 ```python
