@@ -12,22 +12,18 @@ from utils.logging import get_logger_handle
 logger = get_logger_handle(__name__)
 
 
-class dynamics:
+class DynamicsAbs:
     """
-    This module calculates particle-level dynamics.
-    Compute self-intermediate scattering functions ISF, dynamic susceptibility ISFX4 based on ISF.
-    Overlap function Qt and its corresponding dynamic susceptibility QtX4.
-    Mean-square displacements msd; non-Gaussion parameter alpha2
-    four-point dynamic structure factor of fast and slow particles, respectively
+    This module calculates particle-level dynamics with orignal coordinates.
+    The calculated quantities include:
+        1. self-intermediate scattering function at a specific wavenumber
+        2. overlap function and its associated dynamical susceptibility
+        3. measure-squared displacements
+        4. dynamical structure factor based on particle mobility
 
-    The module also computes corresponding particle type related dynamics by using the function partial()
-    The module accounts for systems ranging from unary to senary
-
-    Mean-squared displacements and non-Gaussian parameter should be calculated with the absolute coordinates
-    e.g. via LAMMPS (xu, yu, zu)
-
-    Two sets of configurations are suggested to use together, one with (x, y, z) and one with (xu, yu, zu);
-    the former is used to calculate structure factor and the latter for dynamics
+    A conditional function is implemented to calculate dynamics of specific atoms.
+    This module recommends to use absolute coordinates (like xu in LAMMPS) to
+    calculate dynamics, while PBC is taken care of as well.
     """
 
     def __init__(
@@ -35,19 +31,18 @@ class dynamics:
         xu_snapshots: Snapshots=None,
         x_snapshots: Snapshots=None,
         dt: float=0.002,
-        ppp: np.ndarray=np.array([0,0,0]),
-        neighborfile: str=None
+        ppp: np.ndarray=np.array([0,0,0])
     ) -> None:
         """
-        Initializing dynamics class
+        Initializing DynamicsAbs class
 
         Inputs:
             1. xu_snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                             with dump format [xu, yu, zu], true coordinates, default None
             2. x_snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
-                            with dump format [x, y, z], coordinates with periodic boundary conditions, default None
+                            with dump format [x, y, z], coordinates with PBCs, default None
             3. dt (float): timestep used in user simulations, default 0.002
-            4. ppp (np.ndarray): the periodic boundary conditions,
+            4. ppp (np.ndarray): the periodic boundary conditions (PBCs),
                                  setting 1 for yes and 0 for no, default np.array([0,0,0]),
                                  set np.array([0,0]) for two-dimensional systems
         
@@ -55,144 +50,82 @@ class dynamics:
             None
         """
         self.ppp = ppp
-        self.neighborfile = neighborfile
         self.ndim = len(ppp)
-        if self.ndim==2 and self.neighborfile:
-            logger.info("Computer cage-relative dynamics for two-dimensional systems")
+        logger.info(f"Calculating absolute dynamics for a {self.ndim}-dimensional system")
 
         if x_snapshots and xu_snapshots:
-            logger.info('Use both x and xu coordinates to calculate dynamics')
+            logger.info('Use xu coordinates to calculate dynamics and x for dynamical Sq')
             self.snapshots = xu_snapshots
             self.x_snapshots = x_snapshots
             if xu_snapshots.nsnapshots != x_snapshots.nsnapshots:
                 raise ValueError('----incompatible x and xu format coordinates----')
         elif xu_snapshots and not x_snapshots:
-            logger.info('Use xu coordinates to calculate dynamics')
+            logger.info('Use xu coordinates to calculate dynamics and for dynamical Sq')
             self.snapshots = xu_snapshots
         elif x_snapshots and not xu_snapshots:
-            logger.info('Use x coordinates to calculate dynamics')
+            logger.info('Use x coordinates to calculate dynamics and for dynamical Sq')
             self.snapshots = x_snapshots
         else:
-            logger.info("Please provide ")
-        
-        self.time = [snapshot.timestep for snapshot in self.snapshots.snapshots]
-        self.time = (np.array(self.time[1:])-self.time[0])*dt
+            logger.info("Please provide correct snapshots for dynamics measurement")
 
-    def total(self):
-        if self.neighborfile:
-            return self.cagerelative()
-        else:
-           return self.absolute()
+        timesteps = [snapshot.timestep for snapshot in self.snapshots.snapshots]
+        self.time = (np.array(timesteps)[1:] - timesteps[0])*dt
 
-    def absolute(
+    def slowdynamics(
         self,
         qmax: float=6.28,
         a: float=0.3
     ) -> pd.DataFrame:
         """
-        Compute self-intermediate scattering functions ISF, dynamic susceptibility ISFX4 based on ISF
+        Compute self-intermediate scattering functions ISF,
         Overlap function Qt and its corresponding dynamic susceptibility QtX4
         Mean-square displacements msd; non-Gaussion parameter alpha2
         
         Inputs:
             1. qmax (float): wavenumber corresponding to the first peak of structure factor
-            2. a (float): cutoff for the overlap function, default is 1.0 (EAM) and 0.3(LJ) (0.3<d>)
+            2. a (float): cutoff for the overlap function, should be reduced to particle size
             3. outputfile (str): file name to save the calculated dynamic results
         
         Return:
             Calculated dynamics results in pd.DataFrame
         """
-        logger.info(f'Start calculating abosulte dynamics in {self.ndim} dimensional system')
-        a2 = a**2
+        logger.info("Calculate slow dynamics without differentiating particle types")
+        a *= a
         counts = np.zeros(self.snapshots.nsnapshots-1)
         isf = np.zeros_like(counts)
-        isf2 = np.zeros_like(counts)
         qt = np.zeros_like(counts)
         qt2 = np.zeros_like(counts)
         r2 = np.zeros_like(counts)
         r4 = np.zeros_like(counts)
-        particle_msd = np.zeros((self.snapshots.nsnapshots, self.snapshots.snapshots[0].nparticle))
         for n in range(1, self.snapshots.nsnapshots):
-            for nn in range(n):
+            for nn in range(1, n+1):
                 counts[nn] += 1
-                RII = self.snapshots.snapshots[n].positions - self.snapshots.snapshots[n-nn-1].positions
-                RII = remove_pbc(RII, self.snapshots.snapshots[n-nn-1].hmatrix, self.ppp)
+                RII = self.snapshots.snapshots[n].positions-self.snapshots.snapshots[n-nn].positions
+                RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
                 # self-intermediate scattering function
-                medium = np.cos(RII*qmax).mean()
-                isf[nn] += medium
-                isf2[nn] += medium**2
+                isf[nn] += np.cos(RII*qmax).mean()
                 # overlap function
                 distance = np.square(RII).sum(axis=1)
-                medium = (distance<a2).mean()
+                medium = (distance<a).mean()
                 qt[nn] += medium
                 qt2[nn] += medium**2
-                particle_msd[nn, :] = distance
                 # mean-squared displacements & non-gaussian parameter
                 r2[nn] += distance.mean()
                 r4[nn] += np.square(distance).mean()
         isf /= counts
-        isf2 /= counts
-        x4_isf = (np.square(isf) - isf2) * self.snapshots.snapshots[0].nparticle
         qt /= counts
         qt2 /= counts
         x4_qt = (np.square(qt) - qt2) * self.snapshots.snapshots[0].nparticle
         r2 /= counts
         r4 /= counts
-        alpha2 = alpha2factor(self.ndim) * r4/(r2)**2 - 1
-        results = np.column_stack((self.time, isf, x4_isf, qt, x4_qt, r2, alpha2))
-        results = pd.DataFrame(results, columns='t isf X4_isf Qt X4_Qt msd alpha2'.split())
-        return results, particle_msd
-
-    def cagerelative(self):
-        # step 1: read neighbors to a list
-        # step 2: calculate cag
-        logger.info(f'Start calculating cage-relative dynamics in {self.ndim} dimensional system')
-        a2 = a**2
-        counts = np.zeros(self.snapshots.nsnapshots-1)
-        isf = np.zeros_like(counts)
-        isf2 = np.zeros_like(counts)
-        qt = np.zeros_like(counts)
-        qt2 = np.zeros_like(counts)
-        r2 = np.zeros_like(counts)
-        r4 = np.zeros_like(counts)
-        for n in range(self.snapshots.nsnapshots):
-            for nn in range(1, n+1):
-                counts[nn] += 1
-                RII = self.snapshots.positions[n] - self.snapshots.positions[n-nn]
-                RII = remove_pbc(RII, self.snapshots.hmatrix[n-nn], self.ppp)
-                # self-intermediate scattering function
-                medium = np.cos(RII*qmax).mean(axis=1).sum()
-                isf[nn] += medium
-                isf2[nn] += medium**2
-                # overlap function
-                distance = np.square(RII).sum(axis=1)
-                medium =( distance < a2).sum()
-                qt[nn] += medium
-                qt2[nn] += medium**2
-                # mean-squared displacements & non-gaussian parameter
-                r2[nn] += distance.sum()
-                r4[nn] += np.square(distance).sum()
-        isf /= counts
-        isf2 /= counts
-        x4_isf = np.square(isf) - isf2
-
-        qt /= counts
-        qt2 /= counts
-        x4_qt = np.square(qt) - qt2
-
-        alpha2 = alpha2factor(self.ndim) * r2/r4 - 1
-        results = np.column_stack((isf, x4_isf, qt, x4_qt, r2, alpha2))
-        results /= self.snapshots.snapshots[0].nparticle
-        results = np.column_stack((self.time, results))
-        results = pd.DataFrame(results, columns='t isf X4_isf Qt X4_Qt msd alpha2'.split())
+        alpha2 = alpha2factor(self.ndim) * r4/np.square(r2) - 1
+        results = np.column_stack((self.time, isf, qt, x4_qt, r2, alpha2))
+        results = pd.DataFrame(results, columns='t isf Qt X4_Qt msd alpha2'.split())
         return results
-
 
     def conditional(self, conditions):
         pass
 
-    def S4(self, conditions):
-        pass
     def slowS4(self, X4time, a=1.0, qrange=10, onlypositive=False, outputfile=''):
         """ Compute four-point dynamic structure factor of slow atoms at peak timescale of dynamic susceptibility
 
