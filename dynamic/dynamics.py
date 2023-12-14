@@ -119,8 +119,8 @@ class DynamicsAbs:
         x4_qt = (np.square(qt) - qt2) * self.snapshots.snapshots[0].nparticle
         r2 /= counts
         r4 /= counts
-        alpha2 = np.where(r2==0, 0, alpha2factor(self.ndim)*r4/np.square(r2)-1)
-        results = np.column_stack((self.time, isf, qt, x4_qt, r2, alpha2))
+        results = np.column_stack((self.time, isf, qt, x4_qt, r2, r4))[1:]
+        results[:,-1] = alpha2factor(self.ndim)*results[:,-1]/np.square(results[:,-2])-1
         results = pd.DataFrame(results, columns='t isf Qt X4_Qt msd alpha2'.split())
         if outputfile:
             results.to_csv(outputfile, index=False)
