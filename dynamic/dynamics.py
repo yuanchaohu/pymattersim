@@ -92,35 +92,36 @@ class DynamicsAbs:
         """
         logger.info("Calculate slow dynamics without differentiating particle types")
         a *= a
-        counts = np.zeros(self.snapshots.nsnapshots)
+        counts = np.zeros(self.snapshots.nsnapshots-1)
         isf = np.zeros_like(counts)
         qt = np.zeros_like(counts)
         qt2 = np.zeros_like(counts)
         r2 = np.zeros_like(counts)
         r4 = np.zeros_like(counts)
-        for n in range(self.snapshots.nsnapshots):
-            for nn in range(n+1):
-                counts[nn] += 1
+        for n in range(1, self.snapshots.nsnapshots):
+            for nn in range(1, n+1):
+                index = nn-1
+                counts[index] += 1
                 RII = self.snapshots.snapshots[n].positions-self.snapshots.snapshots[n-nn].positions
                 RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
                 # self-intermediate scattering function
-                isf[nn] += np.cos(RII*qmax).mean()
+                isf[index] += np.cos(RII*qmax).mean()
                 # overlap function
                 distance = np.square(RII).sum(axis=1)
                 medium = (distance<a).mean()
-                qt[nn] += medium
-                qt2[nn] += medium**2
+                qt[index] += medium
+                qt2[index] += medium**2
                 # mean-squared displacements & non-gaussian parameter
-                r2[nn] += distance.mean()
-                r4[nn] += np.square(distance).mean()
+                r2[index] += distance.mean()
+                r4[index] += np.square(distance).mean()
         isf /= counts
         qt /= counts
         qt2 /= counts
         x4_qt = (np.square(qt) - qt2) * self.snapshots.snapshots[0].nparticle
         r2 /= counts
         r4 /= counts
-        results = np.column_stack((self.time, isf, qt, x4_qt, r2, r4))[1:]
-        results[:,-1] = alpha2factor(self.ndim)*results[:,-1]/np.square(results[:,-2])-1
+        alpha2 = alpha2factor(self.ndim)*r4/np.square(r2)-1
+        results = np.column_stack((self.time, isf, qt, x4_qt, r2, alpha2))
         results = pd.DataFrame(results, columns='t isf Qt X4_Qt msd alpha2'.split())
         if outputfile:
             results.to_csv(outputfile, index=False)
