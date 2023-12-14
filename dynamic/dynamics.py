@@ -117,7 +117,7 @@ class DynamicsAbs:
         isf /= counts
         qt /= counts
         qt2 /= counts
-        x4_qt = (np.square(qt) - qt2) * self.snapshots.snapshots[0].nparticle
+        x4_qt = -(np.square(qt) - qt2) * self.snapshots.snapshots[0].nparticle
         r2 /= counts
         r4 /= counts
         alpha2 = alpha2factor(self.ndim)*r4/np.square(r2)-1
