@@ -76,13 +76,13 @@ class dynamics:
             logger.info("Please provide ")
         
         self.time = [snapshot.timestep for snapshot in self.snapshots.snapshots]
-        self.time = (np.array(self.time[1:]) - self.time[0])*dt
+        self.time = (np.array(self.time[1:])-self.time[0])*dt
 
-    def total(self, outputfile):
+    def total(self):
         if self.neighborfile:
-            self.results, self.particle_msd = self.cagerelative()
+            return self.cagerelative()
         else:
-           self.results, self.particle_msd = self.absolute()
+           return self.absolute()
 
     def absolute(
         self,
@@ -100,7 +100,7 @@ class dynamics:
             3. outputfile (str): file name to save the calculated dynamic results
         
         Return:
-            Calculated dynamics results in np.ndarray
+            Calculated dynamics results in pd.DataFrame
         """
         logger.info(f'Start calculating abosulte dynamics in {self.ndim} dimensional system')
         a2 = a**2
@@ -112,36 +112,34 @@ class dynamics:
         r2 = np.zeros_like(counts)
         r4 = np.zeros_like(counts)
         particle_msd = np.zeros((self.snapshots.nsnapshots, self.snapshots.snapshots[0].nparticle))
-        for n in range(self.snapshots.nsnapshots):
-            for nn in range(1, n+1):
+        for n in range(1, self.snapshots.nsnapshots):
+            for nn in range(n):
                 counts[nn] += 1
-                RII = self.snapshots.positions[n] - self.snapshots.positions[n-nn]
-                RII = remove_pbc(RII, self.snapshots.hmatrix[n-nn], self.ppp)
+                RII = self.snapshots.snapshots[n].positions - self.snapshots.snapshots[n-nn-1].positions
+                RII = remove_pbc(RII, self.snapshots.snapshots[n-nn-1].hmatrix, self.ppp)
                 # self-intermediate scattering function
-                medium = np.cos(RII*qmax).mean(axis=1).sum()
+                medium = np.cos(RII*qmax).mean()
                 isf[nn] += medium
                 isf2[nn] += medium**2
                 # overlap function
                 distance = np.square(RII).sum(axis=1)
-                medium =( distance < a2).sum()
+                medium = (distance<a2).mean()
                 qt[nn] += medium
                 qt2[nn] += medium**2
-                # mean-squared displacements & non-gaussian parameter
                 particle_msd[nn, :] = distance
-                r2[nn] += distance.sum()
-                r4[nn] += np.square(distance).sum()
+                # mean-squared displacements & non-gaussian parameter
+                r2[nn] += distance.mean()
+                r4[nn] += np.square(distance).mean()
         isf /= counts
         isf2 /= counts
-        x4_isf = np.square(isf) - isf2
-
+        x4_isf = (np.square(isf) - isf2) * self.snapshots.snapshots[0].nparticle
         qt /= counts
         qt2 /= counts
-        x4_qt = np.square(qt) - qt2
-
-        alpha2 = alpha2factor(self.ndim) * r2/r4 - 1
-        results = np.column_stack((isf, x4_isf, qt, x4_qt, r2, alpha2))
-        results /= self.snapshots.snapshots[0].nparticle
-        results = np.column_stack((self.time, results))
+        x4_qt = (np.square(qt) - qt2) * self.snapshots.snapshots[0].nparticle
+        r2 /= counts
+        r4 /= counts
+        alpha2 = alpha2factor(self.ndim) * r4/(r2)**2 - 1
+        results = np.column_stack((self.time, isf, x4_isf, qt, x4_qt, r2, alpha2))
         results = pd.DataFrame(results, columns='t isf X4_isf Qt X4_Qt msd alpha2'.split())
         return results, particle_msd
 
