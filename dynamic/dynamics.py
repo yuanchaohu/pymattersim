@@ -69,7 +69,7 @@ class DynamicsAbs:
             logger.info("Please provide correct snapshots for dynamics measurement")
 
         timesteps = [snapshot.timestep for snapshot in self.snapshots.snapshots]
-        self.time = (np.array(timesteps) - timesteps[0])*dt
+        self.time = (np.array(timesteps)[1:] - timesteps[0])*dt
 
     def slowdynamics(
         self,
