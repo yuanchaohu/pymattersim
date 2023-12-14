@@ -74,7 +74,63 @@ class DynamicsAbs:
     def slowdynamics(
         self,
         qmax: float=6.28,
-        a: float=0.3
+        a: float=0.3,
+        outputfile: str=None,
+    ) -> pd.DataFrame:
+        """
+        Compute self-intermediate scattering functions ISF,
+        Overlap function Qt and its corresponding dynamic susceptibility QtX4
+        Mean-square displacements msd; non-Gaussion parameter alpha2
+        
+        Inputs:
+            1. qmax (float): wavenumber corresponding to the first peak of structure factor
+            2. a (float): cutoff for the overlap function, should be reduced to particle size
+            3. outputfile (str): file name to save the calculated dynamic results
+        
+        Return:
+            Calculated dynamics results in pd.DataFrame
+        """
+        logger.info("Calculate slow dynamics without differentiating particle types")
+        a *= a
+        counts = np.zeros(self.snapshots.nsnapshots-1)
+        isf = np.zeros_like(counts)
+        qt = np.zeros_like(counts)
+        qt2 = np.zeros_like(counts)
+        r2 = np.zeros_like(counts)
+        r4 = np.zeros_like(counts)
+        for n in range(1, self.snapshots.nsnapshots):
+            for nn in range(1, n+1):
+                counts[nn] += 1
+                RII = self.snapshots.snapshots[n].positions-self.snapshots.snapshots[n-nn].positions
+                RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
+                # self-intermediate scattering function
+                isf[nn] += np.cos(RII*qmax).mean()
+                # overlap function
+                distance = np.square(RII).sum(axis=1)
+                medium = (distance<a).mean()
+                qt[nn] += medium
+                qt2[nn] += medium**2
+                # mean-squared displacements & non-gaussian parameter
+                r2[nn] += distance.mean()
+                r4[nn] += np.square(distance).mean()
+        isf /= counts
+        qt /= counts
+        qt2 /= counts
+        x4_qt = (np.square(qt) - qt2) * self.snapshots.snapshots[0].nparticle
+        r2 /= counts
+        r4 /= counts
+        alpha2 = alpha2factor(self.ndim) * r4/np.square(r2) - 1
+        results = np.column_stack((self.time, isf, qt, x4_qt, r2, alpha2))
+        results = pd.DataFrame(results, columns='t isf Qt X4_Qt msd alpha2'.split())
+        if outputfile:
+            results.to_csv(outputfile, index=False)
+        return results
+
+    def slowdynamics_conditional(
+        self,
+        conditions: np.ndarray,
+        qmax: float=6.28,
+        a: float=0.3,
     ) -> pd.DataFrame:
         """
         Compute self-intermediate scattering functions ISF,
@@ -123,8 +179,6 @@ class DynamicsAbs:
         results = pd.DataFrame(results, columns='t isf Qt X4_Qt msd alpha2'.split())
         return results
 
-    def conditional(self, conditions):
-        pass
 
     def slowS4(self, X4time, a=1.0, qrange=10, onlypositive=False, outputfile=''):
         """ Compute four-point dynamic structure factor of slow atoms at peak timescale of dynamic susceptibility
