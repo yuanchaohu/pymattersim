@@ -184,3 +184,8 @@ class DynamicsAbs:
         if outputfile:
             ave_sqresults.to_csv(outputfile, index=False)
         return ave_sqresults
+
+class CR_dynamics():
+    """Calculate coarse-grained dynamics, typically cage-relative dynamics"""
+    def __init__(self):
+        pass
