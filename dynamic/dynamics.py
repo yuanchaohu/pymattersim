@@ -19,7 +19,7 @@ class DynamicsAbs:
     The calculated quantities include:
         1. self-intermediate scattering function at a specific wavenumber
         2. overlap function and its associated dynamical susceptibility
-        3. measure-squared displacements
+        3. mean-squared displacements
         4. dynamical structure factor based on particle mobility
 
     A conditional function is implemented to calculate dynamics of specific atoms.
@@ -63,9 +63,11 @@ class DynamicsAbs:
         elif xu_snapshots and not x_snapshots:
             logger.info('Use xu coordinates to calculate dynamics and for dynamical Sq')
             self.snapshots = xu_snapshots
+            self.x_snapshots = None
         elif x_snapshots and not xu_snapshots:
             logger.info('Use x coordinates to calculate dynamics and for dynamical Sq')
             self.snapshots = x_snapshots
+            self.x_snapshots = None
         else:
             logger.info("Please provide correct snapshots for dynamics measurement")
 
@@ -85,9 +87,10 @@ class DynamicsAbs:
         Mean-square displacements msd; non-Gaussion parameter alpha2
         
         Inputs:
-            1. qmax (float): characteristic wavenumber
+            1. qmax (float): characteristic wavenumber, typically first peak of S(q)
             2. a (float): cutoff for the overlap function, should be reduced to particle size
-            3. condition (np.ndarray): particle-level condition / property
+            3. condition (np.ndarray): particle-level condition / property, 
+               shape [nsnapshots, nparticles]
             4. outputfile (str): file name to save the calculated dynamic results
         
         Return:
@@ -105,7 +108,7 @@ class DynamicsAbs:
             for nn in range(1, n+1):
                 index = nn-1
                 counts[index] += 1
-                if condition:
+                if condition is not None:
                     selection = condition[n-nn][:, np.newaxis]
                     pos_end = self.snapshots.snapshots[n].positions[selection]
                     pos_init = self.snapshots.snapshots[n-nn].positions[selection]
@@ -137,18 +140,18 @@ class DynamicsAbs:
             results.to_csv(outputfile, index=False)
         return results
 
-    def slowS4(
+    def slow_S4(
         self,
-        X4time: float,
-        qvector: np.ndarray,
+        t: float,
+        qvector: np.ndarray, # change this to qrange and convert to qvector as input for conditional_sq
         a: float=0.3,
         outputfile: str=None
-    ):
+    ) -> pd.DataFrame:
         """
-        Compute four-point dynamic structure factor of slow atoms at peak timescale of dynamic susceptibility
+        Compute four-point dynamic structure factor of slow atoms at characteristic timescale
 
         Inputs:
-            1. X4time (float): peaktime scale of X4
+            1. t (float): characteristic time for slow dynamics, typically peak time of X4
             2. a (float): cutoff for the overlap function, should be reduced to particle size
             3. qrange (float): the wave number range to be calculated, default 10.0
 
@@ -160,21 +163,24 @@ class DynamicsAbs:
         x  cooridnates should be used to calcualte FFT
         """
         logger.info('Calculate dynamic S4(q) of slow particles')
+        if self.x_snapshots is None:
+            snapshots = self.snapshots
+        else:
+            snapshots = self.x_snapshots
 
-        X4time = int(X4time/self.time[0])
-        for n in range(self.snapshots.nsnapshots-X4time):
-            RII = self.snapshots.snapshots[n+X4time].positions - self.snapshots.snapshots[n].positions
+        a *= a
+        n_t = int(t/self.time[0])
+        for n in range(self.snapshots.nsnapshots-n_t):
+            RII = self.snapshots.snapshots[n+n_t].positions - self.snapshots.snapshots[n].positions
             RII = remove_pbc(RII, self.snapshots.snapshots[n].hmatrix, self.ppp)
-            RII = np.linalg.norm(RII, axis = 1)
-            condition = np.where(RII<=a, True, False)
-            sqresults, ave_sqresults = conditional_sq(self.x_snapshots.snapshots[n],
-                                                      qvector=qvector,
-                                                      condition=condition)
-        
-        sqresults = pd.DataFrame(sqresults).round(8)
-        results = sqresults.groupby(sqresults[0]).mean().reset_index().values     
-        names = 'q  S4'
+            RII = np.sqaure(RII).sum(axis=1)
+            condition = RII < a
+            ave_sqresults += conditional_sq(snapshots.snapshots[n],
+                                            qvector=qvector,
+                                            condition=condition
+                                            )[1]
+
+        ave_sqresults /= self.snapshots.nsnapshots-n_t
         if outputfile:
-            np.savetxt(outputfile, results, fmt='%.8f', header = names, comments = '')
-        print ('----Compute S4(q) of slow particles over----')
-        return results, names
+            ave_sqresults.to_csv(outputfile, index=False)
+        return ave_sqresults
