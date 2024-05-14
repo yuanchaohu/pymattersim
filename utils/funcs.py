@@ -28,6 +28,8 @@ def nidealfac(ndim: int=3) -> float:
         return 4.0 / 3
     elif ndim == 2:
         return 1.0
+    else:
+        raise ValueError("Wrong input dimensionality")
 
 def areafac(ndim: int=3) -> float:
     """
@@ -43,6 +45,8 @@ def areafac(ndim: int=3) -> float:
         return 4.0
     elif ndim == 2:
         return 2.0
+    else:
+        raise ValueError("Wrong input dimensionality")
 
 def alpha2factor(ndim: int=3) -> float:
     """
@@ -58,6 +62,8 @@ def alpha2factor(ndim: int=3) -> float:
         return 3.0 / 5.0
     elif ndim == 2:
         return 1.0 / 2.0
+    else:
+        raise ValueError("Wrong input dimensionality")
 
 def moment_of_inertia(
     positions: np.ndarray,
@@ -81,7 +87,7 @@ def moment_of_inertia(
     for i in range(3):
         for j in range(3):
             Iij[i, j] = m*(distance2*kronecker(i, j)-positions[:, i]*positions[:, j]).sum()
-    
+
     Iij /= positions.shape[0]
     if matrix:
         return Iij
