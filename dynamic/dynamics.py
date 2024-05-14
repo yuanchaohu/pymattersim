@@ -49,7 +49,7 @@ class DynamicsAbs:
             4. ppp (np.ndarray): the periodic boundary conditions (PBCs),
                                  setting 1 for yes and 0 for no, default np.array([0,0,0]),
                                  set np.array([0,0]) for two-dimensional systems
-            5. diamters (dict): map particle types to particle diameters
+            5. diameters (dict): map particle types to particle diameters
         
         Return:
             None
