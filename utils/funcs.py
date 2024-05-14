@@ -44,6 +44,21 @@ def areafac(ndim: int=3) -> float:
     elif ndim == 2:
         return 2.0
 
+def alpha2factor(ndim: int=3) -> float:
+    """
+    Choose factor in alpha2 calculation
+    
+    Inputs:
+        ndim (int): system dimensionality, default 3
+    
+    Return:
+        (float): alpha2factor
+    """
+    if ndim == 3:
+        return 3.0 / 5.0
+    elif ndim == 2:
+        return 1.0 / 2.0
+
 def moment_of_inertia(
     positions: np.ndarray,
     m: int=1,
