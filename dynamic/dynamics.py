@@ -33,7 +33,8 @@ class DynamicsAbs:
         xu_snapshots: Snapshots=None,
         x_snapshots: Snapshots=None,
         dt: float=0.002,
-        ppp: np.ndarray=np.array([0,0,0])
+        ppp: np.ndarray=np.array([0,0,0]),
+        diameters: dict[int, float]={1:1.0, 2:1.0}
     ) -> None:
         """
         Initializing DynamicsAbs class
@@ -75,9 +76,11 @@ class DynamicsAbs:
         timesteps = [snapshot.timestep for snapshot in self.snapshots.snapshots]
         self.time = (np.array(timesteps)[1:] - timesteps[0])*dt
 
+        self.diameters = pd.Series(self.snapshots.snapshots[0].particle_type).map(diameters).values
+
     def slowdynamics(
         self,
-        qmax: float=6.28,
+        qconst: float=6.28,
         a: float=0.3,
         condition: np.ndarray=None,
         outputfile: str="",
@@ -88,8 +91,8 @@ class DynamicsAbs:
         Mean-square displacements msd; non-Gaussion parameter alpha2
         
         Inputs:
-            1. qmax (float): characteristic wavenumber, typically first peak of S(q)
-            2. a (float): cutoff for the overlap function, should be reduced to particle size
+            1. qconst (float): characteristic wavenumber nominator [2pi/sigma], default 2pi
+            2. a (float): slow mobility cutoff, must be reduced to particle size, default 0.3
             3. condition (np.ndarray): particle-level condition / property, 
                shape [nsnapshots, nparticles]
             4. outputfile (str): file name to save the calculated dynamic results
@@ -98,7 +101,10 @@ class DynamicsAbs:
             Calculated dynamics results in pd.DataFrame
         """
         logger.info("Calculate slow dynamics")
-        a *= a
+        # define particle type specific cutoffs
+        qconst = qconst / self.diameters # 2PI/sigma
+        a_cuts = np.square(self.diameters * a)
+
         counts = np.zeros(self.snapshots.nsnapshots-1)
         isf = np.zeros_like(counts)
         qt = np.zeros_like(counts)
@@ -113,16 +119,19 @@ class DynamicsAbs:
                     selection = condition[n-nn][:, np.newaxis]
                     pos_end = self.snapshots.snapshots[n].positions[selection]
                     pos_init = self.snapshots.snapshots[n-nn].positions[selection]
+                    qconst = qconst[selection]
+                    a_cuts = a_cuts[selection]
                 else:
                     pos_end = self.snapshots.snapshots[n].positions
                     pos_init = self.snapshots.snapshots[n-nn].positions
+
                 RII = pos_end - pos_init
                 RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
                 # self-intermediate scattering function
-                isf[index] += np.cos(RII*qmax).mean()
+                isf[index] += np.cos(RII*qconst).mean()
                 # overlap function
                 distance = np.square(RII).sum(axis=1)
-                medium = (distance<a).mean()
+                medium = (distance<a_cuts).mean()
                 qt[index] += medium
                 qt2[index] += medium**2
                 # mean-squared displacements & non-gaussian parameter
@@ -131,7 +140,7 @@ class DynamicsAbs:
         isf /= counts
         qt /= counts
         qt2 /= counts
-        x4_qt = (qt2-np.square(qt)) * self.snapshots.snapshots[0].nparticle
+        x4_qt = (qt2-np.square(qt)) * len(a_cuts)
         r2 /= counts
         r4 /= counts
         alpha2 = alpha2factor(self.ndim)*r4/np.square(r2)-1
