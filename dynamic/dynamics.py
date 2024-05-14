@@ -9,6 +9,7 @@ from static.sq import conditional_sq
 from utils.pbc import remove_pbc
 from utils.funcs import alpha2factor
 from utils.logging import get_logger_handle
+from utils.wavevector import choosewavevector
 
 logger = get_logger_handle(__name__)
 
@@ -79,7 +80,7 @@ class DynamicsAbs:
         qmax: float=6.28,
         a: float=0.3,
         condition: np.ndarray=None,
-        outputfile: str=None,
+        outputfile: str="",
     ) -> pd.DataFrame:
         """
         Compute self-intermediate scattering functions ISF,
@@ -140,27 +141,32 @@ class DynamicsAbs:
             results.to_csv(outputfile, index=False)
         return results
 
-    def slow_S4(
+    def sq4(
         self,
         t: float,
-        qvector: np.ndarray, # change this to qrange and convert to qvector as input for conditional_sq
-        a: float=0.3,
-        outputfile: str=None
+        qrange: float=10.0,
+        a: dict[int, float]={1: 0.3},
+        cal_type: str="slow",
+        outputfile: str=""
     ) -> pd.DataFrame:
         """
         Compute four-point dynamic structure factor of slow atoms at characteristic timescale
 
         Inputs:
             1. t (float): characteristic time for slow dynamics, typically peak time of X4
-            2. a (float): cutoff for the overlap function, should be reduced to particle size
-            3. qrange (float): the wave number range to be calculated, default 10.0
+            2. qrange (float): the wave number range to be calculated, default 10.0
+            3. a (float): cutoff for the overlap function, should be reduced to particle size
+            4. outputfile (str): output filename for the calculated dynamical structure factor
 
         Based on overlap function Qt and its corresponding dynamic susceptibility QtX4     
-        a is the cutoff for the overlap function, default is 1.0 (EAM) and 0.3(LJ) (0.3<d>)
+        a is the cutoff for the overlap function, default is 0.3(LJ) (0.3<d>)
         
         Dynamics should be calculated before computing S4
         xu coordinates should be used to identify slow particles
         x  cooridnates should be used to calcualte FFT
+
+        Return:
+            calculated dynamical structure factor as pandas dataframe
         """
         logger.info('Calculate dynamic S4(q) of slow particles')
         if self.x_snapshots is None:
@@ -168,13 +174,31 @@ class DynamicsAbs:
         else:
             snapshots = self.x_snapshots
 
-        a *= a
+        # define the wavevector based on the wavenumber
+        twopidl = 2 * np.pi /snapshots.snapshots[0].boxlength
+        numofq = int(qrange*2.0 / twopidl.min())
+        qvector = choosewavevector(
+            ndim=self.ndim,
+            numofq=numofq,
+            onlypositive=False
+        )
+
+        # define the mobility cutoffs for each type
+        a_cuts = pd.Series(snapshots.snapshots[0].particle_type).map(a).values
+        a_cuts = np.square(a_cuts)
+
         n_t = int(t/self.time[0])
+        ave_sqresults = 0
         for n in range(self.snapshots.nsnapshots-n_t):
             RII = self.snapshots.snapshots[n+n_t].positions - self.snapshots.snapshots[n].positions
             RII = remove_pbc(RII, self.snapshots.snapshots[n].hmatrix, self.ppp)
-            RII = np.sqaure(RII).sum(axis=1)
-            condition = RII < a
+            RII = np.square(RII).sum(axis=1)
+
+            if cal_type=="slow":
+                condition = RII < a
+            else:
+                condition = RII > a
+
             ave_sqresults += conditional_sq(snapshots.snapshots[n],
                                             qvector=qvector,
                                             condition=condition
