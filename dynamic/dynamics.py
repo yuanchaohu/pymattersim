@@ -154,7 +154,7 @@ class DynamicsAbs:
         self,
         t: float,
         qrange: float=10.0,
-        a: dict[int, float]={1: 0.3},
+        a: float=0.3,
         cal_type: str="slow",
         outputfile: str=""
     ) -> pd.DataFrame:
@@ -164,14 +164,11 @@ class DynamicsAbs:
         Inputs:
             1. t (float): characteristic time for slow dynamics, typically peak time of X4
             2. qrange (float): the wave number range to be calculated, default 10.0
-            3. a (dict): cutoff for the overlap function, should be reduced to particle size
-                         and considered based on each particle type or in general
+            3. a (float): mobility cutoff, must be reduced to particle size, default 0.3
             4. cal_type (str): calculation type, can be either slow [default] or fast
             5. outputfile (str): output filename for the calculated dynamical structure factor
 
-        Based on overlap function Qt and its corresponding dynamic susceptibility QtX4     
-        a is the cutoff for the overlap function, default is 0.3(LJ) (0.3<d>)
-        
+        Based on overlap function Qt and its corresponding dynamic susceptibility QtX4        
         Dynamics should be calculated before computing S4
         xu coordinates should be used to identify slow/fast particles based on particle type
         x  cooridnates should be used to calcualte FFT
@@ -195,8 +192,7 @@ class DynamicsAbs:
         )
 
         # define the mobility cutoffs for each type
-        a_cuts = pd.Series(snapshots.snapshots[0].particle_type).map(a).values
-        a_cuts = np.square(a_cuts)
+        a_cuts = np.square(self.diameters * a)
 
         n_t = int(t/self.time[0])
         ave_sqresults = 0
@@ -206,9 +202,9 @@ class DynamicsAbs:
             RII = np.square(RII).sum(axis=1)
 
             if cal_type=="slow":
-                condition = RII < a
-            else:
-                condition = RII > a
+                condition = RII < a_cuts
+            else: # fast
+                condition = RII > a_cuts
 
             ave_sqresults += conditional_sq(snapshots.snapshots[n],
                                             qvector=qvector,
