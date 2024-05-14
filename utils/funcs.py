@@ -114,9 +114,9 @@ def Wignerindex(l :int) -> np.ndarray:
 
     return np.ravel(np.array(selected)).reshape(-1, 4)
 
-def gaussian_smooth(bins: np.ndarray, mu: float=0, sigma: float=1)->np.ndarray:
+def grid_gaussian(bins: np.ndarray, mu: float=0, sigma: float=1)->np.ndarray:
     """
-    Calculate the gaussian distribution of the input pproperty
+    Calculate the gaussian distribution of the input property
 
     inputs:
 
