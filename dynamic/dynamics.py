@@ -102,7 +102,7 @@ class DynamicsAbs:
         """
         logger.info("Calculate slow dynamics")
         # define particle type specific cutoffs
-        qconst = qconst / self.diameters # 2PI/sigma
+        q_const = qconst / self.diameters # 2PI/sigma
         a_cuts = np.square(self.diameters * a)
 
         counts = np.zeros(self.snapshots.nsnapshots-1)
@@ -119,7 +119,7 @@ class DynamicsAbs:
                     selection = condition[n-nn][:, np.newaxis]
                     pos_end = self.snapshots.snapshots[n].positions[selection]
                     pos_init = self.snapshots.snapshots[n-nn].positions[selection]
-                    qconst = qconst[selection]
+                    q_const = q_const[selection]
                     a_cuts = a_cuts[selection]
                 else:
                     pos_end = self.snapshots.snapshots[n].positions
@@ -128,7 +128,7 @@ class DynamicsAbs:
                 RII = pos_end - pos_init
                 RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
                 # self-intermediate scattering function
-                isf[index] += np.cos(RII*qconst).mean()
+                isf[index] += np.cos(RII*q_const).mean()
                 # overlap function
                 distance = np.square(RII).sum(axis=1)
                 medium = (distance<a_cuts).mean()
