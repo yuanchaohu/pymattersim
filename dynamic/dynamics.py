@@ -155,20 +155,22 @@ class DynamicsAbs:
         Inputs:
             1. t (float): characteristic time for slow dynamics, typically peak time of X4
             2. qrange (float): the wave number range to be calculated, default 10.0
-            3. a (float): cutoff for the overlap function, should be reduced to particle size
-            4. outputfile (str): output filename for the calculated dynamical structure factor
+            3. a (dict): cutoff for the overlap function, should be reduced to particle size
+                         and considered based on each particle type or in general
+            4. cal_type (str): calculation type, can be either slow [default] or fast
+            5. outputfile (str): output filename for the calculated dynamical structure factor
 
         Based on overlap function Qt and its corresponding dynamic susceptibility QtX4     
         a is the cutoff for the overlap function, default is 0.3(LJ) (0.3<d>)
         
         Dynamics should be calculated before computing S4
-        xu coordinates should be used to identify slow particles
+        xu coordinates should be used to identify slow/fast particles based on particle type
         x  cooridnates should be used to calcualte FFT
 
         Return:
             calculated dynamical structure factor as pandas dataframe
         """
-        logger.info('Calculate dynamic S4(q) of slow particles')
+        logger.info(f"Calculate dynamic S4(q) of {cal_type} particles at the time interval {t}")
         if self.x_snapshots is None:
             snapshots = self.snapshots
         else:
