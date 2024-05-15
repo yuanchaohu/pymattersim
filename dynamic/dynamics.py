@@ -55,6 +55,7 @@ class Dynamics:
         dt: float=0.002,
         ppp: np.ndarray=np.array([0,0,0]),
         diameters: dict[int, float]={1:1.0, 2:1.0},
+        a: float=0.3,
         cal_type: str="slow",
         neighborfile: str=""
     ) -> None:
@@ -71,8 +72,9 @@ class Dynamics:
                                  setting 1 for yes and 0 for no, default np.array([0,0,0]),
                                  set np.array([0,0]) for two-dimensional systems
             5. diameters (dict): map particle types to particle diameters
-            6. cal_type (str): calculation type, can be either slow [default] or fast
-            7. neighborfile: neighbor list filename for coarse-graining
+            6. a (float): slow mobility cutoff, must be reduced to particle size, default 0.3
+            7. cal_type (str): calculation type, can be either slow [default] or fast
+            8. neighborfile: neighbor list filename for coarse-graining
         
         Return:
             None
@@ -103,6 +105,7 @@ class Dynamics:
         self.time = (np.array(timesteps)[1:] - timesteps[0])*dt
 
         self.diameters = pd.Series(self.snapshots.snapshots[0].particle_type).map(diameters).values
+        self.a_cuts = np.square(self.diameters * a)
 
         self.neighborlists = []
         if neighborfile:
@@ -115,7 +118,6 @@ class Dynamics:
     def relaxation(
         self,
         qconst: float=6.28,
-        a: float=0.3,
         condition: np.ndarray=None,
         outputfile: str="",
     ) -> pd.DataFrame:
@@ -126,18 +128,18 @@ class Dynamics:
         
         Inputs:
             1. qconst (float): characteristic wavenumber nominator [2pi/sigma], default 2pi
-            2. a (float): slow mobility cutoff, must be reduced to particle size, default 0.3
-            3. condition (np.ndarray): particle-level condition / property, 
+            2. condition (np.ndarray): particle-level condition / property, 
                shape [nsnapshots, nparticles]
-            4. outputfile (str): file name to save the calculated dynamic results
+            3. outputfile (str): file name to save the calculated dynamic results
         
         Return:
             Calculated dynamics results in pd.DataFrame
         """
         logger.info("Calculate slow dynamics in linear output")
         # define particle type specific cutoffs
-        q_const = qconst / self.diameters # 2PI/sigma
-        a_cuts = np.square(self.diameters * a)
+        self.q_const = qconst / self.diameters # 2PI/sigma
+        q_const = self.q_const.copy()
+        a_cuts = self.a_cuts.copy()
 
         counts = np.zeros(self.snapshots.nsnapshots-1)
         isf = np.zeros_like(counts)
@@ -153,8 +155,8 @@ class Dynamics:
                     selection = condition[n-nn][:, np.newaxis]
                     pos_end = self.snapshots.snapshots[n].positions[selection]
                     pos_init = self.snapshots.snapshots[n-nn].positions[selection]
-                    q_const = q_const[selection]
-                    a_cuts = a_cuts[selection]
+                    q_const = self.q_const[selection]
+                    a_cuts = self.a_cuts[selection]
                 else:
                     pos_end = self.snapshots.snapshots[n].positions
                     pos_init = self.snapshots.snapshots[n-nn].positions
@@ -197,7 +199,6 @@ class Dynamics:
         self,
         t: float,
         qrange: float=10.0,
-        a: float=0.3,
         outputfile: str=""
     ) -> pd.DataFrame:
         """
@@ -206,8 +207,7 @@ class Dynamics:
         Inputs:
             1. t (float): characteristic time for slow dynamics, typically peak time of X4
             2. qrange (float): the wave number range to be calculated, default 10.0
-            3. a (float): slow mobility cutoff, must be reduced to particle size, default 0.3
-            4. outputfile (str): output filename for the calculated dynamical structure factor
+            3. outputfile (str): output filename for the calculated dynamical structure factor
 
         Based on overlap function Qt and its corresponding dynamic susceptibility QtX4        
         Dynamics should be calculated before computing S4
@@ -232,9 +232,6 @@ class Dynamics:
             onlypositive=False
         )
 
-        # define the mobility cutoffs for each type
-        a_cuts = np.square(self.diameters * a)
-
         n_t = int(t/self.time[0])
         ave_sqresults = 0
         for n in range(self.snapshots.nsnapshots-n_t):
@@ -246,9 +243,9 @@ class Dynamics:
             RII = np.square(RII).sum(axis=1)
 
             if self.cal_type=="slow":
-                condition = RII < a_cuts
+                condition = RII < self.a_cuts
             else: # fast
-                condition = RII > a_cuts
+                condition = RII > self.a_cuts
 
             ave_sqresults += conditional_sq(snapshots.snapshots[n],
                                             qvector=qvector,
