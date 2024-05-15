@@ -16,7 +16,7 @@ logger = get_logger_handle(__name__)
 
 # pylint: disable=dangerous-default-value
 
-def cage_relative(self, RII:np.ndarray, cnlist:np.ndarray) -> np.ndarray:
+def cage_relative(RII:np.ndarray, cnlist:np.ndarray) -> np.ndarray:
     """ 
     get the cage-relative or coarse-grained motion for single configuration
     
@@ -38,12 +38,14 @@ class Dynamics:
     The calculated quantities include:
         1. self-intermediate scattering function at a specific wavenumber
         2. overlap function and its associated dynamical susceptibility
-        3. mean-squared displacements
+        3. mean-squared displacements and non-Gaussian parameter
         4. dynamical structure factor based on particle mobility
 
     A conditional function is implemented to calculate dynamics of specific atoms.
     This module recommends to use absolute coordinates (like xu in LAMMPS) to
     calculate dynamics, while PBC is taken care of as well.
+
+    Linear output configurations are required!
     """
 
     def __init__(
@@ -78,7 +80,7 @@ class Dynamics:
         self.ppp = ppp
         self.ndim = len(ppp)
         self.cal_type = cal_type
-        logger.info(f"Calculate {cal_type} dynamics for a {self.ndim}-dimensional system")
+        logger.info(f"Calculate {cal_type} dynamics [Linear] for a {self.ndim}-dimensional system")
 
         if x_snapshots and xu_snapshots:
             logger.info('Use xu coordinates to calculate dynamics and x for dynamical Sq')
@@ -132,7 +134,7 @@ class Dynamics:
         Return:
             Calculated dynamics results in pd.DataFrame
         """
-        logger.info("Calculate slow dynamics")
+        logger.info("Calculate slow dynamics in linear output")
         # define particle type specific cutoffs
         q_const = qconst / self.diameters # 2PI/sigma
         a_cuts = np.square(self.diameters * a)
@@ -257,3 +259,153 @@ class Dynamics:
         if outputfile:
             ave_sqresults.to_csv(outputfile, index=False)
         return ave_sqresults
+
+class LogDynamics:
+    """
+    This module calculates particle-level dynamics with orignal coordinates.
+    The calculated quantities include:
+        1. self-intermediate scattering function at a specific wavenumber
+        2. overlap function and its associated dynamical susceptibility [default 0]
+        3. mean-squared displacements and non-Gaussian parameter
+
+    A conditional function is implemented to calculate dynamics of specific atoms.
+    This module recommends to use absolute coordinates (like xu in LAMMPS) to
+    calculate dynamics, while PBC is taken care of as well.
+
+    Log output configurations are required!
+    """
+
+    def __init__(
+        self,
+        xu_snapshots: Snapshots=None,
+        x_snapshots: Snapshots=None,
+        dt: float=0.002,
+        ppp: np.ndarray=np.array([0,0,0]),
+        diameters: dict[int, float]={1:1.0, 2:1.0},
+        cal_type: str="slow",
+        neighborfile: str=""
+    ) -> None:
+        """
+        Initializing DynamicsAbs class
+
+        Inputs:
+            1. xu_snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
+                            with dump format [xu, yu, zu], true coordinates, default None
+            2. x_snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
+                            with dump format [x, y, z], coordinates with PBCs, default None
+            3. dt (float): timestep used in user simulations, default 0.002
+            4. ppp (np.ndarray): the periodic boundary conditions (PBCs),
+                                 setting 1 for yes and 0 for no, default np.array([0,0,0]),
+                                 set np.array([0,0]) for two-dimensional systems
+            5. diameters (dict): map particle types to particle diameters
+            6. cal_type (str): calculation type, can be either slow [default] or fast
+            7. neighborfile: neighbor list filename for coarse-graining
+        
+        Return:
+            None
+        """
+        self.ppp = ppp
+        self.ndim = len(ppp)
+        self.cal_type = cal_type
+        logger.info(f"Calculate {cal_type} dynamics [Log] for a {self.ndim}-dimensional system")
+
+        if x_snapshots and xu_snapshots:
+            logger.info('Use xu coordinates to calculate dynamics and x for dynamical Sq')
+            self.snapshots = xu_snapshots
+            self.x_snapshots = x_snapshots
+            if xu_snapshots.nsnapshots != x_snapshots.nsnapshots:
+                raise ValueError('incompatible x and xu format coordinates')
+        elif xu_snapshots and not x_snapshots:
+            logger.info('Use xu coordinates to calculate dynamics and for dynamical Sq')
+            self.snapshots = xu_snapshots
+            self.x_snapshots = None
+        elif x_snapshots and not xu_snapshots:
+            logger.info('Use x coordinates to calculate dynamics and for dynamical Sq')
+            self.snapshots = x_snapshots
+            self.x_snapshots = None
+        else:
+            logger.info("Please provide correct snapshots for dynamics measurement")
+
+        timesteps = [snapshot.timestep for snapshot in self.snapshots.snapshots]
+        self.time = (np.array(timesteps)[1:] - timesteps[0])*dt
+
+        self.diameters = pd.Series(self.snapshots.snapshots[0].particle_type).map(diameters).values
+
+        if neighborfile:
+            fneighbor = open(neighborfile, "r", encoding="utf-8")
+            self.neighborlists = read_neighbors(fneighbor, self.snapshots.snapshots[0].nparticle)
+            fneighbor.close()
+        else:
+            self.neighborlists = np.zeros(3)
+
+    def relaxation(
+        self,
+        qconst: float=6.28,
+        a: float=0.3,
+        condition: np.ndarray=None,
+        outputfile: str="",
+    ) -> pd.DataFrame:
+        """
+        Compute self-intermediate scattering functions ISF,
+        Overlap function Qt and its corresponding dynamic susceptibility QtX4
+        Mean-square displacements msd; non-Gaussion parameter alpha2
+        
+        Inputs:
+            1. qconst (float): characteristic wavenumber nominator [2pi/sigma], default 2pi
+            2. a (float): slow mobility cutoff, must be reduced to particle size, default 0.3
+            3. condition (np.ndarray): particle-level condition / property, 
+               shape [nsnapshots, nparticles]
+            4. outputfile (str): file name to save the calculated dynamic results
+        
+        Return:
+            Calculated dynamics results in pd.DataFrame
+        """
+        logger.info("Calculate slow dynamics in log-scale output")
+        # define particle type specific cutoffs
+        q_const = qconst / self.diameters # 2PI/sigma
+        a_cuts = np.square(self.diameters * a)
+
+        isf = np.zeros_like(self.time)
+        qt = np.zeros_like(self.time)
+        r2 = np.zeros_like(self.time)
+        r4 = np.zeros_like(self.time)
+        for n in range(1, self.snapshots.nsnapshots):
+            index = n-1
+            if condition is not None:
+                selection = condition[:, np.newaxis]
+                pos_end = self.snapshots.snapshots[n].positions[selection]
+                pos_init = self.snapshots.snapshots[0].positions[selection]
+                q_const = q_const[selection]
+                a_cuts = a_cuts[selection]
+            else:
+                pos_end = self.snapshots.snapshots[n].positions
+                pos_init = self.snapshots.snapshots[0].positions
+
+            RII = pos_end - pos_init
+            RII = remove_pbc(RII, self.snapshots.snapshots[0].hmatrix, self.ppp)
+
+            if self.neighborlists.any():
+                RII = cage_relative(RII, self.neighborlists)
+
+            # self-intermediate scattering function
+            isf[index] = np.cos(RII*q_const).mean()
+
+            distance = np.square(RII).sum(axis=1)
+            # overlap function
+            if self.cal_type=="slow":
+                medium = (distance<a_cuts).mean()
+            else: # fast
+                medium = (distance>a_cuts).mean()
+            qt[index] = medium
+
+            # mean-squared displacements & non-gaussian parameter
+            r2[index] = distance.mean()
+            r4[index] = np.square(distance).mean()
+
+        x4_qt = np.zeros_like(qt)
+        alpha2 = alpha2factor(self.ndim)*r4/np.square(r2)-1
+        results = np.column_stack((self.time, isf, qt, x4_qt, r2, alpha2))
+        results = pd.DataFrame(results, columns='t isf Qt X4_Qt msd alpha2'.split())
+        if outputfile:
+            results.to_csv(outputfile, index=False)
+        return results
