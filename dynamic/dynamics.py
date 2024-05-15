@@ -35,7 +35,8 @@ class DynamicsAbs:
         x_snapshots: Snapshots=None,
         dt: float=0.002,
         ppp: np.ndarray=np.array([0,0,0]),
-        diameters: dict[int, float]={1:1.0, 2:1.0}
+        diameters: dict[int, float]={1:1.0, 2:1.0},
+        cal_type: str="slow",
     ) -> None:
         """
         Initializing DynamicsAbs class
@@ -50,13 +51,15 @@ class DynamicsAbs:
                                  setting 1 for yes and 0 for no, default np.array([0,0,0]),
                                  set np.array([0,0]) for two-dimensional systems
             5. diameters (dict): map particle types to particle diameters
+            6. cal_type (str): calculation type, can be either slow [default] or fast
         
         Return:
             None
         """
         self.ppp = ppp
         self.ndim = len(ppp)
-        logger.info(f"Calculating absolute dynamics for a {self.ndim}-dimensional system")
+        self.cal_type = cal_type
+        logger.info(f"Calculate {cal_type} dynamics for a {self.ndim}-dimensional system")
 
         if x_snapshots and xu_snapshots:
             logger.info('Use xu coordinates to calculate dynamics and x for dynamical Sq')
@@ -129,13 +132,19 @@ class DynamicsAbs:
 
                 RII = pos_end - pos_init
                 RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
+
                 # self-intermediate scattering function
                 isf[index] += np.cos(RII*q_const).mean()
-                # overlap function
+
                 distance = np.square(RII).sum(axis=1)
-                medium = (distance<a_cuts).mean()
+                # overlap function
+                if self.cal_type=="slow":
+                    medium = (distance<a_cuts).mean()
+                else: # fast
+                    medium = (distance>a_cuts).mean()
                 qt[index] += medium
                 qt2[index] += medium**2
+
                 # mean-squared displacements & non-gaussian parameter
                 r2[index] += distance.mean()
                 r4[index] += np.square(distance).mean()
@@ -157,7 +166,6 @@ class DynamicsAbs:
         t: float,
         qrange: float=10.0,
         a: float=0.3,
-        cal_type: str="slow",
         outputfile: str=""
     ) -> pd.DataFrame:
         """
@@ -166,9 +174,8 @@ class DynamicsAbs:
         Inputs:
             1. t (float): characteristic time for slow dynamics, typically peak time of X4
             2. qrange (float): the wave number range to be calculated, default 10.0
-            3. a (float): mobility cutoff, must be reduced to particle size, default 0.3
-            4. cal_type (str): calculation type, can be either slow [default] or fast
-            5. outputfile (str): output filename for the calculated dynamical structure factor
+            3. a (float): slow mobility cutoff, must be reduced to particle size, default 0.3
+            4. outputfile (str): output filename for the calculated dynamical structure factor
 
         Based on overlap function Qt and its corresponding dynamic susceptibility QtX4        
         Dynamics should be calculated before computing S4
@@ -178,7 +185,7 @@ class DynamicsAbs:
         Return:
             calculated dynamical structure factor as pandas dataframe
         """
-        logger.info(f"Calculate dynamic S4(q) of {cal_type} particles at the time interval {t}")
+        logger.info(f"Calculate S4(q) of {self.cal_type} particles at the time interval {t}")
         if self.x_snapshots is None:
             snapshots = self.snapshots
         else:
@@ -203,7 +210,7 @@ class DynamicsAbs:
             RII = remove_pbc(RII, self.snapshots.snapshots[n].hmatrix, self.ppp)
             RII = np.square(RII).sum(axis=1)
 
-            if cal_type=="slow":
+            if self.cal_type=="slow":
                 condition = RII < a_cuts
             else: # fast
                 condition = RII > a_cuts
@@ -217,8 +224,3 @@ class DynamicsAbs:
         if outputfile:
             ave_sqresults.to_csv(outputfile, index=False)
         return ave_sqresults
-
-class DynamicsCG():
-    """Calculate coarse-grained dynamics, typically cage-relative dynamics"""
-    def __init__(self):
-        pass
