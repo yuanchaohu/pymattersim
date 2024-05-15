@@ -279,6 +279,7 @@ class LogDynamics:
         dt: float=0.002,
         ppp: np.ndarray=np.array([0,0,0]),
         diameters: dict[int, float]={1:1.0, 2:1.0},
+        a: float=0.3,
         cal_type: str="slow",
         neighborfile: str=""
     ) -> None:
@@ -295,8 +296,9 @@ class LogDynamics:
                                  setting 1 for yes and 0 for no, default np.array([0,0,0]),
                                  set np.array([0,0]) for two-dimensional systems
             5. diameters (dict): map particle types to particle diameters
-            6. cal_type (str): calculation type, can be either slow [default] or fast
-            7. neighborfile: neighbor list filename for coarse-graining
+            6. a (float): slow mobility cutoff, must be reduced to particle size, default 0.3
+            7. cal_type (str): calculation type, can be either slow [default] or fast
+            8. neighborfile: neighbor list filename for coarse-graining
         
         Return:
             None
@@ -327,6 +329,7 @@ class LogDynamics:
         self.time = (np.array(timesteps)[1:] - timesteps[0])*dt
 
         self.diameters = pd.Series(self.snapshots.snapshots[0].particle_type).map(diameters).values
+        self.a_cuts = np.square(self.diameters * a)
 
         if neighborfile:
             fneighbor = open(neighborfile, "r", encoding="utf-8")
@@ -338,7 +341,6 @@ class LogDynamics:
     def relaxation(
         self,
         qconst: float=6.28,
-        a: float=0.3,
         condition: np.ndarray=None,
         outputfile: str="",
     ) -> pd.DataFrame:
@@ -349,18 +351,18 @@ class LogDynamics:
         
         Inputs:
             1. qconst (float): characteristic wavenumber nominator [2pi/sigma], default 2pi
-            2. a (float): slow mobility cutoff, must be reduced to particle size, default 0.3
-            3. condition (np.ndarray): particle-level condition / property, 
+            2. condition (np.ndarray): particle-level condition / property, 
                shape [nsnapshots, nparticles]
-            4. outputfile (str): file name to save the calculated dynamic results
+            3. outputfile (str): file name to save the calculated dynamic results
         
         Return:
             Calculated dynamics results in pd.DataFrame
         """
         logger.info("Calculate slow dynamics in log-scale output")
         # define particle type specific cutoffs
-        q_const = qconst / self.diameters # 2PI/sigma
-        a_cuts = np.square(self.diameters * a)
+        self.q_const = qconst / self.diameters # 2PI/sigma
+        q_const = self.q_const.copy()
+        a_cuts = self.a_cuts.copy()
 
         isf = np.zeros_like(self.time)
         qt = np.zeros_like(self.time)
@@ -372,8 +374,8 @@ class LogDynamics:
                 selection = condition[:, np.newaxis]
                 pos_end = self.snapshots.snapshots[n].positions[selection]
                 pos_init = self.snapshots.snapshots[0].positions[selection]
-                q_const = q_const[selection]
-                a_cuts = a_cuts[selection]
+                q_const = self.q_const[selection]
+                a_cuts = self.a_cuts[selection]
             else:
                 pos_end = self.snapshots.snapshots[n].positions
                 pos_init = self.snapshots.snapshots[0].positions
