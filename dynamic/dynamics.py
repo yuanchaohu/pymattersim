@@ -5,6 +5,7 @@
 import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
+from neighbors.read_neighbors import read_neighbors
 from static.sq import conditional_sq
 from utils.pbc import remove_pbc
 from utils.funcs import alpha2factor
@@ -15,7 +16,7 @@ logger = get_logger_handle(__name__)
 
 # pylint: disable=dangerous-default-value
 
-class DynamicsAbs:
+class Dynamics:
     """
     This module calculates particle-level dynamics with orignal coordinates.
     The calculated quantities include:
@@ -37,6 +38,7 @@ class DynamicsAbs:
         ppp: np.ndarray=np.array([0,0,0]),
         diameters: dict[int, float]={1:1.0, 2:1.0},
         cal_type: str="slow",
+        neighborfile: str=""
     ) -> None:
         """
         Initializing DynamicsAbs class
@@ -52,6 +54,7 @@ class DynamicsAbs:
                                  set np.array([0,0]) for two-dimensional systems
             5. diameters (dict): map particle types to particle diameters
             6. cal_type (str): calculation type, can be either slow [default] or fast
+            7. neighborfile: neighbor list filename for coarse-graining
         
         Return:
             None
@@ -83,7 +86,15 @@ class DynamicsAbs:
 
         self.diameters = pd.Series(self.snapshots.snapshots[0].particle_type).map(diameters).values
 
-    def slowdynamics(
+        self.neighborlists = []
+        if neighborfile:
+            fneighbor = open(neighborfile, "r", encoding="utf-8")
+            for n in range(self.snapshots.nsnapshots):
+                medium = read_neighbors(fneighbor, self.snapshots.snapshots[n].nparticle)
+                self.neighborlists.append(medium)
+            fneighbor.close()
+
+    def relaxation(
         self,
         qconst: float=6.28,
         a: float=0.3,
@@ -132,6 +143,9 @@ class DynamicsAbs:
 
                 RII = pos_end - pos_init
                 RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
+
+                if self.neighborlists:
+                    RII = self.cage_relative(RII, self.neighborlists[n-nn])
 
                 # self-intermediate scattering function
                 isf[index] += np.cos(RII*q_const).mean()
@@ -208,6 +222,9 @@ class DynamicsAbs:
         for n in range(self.snapshots.nsnapshots-n_t):
             RII = self.snapshots.snapshots[n+n_t].positions - self.snapshots.snapshots[n].positions
             RII = remove_pbc(RII, self.snapshots.snapshots[n].hmatrix, self.ppp)
+            if self.neighborlists:
+                RII = self.cage_relative(RII, self.neighborlists[n])
+
             RII = np.square(RII).sum(axis=1)
 
             if self.cal_type=="slow":
@@ -224,3 +241,19 @@ class DynamicsAbs:
         if outputfile:
             ave_sqresults.to_csv(outputfile, index=False)
         return ave_sqresults
+
+    def cage_relative(self, RII:np.ndarray, cnlist:np.ndarray) -> np.ndarray:
+        """ 
+        get the cage-relative or coarse-grained motion
+        
+        inputs:
+            RII (np.ndarray): absolute displacement matrix
+            cnlist (np.ndarray): neighbor list of the initial or reference configuration
+        
+        return:
+            np.ndarray: cage-relative displacement matrix
+        """
+        RII_relative = np.zeros_like(RII)
+        for i in range(RII.shape[0]):
+            RII_relative[i] = RII[i] - RII[cnlist[i, 1:cnlist[i,0]+1]].mean(axis=0)
+        return RII_relative
