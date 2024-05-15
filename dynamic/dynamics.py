@@ -16,6 +16,22 @@ logger = get_logger_handle(__name__)
 
 # pylint: disable=dangerous-default-value
 
+def cage_relative(self, RII:np.ndarray, cnlist:np.ndarray) -> np.ndarray:
+    """ 
+    get the cage-relative or coarse-grained motion for single configuration
+    
+    inputs:
+        RII (np.ndarray): absolute displacement matrix
+        cnlist (np.ndarray): neighbor list of the initial or reference configuration
+    
+    return:
+        np.ndarray: cage-relative displacement matrix
+    """
+    RII_relative = np.zeros_like(RII)
+    for i in range(RII.shape[0]):
+        RII_relative[i] = RII[i] - RII[cnlist[i, 1:cnlist[i,0]+1]].mean(axis=0)
+    return RII_relative
+
 class Dynamics:
     """
     This module calculates particle-level dynamics with orignal coordinates.
@@ -145,7 +161,7 @@ class Dynamics:
                 RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
 
                 if self.neighborlists:
-                    RII = self.cage_relative(RII, self.neighborlists[n-nn])
+                    RII = cage_relative(RII, self.neighborlists[n-nn])
 
                 # self-intermediate scattering function
                 isf[index] += np.cos(RII*q_const).mean()
@@ -223,7 +239,7 @@ class Dynamics:
             RII = self.snapshots.snapshots[n+n_t].positions - self.snapshots.snapshots[n].positions
             RII = remove_pbc(RII, self.snapshots.snapshots[n].hmatrix, self.ppp)
             if self.neighborlists:
-                RII = self.cage_relative(RII, self.neighborlists[n])
+                RII = cage_relative(RII, self.neighborlists[n])
 
             RII = np.square(RII).sum(axis=1)
 
@@ -241,19 +257,3 @@ class Dynamics:
         if outputfile:
             ave_sqresults.to_csv(outputfile, index=False)
         return ave_sqresults
-
-    def cage_relative(self, RII:np.ndarray, cnlist:np.ndarray) -> np.ndarray:
-        """ 
-        get the cage-relative or coarse-grained motion
-        
-        inputs:
-            RII (np.ndarray): absolute displacement matrix
-            cnlist (np.ndarray): neighbor list of the initial or reference configuration
-        
-        return:
-            np.ndarray: cage-relative displacement matrix
-        """
-        RII_relative = np.zeros_like(RII)
-        for i in range(RII.shape[0]):
-            RII_relative[i] = RII[i] - RII[cnlist[i, 1:cnlist[i,0]+1]].mean(axis=0)
-        return RII_relative
