@@ -19,17 +19,23 @@ logger = get_logger_handle(__name__)
 def cage_relative(RII:np.ndarray, cnlist:np.ndarray) -> np.ndarray:
     """ 
     get the cage-relative or coarse-grained motion for single configuration
+    The coarse-graining is done based on given neighboring particles
     
     inputs:
-        RII (np.ndarray): absolute displacement matrix
+        RII (np.ndarray): original (absolute) displacement matrix
+                          shape [num_of_particles, ndim]
         cnlist (np.ndarray): neighbor list of the initial or reference configuration
+                          shape [num_of_particles, num_of_neighbors]
+                          available from the 'neighbors' module
     
     return:
         np.ndarray: cage-relative displacement matrix
+                    shape [num_of_particles, ndim]
     """
     RII_relative = np.zeros_like(RII)
     for i in range(RII.shape[0]):
-        RII_relative[i] = RII[i] - RII[cnlist[i, 1:cnlist[i,0]+1]].mean(axis=0)
+        i_neighbors = cnlist[i, 1:cnlist[i,0]+1]
+        RII_relative[i] = RII[i] - RII[i_neighbors].mean(axis=0)
     return RII_relative
 
 class Dynamics:
