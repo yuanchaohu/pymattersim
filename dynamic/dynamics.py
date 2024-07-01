@@ -41,17 +41,22 @@ def cage_relative(RII:np.ndarray, cnlist:np.ndarray) -> np.ndarray:
 class Dynamics:
     """
     This module calculates particle-level dynamics with orignal coordinates.
+    It considers systems at both two-dimension and three-dimension.
+    Both absolute and cage-relative dynamics are considered.
     The calculated quantities include:
         1. self-intermediate scattering function at a specific wavenumber
         2. overlap function and its associated dynamical susceptibility
         3. mean-squared displacements and non-Gaussian parameter
         4. dynamical structure factor based on particle mobility
 
-    A conditional function is implemented to calculate dynamics of specific atoms.
-    This module recommends to use absolute coordinates (like xu in LAMMPS) to
-    calculate dynamics, while PBC is taken care of as well.
+    A conditional function is implemented to calculate dynamics of specific atoms,
+    for example, can be used to calculate for a specific atomic type,
+    see below functions
 
-    Linear output configurations are required!
+    This module recommends to use absolute coordinates (like xu in LAMMPS) to
+    calculate dynamics, while PBC is taken care of others as well.
+
+    Linear (constant time interval) output configurations are required!
     """
 
     def __init__(
@@ -63,24 +68,32 @@ class Dynamics:
         diameters: dict[int, float]={1:1.0, 2:1.0},
         a: float=0.3,
         cal_type: str="slow",
-        neighborfile: str=""
+        neighborfile: str="",
+        max_neighbors: int=30,
     ) -> None:
         """
-        Initializing DynamicsAbs class
+        Initialization
 
         Inputs:
             1. xu_snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
-                            with dump format [xu, yu, zu], true coordinates, default None
+                            with dump format [xu, yu, zu], absolute coordinates, default None
             2. x_snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
-                            with dump format [x, y, z], coordinates with PBCs, default None
+                            with dump format [x,y,z] or [xs,ys,zs], coordinates with PBCs, default None
             3. dt (float): timestep used in user simulations, default 0.002
             4. ppp (np.ndarray): the periodic boundary conditions (PBCs),
-                                 setting 1 for yes and 0 for no, default np.array([0,0,0]),
-                                 set np.array([0,0]) for two-dimensional systems
+                                 setting 1 for yes and 0 for no, default np.array([0,0,0]) for 3D,
+                                 default no periodic boundary conditions considered.
+                                 Dimensionality is refered from the shape of ppp
             5. diameters (dict): map particle types to particle diameters
-            6. a (float): slow mobility cutoff, must be reduced to particle size, default 0.3
+            6. a (float): slow mobility cutoff scaling factor, default 0.3,
+                          will scale based on particle diameter. When diameter is 1.0,
+                          cutoff is 0.3; if diamter 2.0, cutoff will be 0.6 in calculation
             7. cal_type (str): calculation type, can be either slow [default] or fast
+                               slow: particles moving shorter than a distance during some time
+                               fast: particles moving further than a distance during some time
             8. neighborfile: neighbor list filename for coarse-graining
+                             only provided when calculating (cage-)relative displacements
+            9. max_neighbors: maximum of particle neighbors considered, default 30
         
         Return:
             None
@@ -91,17 +104,17 @@ class Dynamics:
         logger.info(f"Calculate {cal_type} dynamics [Linear] for a {self.ndim}-dimensional system")
 
         if x_snapshots and xu_snapshots:
-            logger.info('Use xu coordinates to calculate dynamics and x for dynamical Sq')
+            logger.info('Use xu coordinates to calculate dynamics and x/xs for dynamical Sq')
             self.snapshots = xu_snapshots
             self.x_snapshots = x_snapshots
             if xu_snapshots.nsnapshots != x_snapshots.nsnapshots:
-                raise ValueError('incompatible x and xu format coordinates')
+                raise ValueError('incompatible x/xs and xu format coordinates')
         elif xu_snapshots and not x_snapshots:
-            logger.info('Use xu coordinates to calculate dynamics and for dynamical Sq')
+            logger.info('Use xu coordinates to calculate dynamics and dynamical Sq')
             self.snapshots = xu_snapshots
             self.x_snapshots = None
         elif x_snapshots and not xu_snapshots:
-            logger.info('Use x coordinates to calculate dynamics and for dynamical Sq')
+            logger.info('Use x/xs coordinates to calculate dynamics and dynamical Sq')
             self.snapshots = x_snapshots
             self.x_snapshots = None
         else:
@@ -110,20 +123,25 @@ class Dynamics:
         timesteps = [snapshot.timestep for snapshot in self.snapshots.snapshots]
         self.time = (np.array(timesteps)[1:] - timesteps[0])*dt
 
+        # TODO confirm the values of self.diameters
         self.diameters = pd.Series(self.snapshots.snapshots[0].particle_type).map(diameters).values
-        self.a_cuts = np.square(self.diameters * a)
+        self.a2_cuts = np.square(self.diameters * a)
 
         self.neighborlists = []
         if neighborfile:
             fneighbor = open(neighborfile, "r", encoding="utf-8")
             for n in range(self.snapshots.nsnapshots):
-                medium = read_neighbors(fneighbor, self.snapshots.snapshots[n].nparticle)
+                medium = read_neighbors(
+                    f=fneighbor,
+                    nparticle=self.snapshots.snapshots[n].nparticle,
+                    Nmax=max_neighbors
+                )
                 self.neighborlists.append(medium)
             fneighbor.close()
 
     def relaxation(
         self,
-        qconst: float=6.28,
+        qconst: float=2*np.pi,
         condition: np.ndarray=None,
         outputfile: str="",
     ) -> pd.DataFrame:
@@ -131,21 +149,24 @@ class Dynamics:
         Compute self-intermediate scattering functions ISF,
         Overlap function Qt and its corresponding dynamic susceptibility QtX4
         Mean-square displacements msd; non-Gaussion parameter alpha2
+
+        Default to calculate for all particles;
+        Use 'condition' to perform calculations over specific particles
         
         Inputs:
             1. qconst (float): characteristic wavenumber nominator [2pi/sigma], default 2pi
             2. condition (np.ndarray): particle-level condition / property, 
-               shape [nsnapshots, nparticles]
-            3. outputfile (str): file name to save the calculated dynamic results
+                                       shape [nsnapshots, nparticles]
+            3. outputfile (str): file name to save the calculated dynamics results
         
         Return:
             Calculated dynamics results in pd.DataFrame
         """
-        logger.info("Calculate slow dynamics in linear output")
+        logger.info(f"Calculate {self.cal_type} dynamics in linear output")
         # define particle type specific cutoffs
         self.q_const = qconst / self.diameters # 2PI/sigma
         q_const = self.q_const.copy()
-        a_cuts = self.a_cuts.copy()
+        a2_cuts = self.a2_cuts.copy()
 
         counts = np.zeros(self.snapshots.nsnapshots-1)
         isf = np.zeros_like(counts)
@@ -157,31 +178,37 @@ class Dynamics:
             for nn in range(1, n+1):
                 index = nn-1
                 counts[index] += 1
-                if condition is not None:
-                    selection = condition[n-nn][:, np.newaxis]
-                    pos_end = self.snapshots.snapshots[n].positions[selection]
-                    pos_init = self.snapshots.snapshots[n-nn].positions[selection]
-                    q_const = self.q_const[selection]
-                    a_cuts = self.a_cuts[selection]
-                else:
-                    pos_end = self.snapshots.snapshots[n].positions
-                    pos_init = self.snapshots.snapshots[n-nn].positions
-
+                pos_init = self.snapshots.snapshots[n-nn].positions
+                pos_end = self.snapshots.snapshots[n].positions
                 RII = pos_end - pos_init
-                RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
 
+                # remove periodic boundary conditions when necessary
+                if self.ppp.any():
+                    RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
+
+                # calculate cage-relative displacements when necessary
                 if self.neighborlists:
                     RII = cage_relative(RII, self.neighborlists[n-nn])
 
+                # select results for specific particles
+                if condition is not None:
+                    selection = condition[n-nn]
+                    q_const = self.q_const[selection]
+                    a2_cuts = self.a2_cuts[selection]
+                    RII = RII[selection]
+
                 # self-intermediate scattering function
+                # average over [1,0,0], [0,1,0] & [0,0,1] direction
                 isf[index] += np.cos(RII*q_const).mean()
 
+                # squared scalar displacements
                 distance = np.square(RII).sum(axis=1)
+
                 # overlap function
                 if self.cal_type=="slow":
-                    medium = (distance<a_cuts).mean()
+                    medium = (distance<a2_cuts).mean()
                 else: # fast
-                    medium = (distance>a_cuts).mean()
+                    medium = (distance>a2_cuts).mean()
                 qt[index] += medium
                 qt2[index] += medium**2
 
@@ -191,7 +218,7 @@ class Dynamics:
         isf /= counts
         qt /= counts
         qt2 /= counts
-        x4_qt = (qt2-np.square(qt)) * len(a_cuts)
+        x4_qt = (qt2-np.square(qt)) * len(a2_cuts)
         r2 /= counts
         r4 /= counts
         alpha2 = alpha2factor(self.ndim)*r4/np.square(r2)-1
@@ -205,57 +232,72 @@ class Dynamics:
         self,
         t: float,
         qrange: float=10.0,
+        condition: np.ndarray=None,
         outputfile: str=""
     ) -> pd.DataFrame:
         """
-        Compute four-point dynamic structure factor of slow atoms at characteristic timescale
+        Compute four-point dynamic structure factor of specific atoms at characteristic timescale
 
         Inputs:
-            1. t (float): characteristic time for slow dynamics, typically peak time of X4
+            1. t (float): characteristic time, typically peak time of X4, see self.relaxation()
             2. qrange (float): the wave number range to be calculated, default 10.0
-            3. outputfile (str): output filename for the calculated dynamical structure factor
+            3. condition (np.ndarray): particle-level condition / property, 
+                                       shape [nsnapshots, nparticles]
+            4. outputfile (str): output filename for the calculated dynamical structure factor
 
-        Based on overlap function Qt and its corresponding dynamic susceptibility QtX4        
-        Dynamics should be calculated before computing S4
-        xu coordinates should be used to identify slow/fast particles based on particle type
-        x  cooridnates should be used to calcualte FFT
+        Based on overlap function Qt and its corresponding dynamic susceptibility X4_Qt
+        Dynamics should be calculated before computing self.sq4().
+        A general practice is to calcualte X4_Qt by self.relaxation() first and get the
+        peak timescale for this function
 
         Return:
             calculated dynamical structure factor as pandas dataframe
         """
         logger.info(f"Calculate S4(q) of {self.cal_type} particles at the time interval {t}")
         if self.x_snapshots is None:
+            logger.info("Use xu coordinates for dynamics and x/xs coordinates for Sq4")
             snapshots = self.snapshots
         else:
+            logger.info("Use only xu or x/xs for calculating both dynamics and Sq4")
             snapshots = self.x_snapshots
 
-        # define the wavevector based on the wavenumber
-        twopidl = 2 * np.pi /snapshots.snapshots[0].boxlength
-        numofq = int(qrange*2.0 / twopidl.min())
+        # define the wavevector based on the wavenumber large limit
+        twopidl = 2*np.pi/snapshots.snapshots[0].boxlength
+        numofq = int(qrange*2.0/twopidl.min())
         qvector = choosewavevector(
             ndim=self.ndim,
             numofq=numofq,
             onlypositive=False
         )
 
-        n_t = int(t/self.time[0])
+        n_t = round(t/self.time[0]) # convert input time to configuration interval
         ave_sqresults = 0
         for n in range(self.snapshots.nsnapshots-n_t):
-            RII = self.snapshots.snapshots[n+n_t].positions - self.snapshots.snapshots[n].positions
-            RII = remove_pbc(RII, self.snapshots.snapshots[n].hmatrix, self.ppp)
+            pos_init = self.snapshots.snapshots[n].positions
+            pos_end = self.snapshots.snapshots[n+n_t].positions
+            RII = pos_end - pos_init
+
+            # remove periodic boundary conditions when necessary
+            if self.ppp.any():
+                RII = remove_pbc(RII, self.snapshots.snapshots[n].hmatrix, self.ppp)
+
+            # calculate cage-relative displacements when necessary
             if self.neighborlists:
                 RII = cage_relative(RII, self.neighborlists[n])
 
             RII = np.square(RII).sum(axis=1)
 
             if self.cal_type=="slow":
-                condition = RII < self.a_cuts
+                mobility_condition = RII < self.a2_cuts
             else: # fast
-                condition = RII > self.a_cuts
+                mobility_condition = RII > self.a2_cuts
+
+            if condition:
+                mobility_condition *= condition[n]
 
             ave_sqresults += conditional_sq(snapshots.snapshots[n],
                                             qvector=qvector,
-                                            condition=condition
+                                            condition=mobility_condition
                                             )[1]
 
         ave_sqresults /= self.snapshots.nsnapshots-n_t
