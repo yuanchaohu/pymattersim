@@ -1,13 +1,15 @@
 # Pair Correlation Function
 
 The module `static.gr.gr` calculates the overall and partial pair correlation functions (PCF) $g(r)$ in orthogonal and triclinic cells at various dimensional systems. This module is suitable for multi-component systems, from unary to quinary.  The overall $g(r)$ is defined as:
+
 $$
-g(r) = \frac{1}{N \rho} \lang \sum_{i \neq j} \delta (r - |\vec r_{ij}|) \rang
+g(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|) \rangle
 $$
 
 where $N$ is particle number, $\rho$ is number density ($\rho=N/V$, where $V$ is cell volume), and $|\vec r_{ij}|$ is the distance between centered particle $i$ and particle $j$. The partial PCF $g_{\alpha \beta}(r)$, in which $\alpha$ and $\beta$ representing two particle types, is defined as
+
 $$
-g_{\alpha \beta}(r) = \frac{V}{N_{\alpha} N_{\beta}} \lang \sum_{i \neq j; i \in \alpha; j \in \beta} \delta (r - |\vec r_{ij}|) \rang
+g_{\alpha \beta}(r) = \frac{V}{N_{\alpha} N_{\beta}} \langle \sum_{i \neq j; i \in \alpha; j \in \beta} \delta (r - |\vec r_{ij}|) \rangle
 $$
 
 The function `static.gr.conditional_gr` calculates $g(r)$ of a single configuration for particles with conditional properties. It is also useful to calculate the spatial correlation of a particle-level physical quantity $A_i$. There are five conditions considered for $A_i$:
@@ -18,8 +20,9 @@ The function `static.gr.conditional_gr` calculates $g(r)$ of a single configurat
 - condition is tensorial type, so calculate spatial correlation of tensorial field
  
 $A_i=1$ reverts to the overall $g(r)$, representing all particle are selected. Bool type $A_i$ makes the calculation for only selected particles with $A_i=True$. For example, for $g_{\alpha\alpha}(r)$ and $g_{\beta\beta}(r)$, but not for $g_{\alpha\beta}(r)$. The conditional $g(r)$ for $A_i$ is defined as
+
 $$
-g_A(r) = \frac{1}{N \rho} \lang \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i A_j \rang = \lang A(r) A(0) \rang
+g_A(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i A_j \rangle = \langle A(r) A(0) \rangle
 $$
 
 The spatial correlation function of particle-level quantity $A_i$ is $g_A(r) / g(r)$.
