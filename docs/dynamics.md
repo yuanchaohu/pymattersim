@@ -27,7 +27,9 @@ $$ \Delta {\vec r_j} = \left[{\vec r_j} (t) - {\vec r_i}(0) \right] - \frac{1}{N
 
 ## 1. `Dynamics` class
 
+This module calculates particle-level dynamics with orignal coordinates.It considers systems for both two-dimension and three-dimension, and for both absolute and cage-relative dynamics.
 
+This module recommends to use absolute coordinates (like xu in LAMMPS) to calculate dynamics, while PBC is taken care of others as well.
 
 
 #### Input Arguments:
@@ -128,7 +130,9 @@ $
 
 
 ## 2. `LogDynamics` class
-This class calculates particle-level dynamics with orignal coordinates.
+This is module is designed to test the dynamical properties of a supercooled liquid, for example structural relaxation time. It uses the 'log' style to output the atomic trajectory. 
+
+Ensemble average is absent compared to the above Dynamics() class!
 
 #### Input Arguments:
 
@@ -154,6 +158,7 @@ This class calculates particle-level dynamics with orignal coordinates.
 
 
 ### 2.1 `relaxation()`
+Compute self-intermediate scattering functions ISF, Overlap function Qt and set its corresponding dynamic susceptibility X4_Qt as 0, Mean-square displacements msd, and non-Gaussion parameter alpha2
 
 #### Input Arguments:
 - `qconst`(`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
