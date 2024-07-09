@@ -1,13 +1,17 @@
 # Bond Orientational Order Parameters at 2D
 
 The class `static.boo.boo_2d()` calculates the bond orientational order (BOO) parameters in two dimensions. All calculations start from measuring the $l$-th order as a complex number $\varphi_l(j)$ for particle $j$:
+
 $$
 \varphi_l(j)=\frac{1}{N_j}\sum_{m=1}^{N_j}e^{i l \theta_m} \tag{1},
 $$
+
 where $N_j$ is the number of bonds of particles $j$ in consideration. This is the original one with all ($N_j$) neighboring particles treated as the same. However, in some cases, we need to treat these neighboring particles differently based on their properties with respect to the center particle $j$. Then we can obtain the weighted complex number $\varphi_l(j)$ as:
+
 $$
 \varphi_l(j)=\sum_{m=1}^{N_j}\frac{A_{jm}}{\sum |A_{jm}|}e^{i l \theta_m} \tag{2},
 $$
+
 where $A_{jm}$ is the property of the $(j-m)$ bond. Therefore, the normalized weights $\frac{A_{jm}}{\sum |A_{jm}|}$ are used in the calculation. Note that in the normalization we take the absolute values of $A_{jm}$
 We can treat all $A_{jm}=1$ for the case shown in equation (1). The weights are provided in the same way as for the neighbors.
 
@@ -15,10 +19,13 @@ Based on the orientational order parameter $\varphi_l(j)$ in complex number, bot
 
 In some cases, to remove thermal fluctuations, time average over a time period of $\tau$ can be performed in two ways:
 1. time average of scalar modulus and phase
+
 $$
 \psi_l(j)=\frac{1}{\tau} \int_{t-\tau/2}^{t+\tau/2} |\varphi_l(j)| dt (\tag 3)
 $$
+
 2. time average of complex number $\varphi_l(j)$ and then get the scalar modulus and phase
+
 $$
 \psi_l(j)=\frac{1}{\tau} \int_{t-\tau/2}^{t+\tau/2} \varphi_l(j) dt (\tag 4)
 $$ 
@@ -27,14 +34,16 @@ $$
 By using the complex number $\varphi_l(j)$, both spatial correlation and time correlation can be calculated by:
 
 + spatial correlation of the complex number
-  $$
-  g_l(r)=\frac{L^2}{2\pi r \Delta r N(N-1)} \left< \sum_{j \neq k} \delta(\vec r - |\vec r_{jk}|) \varphi_l(j) \varphi_l^*(k) \right> \tag{4}
-  $$
+  
+$$
+  g_l(r)=\frac{L^2}{2\pi r \Delta r N(N-1)} \left< \sum_{j \neq k} \delta(\vec r - |\vec r_{jk}|) \varphi_l(j) \varphi_l^*(k) \right> \tag{5}
+$$
 
 + time correlation of the complex number
-  $$
-  C_l(t)=\frac{\langle \sum_n \varphi_l^n(t) \varphi_l^{n*}(0) \rangle}{\langle \sum_n |\varphi_l^n(0)|^2 \rangle} \tag{5}
-  $$
+
+$$
+  C_l(t)=\frac{\langle \sum_n \varphi_l^n(t) \varphi_l^{n*}(0) \rangle}{\langle \sum_n |\varphi_l^n(0)|^2 \rangle} \tag{6}
+$$
 
 ## 1. `boo_2d` class
 
