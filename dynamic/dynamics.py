@@ -107,16 +107,21 @@ class Dynamics:
             logger.info('Use xu coordinates to calculate dynamics and x/xs for dynamical Sq')
             self.snapshots = xu_snapshots
             self.x_snapshots = x_snapshots
+            self.PBC = False
             if xu_snapshots.nsnapshots != x_snapshots.nsnapshots:
                 raise ValueError('incompatible x/xs and xu format coordinates')
         elif xu_snapshots and not x_snapshots:
             logger.info('Use xu coordinates to calculate dynamics and dynamical Sq')
             self.snapshots = xu_snapshots
             self.x_snapshots = None
+            self.PBC = False
         elif x_snapshots and not xu_snapshots:
             logger.info('Use x/xs coordinates to calculate dynamics and dynamical Sq')
             self.snapshots = x_snapshots
             self.x_snapshots = None
+            self.PBC = True
+            if not ppp.any():
+                raise ValueError("No periodic boundary conditions provided")
         else:
             logger.info("Please provide correct snapshots for dynamics measurement")
 
@@ -183,7 +188,7 @@ class Dynamics:
                 RII = pos_end - pos_init
 
                 # remove periodic boundary conditions when necessary
-                if self.ppp.any():
+                if self.PBC:
                     RII = remove_pbc(RII, self.snapshots.snapshots[n-nn].hmatrix, self.ppp)
 
                 # calculate cage-relative displacements when necessary
@@ -278,7 +283,7 @@ class Dynamics:
             RII = pos_end - pos_init
 
             # remove periodic boundary conditions when necessary
-            if self.ppp.any():
+            if self.PBC:
                 RII = remove_pbc(RII, self.snapshots.snapshots[n].hmatrix, self.ppp)
 
             # calculate cage-relative displacements when necessary
@@ -374,16 +379,21 @@ class LogDynamics:
             logger.info('Use xu coordinates to calculate dynamics and x/xs for dynamical Sq')
             self.snapshots = xu_snapshots
             self.x_snapshots = x_snapshots
+            self.PBC = False
             if xu_snapshots.nsnapshots != x_snapshots.nsnapshots:
                 raise ValueError('incompatible x/xs and xu format coordinates')
         elif xu_snapshots and not x_snapshots:
             logger.info('Use xu coordinates to calculate dynamics and for dynamical Sq')
             self.snapshots = xu_snapshots
             self.x_snapshots = None
+            self.PBC = False
         elif x_snapshots and not xu_snapshots:
             logger.info('Use x/xs coordinates to calculate dynamics and for dynamical Sq')
             self.snapshots = x_snapshots
             self.x_snapshots = None
+            self.PBC = True
+            if not ppp.any():
+                raise ValueError("No periodic boundary conditions provided")
         else:
             logger.info("Please provide correct snapshots for dynamics measurement")
 
@@ -441,7 +451,7 @@ class LogDynamics:
             RII = pos_end - pos_init
 
             # remove periodic boundary conditions when necessary
-            if self.ppp.any():
+            if self.PBC:
                 RII = remove_pbc(RII, self.snapshots.snapshots[0].hmatrix, self.ppp)
 
             # calculate cage-relative displacements when nencessary
