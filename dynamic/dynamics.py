@@ -204,7 +204,7 @@ class Dynamics:
 
                 # self-intermediate scattering function
                 # average over [1,0,0], [0,1,0] & [0,0,1] direction
-                isf[index] += np.cos(RII*q_const).mean()
+                isf[index] += np.cos(RII*q_const[:,np.newaxis]).mean()
 
                 # squared scalar displacements
                 distance = np.square(RII).sum(axis=1)
@@ -466,7 +466,7 @@ class LogDynamics:
 
             # self-intermediate scattering function
             # average over [1,0,0], [0,1,0] & [0,0,1] direction
-            isf[index] = np.cos(RII*q_const).mean()
+            isf[index] = np.cos(RII*q_const[:,np.newaxis]).mean()
 
             # squared scalar displacements
             distance = np.square(RII).sum(axis=1)

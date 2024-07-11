@@ -85,7 +85,7 @@ def conditional_sq(
 
     sqresults = df_qvector.join(sqresults)
     # ensemble average over same q but different directions
-    sqresults = sqresults.round(6)
+    sqresults = sqresults.round(8)
     ave_sqresults = sqresults["Sq"].groupby(sqresults["q"]).mean().reset_index()
 
     return sqresults, ave_sqresults
