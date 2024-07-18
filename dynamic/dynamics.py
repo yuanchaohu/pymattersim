@@ -297,8 +297,8 @@ class Dynamics:
             else: # fast
                 mobility_condition = RII > self.a2_cuts
 
-            if condition:
-                mobility_condition *= condition[n]
+            if condition is not None:
+                mobility_condition *= condition[n].astype(bool)
 
             ave_sqresults += conditional_sq(snapshots.snapshots[n],
                                             qvector=qvector,
