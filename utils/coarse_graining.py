@@ -51,10 +51,7 @@ def time_average(
         results_middle_snapshots.append(round(n+time_nsnapshot/2))
     return results, np.array(results_middle_snapshots)
 
-def spatial_average(
-    neighborfile: str,
-    input_property: np.ndarray
-):
+def spatial_average():
     pass
 
 def gaussian_blurring():

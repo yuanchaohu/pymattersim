@@ -127,7 +127,11 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
                 atom_index = int(item[0]) - 1
                 particle_type[atom_index] = int(item[1])
                 positions[atom_index] = [float(j) for j in item[2: ndim + 2]]
-
+                
+            if 'x' in names:
+                positions = np.where(positions < boxbounds[:, 0], positions + boxlength, positions)
+                positions = np.where(positions > boxbounds[:, 1], positions - boxlength, positions)
+                
         elif 'xs' in names:
             for i in range(particle_number):
                 item = f.readline().split()
@@ -290,9 +294,11 @@ def read_lammps_centertype(
         conditions = [True if atomtype in moltypes.keys()
                       else False for atomtype in particle_type]
         positions = positions[conditions]
-        particle_type = pd.Series(
-            particle_type[conditions]).map(
-            moltypes).values
+        particle_type = pd.Series(particle_type[conditions]).map(moltypes).values
+        
+        if 'x' in names:
+            positions = np.where(positions < boxbounds[:, 0], positions + boxlength, positions)
+            positions = np.where(positions > boxbounds[:, 1], positions - boxlength, positions)
 
     elif 'xs' in names:
         for i in range(particle_number):

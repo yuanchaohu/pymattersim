@@ -11,7 +11,7 @@ logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name
 # pylint: disable=too-many-locals
 
-def Filon_COS(C: np.ndarray, t: np.ndarray, a: float=0, outputfile: str=None) -> pd.DataFrame:
+def Filon_COS(C: np.ndarray, t: np.ndarray, a: float=0, outputfile: str="") -> pd.DataFrame:
     """
     This module calculates the Fourier transformation of an autocorrelation function
     by Filon's integration method

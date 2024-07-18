@@ -78,6 +78,7 @@ def cutoffneighbors(
     ) -> None:
     """
     Get the nearest neighbors around a particle by setting a global cutoff distance r_cut
+    This is useful for single-component systems
 
     Inputs:
         1. snapshots (reader.reader_utils.Snapshots): returned by reader.dump_reader.DumpReader
@@ -130,7 +131,7 @@ def cutoffneighbors_particletype(
     ) -> None:
     """
     Get the nearest neighbors around a particle by setting a cutoff distance r_cut
-    for each particle type pair
+    for each particle type pair, should be used for multi-component systems
 
     Inputs:
         1. snapshots (reader.reader_utils.Snapshots): returned by reader.dump_reader.DumpReader

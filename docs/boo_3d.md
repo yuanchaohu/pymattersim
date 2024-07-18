@@ -1,22 +1,28 @@
 # Bond Orientational Order Parameters at 3D
 
 The class `static.boo.boo_3d()` calculates the bond orientational order (BOO) parameters in three-dimensions. All calculations start from measuring the $l$-fold symmetry BOO as a $2l+1$ complex vector $q_{lm}$:
+
 $$
 q_{{lm}}(i) = \frac{1}{N_i} \sum_i^{N_i} Y_{{lm}} (\theta(\vec r_{ij}), \phi(\vec r_{ij})) 
 \tag{1}
-$$,
+$$
+
 where $Y_{lm}$ are the spherical harmonics and $N_i$ the number of bonds of particles $i$. This is the original one with all ($N_i$) neighboring particles treated the same. However, in some cases, we need to treat these neighboring particles differently based on their properties with respect to the center particle $i$. Then we can obtain the weighted $2l+1$ complex vector $q_{lm}$ as
+
 $$
 q_{{lm}}(i) = \sum_i^{N_i} \frac{A_j}{\sum A_j} Y_{{lm}} (\theta(\vec r_{ij}), \phi(\vec r_{ij})) 
 \tag{2}
-$$,
+$$
+
 where $A_j$ is the property of the $j-$th neighbor. Therefore, the normalized weights $\frac{A_j}{\sum A_j}$ are used in the calculation. We can treat $A_j=1$ for the case shown in equation (1). The weights are provided in the same way as for the neighbors.
 
 Furthermore, dealing with $q_{lm}$ by coarse-graining is sometimes helpful by
+
 $$
 Q_{lm}(i)=\frac {1}{N_i+1} \left(q_{lm}(i) + \sum_{j=1} ^{N_i} q_{lm}(j) \right) 
 \tag{3}
-$$.
+$$
+
 Therefore, we can define the local complex vectors in a flexible way for different purposes. In principal, we name below the local quantities with small letters (associate with $q_{lm}$) and coarse-grained ones with large letters (associate with $Q_{lm}$). In the calculations one can set `coarse_graining=True` to calculate for the latter case.
 
 By either using the complex vetcor $q_{lm}$ or $Q_{lm}$, various BOO parameters can be calculated. For example, 
