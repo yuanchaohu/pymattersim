@@ -160,8 +160,7 @@ class Dynamics:
         
         Inputs:
             1. qconst (float): characteristic wavenumber nominator [2pi/sigma], default 2pi
-            2. condition (np.ndarray): particle-level condition / property, 
-                                       shape [nsnapshots, nparticles]
+            2. condition (np.ndarray): particle-level condition / property, shape [nsnapshots, nparticles]
             3. outputfile (str): file name to save the calculated dynamics results
         
         Return:
@@ -246,8 +245,7 @@ class Dynamics:
         Inputs:
             1. t (float): characteristic time, typically peak time of X4, see self.relaxation()
             2. qrange (float): the wave number range to be calculated, default 10.0
-            3. condition (np.ndarray): particle-level condition / property, 
-                                       shape [nsnapshots, nparticles]
+            3. condition (np.ndarray): particle-level condition / property, shape [nsnapshots, nparticles]
             4. outputfile (str): output filename for the calculated dynamical structure factor
 
         Based on overlap function Qt and its corresponding dynamic susceptibility X4_Qt
