@@ -27,7 +27,37 @@ in which $j$ is the center particle and $i$ is its neighbor.
 
 #### Example
 ```python
+from dynamic.dynamics import cage_relative
+from neighbors.read_neighbors import read_neighbors
+from neighbors.calculate_neighbors import Nnearests
+from reader.dump_reader import DumpReader
+import numpy as np
 
+#here is a example of how it works, it used within Dynamics and LogDynamics class
+filename = 'dump.atom'
+readdump = DumpReader(filename, ndim=2)
+readdump.read_onefile()
+neighborfile='neighborlist.dat'
+ppp=np.array([0,0])
+snapshots = readdump.snapshots
+Nnearests(readdump.snapshots, N=6, ppp=ppp,  fnfile=neighborfile)
+
+neighborlists = []
+if neighborfile:
+    fneighbor = open(neighborfile, "r", encoding="utf-8")
+    for n in range(snapshots.nsnapshots):
+        medium = read_neighbors(
+            f=fneighbor,
+            nparticle=snapshots.snapshots[n].nparticle,
+            Nmax=30
+        )
+        neighborlists.append(medium)
+    fneighbor.close()
+    
+pos_init = snapshots.snapshots[10-1].positions
+pos_end = snapshots.snapshots[10].positions
+RII = pos_end - pos_init
+cage_relative(RII,neighborlists[10-1])
 ```
 
 ## 1. `Dynamics()` class
@@ -56,7 +86,34 @@ The functions are listed below.
 
 #### Example:
 
-```python                   
+```python
+from dynamic.dynamics import Dynamics
+from neighbors.calculate_neighbors import Nnearests
+from reader.dump_reader import DumpReader
+
+# example for 2d dump
+# read the dump file
+file_2d_x = "2ddump.s.atom"
+input_x = DumpReader(file_2d_x, ndim=2)
+input_x.read_onefile()
+file_2d_xu = "2ddump.u.atom"
+input_xu = DumpReader(file_2d_xu, ndim=2)
+input_xu.read_onefile()
+
+#calculate the neighbor, neighborlist can also be None
+ppp=np.array([0,0])
+Nnearests(input_x.snapshots, N = 6, ppp = ppp,  fnfile = 'neighborlist.dat')
+neighborfile='neighborlist.dat' #or None
+
+dynamic = Dynamics(xu_snapshots=input_xu.snapshots,
+                   x_snapshots=input_x.snapshots,
+                   dt=0.002, 
+                   ppp=ppp,
+                   diameters={1:1.0, 2:1.0},
+                   a=0.3,
+                   cal_type = "slow",
+                   neighborfile=neighborfile,
+                   max_neighbors=30)
 ```
 
 
@@ -109,7 +166,13 @@ which is usually used to measure the degree of dynamical heterogeneity in the di
 
 #### Example
 ```python
+#calculate the particle-level condition, can alos be None
+condition=[]
+for snapshot in input_x.snapshots.snapshots:
+    condition.append(snapshot.particle_type==1)
+condition = np.array(condition)
 
+result = dynamic.relaxation(qconst=2*np.pi, condition=condition, outputfile="")
 ```
 
 ### 1.2 `sq4()`
@@ -134,7 +197,7 @@ which is essentially the same as the quantity $Q(t)$ as above, accounting for th
 
 #### Example:
 ```python
-
+dynamic.sq4(t=10,qrange=10,condition=condition, outputfile="")
 ```
 
 ## 2. `LogDynamics()` class
@@ -160,7 +223,33 @@ Ensemble average is absent compared to the above `Dynamics()` class!
 #### Example:
 
 ```python     
+from dynamic.dynamics import LogDynamics
+from neighbors.calculate_neighbors import Nnearests
+from reader.dump_reader import DumpReader
 
+# example for 2d dump
+# read the dump file
+file_2d_x = "2ddump.log.s.atom"
+input_x = DumpReader(file_2d_x, ndim=2)
+input_x.read_onefile()
+file_2d_xu = "2ddump.log.u.atom"
+input_xu = DumpReader(file_2d_xu, ndim=2)
+input_xu.read_onefile()
+
+#calculate the neighbor, neighborlist can also be None
+ppp=np.array([0,0])
+Nnearests(input_x.snapshots, N = 6, ppp = ppp,  fnfile = 'neighborlist.dat')
+neighborfile='neighborlist.dat'
+
+log_dynamic = LogDynamics(xu_snapshots=input_xu.snapshots,
+                   x_snapshots=input_x.snapshots,
+                   dt=0.002, 
+                   ppp=ppp,
+                   diameters={1:1.0, 2:1.0},
+                   a=0.3,
+                   cal_type = "slow",
+                   neighborfile=neighborfile,
+                   max_neighbors=30)   
 ```
 
 
@@ -177,5 +266,9 @@ Compute the self-intermediate scattering functions ISF, overlap function Qt and 
 
 #### Example:
 ```python
+#calculate the particle-level condition, can alos be None
+condition=[]
+condition=(input_xu.snapshots.snapshots[0].particle_type==1)
 
+result = dynamic.relaxation(qconst=2*np.pi, condition=condition, outputfile="")
 ```
