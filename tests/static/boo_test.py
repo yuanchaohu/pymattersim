@@ -35,7 +35,8 @@ class TestBOO(unittest.TestCase):
         logger.info(f"Starting test boo_2d without weight using {self.test_file_2D}...")
         boo2d = boo_2d(readdump.snapshots, l=6, neighborfile='test.neighbor.dat')
         lthorder_results = boo2d.lthorder()
-        modulus, phase = boo2d.modulus_phase(time_period=660000*0.002, dt=0.002)[:2]
+        average_quantity = boo2d.time_average(time_period=660000*0.002, dt=0.002)[0]
+        modulus = np.abs(average_quantity)
         spatial_corr_results = boo2d.spatial_corr()
         time_corr_results = boo2d.time_corr()
 
@@ -65,7 +66,8 @@ class TestBOO(unittest.TestCase):
         logger.info(f"Starting test boo_2d with weight using {self.test_file_2D}...")
         boo2d = boo_2d(readdump.snapshots, l=6, neighborfile='test.neighbor.dat', weightsfile='test.edgelength.dat')
         lthorder_results = boo2d.lthorder()
-        modulus, phase = boo2d.modulus_phase(time_period=660000*0.002, dt=0.002)[:2]
+        average_quantity = boo2d.time_average(time_period=660000*0.002, dt=0.002)[0]
+        modulus = np.abs(average_quantity)
         spatial_corr_results = boo2d.spatial_corr()
         time_corr_results = boo2d.time_corr()
 
