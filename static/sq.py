@@ -193,7 +193,7 @@ class sq:
                 index=False
             )
         # ensemble average over same q but different directions
-        sqresults = sqresults.round(8)
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -245,7 +245,7 @@ class sq:
                 index=False
             )
         # ensemble average over same q but different directions
-        sqresults = sqresults.round(8)
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -306,7 +306,7 @@ class sq:
                 index=False
             )
         # ensemble average over same q but different directions
-        sqresults = sqresults.round(8)
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -378,7 +378,7 @@ class sq:
                 index=False
             )
         # ensemble average over same q but different directions
-        sqresults = sqresults.round(8)
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -464,7 +464,7 @@ class sq:
                 index=False
             )
         # ensemble average over same q but different directions
-        sqresults = sqresults.round(8)
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
