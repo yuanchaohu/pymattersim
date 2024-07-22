@@ -4,11 +4,13 @@
 see documentation @ ../docs/utils.md
 """
 
-from typing import Tuple
+from typing import Tuple, List
 import numpy as np
 from reader.reader_utils import Snapshots
 from neighbors.read_neighbors import read_neighbors
 from utils.logging import get_logger_handle
+from utils.funcs import grid_gaussian
+from utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
 
@@ -80,12 +82,66 @@ def spatial_average(
             indices = cnlist[i, 1:1+cnlist[i,0]].tolist()
             indices.append(i)
             cg_input_property[n, i] = input_property[n, indices].mean()
+    fneighbor.close()
     if outputfile:
         np.save(outputfile, cg_input_property)
     return cg_input_property
 
-def gaussian_blurring():
-    pass
+def gaussian_blurring(
+    snapshots: Snapshots,
+    condition: np.ndarray,
+    ngrids: List[int],
+    sigma: float=2.0,
+    ppp: np.ndarray=np.array([1,1,1]),
+    gaussian_cut: float=6.0,
+    outputfile: str="",
+):
+    ndim = len(ngrids)
+    ppp = ppp[:ndim]
+    ngrids = np.array(ngrids)
+    if len(condition)==2:
+        # scalar
+        ncol_add = 1
+    elif len(condition)==3:
+        # vector
+        ncol_add = 2
+    elif len(condition)==4:
+        # tensor
+        ncol_add = 3
+    else:
+        raise ValueError("Wrong input condition variable")
+
+    logger.info(f"Performing Gaussian Blurring for a {ndim}-dimensional system")
+    grid_property = np.zeros((Snapshots.nsnapshots, np.prod(ngrids), ndim+ncol_add))
+    for n, snapshot in enumerate(Snapshots.snapshots):
+        bxobounds = snapshot.boxbounds
+        X = np.linspace(bxobounds[0,0], bxobounds[0,1], ngrids[0])
+        Y = np.linspace(bxobounds[1,0], bxobounds[1,1], ngrids[1])
+        if ndim==2:
+            for i in range(ngrids[0]):
+                for j in range(ngrids[1]):
+                    indice = i*ngrids[0]+j
+                    grid_property[n, indice, :ndim] = [X[i], Y[j]]
+        else:
+            Z = np.linspace(bxobounds[2,0], bxobounds[2,1], ngrids[2])
+            for i in range(ngrids[0]):
+                for j in range(ngrids[1]):
+                    for k in range(ngrids[2]):
+                        indice = i*ngrids[0]+j*ngrids[1]+k
+                        grid_property[n, indice, :ndim] = [X[i], Y[j], Z[k]]
+
+        for i in range(snapshot.nparticle):
+            RIJ = grid_property[n, :, :ndim] - snapshot.positions[i]
+            RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp=ppp)
+            RIJ = np.linalg.norm(RIJ, axis=1)
+            grid_property[n, i, ndim:] += np.where(
+                RIJ < gaussian_cut,
+                grid_gaussian(RIJ, sigma) * condition[n, i],
+                0
+            )
+    if outputfile:
+        np.save(outputfile, grid_property)
+    return grid_property
 
 def atomic_position_average():
     pass
