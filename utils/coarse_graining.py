@@ -7,6 +7,7 @@ see documentation @ ../docs/utils.md
 from typing import Tuple
 import numpy as np
 from reader.reader_utils import Snapshots
+from neighbors.read_neighbors import read_neighbors
 from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -51,8 +52,37 @@ def time_average(
         results_middle_snapshots.append(round(n+time_nsnapshot/2))
     return results, np.array(results_middle_snapshots)
 
-def spatial_average():
-    pass
+def spatial_average(
+    input_property: np.ndarray,
+    neighborfile: str,
+    Nmax: int=30,
+    outputfile: str="",
+) -> np.ndarray:
+    """
+    coarse-graining the input variable over certain length scale
+    given by the pre-defined neighbor list
+
+    Inputs:
+        1. input_property (np.ndarray): input property to be coarse-grained,
+            should be in the shape [num_of_snapshots, num_of_particles]
+        2. neighborfile (str): file name of pre-defined neighbor list
+        3. Namx (int): maximum number of particle neighbors
+        4. outputfile (str): file name of coarse-grained variable
+    
+    Return:
+        coarse-grained input property in numpy ndarray
+    """
+    cg_input_property = np.zeros_like(input_property)
+    fneighbor = open(neighborfile, "-r", encoding="utf-8")
+    for n in range(input_property.shape[0]):
+        cnlist = read_neighbors(fneighbor, input_property.shape[1], Nmax)
+        for i in range(input_property.shape[1]):
+            indices = cnlist[i, 1:1+cnlist[i,0]].tolist()
+            indices.append(i)
+            cg_input_property[n, i] = input_property[n, indices].mean()
+    if outputfile:
+        np.save(outputfile, cg_input_property)
+    return cg_input_property
 
 def gaussian_blurring():
     pass
