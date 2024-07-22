@@ -20,6 +20,9 @@ class DumpFileType(Enum):
         3. GSD: HOOMD-blue standard output for static properties
         
         4. GSD_DCD: HOOMD-blue outputs for static and dynamic properties
+
+        5. LAMMPSVECTOR: additional column(s) from lammps configurations,
+            for example, "vx vy" from "id type x y vx vy"
     """
     LAMMPS = 1
     LAMMPSCENTER = 2
