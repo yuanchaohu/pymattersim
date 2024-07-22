@@ -1,7 +1,7 @@
 # coding = utf-8
 """This module provide helper functions to read lammps files"""
 
-from typing import Dict, Any
+from typing import Dict, Any, List
 import numpy as np
 import pandas as pd
 
@@ -76,6 +76,43 @@ def read_lammps_centertype_wrapper(
     logger.info('---LAMMPS Molecule Center Dump Reading Completed---')
     return Snapshots(nsnapshots=nsnapshots, snapshots=snapshots)
 
+def read_lammps_vector_wrapper(
+    file_name: str, ndim: int, columnsid: List[int]
+) -> Snapshots:
+    """
+    Wrapper function for reading additional information from a lammps configuration
+    For example, the dumped config is "id type x y vx vy", getting the information "vx vy"
+    Note that `Positions` is used to take these additional column(s).
+    The H-matrix only considers the diagonal elements from simulation box length
+
+    Inputs:
+        1. filename (str): the name of dump file
+        2. ndim (int): dimensionality       
+        3. columnsid (list of int): column id for additional information, 
+                for example, [5, 6] for "vx vy" above
+    
+    Return:
+        Snapshots ([SingleSnapshot]): list of snapshots for the input file_name
+    """
+    logger.info('-----Start Reading LAMMPS Dump with Additional Column(s)-----')
+    if len(columnsid)==1:
+        logger.info("LAMMPS additional information read is a scalar")
+    elif len(columnsid)>1:
+        logger.info(f"LAMMPS additional information read is a vector of length {len(columnsid)}")
+    else:
+        raise ValueError("Empty input variable columnsid")
+
+    snapshots = []
+    nsnapshots = 0
+    with open(file_name, 'r', encoding="utf-8") as f:
+        while True:
+            snapshot = read_lammps_vector(f, ndim, columnsid)
+            if not snapshot:
+                break
+            snapshots.append(snapshot)
+            nsnapshots += 1
+    logger.info('---LAMMPS Dump with Additional Column(s) Reading Completed---')
+    return Snapshots(nsnapshots=nsnapshots, snapshots=snapshots)
 
 def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
     """ 
@@ -322,6 +359,72 @@ def read_lammps_centertype(
         nparticle=particle_type.shape[0],
         particle_type=particle_type,
         positions=positions,
+        boxlength=boxlength,
+        boxbounds=boxbounds,
+        realbounds=None,
+        hmatrix=hmatrix,
+    )
+    return snapshot
+
+def read_lammps_vector(
+    f: Any,
+    ndim: int,
+    columnsid: List[int]
+) -> SingleSnapshot:
+    """
+    Read additional column(s) information from LAMMPS configurations
+    For example, the dumped config is "id type x y vx vy", getting the information "vx vy"
+    Note that `Positions` is used to take these additional column(s)
+
+    Inputs:
+        1. f: open file type by python from reading input dump file
+        2. ndim (int): dimensionality       
+        3. columnsid (list of int): column id for additional information, 
+                for example, [5, 6] for "vx vy" above
+    
+    Return:
+        single snapshot object
+    """
+
+    item = f.readline()
+    # End of file:
+    if not item:
+        logger.info("Reach end of file.")
+        return None
+    timestep = int(f.readline())
+    item = f.readline()
+    particle_number = int(f.readline())
+    item = f.readline().split()
+    # -------Read Orthogonal Boxes---------
+    boxbounds = np.zeros((ndim, 2))  # box boundaries of (x y z)
+    boxlength = np.zeros(ndim)  # box length along (x y z)
+    for i in range(ndim):
+        item = f.readline().split()
+        boxbounds[i, :] = item[:2]
+
+    boxlength = boxbounds[:, 1] - boxbounds[:, 0]
+    if ndim < 3:
+        for i in range(3 - ndim):
+            f.readline()
+    # shiftfactors = (boxbounds[:, 0] + boxlength / 2)
+    # self.Boxbounds.append(boxbounds)
+    hmatrix = np.diag(boxlength)
+
+    item = f.readline().split()
+    particle_type = np.zeros(particle_number, dtype=int)
+    particle_vector = np.zeros((particle_number, len(columnsid)))
+    columns_index = [int(i-1) for i in columnsid]
+    for i in range(particle_number):
+        item = f.readline().split()
+        atom_index = int(item[0]) - 1
+        particle_type[atom_index] = int(item[1])
+        particle_vector[atom_index] = [float(item[j]) for j in columns_index]
+
+    snapshot = SingleSnapshot(
+        timestep=timestep,
+        nparticle=particle_number,
+        particle_type=particle_type,
+        positions=particle_vector,
         boxlength=boxlength,
         boxbounds=boxbounds,
         realbounds=None,
