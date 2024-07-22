@@ -114,17 +114,19 @@ def Wignerindex(l :int) -> np.ndarray:
 
     return np.ravel(np.array(selected)).reshape(-1, 4)
 
-def grid_gaussian(bins: np.ndarray, mu: float=0, sigma: float=1)->np.ndarray:
+def grid_gaussian(distances: np.ndarray, sigma: float=1)->np.ndarray:
     """
-    Calculate the gaussian distribution of the input property
+    Calculate the gaussian distribution from the zero center
 
-    inputs:
+    Inputs:
+        1. distances (np.ndarray): grid distances to the zero center
+        2. sigma (float): standard deviation in the standard gaussian function
 
-    outputs:
-    
+    Return:
+        gaussian probability at various distances in numpy array
     """
     sigma2 = 2*sigma**2
-    return np.exp(-np.square(bins-mu)/sigma2)/np.sqrt(sigma2*np.pi)
+    return np.exp(-np.square(distances)/sigma2)/np.sqrt(sigma2*np.pi)
 
 def Legendre_polynomials(x, ndim):
     return (ndim * x**2 - 1) / 2
