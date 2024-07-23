@@ -3,18 +3,17 @@
 """see documentation @ ../docs/orderings.md"""
 
 import numpy as np
-import pandas as pd
 from reader.reader_utils import Snapshots
-from neighbors.read_neighbors import read_neighbors
+from utils.funcs import kronecker
+from utils.coarse_graining import spatial_average
 from utils.logging import get_logger_handle
-from util_functions import Kronecker
 
 logger = get_logger_handle(__name__)
 
 def Qtensor(
         Snapshots: Snapshots,
         ndim: int=2,
-        neighborfile: str=None,
+        neighborfile: str="",
         Nmax: int=30,
         eigvals: bool=False,
         outputfile: str="",
@@ -33,9 +32,12 @@ def Qtensor(
         6. outputfile (str): file name of the calculation output
     
     Return:
-        Q-tensor in numpy ndarray format
+        Q-tensor or eigenvalue scalar nematic order parameter in numpy ndarray format
+        shape as [num_of_snapshots, num_of_particles]
     """
     logger.info(f"Calcualte nematic order for {Snapshots.nsnapshots} configurations")
+    # TODO add a function for three dimensioanl systems
+    assert ndim==2, "please set the correction dimensionality"
 
     QIJ = []
     for snapshot in Snapshots.snapshots:
@@ -44,43 +46,37 @@ def Qtensor(
             mu = snapshot.positions[i]
             for x in range(ndim):
                 for y in range(ndim):
-                    medium[i, x, y] = (ndim*mu[x]*mu[y]-Kronecker(x,y))/2
+                    medium[i, x, y] = (ndim*mu[x]*mu[y]-kronecker(x,y))/2
         QIJ.append(medium)
     QIJ = np.array(QIJ)
-    np.save(outputfile+".QIJ_raw.npy", QIJ)
 
-    if eigvals:
-        eigenvalues = np.zeros((QIJ.shape[0], QIJ.shape[1]))
-    Qtrace = np.zeros((QIJ.shape[0], QIJ.shape[1]))
     if neighborfile:
         # coarse-graining over certain volume if neighbor list provided
-        logger.info("Compute the coarse-grained nematic order parameter")
-        QIJ0 = np.copy(QIJ)
-        f = open(neighborfile, "-r", encoding="utf-8")
-        for n in range(Snapshots.nsnapshots):
-            cnlist = read_neighbors(f, Snapshots.snapshots[n].nparticle, Nmax=Nmax)
-            for i in range(Snapshots.snapshots[n].nparticle):
-                for j in range(cnlist[i, 0]):
-                    QIJ[n, i] += QIJ0[n, cnlist[i, j+1]]
-                QIJ[n, i] /= (1+cnlist[i,0])
-                Qtrace[n, i] = np.trace(np.matmul(QIJ[n,i], QIJ[n,i]))
-                if eigvals:
-                    eigenvalues[n, i] = np.linalg.eig(QIJ[n,i])[0].max()*2.0
-        del QIJ0
-        f.close()
-        np.save(outputfile+".QIJ_CG.npy", QIJ)
+        #TODO @Yibang please test this function before test the current function
+        QIJ = spatial_average(
+            input_property=QIJ,
+            neighborfile=neighborfile,
+            Nmax=Nmax,
+        )
+        np.save(outputfile+".QIJ_cg.npy", QIJ)
     else:
-        # local QIJ
-        logger.info("Compute the local/original nematic order parameter")
+        np.save(outputfile+".QIJ_raw.npy", QIJ)
+
+    logger.info("Compute the scalar nematic order parameter")
+    if eigvals:
+        eigenvalues = np.zeros((QIJ.shape[0], QIJ.shape[1]))
+        for n in range(Snapshots.nsnapshots):
+            for i in range(Snapshots.snapshots[n].nparticle):
+                eigenvalues[n, i] = np.linalg.eig(QIJ[n,i])[0].max()*2.0
+        np.save(outputfile+".eigval.npy", eigenvalues)
+        return eigenvalues
+    else:
+        Qtrace = np.zeros((QIJ.shape[0], QIJ.shape[1]))
         for n in range(Snapshots.nsnapshots):
             for i in range(Snapshots.snapshots[n].nparticle):
                 Qtrace[n, i] = np.trace(np.matmul(QIJ[n,i], QIJ[n,i]))
-                if eigvals:
-                    eigenvalues[n, i] = np.linalg.eig(QIJ[n,i])[0].max()*2.0
-
-    Qtrace *= ndim / (ndim-1)
-    Qtrace = np.sqrt(Qtrace)
-    np.save(outputfile, Qtrace)
-    if eigvals:
-        np.save(outputfile+".eigval.npy", eigenvalues)
+        Qtrace *= ndim / (ndim-1)
+        Qtrace = np.sqrt(Qtrace)
+        np.save(outputfile+".Qtrace.npy", Qtrace)
+        return Qtrace 
     logger.info("Calculate the Nematic order tensor and scalar parameters done")
