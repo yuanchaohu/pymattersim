@@ -112,8 +112,8 @@ def gaussian_blurring(
         raise ValueError("Wrong input condition variable")
 
     logger.info(f"Performing Gaussian Blurring for a {ndim}-dimensional system")
-    grid_property = np.zeros((Snapshots.nsnapshots, np.prod(ngrids), ndim+ncol_add))
-    for n, snapshot in enumerate(Snapshots.snapshots):
+    grid_property = np.zeros((snapshots.nsnapshots, np.prod(ngrids), ndim+ncol_add))
+    for n, snapshot in enumerate(snapshots.snapshots):
         bxobounds = snapshot.boxbounds
         X = np.linspace(bxobounds[0,0], bxobounds[0,1], ngrids[0])
         Y = np.linspace(bxobounds[1,0], bxobounds[1,1], ngrids[1])
