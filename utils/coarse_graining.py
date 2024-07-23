@@ -66,7 +66,8 @@ def spatial_average(
 
     Inputs:
         1. input_property (np.ndarray): input property to be coarse-grained,
-            should be in the shape [num_of_snapshots, num_of_particles]
+            should be in the shape [num_of_snapshots, num_of_particles, xxx]
+            The input property can be scalar or vector or tensor
         2. neighborfile (str): file name of pre-defined neighbor list
         3. Namx (int): maximum number of particle neighbors
         4. outputfile (str): file name of coarse-grained variable
@@ -74,15 +75,16 @@ def spatial_average(
     Return:
         coarse-grained input property in numpy ndarray
     """
-    cg_input_property = np.zeros_like(input_property)
-    fneighbor = open(neighborfile, "-r", encoding="utf-8")
-    for n in range(input_property.shape[0]):
-        cnlist = read_neighbors(fneighbor, input_property.shape[1], Nmax)
-        for i in range(input_property.shape[1]):
-            indices = cnlist[i, 1:1+cnlist[i,0]].tolist()
-            indices.append(i)
-            cg_input_property[n, i] = input_property[n, indices].mean()
-    fneighbor.close()
+    logger.info(f"Performing coarse-graining from {neighborfile}")
+    cg_input_property = np.copy(input_property)
+    with open(neighborfile, mode="r", encoding="utf-8") as fneighbor:
+        for n in range(input_property.shape[0]):
+            cnlist = read_neighbors(fneighbor, input_property.shape[1], Nmax)
+            for i in range(input_property.shape[1]):
+                # in case input_property is multi-dimensional
+                for j in cnlist[i, 1:1+cnlist[i,0]]:
+                    cg_input_property[n, i] += input_property[n, j]
+                cg_input_property[n, i] /= (1+cnlist[i,0])
     if outputfile:
         np.save(outputfile, cg_input_property)
     return cg_input_property
