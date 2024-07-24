@@ -54,6 +54,8 @@ def time_average(
         results_middle_snapshots.append(round(n+time_nsnapshot/2))
     return results, np.array(results_middle_snapshots)
 
+# TODO @Yibang please benchmark with
+# https://github.com/yuanchaohu/MyCodes/blob/master/CoarseGraining.py
 def spatial_average(
     input_property: np.ndarray,
     neighborfile: str,
@@ -89,6 +91,10 @@ def spatial_average(
         np.save(outputfile, cg_input_property)
     return cg_input_property
 
+# TODO @Yibang please benckmark with 
+# https://github.com/yuanchaohu/MyCodes/blob/master/Custom_Visuallization.py
+# GaussianBlurring_2D() & GaussianBlurring_3D() with scalar input
+# GaussianBlurring_2D_vector() with vector input, use velocity dump is fine
 def gaussian_blurring(
     snapshots: Snapshots,
     condition: np.ndarray,
