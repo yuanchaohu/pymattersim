@@ -10,6 +10,9 @@ from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
+# TODO @Yibang please benchmark with
+# https://github.com/yuanchaohu/MyCodes/blob/master/Nematic.py#L152
+# for both with neighborfile and without neighborfile
 def Qtensor(
         Snapshots: Snapshots,
         ndim: int=2,
@@ -35,7 +38,10 @@ def Qtensor(
         Q-tensor or eigenvalue scalar nematic order parameter in numpy ndarray format
         shape as [num_of_snapshots, num_of_particles]
     """
-    logger.info(f"Calcualte nematic order for {Snapshots.nsnapshots} configurations")
+    if neighborfile:
+        logger.info(f"Calcualte coarse-grained nematic order for {Snapshots.nsnapshots} configurations")
+    else:
+        logger.info(f"Calcualte original nematic order for {Snapshots.nsnapshots} configurations")
     # TODO add a function for three dimensioanl systems
     assert ndim==2, "please set the correction dimensionality"
 

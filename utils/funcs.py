@@ -128,5 +128,7 @@ def grid_gaussian(distances: np.ndarray, sigma: float=1)->np.ndarray:
     sigma2 = 2*sigma**2
     return np.exp(-np.square(distances)/sigma2)/np.sqrt(sigma2*np.pi)
 
+# TODO @Yibang please benchmark with
+# https://github.com/yuanchaohu/MyCodes/blob/master/Nematic.py#L25
 def Legendre_polynomials(x, ndim):
     return (ndim * x**2 - 1) / 2
