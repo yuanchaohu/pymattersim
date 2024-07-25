@@ -8,7 +8,7 @@ see documentation @ ../docs/boo_3d.md &
 see documentation @ ../docs/boo_2d.md
 """
 
-from typing import Tuple
+from typing import Tuple, Optional
 import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
@@ -492,11 +492,11 @@ class boo_2d:
 
     def time_average(
         self,
-        time_period: float=None,
+        time_period: float=0,
         dt: float=0.002,
-        average_complex: bool=False,
-        outputfile: str=None
-    )->Tuple[np.ndarray, np.ndarray]:
+        average_complex: bool=True,
+        outputfile: str=""
+    )->Optional[Tuple[np.ndarray, np.ndarray]]:
         """
         calculate the particle-level phi considering time average of the order parameter if time_period not None
         
@@ -536,6 +536,12 @@ class boo_2d:
                 )
                 average_quantity = average_modulus.real * np.exp(1j * average_phase.real)
 
+            # use corresponding snapshots for time_corr and spatial_corr functions
+            self.snapshots.nsnapshots = len(average_snapshot_id)
+            self.snapshots.snapshots = self.snapshots.snapshots[average_snapshot_id]
+            self.ParticlePhi = average_quantity
+            logger.info(f"Updated the object self.snapshots into {self.snapshots.nsnapshots} configurations")
+
             if outputfile:
                 np.save(outputfile, average_quantity)
                 np.savetxt(
@@ -547,12 +553,11 @@ class boo_2d:
         logger.info("Calculate orignal modulus and phase of the order parameter")
         if outputfile:
             np.save(outputfile, self.ParticlePhi)
-        return self.ParticlePhi
 
     def spatial_corr(
         self,
         rdelta: float=0.01,
-        outputfile: str=None
+        outputfile: str="",
     ) -> pd.DataFrame:
         """
         Calculate spatial correlation of the orientational order parameter
@@ -585,7 +590,7 @@ class boo_2d:
     def time_corr(
         self,
         dt: float=0.002,
-        outputfile: str=None
+        outputfile: str="",
     ) -> pd.DataFrame:
         """
         Calculate time correlation of the orientational order parameter
