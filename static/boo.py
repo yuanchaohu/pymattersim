@@ -402,13 +402,13 @@ class boo_2d:
     """
 
     def __init__(
-            self,
-            snapshots: Snapshots,
-            l: int,
-            neighborfile: str,
-            weightsfile: str=None,
-            ppp: np.ndarray=np.array([1,1]),
-            Nmax: int=10
+        self,
+        snapshots: Snapshots,
+        l: int,
+        neighborfile: str,
+        weightsfile: str="",
+        ppp: np.ndarray=np.array([1,1]),
+        Nmax: int=10,
     ) -> None:
         """
         Initializing class for BOO2D
@@ -513,7 +513,7 @@ class boo_2d:
         """
         # time average
         if time_period:
-            logger.info("Calculate modulus and phase of time averaged order parameter")
+            logger.info(f"Time average over t={time_period} for BOO 2D order parameter")
             if average_complex:
                 average_quantity, average_snapshot_id = time_average(
                     snapshots=self.snapshots,
@@ -540,7 +540,7 @@ class boo_2d:
             self.snapshots.nsnapshots = len(average_snapshot_id)
             self.snapshots.snapshots = self.snapshots.snapshots[average_snapshot_id]
             self.ParticlePhi = average_quantity
-            logger.info(f"Updated the object self.snapshots into {self.snapshots.nsnapshots} configurations")
+            logger.info(f"The SELF objects are updated into {self.snapshots.nsnapshots} configurations")
 
             if outputfile:
                 np.save(outputfile, average_quantity)
@@ -549,9 +549,10 @@ class boo_2d:
                     average_snapshot_id[:, np.newaxis],
                     fmt="%d", header="middle_snapshot_id", comments="")
             return average_quantity, average_snapshot_id
+
         # original
-        logger.info("Calculate orignal modulus and phase of the order parameter")
         if outputfile:
+            logger.info("Save original ParticlePhi and use it for further analyses")
             np.save(outputfile, self.ParticlePhi)
 
     def spatial_corr(
