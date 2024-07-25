@@ -95,6 +95,6 @@ def time_correlation(
     results = np.column_stack(((timesteps - timesteps[0])*dt, results))
     results = pd.DataFrame(results, columns="t time_corr".split())
     if outputfile:
-        results.to_csv(outputfile, float_format="%.6f", index=False)
+        results.to_csv(outputfile, float_format="%.8f", index=False)
     logger.info("Finish calculating time correlation of input conditional property")
     return results
