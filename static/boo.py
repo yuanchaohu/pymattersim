@@ -8,7 +8,7 @@ see documentation @ ../docs/boo_3d.md &
 see documentation @ ../docs/boo_2d.md
 """
 
-from typing import Tuple, Optional
+from typing import Tuple
 import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
@@ -389,7 +389,7 @@ class boo_3d:
         gl_time["time_corr"] *= 4*np.pi/(2*self.l+1)
         gl_time["time_corr"] /= gl_time.loc[0, "time_corr"]
         if outputfile:
-            gl_time.to_csv(outputfile, float_format="%.6f", index=False)
+            gl_time.to_csv(outputfile, float_format="%.8f", index=False)
         return gl_time
 
 
@@ -566,20 +566,18 @@ class boo_2d:
             calculated gl(r) based on phi
         """
         logger.info(f'Start calculating spatial correlation of phi for l={self.l}')
-
         glresults = 0
         for n, snapshot in enumerate(self.snapshots.snapshots):
             glresults += conditional_gr(
                 snapshot=snapshot,
                 condition=self.ParticlePhi[n],
+                conditiontype=None,
                 ppp=self.ppp,
                 rdelta=rdelta
             )
         glresults /= self.snapshots.nsnapshots
         if outputfile:
             glresults.to_csv(outputfile, float_format="%.8f", index=False)
-
-        logger.info(f'Finish calculating spatial correlation of phi for l={self.l}')
         return glresults
 
     def time_corr(
@@ -598,13 +596,10 @@ class boo_2d:
             time correlation quantity (pd.DataFrame)
         """
         logger.info(f'Start calculating time correlation of phi for l={self.l}')
-
         gl_time = time_correlation(
             snapshots=self.snapshots,
             condition=self.ParticlePhi,
-            dt=dt
+            dt=dt,
+            outputfile=outputfile
         )
-
-        if outputfile:
-            gl_time.to_csv(outputfile, float_format="%.6f", index=False)
         return gl_time
