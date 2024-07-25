@@ -23,7 +23,7 @@ def time_correlation(
     3. condition is float tensor type, for example, nematic order
 
     Input:
-        1. snapshots (read.reader_utils.snapshots): multiple trajectories separated linearly
+        1. snapshots (read.reader_utils.snapshots): multiple trajectories dumped linearly or in logscale
         2. condition (np.ndarray): particle-level condition / property, type should be float
                                    shape: [num_of_snapshots, num_of_particles, xxx]
         3. dt (float): time step of input snapshots, default 0.002
