@@ -24,6 +24,7 @@ class TestDumpReader(unittest.TestCase):
         self.test_file_triclinic = f"{READ_TEST_FILE_PATH}/2d_triclinic.atom"
         self.test_file_xu = f"{READ_TEST_FILE_PATH}/test_xu.dump"
         self.test_file_gsd_3d = f"{READ_TEST_FILE_PATH}/example.gsd"
+        self.test_file_v = f"{READ_TEST_FILE_PATH}/2ddump.s.v.atom"
 
     def test_dump_reader_lammps_2d(self) -> None:
         """
@@ -137,3 +138,65 @@ class TestDumpReader(unittest.TestCase):
             snapshot.positions[2],
             np.array([0.313574, 0.1959437, 0.5766102])
         )
+        
+    def test_dump_reader_lammps_2d(self) -> None:
+        """
+        Test dump reader works properly for 2D v
+        """
+        logger.info(f"Starting test using {self.test_file_v}...")
+        read_columns = DumpReader(self.test_file_v,
+                                  ndim=2,
+                                  filetype=DumpFileType.LAMMPSVECTOR,
+                                  columnsids = [5])
+        read_columns.read_onefile()
+        
+        snapshot = read_columns.snapshots.snapshots[0]
+        self.assertEqual(51, read_columns.snapshots.nsnapshots)
+        np.testing.assert_almost_equal(snapshot.positions[20:25],
+                                       np.array([[ 0.573728],
+                                                [-0.669961],
+                                                [ 0.422935],
+                                                [-0.465058],
+                                                [ 0.857502]],
+                                                )
+                                        )
+        
+        snapshot = read_columns.snapshots.snapshots[5]
+        np.testing.assert_almost_equal(snapshot.positions[20:25],
+                                       np.array([[ 0.552083],
+                                                [-0.69841 ],
+                                                [ 0.696141],
+                                                [-0.325622],
+                                                [-0.159647]])
+                                        )
+        
+        read_columns = DumpReader(self.test_file_v,
+                                  ndim=2,
+                                  filetype=DumpFileType.LAMMPSVECTOR,
+                                  columnsids = [5,6])
+        read_columns.read_onefile()
+        
+        snapshot = read_columns.snapshots.snapshots[0]
+        self.assertEqual(51, read_columns.snapshots.nsnapshots)
+        np.testing.assert_almost_equal(snapshot.positions[68:75],
+                                       np.array([[ 0.990524,  0.770018],
+                                                 [ 0.1157  ,  0.049943],
+                                                 [-0.572635,  0.756168],
+                                                 [-0.438618, -0.658475],
+                                                 [-1.63457 , -0.659318],
+                                                 [ 0.495837,  0.429668],
+                                                 [ 0.493329,  0.111817]]
+                                                )
+                                        )
+        
+        snapshot = read_columns.snapshots.snapshots[10]
+        self.assertEqual(51, read_columns.snapshots.nsnapshots)
+        np.testing.assert_almost_equal(snapshot.positions[70:75],
+                                       np.array([[ 0.769672 , -0.410516 ],
+                                                [-0.503423 ,  0.28519  ],
+                                                [ 0.182727 , -0.255289 ],
+                                                [-1.5161   ,  0.312178 ],
+                                                [-0.0747129, -0.679008 ]])
+                                        )
+        
+        

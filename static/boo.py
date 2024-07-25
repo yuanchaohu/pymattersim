@@ -494,7 +494,7 @@ class boo_2d:
         self,
         time_period: float=None,
         dt: float=0.002,
-        average_complex: bool=True,
+        average_complex: bool=False,
         outputfile: str=None
     )->Tuple[np.ndarray, np.ndarray]:
         """
