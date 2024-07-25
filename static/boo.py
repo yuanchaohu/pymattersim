@@ -317,7 +317,7 @@ class boo_3d:
         self,
         coarse_graining: bool=False,
         rdelta: float=0.01,
-        outputfile: str=None
+        outputfile: str="",
     ) -> pd.DataFrame:
         """
         Calculate spatial correlation function of qlm or Qlm
@@ -358,7 +358,7 @@ class boo_3d:
         self,
         coarse_graining: bool=False,
         dt: float=0.002,
-        outputfile: str=None
+        outputfile: str="",
     ) -> pd.DataFrame:
         """Calculate time correlation of qlm or Qlm
 
@@ -409,6 +409,7 @@ class boo_2d:
         weightsfile: str="",
         ppp: np.ndarray=np.array([1,1]),
         Nmax: int=10,
+        output_phi: str="output_phi.npy",
     ) -> None:
         """
         Initializing class for BOO2D
@@ -424,6 +425,7 @@ class boo_2d:
             5. ppp (np.ndarray): the periodic boundary conditions,
                                  setting 1 for yes and 0 for no, default np.array([1,1])
             7. Nmax (int): maximum number for neighbors, default 10
+            8. output_phi (str): output file name of the original order parameter in complex number
 
         Return:
             None
@@ -444,14 +446,14 @@ class boo_2d:
             {tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}
         ) == 1, "Simulation box length changes during simulation"
 
-        self.ParticlePhi = self.lthorder()
+        self.ParticlePhi = self.lthorder(output_phi)
 
-    def lthorder(self) -> np.ndarray:
+    def lthorder(self, output_phi) -> np.ndarray:
         """
         Calculate l-th orientational order in 2D, such as hexatic order
 
         Inputs:
-            None
+            output_phi (str): output file name of the original order parameter in complex number
 
         Return:
             Calculated l-th order in complex number (np.ndarray)
@@ -488,15 +490,17 @@ class boo_2d:
         fneighbor.close()
         if self.weightsfile:
             fweights.close()
+        if output_phi:
+            np.save(output_phi, results)
         return results
 
     def time_average(
         self,
-        time_period: float=0,
+        time_period: float,
         dt: float=0.002,
         average_complex: bool=True,
         outputfile: str=""
-    )->Optional[Tuple[np.ndarray, np.ndarray]]:
+    )->Tuple[np.ndarray, np.ndarray]:
         """
         calculate the particle-level phi considering time average of the order parameter if time_period not None
         
@@ -511,49 +515,40 @@ class boo_2d:
             2. average_quantity (np.ndarray): time averaged phi results if time_period not None
             3. average_snapshot_id (np.ndarray): middle snapshot number between time periods if time_period not None
         """
-        # time average
-        if time_period:
-            logger.info(f"Time average over t={time_period} for BOO 2D order parameter")
-            if average_complex:
-                average_quantity, average_snapshot_id = utils_time_average(
-                    snapshots=self.snapshots,
-                    input_property=self.ParticlePhi,
-                    time_period=time_period,
-                    dt=dt
-                )
-            else:
-                average_modulus, average_snapshot_id = utils_time_average(
-                    snapshots=self.snapshots,
-                    input_property=np.abs(self.ParticlePhi),
-                    time_period=time_period,
-                    dt=dt
-                )
-                average_phase, average_snapshot_id = utils_time_average(
-                    snapshots=self.snapshots,
-                    input_property=np.angle(self.ParticlePhi),
-                    time_period=time_period,
-                    dt=dt
-                )
-                average_quantity = average_modulus.real * np.exp(1j * average_phase.real)
+        assert time_period>0, "time_period must be greater than 0"
 
-            # use corresponding snapshots for time_corr and spatial_corr functions
-            self.snapshots.nsnapshots = len(average_snapshot_id)
-            self.snapshots.snapshots = self.snapshots.snapshots[average_snapshot_id]
-            self.ParticlePhi = average_quantity
-            logger.info(f"The SELF objects are updated into {self.snapshots.nsnapshots} configurations")
+        logger.info(f"Time average over t={time_period} for BOO 2D order parameter")
+        if average_complex:
+            # average data in complex form, modulus & phase together
+            average_quantity, average_snapshot_id = utils_time_average(
+                snapshots=self.snapshots,
+                input_property=self.ParticlePhi,
+                time_period=time_period,
+                dt=dt
+            )
+        else:
+            # average data for modulus and phase separately
+            average_modulus, average_snapshot_id = utils_time_average(
+                snapshots=self.snapshots,
+                input_property=np.abs(self.ParticlePhi),
+                time_period=time_period,
+                dt=dt
+            )
+            average_phase, average_snapshot_id = utils_time_average(
+                snapshots=self.snapshots,
+                input_property=np.angle(self.ParticlePhi),
+                time_period=time_period,
+                dt=dt
+            )
+            average_quantity = average_modulus.real * np.exp(1j*average_phase.real)
 
-            if outputfile:
-                np.save(outputfile, average_quantity)
-                np.savetxt(
-                    outputfile+"_snapshot_id.dat",
-                    average_snapshot_id[:, np.newaxis],
-                    fmt="%d", header="middle_snapshot_id", comments="")
-            return average_quantity, average_snapshot_id
-
-        # original
         if outputfile:
-            logger.info("Save original ParticlePhi and use it for further analyses")
-            np.save(outputfile, self.ParticlePhi)
+            np.save(outputfile, average_quantity)
+            np.savetxt(
+                outputfile+".snapshot_id.dat",
+                average_snapshot_id[:, np.newaxis],
+                fmt="%d", header="middle_snapshot_id", comments="")
+        return average_quantity, average_snapshot_id
 
     def spatial_corr(
         self,
@@ -577,7 +572,6 @@ class boo_2d:
             glresults += conditional_gr(
                 snapshot=snapshot,
                 condition=self.ParticlePhi[n],
-                conditiontype=None,
                 ppp=self.ppp,
                 rdelta=rdelta
             )
@@ -611,8 +605,6 @@ class boo_2d:
             dt=dt
         )
 
-        # normalization
-        gl_time["time_corr"] /= gl_time.loc[0, "time_corr"]
         if outputfile:
             gl_time.to_csv(outputfile, float_format="%.6f", index=False)
         return gl_time
