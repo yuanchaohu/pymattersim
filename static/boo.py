@@ -18,7 +18,7 @@ from utils.spherical_harmonics import sph_harm_l
 from utils.pbc import remove_pbc
 from utils.logging import get_logger_handle
 from utils.funcs import Wignerindex
-from utils.coarse_graining import time_average
+from utils.coarse_graining import time_average as utisl_time_average
 from dynamic.time_corr import time_correlation
 
 logger = get_logger_handle(__name__)
@@ -515,20 +515,20 @@ class boo_2d:
         if time_period:
             logger.info(f"Time average over t={time_period} for BOO 2D order parameter")
             if average_complex:
-                average_quantity, average_snapshot_id = time_average(
+                average_quantity, average_snapshot_id = utisl_time_average(
                     snapshots=self.snapshots,
                     input_property=self.ParticlePhi,
                     time_period=time_period,
                     dt=dt
                 )
             else:
-                average_modulus, average_snapshot_id = time_average(
+                average_modulus, average_snapshot_id = utisl_time_average(
                     snapshots=self.snapshots,
                     input_property=np.abs(self.ParticlePhi),
                     time_period=time_period,
                     dt=dt
                 )
-                average_phase, average_snapshot_id = time_average(
+                average_phase, average_snapshot_id = utisl_time_average(
                     snapshots=self.snapshots,
                     input_property=np.angle(self.ParticlePhi),
                     time_period=time_period,
