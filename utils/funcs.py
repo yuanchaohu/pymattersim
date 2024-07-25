@@ -114,6 +114,8 @@ def Wignerindex(l :int) -> np.ndarray:
 
     return np.ravel(np.array(selected)).reshape(-1, 4)
 
+# TODO @Yibang please benchmark with standard gaussian distribution
+# for example, from numpy
 def grid_gaussian(distances: np.ndarray, sigma: float=1)->np.ndarray:
     """
     Calculate the gaussian distribution from the zero center
