@@ -172,7 +172,9 @@ def vibrability(
 
 # TODO @Yibang please benchmark with
 # https://github.com/yuanchaohu/MyCodes/blob/master/EigenvectorAnalysis.py#L391
-def vector_TL_sq(
+# https://github.com/yuanchaohu/MyCodes/blob/master/EigenvectorAnalysis.py#L476
+# Hint: get the same qvector for these calculations
+def vector_decomposition_sq(
         snapshot: SingleSnapshot,
         qvector: np.ndarray,
         vector: np.ndarray,
@@ -188,6 +190,7 @@ def vector_TL_sq(
                                         (see utils.wavevector)
         3. vector (np.ndarray): particle-level vector, shape as [num_of_particles, ndim],
                                 for example, eigenvector field and velocity field
+        4. outputfile (str): the name of csv file to save the calculated S(q), default None
     
     Return:
         calculated transverse and longitudinal S(q) for each input wavevector (pd.DataFrame)
