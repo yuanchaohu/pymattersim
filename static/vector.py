@@ -1,14 +1,12 @@
 """see documentation @ ../docs/vectors.md"""
 
-from enum import unique
-from typing import List, Any, Optional, Tuple
+from typing import Optional, Tuple
 import numpy as np
 import pandas as pd
-from math import pi
 
-from sqlalchemy import values
 from reader.reader_utils import Snapshots, SingleSnapshot
 from neighbors.read_neighbors import read_neighbors
+from dynamic.time_corr import time_correlation
 from utils.pbc import remove_pbc
 from sq import conditional_sq
 from utils.logging import get_logger_handle
@@ -220,3 +218,71 @@ def vector_decomposition_sq(
     if outputfile:
         ave_sqresults.to_csv(outputfile, float_format="%.8f", index=False)
     return vector_fft, ave_sqresults
+
+# TODO @Yibang please benchmark with
+# https://github.com/yuanchaohu/MyCodes/blob/master/EigenvectorAnalysis.py#L526
+# this one is heavy, please discuss with me first
+def vector_fft_corr(
+        snapshots: Snapshots,
+        qvector: np.ndarray,
+        vectors: np.ndarray,
+        dt: float=0.002,
+        outputfile: str="",
+    ) -> dict[str, pd.DataFrame]:
+    """
+    Calculate spectra and auto-correlation of a vector field by FFT
+
+    Inputs:
+        1. snapshots (read.reader_utils.snapshots): multiple trajectories dumped linearly or in logscale
+        2. qvector (np.ndarray of int): designed wavevectors in two-dimensional np.array 
+                                        (see utils.wavevector)
+        3. vectors (np.ndarray): particle-level vector, shape as [num_of_snapshots, num_of_particles, ndim],
+                                for example, eigenvector field and velocity field
+        4. dt (float): time step of input snapshots, default 0.002
+        5. outputfile (str): the name of csv file to save the calculated S(q), default None
+    
+    Return:
+        time correlation of FFT of vectors in full, transverse, and longitudinal mode
+        Dict as {"FFT": pd.DataFrame, "T_FFT": pd.DataFrame, "L_FFT": pd.DataFrame}
+    """
+
+    ndim = qvector.shape[1]
+    spectra = 0
+    vectors_fft = []
+    for n, snapshot in enumerate(snapshots.snapshots):
+        vector_fft, ave_sqresults = vector_decomposition_sq(
+            snapshot=snapshot,
+            qvector=qvector,
+            vector=vectors[n]
+        )
+        spectra += ave_sqresults
+        vectors_fft.append(vector_fft)
+    spectra /= snapshots.nsnapshots
+    spectra.to_csv(outputfile+".spectra.csv", float_format="%.8f", index=False)
+
+    alldata = {}
+    for header in ["FFT", "T_FFT", "L_FFT"]:
+        logger.info(f"Calculate autocorrelation for {header} vector")
+        cal_data = pd.DataFrame(
+            0, 
+            columns=np.arange(qvector.shape[0]),
+            index=np.arange(snapshots.nsnapshots)
+        )
+        column_name = [f"{header}{i}" for i in range(ndim)]
+        for n in range(qvector.shape[0]):
+            condition = [item[column_name].values[n] for item in vectors_fft]
+            medium = time_correlation(
+                snapshots=snapshots,
+                condition=np.array(condition),
+                dt=dt,
+            )
+            cal_data[n] = medium["time_corr"].values
+        cal_data.index = medium["t"].values
+        # columns: [q0, q1, q2, q, t1, t2, t3....]
+        final_data = pd.concat([
+            vectors_fft[0][[f"q{i}" for i in range(ndim)]+["q"]],
+            cal_data.T
+        ], axis=1).round(8)
+        np.save(outputfile+header+".npy", final_data.values)
+        alldata[header] = final_data
+    return alldata
