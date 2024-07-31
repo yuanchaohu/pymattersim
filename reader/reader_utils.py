@@ -56,7 +56,7 @@ class SingleSnapshot:
     hmatrix: npt.NDArray
 
 
-# @dataclass(frozen=True)
+@dataclass(frozen=True)
 class Snapshots:
     """
     A frozen data class to hold all system snapshots
