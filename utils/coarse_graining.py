@@ -138,15 +138,14 @@ def gaussian_blurring(
                         indice = i*ngrids[0]+j*ngrids[1]+k
                         grid_property[n, indice, :ndim] = [X[i], Y[j], Z[k]]
 
-        for i in range(snapshot.nparticle):
-            RIJ = grid_property[n, :, :ndim] - snapshot.positions[i]
+        for i in range(grid_property.shape[1]):
+            RIJ = grid_property[n, i, :ndim] - snapshot.positions
             RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp=ppp)
             RIJ = np.linalg.norm(RIJ, axis=1)
-            grid_property[n, i, ndim:] += np.where(
-                RIJ < gaussian_cut,
-                grid_gaussian(RIJ, sigma) * condition[n, i],
-                0
-            )
+            selection = RIJ < gaussian_cut
+            probability = grid_gaussian(RIJ[selection], sigma)
+            grid_property[n,i,ndim:]=(probability[:,np.newaxis]*condition[n,selection]).sum(axis=0)/probability.sum()
+
     if outputfile:
         np.save(outputfile, grid_property)
     return grid_property
