@@ -114,8 +114,6 @@ def Wignerindex(l :int) -> np.ndarray:
 
     return np.ravel(np.array(selected)).reshape(-1, 4)
 
-# TODO @Yibang please benchmark with standard gaussian distribution
-# for example, from numpy
 def grid_gaussian(distances: np.ndarray, sigma: float=1)->np.ndarray:
     """
     Calculate the gaussian distribution from the zero center
@@ -128,9 +126,7 @@ def grid_gaussian(distances: np.ndarray, sigma: float=1)->np.ndarray:
         gaussian probability at various distances in numpy array
     """
     sigma2 = 2*sigma**2
-    return np.exp(-np.square(distances)/sigma2)/np.sqrt(sigma2*np.pi)
+    return np.exp(-np.square(distances)/sigma2)/(sigma2*np.pi)
 
-# TODO @Yibang please benchmark with
-# https://github.com/yuanchaohu/MyCodes/blob/master/Nematic.py#L25
 def Legendre_polynomials(x, ndim):
     return (ndim * x**2 - 1) / 2

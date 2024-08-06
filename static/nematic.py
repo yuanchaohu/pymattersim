@@ -42,9 +42,6 @@ class NematicOrder():
         self.snapshots = snapshots_position
         self.QIJ = 0
 
-    # TODO @Yibang please benchmark with
-    # https://github.com/yuanchaohu/MyCodes/blob/master/Nematic.py#L152
-    # for both with neighborfile and without neighborfile
     def tensor(
             self,
             ndim: int=2,
@@ -87,7 +84,6 @@ class NematicOrder():
 
         if neighborfile:
             # coarse-graining over certain volume if neighbor list provided
-            #TODO @Yibang please test this function before test the current function
             QIJ = spatial_average(
                 input_property=QIJ,
                 neighborfile=neighborfile,
@@ -116,8 +112,6 @@ class NematicOrder():
         np.save(outputfile+".Qtrace.npy", Qtrace)
         return Qtrace
 
-    # TODO @Yibang please benchmark with
-    # https://github.com/yuanchaohu/MyCodes/blob/master/Nematic.py#L223
     def spatial_corr(self, rdelta:float=0.01, ppp:np.ndarray=np.array([1,1]), outputfile:str=""):
         """ 
         Calculate the spatial correlation of the nematic order QIJ
@@ -147,8 +141,6 @@ class NematicOrder():
             gQresults.to_csv(outputfile, float_format="%.8f", index=False)
         return gQresults
 
-    # TODO @Yibang please benchmark with
-    # https://github.com/yuanchaohu/MyCodes/blob/master/Nematic.py#L262
     def time_corr(self, dt:float=0.002, outputfile:str="") -> pd.DataFrame:
         """
         Calculate time correlation of the tensorial nematic order parameter
