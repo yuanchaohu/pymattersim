@@ -7,8 +7,6 @@ from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
-# TODO @yibang Please benckmark with
-# https://github.com/yuanchaohu/MyCodes/blob/master/gyrationtensor.py
 def gyration_tensor(pos_group: np.ndarray) -> List[Any]:
     """calculate gyration tensor for three dimensional systems
 
@@ -31,7 +29,7 @@ def gyration_tensor(pos_group: np.ndarray) -> List[Any]:
             group of atoms, shape as [num_of_particles, dimensionality]
 
     Return:
-        shape factors in a tuple, such as
+        shape factors in a list, such as
         3D: radius_of_gyration, asphericity, acylindricity, shape_anisotropy, fractal_dimension
         2D: radius_of_gyration, acylindricity, fractal_dimension
     """
