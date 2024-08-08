@@ -93,7 +93,6 @@ def spatial_average(
 
 # TODO @Yibang please benckmark with 
 # https://github.com/yuanchaohu/MyCodes/blob/master/Custom_Visuallization.py
-# GaussianBlurring_2D() & GaussianBlurring_3D() with scalar input
 # GaussianBlurring_2D_vector() with vector input, use velocity dump is fine
 def gaussian_blurring(
     snapshots: Snapshots,
@@ -107,13 +106,13 @@ def gaussian_blurring(
     ndim = len(ngrids)
     ppp = ppp[:ndim]
     ngrids = np.array(ngrids)
-    if len(condition)==2:
+    if len(condition.shape)==2:
         # scalar
         ncol_add = 1
-    elif len(condition)==3:
+    elif len(condition.shape)==3:
         # vector
         ncol_add = 2
-    elif len(condition)==4:
+    elif len(condition.shape)==4:
         # tensor
         ncol_add = 3
     else:
@@ -144,7 +143,15 @@ def gaussian_blurring(
             RIJ = np.linalg.norm(RIJ, axis=1)
             selection = RIJ < gaussian_cut
             probability = grid_gaussian(RIJ[selection], sigma)
-            grid_property[n,i,ndim:]=(probability[:,np.newaxis]*condition[n,selection]).sum(axis=0)/probability.sum()
+
+            if ncol_add ==1:
+                grid_property[n,i,ndim:]=(probability*condition[n,selection]).sum()
+            elif ncol_add ==2:
+                grid_property[n,i,ndim:]=(probability[:,np.newaxis]*condition[n,selection]).sum(axis=0)
+        if ncol_add ==2:
+            #grid_property[n,:,-2:] = grid_property[n,:,-2:]/np.sqrt(np.square(grid_property[n,:,-2:]).sum()) * np.sqrt(np.square(condition[n]).sum())
+            pass
+
 
     if outputfile:
         np.save(outputfile, grid_property)

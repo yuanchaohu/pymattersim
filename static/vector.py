@@ -13,8 +13,6 @@ from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
-# TODO @Yibang please benchmark with
-# https://github.com/yuanchaohu/MyCodes/blob/master/EigenvectorAnalysis.py#L21
 def participation_ratio(vector: np.ndarray) -> float:
     """
     Calculate the participation ratio for an vector field
@@ -32,8 +30,7 @@ def participation_ratio(vector: np.ndarray) -> float:
 
     return value_PR
 
-# TODO @Yibang please benchmark with
-# https://github.com/yuanchaohu/MyCodes/blob/master/EigenvectorAnalysis.py#L34
+
 def local_vector_alignment(vector: np.ndarray, neighborfile:str)->np.ndarray:
     """
     Calculate the local orientational order of a vector field
@@ -81,8 +78,7 @@ def phase_quotient(vector:np.ndarray, neighborfile:str) -> float:
         sum_1 += np.abs(medium).sum()
     return sum_0/sum_1
 
-# TODO @Yibang please benchmark with
-# https://github.com/yuanchaohu/MyCodes/blob/master/EigenvectorAnalysis.py#L250
+
 def divergence_curl(
     snapshot: Snapshots,
     vector: np.ndarray,
