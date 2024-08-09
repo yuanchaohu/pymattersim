@@ -31,7 +31,7 @@ class TestShape(unittest.TestCase):
         input_3d.read_onefile()
 
         gt1 = gyration_tensor(input_3d.snapshots.snapshots[0].positions)
-        gt2 = gyration_tensor(input_3d.snapshots.snapshots[20].positions)
+        gt2 = gyration_tensor(input_3d.snapshots.snapshots[9].positions)
         
         np.testing.assert_almost_equal(gt1,[4.706419206451776,
                                             0.28228365518691767,
@@ -39,10 +39,10 @@ class TestShape(unittest.TestCase):
                                             0.00019420654687231966,
                                             4.459702522482764])
         
-        np.testing.assert_almost_equal(gt2,[4.704615010996267,
-                                            0.4516917444858972,
-                                            0.2885601611107589,
-                                            0.0005439527564020182,
-                                            4.460806750061393])
+        np.testing.assert_almost_equal(gt2,[4.710464986859923,
+                                            0.18363043137025592,
+                                            0.15827590448870943,
+                                            0.00010665351384344504,
+                                            4.457229892782171])
         
         logger.info(f"Finishing test gyration_tensor using {self.test_file_3d}...")

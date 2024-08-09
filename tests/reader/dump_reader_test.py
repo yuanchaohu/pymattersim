@@ -24,7 +24,7 @@ class TestDumpReader(unittest.TestCase):
         self.test_file_triclinic = f"{READ_TEST_FILE_PATH}/2d_triclinic.atom"
         self.test_file_xu = f"{READ_TEST_FILE_PATH}/test_xu.dump"
         self.test_file_gsd_3d = f"{READ_TEST_FILE_PATH}/example.gsd"
-        self.test_file_v = f"{READ_TEST_FILE_PATH}/2ddump.s.v.atom"
+        self.test_file_v = f"{READ_TEST_FILE_PATH}/2d/2ddump.s.v.atom"
 
     def test_dump_reader_lammps_2d(self) -> None:
         """
@@ -151,7 +151,7 @@ class TestDumpReader(unittest.TestCase):
         read_columns.read_onefile()
         
         snapshot = read_columns.snapshots.snapshots[0]
-        self.assertEqual(51, read_columns.snapshots.nsnapshots)
+        self.assertEqual(10, read_columns.snapshots.nsnapshots)
         np.testing.assert_almost_equal(snapshot.positions[20:25],
                                        np.array([[ 0.573728],
                                                 [-0.669961],
@@ -177,7 +177,7 @@ class TestDumpReader(unittest.TestCase):
         read_columns.read_onefile()
         
         snapshot = read_columns.snapshots.snapshots[0]
-        self.assertEqual(51, read_columns.snapshots.nsnapshots)
+        self.assertEqual(10, read_columns.snapshots.nsnapshots)
         np.testing.assert_almost_equal(snapshot.positions[68:75],
                                        np.array([[ 0.990524,  0.770018],
                                                  [ 0.1157  ,  0.049943],
@@ -189,14 +189,13 @@ class TestDumpReader(unittest.TestCase):
                                                 )
                                         )
         
-        snapshot = read_columns.snapshots.snapshots[10]
-        self.assertEqual(51, read_columns.snapshots.nsnapshots)
+        snapshot = read_columns.snapshots.snapshots[9]
+        self.assertEqual(10, read_columns.snapshots.nsnapshots)
         np.testing.assert_almost_equal(snapshot.positions[70:75],
-                                       np.array([[ 0.769672 , -0.410516 ],
-                                                [-0.503423 ,  0.28519  ],
-                                                [ 0.182727 , -0.255289 ],
-                                                [-1.5161   ,  0.312178 ],
-                                                [-0.0747129, -0.679008 ]])
-                                        )
+                                       np.array([[ 0.45497,   1.01626 ],
+                                                 [ 0.30524,  -0.558264],
+                                                 [ 1.01384,   0.355063],
+                                                 [ 0.429141, -0.276826],
+                                                 [ 0.23194,   1.63782 ]]))
         
         

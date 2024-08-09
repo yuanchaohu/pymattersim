@@ -18,7 +18,7 @@ READ_TEST_FILE_PATH = "tests/sample_test_data"
 
 class TestTime_Corr(unittest.TestCase):
     """
-    Test class for BOO
+    Test class for Time_Corr
     """
 
     def setUp(self) -> None:
@@ -34,13 +34,13 @@ class TestTime_Corr(unittest.TestCase):
         readdump = DumpReader(self.test_file_2D, ndim=2)
         readdump.read_onefile()
 
-        condition = f"{READ_TEST_FILE_PATH}/condition/condition.csv"
-        condition = pd.read_csv(condition).values
+        condition = f"{READ_TEST_FILE_PATH}/condition/condition.npy"
+        condition = np.load(condition)
         
         tc = time_correlation(readdump.snapshots,condition)
         
-        np.testing.assert_almost_equal(np.array([1.        , 0.74966714, 0.74953381, 0.74911929, 0.75031043,
-                                                 0.74931458, 0.75004692, 0.75014047, 0.75091767, 0.75020255]),
+        np.testing.assert_almost_equal(np.array([1.        , 0.75234395, 0.75612582, 0.75330628, 0.75052712,
+                                                 0.75438126, 0.74786922, 0.75729044, 0.74032374, 0.77309031]),
                                       tc["time_corr"].values[:10])
         
     def test_time_correlation_log(self) -> None:
@@ -50,13 +50,13 @@ class TestTime_Corr(unittest.TestCase):
         readdump = DumpReader(self.test_file_log_2D, ndim=2)
         readdump.read_onefile()
 
-        log_condition = f"{READ_TEST_FILE_PATH}/condition/log_condition.csv"
-        log_condition = pd.read_csv(log_condition).values
+        log_condition = f"{READ_TEST_FILE_PATH}/condition/log_condition.npy"
+        log_condition = np.load(log_condition)
         
         tc = time_correlation(readdump.snapshots,log_condition)
         
-        np.testing.assert_almost_equal(np.array([1.        , 0.78268714, 0.74989003, 0.75928282, 0.75614993,
-                                                 0.74647565, 0.74691127, 0.78370166, 0.75222268, 0.75946388]),
+        np.testing.assert_almost_equal(np.array([1.        , 0.75515639, 0.77256705, 0.74662384, 0.76126827,
+                                                 0.74987555, 0.76818978, 0.74839397, 0.76873851, 0.76019467]),
                                        tc["time_corr"].values[:10])
 
     def test_time_correlation_velocity(self) -> None:
@@ -77,6 +77,6 @@ class TestTime_Corr(unittest.TestCase):
         
         tc = time_correlation(readdump.snapshots,velocity)
 
-        np.testing.assert_almost_equal(np.array([ 1.00000000e+00,  7.50523802e-04, -5.47238324e-04, -4.17835029e-03,-1.56200091e-03, 
-                                                 -2.93248605e-03,  1.98983850e-03, -2.56205398e-03,-5.84346852e-06, -2.95951304e-03]),
+        np.testing.assert_almost_equal(np.array([ 1.00000000e+00, -2.27614949e-03,  4.80819141e-03, -6.89284254e-03, 6.39502967e-03,
+                                                 7.75986796e-04,  8.35486352e-03,  2.03459422e-03,6.53853687e-03,  1.01471001e-02]),
                                        tc["time_corr"].values[:10])
