@@ -55,8 +55,7 @@ def time_average(
         results_middle_snapshots.append(round(n+time_nsnapshot/2))
     return results, np.array(results_middle_snapshots)
 
-# TODO @Yibang please benchmark with
-# https://github.com/yuanchaohu/MyCodes/blob/master/CoarseGraining.py
+
 def spatial_average(
     input_property: np.ndarray,
     neighborfile: str,
@@ -92,9 +91,7 @@ def spatial_average(
         np.save(outputfile, cg_input_property)
     return cg_input_property
 
-# TODO @Yibang please benckmark with 
-# https://github.com/yuanchaohu/MyCodes/blob/master/Custom_Visuallization.py
-# GaussianBlurring_2D_vector() with vector input, use velocity dump is fine
+# TODO add note
 def gaussian_blurring(
     snapshots: Snapshots,
     condition: np.ndarray,
@@ -149,9 +146,12 @@ def gaussian_blurring(
             probability = grid_gaussian(RIJ[selection], sigma)
             if cal_type=="scalar":
                 grid_property[n,i]=(probability*condition[n,selection]).sum()
-            else:
-                # vector or tensor
+            elif cal_type=="vector":
+                # vector 
                 grid_property[n,i]=(probability[:,np.newaxis]*condition[n,selection]).sum(axis=0)
+            else:
+                # tensor
+                grid_property[n,i]=(probability[:,np.newaxis,np.newaxis]*condition[n,selection]).sum(axis=0)
 
     if outputfile:
         np.save(outputfile+"_positions.npy", grid_positions)
