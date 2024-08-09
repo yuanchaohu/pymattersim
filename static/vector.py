@@ -135,8 +135,7 @@ def divergence_curl(
 def kspace_decomposition():
     pass
 
-# TODO @Yibang please benchmark with
-# https://github.com/yuanchaohu/MyCodes/blob/master/EigenvectorAnalysis.py#L360
+
 def vibrability(
         eigenfrequencies: np.ndarray,
         eigenvectors: np.ndarray,
@@ -164,10 +163,7 @@ def vibrability(
         np.save(outputfile, results)
     return results
 
-# TODO @Yibang please benchmark with
-# https://github.com/yuanchaohu/MyCodes/blob/master/EigenvectorAnalysis.py#L391
-# https://github.com/yuanchaohu/MyCodes/blob/master/EigenvectorAnalysis.py#L476
-# Hint: get the same qvector for these calculations
+
 def vector_decomposition_sq(
         snapshot: SingleSnapshot,
         qvector: np.ndarray,
@@ -193,8 +189,8 @@ def vector_decomposition_sq(
     """
     ndim = qvector.shape[1]
     vector_fft = conditional_sq(snapshot, qvector, vector)[0]
-    unitq = vector_fft[f"q{i}" for i in range(ndim)].values/vector_fft["q"].values
-    fft_columns = vector_fft[f"FFT{i}" for i in range(ndim)].values
+    unitq = vector_fft[[f"q{i}" for i in range(ndim)]].values/vector_fft["q"].values
+    fft_columns = vector_fft[[f"FFT{i}" for i in range(ndim)]].values
     vector_L = np.zeros_like(fft_columns)
     for n in range(qvector.shape[0]):
         medium = np.dot(unitq[n], fft_columns[n])
@@ -215,9 +211,7 @@ def vector_decomposition_sq(
         ave_sqresults.to_csv(outputfile, float_format="%.8f", index=False)
     return vector_fft, ave_sqresults
 
-# TODO @Yibang please benchmark with
-# https://github.com/yuanchaohu/MyCodes/blob/master/EigenvectorAnalysis.py#L526
-# this one is heavy, please discuss with me first
+
 def vector_fft_corr(
         snapshots: Snapshots,
         qvector: np.ndarray,
