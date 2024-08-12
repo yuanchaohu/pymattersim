@@ -126,7 +126,7 @@ def grid_gaussian(distances: np.ndarray, sigma: float=1)->np.ndarray:
         gaussian probability at various distances in numpy array
     """
     sigma2 = 2*sigma**2
-    return np.exp(-np.square(distances)/sigma2)/(sigma2*np.pi)
+    return np.exp(-np.square(distances)/sigma2)/np.sqrt(sigma2*np.pi)
 
 def Legendre_polynomials(x, ndim):
     return (ndim * x**2 - 1) / 2
