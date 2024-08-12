@@ -1,15 +1,16 @@
 """see documentation @ ../docs/vectors.md"""
 
 from typing import Optional, Tuple
+
 import numpy as np
 import pandas as pd
 
-from reader.reader_utils import Snapshots, SingleSnapshot
-from neighbors.read_neighbors import read_neighbors
 from dynamic.time_corr import time_correlation
-from utils.pbc import remove_pbc
+from neighbors.read_neighbors import read_neighbors
+from reader.reader_utils import SingleSnapshot, Snapshots
 from static.sq import conditional_sq
 from utils.logging import get_logger_handle
+from utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
 
@@ -80,7 +81,7 @@ def phase_quotient(vector:np.ndarray, neighborfile:str) -> float:
 
 
 def divergence_curl(
-    snapshot: Snapshots,
+    snapshot: SingleSnapshot,
     vector: np.ndarray,
     ppp: np.ndarray,
     neighborfile: str
@@ -92,9 +93,10 @@ def divergence_curl(
     Maximum 200 neighbors are considered
 
     Inputs:
-        1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
+        1. snapshots (reader.reader_utils.SingleSnapshot): snapshot object of input trajectory 
                      (returned by reader.dump_reader.DumpReader)
-        2. vector (np.ndarray): vector field shape as [num_of_partices, ndim]
+        2. vector (np.ndarray): vector field shape as [num_of_partices, ndim], it determines the
+                    dimensionality of the calculation.
         3. ppp (np.ndarray): the periodic boundary conditions,
                        setting 1 for yes and 0 for no, default np.array([1,1,1]),
                        set np.array([1,1]) for two-dimensional systems
@@ -115,8 +117,8 @@ def divergence_curl(
     for i in range(num_of_particles):
         i_cnlist = cnlist[i, 1:cnlist[i, 0]+1]
         #positional vectors
-        RIJ = snapshot.snapshots[0].positions[i_cnlist] - snapshot.snapshots[0].positions[i]
-        RIJ = remove_pbc(RIJ, snapshot.snapshots[0].hmatrix, ppp)
+        RIJ = snapshot.positions[i_cnlist] - snapshot.positions[i]
+        RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
 
         #divergence
         UIJ = vector[i_cnlist] - vector[i]
@@ -124,7 +126,7 @@ def divergence_curl(
 
         #curl
         if ndim==3:
-            for j in range(num_of_particles):
+            for j in range(cnlist[i, 0]):
                 curl[i] += np.cross(RIJ[j], UIJ[j])
             curl[i] /= cnlist[i, 0]
 
@@ -189,7 +191,8 @@ def vector_decomposition_sq(
     """
     ndim = qvector.shape[1]
     vector_fft = conditional_sq(snapshot, qvector, vector)[0]
-    unitq = vector_fft[[f"q{i}" for i in range(ndim)]].values/vector_fft["q"].values
+    unitq = vector_fft[[f"q{i}" for i in range(ndim)]].values
+    unitq /= (vector_fft["q"].values)[:, np.newaxis]
     fft_columns = vector_fft[[f"FFT{i}" for i in range(ndim)]].values
     vector_L = np.zeros_like(fft_columns)
     for n in range(qvector.shape[0]):
@@ -197,12 +200,12 @@ def vector_decomposition_sq(
         vector_L[n] = unitq[n] * medium
     vector_T = fft_columns - vector_L
 
-    medium = pd.DataFrame(vector_T, columns=[f"T_FFT{i}" for i in range(ndim)])
-    vector_fft.join(medium)
+    medium = pd.DataFrame(vector_T, columns=[f"T_FFT{i}" for i in range(ndim)], index=vector_fft.index)
+    vector_fft = vector_fft.join(medium)
     vector_fft["Sq_T"] = (vector_T * np.conj(vector_T)).sum(axis=1).real
 
     medium = pd.DataFrame(vector_L, columns=[f"L_FFT{i}" for i in range(ndim)])
-    vector_fft.join(medium)
+    vector_fft = vector_fft.join(medium)
     vector_fft["Sq_L"] = (vector_L * np.conj(vector_L)).sum(axis=1).real
 
     vector_fft = vector_fft.round(8)
@@ -273,6 +276,6 @@ def vector_fft_corr(
             vectors_fft[0][[f"q{i}" for i in range(ndim)]+["q"]],
             cal_data.T
         ], axis=1).round(8)
-        np.save(outputfile+header+".npy", final_data.values)
+        np.save(outputfile+"."+header+".npy", final_data.values)
         alldata[header] = final_data
     return alldata
