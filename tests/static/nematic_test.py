@@ -3,7 +3,6 @@
 import os
 import unittest
 import numpy as np
-import pandas as pd
 from reader.dump_reader import DumpReader
 from reader.reader_utils import DumpFileType
 from static.nematic import NematicOrder
@@ -22,7 +21,7 @@ class TestNematic(unittest.TestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_file_2d = f"{READ_TEST_FILE_PATH}/2d/dump.f.n1.atom"
+        self.test_file_2d = f"{READ_TEST_FILE_PATH}/2d/dump.nematic.atom"
 
     def test_NematicOrder_no_nei(self) -> None:
         """
@@ -31,34 +30,37 @@ class TestNematic(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_2d}...")
         input_x = DumpReader(self.test_file_2d, ndim=2)
         input_x.read_onefile()
-        input_or = DumpReader(self.test_file_2d, ndim=2,filetype=DumpFileType.LAMMPSVECTOR,columnsids=[5,6])
+        input_or = DumpReader(
+            self.test_file_2d,
+            ndim=2,
+            filetype=DumpFileType.LAMMPSVECTOR,
+            columnsids=[5,6]
+        )
         input_or.read_onefile()
 
         Nematic = NematicOrder(input_or.snapshots,input_x.snapshots)
+
         t = Nematic.tensor(outputfile='test')
-        
+        np.testing.assert_almost_equal(
+            t[0,:10],
+            np.array([
+                0.99999981,0.99999927,0.99999963,1.00000003,1.00000075,
+                0.99999974,1.00000073,1.00000019,1.00000002,0.99999957
+            ]))
+
         sc = Nematic.spatial_corr()
-        
+        np.testing.assert_almost_equal(
+            (sc["gA"]/sc["gr"])[-10:].values,
+            np.array([
+               0.0040589, 0.0002056, 0.0059644, 0.0016238, 0.0026199,
+               0.0066682, -0.0003822, -0.0021303, 0.0052707, -0.002656
+            ]))
+
         tc = Nematic.time_corr()
-        
-        np.testing.assert_almost_equal(t[0,:10],np.array([0.99999981, 0.99999927, 0.99999963, 1.00000003, 1.00000075,
-                                                          0.99999974, 1.00000073, 1.00000019, 1.00000002, 0.99999957])
-                                       )
-        np.testing.assert_almost_equal((sc["gA"] / sc["gr"])[-10:].values,
-                                       np.array([-0.0022156 , -0.00265594, -0.00152945, -0.00094876, -0.0002543 ,
-                                                 -0.00058289, -0.00043138, -0.00198928, -0.00216833, -0.00235915])
-                                       )
-        np.testing.assert_almost_equal(tc[:10],np.array([[0.00000000e+00, 1.00000000e+00],
-                                                        [1.00000000e+02, 5.33281516e-01],
-                                                        [2.00000000e+02, 4.33875953e-01],
-                                                        [3.00000000e+02, 3.79339545e-01],
-                                                        [4.00000000e+02, 3.44007112e-01],
-                                                        [5.00000000e+02, 3.15871540e-01],
-                                                        [6.00000000e+02, 2.98257213e-01],
-                                                        [7.00000000e+02, 2.81872719e-01],
-                                                        [8.00000000e+02, 2.67315027e-01],
-                                                        [9.00000000e+02, 2.56310122e-01]]))
-        
+        np.testing.assert_almost_equal(
+            tc.values[:, 1],
+            np.array([1.0, 0.50650211, 0.40303197, 0.3336441, 0.28467284]))
+
         os.remove("test.QIJ_raw.npy")
         os.remove("test.Qtrace.npy")
         logger.info(f"Finishing test Nematic using {self.test_file_2d}...")
@@ -71,39 +73,40 @@ class TestNematic(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_2d}...")
         input_x = DumpReader(self.test_file_2d, ndim=2)
         input_x.read_onefile()
-        input_or = DumpReader(self.test_file_2d, ndim=2, filetype=DumpFileType.LAMMPSVECTOR, columnsids=[5,6])
+        input_or = DumpReader(
+            self.test_file_2d,
+            ndim=2,
+            filetype=DumpFileType.LAMMPSVECTOR,
+            columnsids=[5,6]
+        )
         input_or.read_onefile()
         Nnearests(input_x.snapshots,6,np.array([1,1]))
         Nematic = NematicOrder(input_or.snapshots,input_x.snapshots)
-        t = Nematic.tensor(neighborfile="neighborlist.dat",outputfile='test')
-        
-        sc = Nematic.spatial_corr()
-        
-        tc = Nematic.time_corr()
-        
-        np.testing.assert_almost_equal(t[0,:10],np.array([0.57335225, 0.3403988 , 0.63966623, 0.43469572, 0.28913239,
-                                                          0.11301948, 0.53520132, 0.40710082, 0.25573131, 0.29231007])
 
-                                       )
-        np.testing.assert_almost_equal((sc["gA"] / sc["gr"])[-10:].values,
-                                       np.array([-0.0018792 , -0.00264097, -0.00235424, -0.0017951 , -0.00232703,
-                                                 -0.00259306, -0.00286805, -0.00261975, -0.00224098, -0.00233309])
-                                       )
-        np.testing.assert_almost_equal(tc[:10],np.array([[0.00000000e+00, 1.00000000e+00],
-                                                        [1.00000000e+02, 7.29692860e-01],
-                                                        [2.00000000e+02, 6.53624809e-01],
-                                                        [3.00000000e+02, 6.03957602e-01],
-                                                        [4.00000000e+02, 5.68729538e-01],
-                                                        [5.00000000e+02, 5.41106416e-01],
-                                                        [6.00000000e+02, 5.20367864e-01],
-                                                        [7.00000000e+02, 5.03631321e-01],
-                                                        [8.00000000e+02, 4.87210040e-01],
-                                                        [9.00000000e+02, 4.74962864e-01]]))
-        
+        t = Nematic.tensor(neighborfile="neighborlist.dat",outputfile='test')
+        np.testing.assert_almost_equal(
+            t[0,:10],
+            np.array([
+                0.57335225, 0.3403988, 0.63966623, 0.43469572, 0.28913239,
+                0.11301948, 0.53520132, 0.40710082, 0.25573131, 0.29231007
+            ]))
+
+        sc = Nematic.spatial_corr()
+        np.testing.assert_almost_equal(
+            (sc["gA"]/sc["gr"])[-10:].values,
+            np.array([
+            0.00045802,-0.00010462,0.00106089,-0.00066537,0.00048919,
+            0.00088129,0.00048185,0.00164163,0.00181375,-0.00106318
+        ]))
+
+        tc = Nematic.time_corr()
+        np.testing.assert_almost_equal(
+            tc.values[:, 1],
+            np.array([1.0, 0.7083274, 0.61410368, 0.54925373, 0.46704894])
+        )
+
         os.remove("test.QIJ_cg.npy")
         os.remove("test.Qtrace.npy")
         os.remove("neighborlist.dat")
-        
         logger.info(f"Finishing test Nematic using {self.test_file_2d}...")
-        
         
