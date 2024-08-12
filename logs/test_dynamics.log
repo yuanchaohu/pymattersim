@@ -1,0 +1,1149 @@
+2024-08-12 22:31:51,437 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:51,437 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:51,443 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:51,443 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:51,443 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.006654024124145508 seconds
+2024-08-12 22:31:51,443 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:51,443 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:51,450 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:51,450 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:51,450 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.006524085998535156 seconds
+2024-08-12 22:31:51,450 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:51,450 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:51,458 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:51,458 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:51,458 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.00795888900756836 seconds
+2024-08-12 22:31:51,458 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:51,458 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:51,466 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:51,466 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:51,466 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.007752895355224609 seconds
+2024-08-12 22:31:51,466 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:51,466 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:51,473 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:51,473 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:51,473 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.007214069366455078 seconds
+2024-08-12 22:31:51,473 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:51,473 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:51,480 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:51,480 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:51,480 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.007171154022216797 seconds
+2024-08-12 22:31:51,480 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:51,480 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:51,494 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:51,494 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:51,494 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.013431072235107422 seconds
+2024-08-12 22:31:51,494 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:51,494 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:51,507 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:51,507 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:51,507 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.0129852294921875 seconds
+2024-08-12 22:31:51,507 INFO dynamic_test Starting test using ('tests/sample_test_data/2d/2ddump.s.atom',)...
+2024-08-12 22:31:51,507 INFO neighbors.calculate_neighbors Calculate 6 nearest neighbors for a 2-dimensional system
+2024-08-12 22:31:51,885 INFO neighbors.calculate_neighbors 6-nearest neighbors saved to neighborlist.dat
+2024-08-12 22:31:51,886 INFO dynamic.dynamics Calculate slow dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:51,886 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:51,886 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:51,891 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:51,891 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:51,892 INFO static.sq Calculate S(q) for 655 selected atoms
+2024-08-12 22:31:51,901 INFO static.sq Calculate S(q) for 704 selected atoms
+2024-08-12 22:31:51,909 INFO static.sq Calculate S(q) for 707 selected atoms
+2024-08-12 22:31:51,917 INFO static.sq Calculate S(q) for 762 selected atoms
+2024-08-12 22:31:51,926 INFO static.sq Calculate S(q) for 839 selected atoms
+2024-08-12 22:31:51,935 INFO static.sq Calculate S(q) for 788 selected atoms
+2024-08-12 22:31:51,944 INFO static.sq Calculate S(q) for 696 selected atoms
+2024-08-12 22:31:51,953 INFO static.sq Calculate S(q) for 863 selected atoms
+2024-08-12 22:31:51,963 INFO static.sq Calculate S(q) for 778 selected atoms
+2024-08-12 22:31:51,972 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:51,975 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:51,975 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:51,976 INFO static.sq Calculate S(q) for 655 selected atoms
+2024-08-12 22:31:51,983 INFO static.sq Calculate S(q) for 704 selected atoms
+2024-08-12 22:31:51,991 INFO static.sq Calculate S(q) for 707 selected atoms
+2024-08-12 22:31:51,998 INFO static.sq Calculate S(q) for 762 selected atoms
+2024-08-12 22:31:52,007 INFO static.sq Calculate S(q) for 839 selected atoms
+2024-08-12 22:31:52,016 INFO static.sq Calculate S(q) for 788 selected atoms
+2024-08-12 22:31:52,024 INFO static.sq Calculate S(q) for 696 selected atoms
+2024-08-12 22:31:52,032 INFO static.sq Calculate S(q) for 863 selected atoms
+2024-08-12 22:31:52,041 INFO static.sq Calculate S(q) for 778 selected atoms
+2024-08-12 22:31:52,058 INFO dynamic.dynamics Calculate slow dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:52,058 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:52,058 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,059 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,061 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,062 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,063 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,064 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,066 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,067 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,068 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,069 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,071 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:52,380 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:52,380 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:52,387 INFO static.sq Calculate S(q) for 888 selected atoms
+2024-08-12 22:31:52,401 INFO static.sq Calculate S(q) for 912 selected atoms
+2024-08-12 22:31:52,417 INFO static.sq Calculate S(q) for 861 selected atoms
+2024-08-12 22:31:52,431 INFO static.sq Calculate S(q) for 889 selected atoms
+2024-08-12 22:31:52,446 INFO static.sq Calculate S(q) for 919 selected atoms
+2024-08-12 22:31:52,461 INFO static.sq Calculate S(q) for 937 selected atoms
+2024-08-12 22:31:52,477 INFO static.sq Calculate S(q) for 898 selected atoms
+2024-08-12 22:31:52,491 INFO static.sq Calculate S(q) for 930 selected atoms
+2024-08-12 22:31:52,507 INFO static.sq Calculate S(q) for 942 selected atoms
+2024-08-12 22:31:52,517 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:52,742 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:52,742 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:52,748 INFO static.sq Calculate S(q) for 888 selected atoms
+2024-08-12 22:31:52,763 INFO static.sq Calculate S(q) for 912 selected atoms
+2024-08-12 22:31:52,778 INFO static.sq Calculate S(q) for 861 selected atoms
+2024-08-12 22:31:52,792 INFO static.sq Calculate S(q) for 889 selected atoms
+2024-08-12 22:31:52,806 INFO static.sq Calculate S(q) for 919 selected atoms
+2024-08-12 22:31:52,822 INFO static.sq Calculate S(q) for 937 selected atoms
+2024-08-12 22:31:52,837 INFO static.sq Calculate S(q) for 898 selected atoms
+2024-08-12 22:31:52,852 INFO static.sq Calculate S(q) for 930 selected atoms
+2024-08-12 22:31:52,867 INFO static.sq Calculate S(q) for 942 selected atoms
+2024-08-12 22:31:52,879 INFO dynamic.dynamics Calculate fast dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:52,879 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:52,879 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:52,882 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:52,882 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:52,883 INFO static.sq Calculate S(q) for 345 selected atoms
+2024-08-12 22:31:52,887 INFO static.sq Calculate S(q) for 296 selected atoms
+2024-08-12 22:31:52,891 INFO static.sq Calculate S(q) for 293 selected atoms
+2024-08-12 22:31:52,894 INFO static.sq Calculate S(q) for 238 selected atoms
+2024-08-12 22:31:52,897 INFO static.sq Calculate S(q) for 161 selected atoms
+2024-08-12 22:31:52,900 INFO static.sq Calculate S(q) for 212 selected atoms
+2024-08-12 22:31:52,902 INFO static.sq Calculate S(q) for 304 selected atoms
+2024-08-12 22:31:52,906 INFO static.sq Calculate S(q) for 137 selected atoms
+2024-08-12 22:31:52,908 INFO static.sq Calculate S(q) for 222 selected atoms
+2024-08-12 22:31:52,911 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:52,913 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:52,913 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:52,915 INFO static.sq Calculate S(q) for 345 selected atoms
+2024-08-12 22:31:52,919 INFO static.sq Calculate S(q) for 296 selected atoms
+2024-08-12 22:31:52,922 INFO static.sq Calculate S(q) for 293 selected atoms
+2024-08-12 22:31:52,926 INFO static.sq Calculate S(q) for 238 selected atoms
+2024-08-12 22:31:52,929 INFO static.sq Calculate S(q) for 161 selected atoms
+2024-08-12 22:31:52,931 INFO static.sq Calculate S(q) for 212 selected atoms
+2024-08-12 22:31:52,934 INFO static.sq Calculate S(q) for 304 selected atoms
+2024-08-12 22:31:52,937 INFO static.sq Calculate S(q) for 137 selected atoms
+2024-08-12 22:31:52,939 INFO static.sq Calculate S(q) for 222 selected atoms
+2024-08-12 22:31:52,944 INFO dynamic.dynamics Calculate fast dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:52,944 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:52,944 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,945 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,946 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,948 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,949 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,950 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,952 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,953 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,954 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,955 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:52,957 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:53,180 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:53,180 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:53,186 INFO static.sq Calculate S(q) for 112 selected atoms
+2024-08-12 22:31:53,193 INFO static.sq Calculate S(q) for 88 selected atoms
+2024-08-12 22:31:53,200 INFO static.sq Calculate S(q) for 139 selected atoms
+2024-08-12 22:31:53,207 INFO static.sq Calculate S(q) for 111 selected atoms
+2024-08-12 22:31:53,213 INFO static.sq Calculate S(q) for 81 selected atoms
+2024-08-12 22:31:53,219 INFO static.sq Calculate S(q) for 63 selected atoms
+2024-08-12 22:31:53,225 INFO static.sq Calculate S(q) for 102 selected atoms
+2024-08-12 22:31:53,232 INFO static.sq Calculate S(q) for 70 selected atoms
+2024-08-12 22:31:53,238 INFO static.sq Calculate S(q) for 58 selected atoms
+2024-08-12 22:31:53,239 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:53,460 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:53,460 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:53,467 INFO static.sq Calculate S(q) for 112 selected atoms
+2024-08-12 22:31:53,475 INFO static.sq Calculate S(q) for 88 selected atoms
+2024-08-12 22:31:53,483 INFO static.sq Calculate S(q) for 139 selected atoms
+2024-08-12 22:31:53,491 INFO static.sq Calculate S(q) for 111 selected atoms
+2024-08-12 22:31:53,498 INFO static.sq Calculate S(q) for 81 selected atoms
+2024-08-12 22:31:53,505 INFO static.sq Calculate S(q) for 63 selected atoms
+2024-08-12 22:31:53,512 INFO static.sq Calculate S(q) for 102 selected atoms
+2024-08-12 22:31:53,518 INFO static.sq Calculate S(q) for 70 selected atoms
+2024-08-12 22:31:53,525 INFO static.sq Calculate S(q) for 58 selected atoms
+2024-08-12 22:31:53,528 INFO dynamic_test Finishing test Dynamic.relaxation using tests/sample_test_data/2d/2ddump.s.atom...
+.2024-08-12 22:31:53,529 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:53,529 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:53,536 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:53,536 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:53,536 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.00705409049987793 seconds
+2024-08-12 22:31:53,536 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:53,536 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:53,543 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:53,543 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:53,543 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.006659746170043945 seconds
+2024-08-12 22:31:53,543 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:53,543 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:53,551 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:53,551 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:53,551 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.008229732513427734 seconds
+2024-08-12 22:31:53,551 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:53,551 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:53,558 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:53,558 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:53,558 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.007162809371948242 seconds
+2024-08-12 22:31:53,558 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:53,558 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:53,566 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:53,566 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:53,566 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.007893800735473633 seconds
+2024-08-12 22:31:53,566 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:53,566 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:53,574 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:53,574 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:53,574 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.007369041442871094 seconds
+2024-08-12 22:31:53,574 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:53,574 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:53,587 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:53,587 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:53,587 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.013316154479980469 seconds
+2024-08-12 22:31:53,587 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:53,587 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:53,600 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:53,600 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:53,600 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.012985706329345703 seconds
+2024-08-12 22:31:53,600 INFO dynamic_test Starting test using ('tests/sample_test_data/2d/2ddump.s.atom', 'tests/sample_test_data/2d/2ddump.u.atom')...
+2024-08-12 22:31:53,600 INFO neighbors.calculate_neighbors Calculate 6 nearest neighbors for a 2-dimensional system
+2024-08-12 22:31:54,002 INFO neighbors.calculate_neighbors 6-nearest neighbors saved to neighborlist.dat
+2024-08-12 22:31:54,002 INFO dynamic.dynamics Calculate slow dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:54,002 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:31:54,002 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:54,004 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:54,004 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:54,005 INFO static.sq Calculate S(q) for 658 selected atoms
+2024-08-12 22:31:54,013 INFO static.sq Calculate S(q) for 708 selected atoms
+2024-08-12 22:31:54,021 INFO static.sq Calculate S(q) for 710 selected atoms
+2024-08-12 22:31:54,028 INFO static.sq Calculate S(q) for 765 selected atoms
+2024-08-12 22:31:54,037 INFO static.sq Calculate S(q) for 840 selected atoms
+2024-08-12 22:31:54,046 INFO static.sq Calculate S(q) for 789 selected atoms
+2024-08-12 22:31:54,054 INFO static.sq Calculate S(q) for 700 selected atoms
+2024-08-12 22:31:54,062 INFO static.sq Calculate S(q) for 867 selected atoms
+2024-08-12 22:31:54,071 INFO static.sq Calculate S(q) for 783 selected atoms
+2024-08-12 22:31:54,080 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:54,082 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:54,082 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:54,083 INFO static.sq Calculate S(q) for 658 selected atoms
+2024-08-12 22:31:54,090 INFO static.sq Calculate S(q) for 708 selected atoms
+2024-08-12 22:31:54,098 INFO static.sq Calculate S(q) for 710 selected atoms
+2024-08-12 22:31:54,106 INFO static.sq Calculate S(q) for 765 selected atoms
+2024-08-12 22:31:54,115 INFO static.sq Calculate S(q) for 840 selected atoms
+2024-08-12 22:31:54,124 INFO static.sq Calculate S(q) for 789 selected atoms
+2024-08-12 22:31:54,132 INFO static.sq Calculate S(q) for 700 selected atoms
+2024-08-12 22:31:54,139 INFO static.sq Calculate S(q) for 867 selected atoms
+2024-08-12 22:31:54,149 INFO static.sq Calculate S(q) for 783 selected atoms
+2024-08-12 22:31:54,159 INFO dynamic.dynamics Calculate slow dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:54,159 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:31:54,159 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,161 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,162 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,164 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,165 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,166 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,167 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,168 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,170 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,171 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,172 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:54,395 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:54,395 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:54,401 INFO static.sq Calculate S(q) for 902 selected atoms
+2024-08-12 22:31:54,416 INFO static.sq Calculate S(q) for 925 selected atoms
+2024-08-12 22:31:54,430 INFO static.sq Calculate S(q) for 874 selected atoms
+2024-08-12 22:31:54,445 INFO static.sq Calculate S(q) for 895 selected atoms
+2024-08-12 22:31:54,459 INFO static.sq Calculate S(q) for 926 selected atoms
+2024-08-12 22:31:54,474 INFO static.sq Calculate S(q) for 941 selected atoms
+2024-08-12 22:31:54,489 INFO static.sq Calculate S(q) for 917 selected atoms
+2024-08-12 22:31:54,504 INFO static.sq Calculate S(q) for 950 selected atoms
+2024-08-12 22:31:54,519 INFO static.sq Calculate S(q) for 965 selected atoms
+2024-08-12 22:31:54,530 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:54,750 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:54,750 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:54,756 INFO static.sq Calculate S(q) for 902 selected atoms
+2024-08-12 22:31:54,771 INFO static.sq Calculate S(q) for 925 selected atoms
+2024-08-12 22:31:54,785 INFO static.sq Calculate S(q) for 874 selected atoms
+2024-08-12 22:31:54,799 INFO static.sq Calculate S(q) for 895 selected atoms
+2024-08-12 22:31:54,814 INFO static.sq Calculate S(q) for 926 selected atoms
+2024-08-12 22:31:54,828 INFO static.sq Calculate S(q) for 941 selected atoms
+2024-08-12 22:31:54,843 INFO static.sq Calculate S(q) for 917 selected atoms
+2024-08-12 22:31:54,858 INFO static.sq Calculate S(q) for 950 selected atoms
+2024-08-12 22:31:54,874 INFO static.sq Calculate S(q) for 965 selected atoms
+2024-08-12 22:31:54,886 INFO dynamic.dynamics Calculate fast dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:54,886 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:31:54,886 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:54,888 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:54,888 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:54,889 INFO static.sq Calculate S(q) for 342 selected atoms
+2024-08-12 22:31:54,893 INFO static.sq Calculate S(q) for 292 selected atoms
+2024-08-12 22:31:54,897 INFO static.sq Calculate S(q) for 290 selected atoms
+2024-08-12 22:31:54,900 INFO static.sq Calculate S(q) for 235 selected atoms
+2024-08-12 22:31:54,903 INFO static.sq Calculate S(q) for 160 selected atoms
+2024-08-12 22:31:54,905 INFO static.sq Calculate S(q) for 211 selected atoms
+2024-08-12 22:31:54,908 INFO static.sq Calculate S(q) for 300 selected atoms
+2024-08-12 22:31:54,911 INFO static.sq Calculate S(q) for 133 selected atoms
+2024-08-12 22:31:54,913 INFO static.sq Calculate S(q) for 217 selected atoms
+2024-08-12 22:31:54,916 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:54,918 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:54,918 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:54,919 INFO static.sq Calculate S(q) for 342 selected atoms
+2024-08-12 22:31:54,923 INFO static.sq Calculate S(q) for 292 selected atoms
+2024-08-12 22:31:54,927 INFO static.sq Calculate S(q) for 290 selected atoms
+2024-08-12 22:31:54,930 INFO static.sq Calculate S(q) for 235 selected atoms
+2024-08-12 22:31:54,933 INFO static.sq Calculate S(q) for 160 selected atoms
+2024-08-12 22:31:54,935 INFO static.sq Calculate S(q) for 211 selected atoms
+2024-08-12 22:31:54,938 INFO static.sq Calculate S(q) for 300 selected atoms
+2024-08-12 22:31:54,942 INFO static.sq Calculate S(q) for 133 selected atoms
+2024-08-12 22:31:54,944 INFO static.sq Calculate S(q) for 217 selected atoms
+2024-08-12 22:31:54,948 INFO dynamic.dynamics Calculate fast dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:54,948 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:31:54,948 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,949 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,950 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,952 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,953 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,954 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,955 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,957 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,958 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,959 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:54,960 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:55,179 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:55,179 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:55,185 INFO static.sq Calculate S(q) for 98 selected atoms
+2024-08-12 22:31:55,191 INFO static.sq Calculate S(q) for 75 selected atoms
+2024-08-12 22:31:55,197 INFO static.sq Calculate S(q) for 126 selected atoms
+2024-08-12 22:31:55,204 INFO static.sq Calculate S(q) for 105 selected atoms
+2024-08-12 22:31:55,211 INFO static.sq Calculate S(q) for 74 selected atoms
+2024-08-12 22:31:55,217 INFO static.sq Calculate S(q) for 59 selected atoms
+2024-08-12 22:31:55,223 INFO static.sq Calculate S(q) for 83 selected atoms
+2024-08-12 22:31:55,229 INFO static.sq Calculate S(q) for 50 selected atoms
+2024-08-12 22:31:55,235 INFO static.sq Calculate S(q) for 35 selected atoms
+2024-08-12 22:31:55,236 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:55,453 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:55,453 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:55,459 INFO static.sq Calculate S(q) for 98 selected atoms
+2024-08-12 22:31:55,465 INFO static.sq Calculate S(q) for 75 selected atoms
+2024-08-12 22:31:55,471 INFO static.sq Calculate S(q) for 126 selected atoms
+2024-08-12 22:31:55,478 INFO static.sq Calculate S(q) for 105 selected atoms
+2024-08-12 22:31:55,484 INFO static.sq Calculate S(q) for 74 selected atoms
+2024-08-12 22:31:55,491 INFO static.sq Calculate S(q) for 59 selected atoms
+2024-08-12 22:31:55,497 INFO static.sq Calculate S(q) for 83 selected atoms
+2024-08-12 22:31:55,503 INFO static.sq Calculate S(q) for 50 selected atoms
+2024-08-12 22:31:55,509 INFO static.sq Calculate S(q) for 35 selected atoms
+2024-08-12 22:31:55,511 INFO dynamic_test Finishing test Dynamic.relaxation using ('tests/sample_test_data/2d/2ddump.u.atom', 'tests/sample_test_data/2d/2ddump.s.atom')...
+.2024-08-12 22:31:55,511 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:55,511 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:55,518 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:55,518 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:55,518 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.006688833236694336 seconds
+2024-08-12 22:31:55,518 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:55,518 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:55,524 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:55,524 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:55,524 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.00644683837890625 seconds
+2024-08-12 22:31:55,524 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:55,524 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:55,532 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:55,532 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:55,532 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.007636070251464844 seconds
+2024-08-12 22:31:55,532 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:55,532 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:55,540 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:55,540 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:55,540 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.0074388980865478516 seconds
+2024-08-12 22:31:55,540 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:55,540 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:55,547 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:55,547 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:55,547 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.007339954376220703 seconds
+2024-08-12 22:31:55,547 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:55,547 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:55,554 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:55,554 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:55,554 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.007062196731567383 seconds
+2024-08-12 22:31:55,554 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:55,554 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:55,567 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:55,567 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:55,567 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.012998104095458984 seconds
+2024-08-12 22:31:55,567 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:55,567 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:55,580 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:55,580 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:55,580 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.012761116027832031 seconds
+2024-08-12 22:31:55,580 INFO dynamic_test Starting test using tests/sample_test_data/2d/2ddump.u.atom...
+2024-08-12 22:31:55,580 INFO neighbors.calculate_neighbors Calculate 6 nearest neighbors for a 2-dimensional system
+2024-08-12 22:31:55,965 INFO neighbors.calculate_neighbors 6-nearest neighbors saved to neighborlist.dat
+2024-08-12 22:31:55,965 INFO dynamic.dynamics Calculate slow dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:55,965 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:55,965 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:55,967 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:55,967 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:55,968 INFO static.sq Calculate S(q) for 658 selected atoms
+2024-08-12 22:31:55,976 INFO static.sq Calculate S(q) for 708 selected atoms
+2024-08-12 22:31:55,983 INFO static.sq Calculate S(q) for 710 selected atoms
+2024-08-12 22:31:55,991 INFO static.sq Calculate S(q) for 765 selected atoms
+2024-08-12 22:31:55,999 INFO static.sq Calculate S(q) for 840 selected atoms
+2024-08-12 22:31:56,008 INFO static.sq Calculate S(q) for 789 selected atoms
+2024-08-12 22:31:56,017 INFO static.sq Calculate S(q) for 700 selected atoms
+2024-08-12 22:31:56,025 INFO static.sq Calculate S(q) for 867 selected atoms
+2024-08-12 22:31:56,034 INFO static.sq Calculate S(q) for 783 selected atoms
+2024-08-12 22:31:56,042 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:56,044 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:56,044 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:56,045 INFO static.sq Calculate S(q) for 658 selected atoms
+2024-08-12 22:31:56,053 INFO static.sq Calculate S(q) for 708 selected atoms
+2024-08-12 22:31:56,060 INFO static.sq Calculate S(q) for 710 selected atoms
+2024-08-12 22:31:56,068 INFO static.sq Calculate S(q) for 765 selected atoms
+2024-08-12 22:31:56,078 INFO static.sq Calculate S(q) for 840 selected atoms
+2024-08-12 22:31:56,087 INFO static.sq Calculate S(q) for 789 selected atoms
+2024-08-12 22:31:56,096 INFO static.sq Calculate S(q) for 700 selected atoms
+2024-08-12 22:31:56,103 INFO static.sq Calculate S(q) for 867 selected atoms
+2024-08-12 22:31:56,113 INFO static.sq Calculate S(q) for 783 selected atoms
+2024-08-12 22:31:56,123 INFO dynamic.dynamics Calculate slow dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:56,123 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:56,123 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,124 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,125 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,126 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,128 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,129 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,130 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,131 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,133 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,134 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,135 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:56,355 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:56,356 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:56,362 INFO static.sq Calculate S(q) for 902 selected atoms
+2024-08-12 22:31:56,376 INFO static.sq Calculate S(q) for 925 selected atoms
+2024-08-12 22:31:56,391 INFO static.sq Calculate S(q) for 874 selected atoms
+2024-08-12 22:31:56,405 INFO static.sq Calculate S(q) for 895 selected atoms
+2024-08-12 22:31:56,419 INFO static.sq Calculate S(q) for 926 selected atoms
+2024-08-12 22:31:56,434 INFO static.sq Calculate S(q) for 941 selected atoms
+2024-08-12 22:31:56,449 INFO static.sq Calculate S(q) for 917 selected atoms
+2024-08-12 22:31:56,463 INFO static.sq Calculate S(q) for 950 selected atoms
+2024-08-12 22:31:56,478 INFO static.sq Calculate S(q) for 965 selected atoms
+2024-08-12 22:31:56,488 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:56,711 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:56,711 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:56,717 INFO static.sq Calculate S(q) for 902 selected atoms
+2024-08-12 22:31:56,732 INFO static.sq Calculate S(q) for 925 selected atoms
+2024-08-12 22:31:56,746 INFO static.sq Calculate S(q) for 874 selected atoms
+2024-08-12 22:31:56,761 INFO static.sq Calculate S(q) for 895 selected atoms
+2024-08-12 22:31:56,775 INFO static.sq Calculate S(q) for 926 selected atoms
+2024-08-12 22:31:56,789 INFO static.sq Calculate S(q) for 941 selected atoms
+2024-08-12 22:31:56,804 INFO static.sq Calculate S(q) for 917 selected atoms
+2024-08-12 22:31:56,819 INFO static.sq Calculate S(q) for 950 selected atoms
+2024-08-12 22:31:56,833 INFO static.sq Calculate S(q) for 965 selected atoms
+2024-08-12 22:31:56,845 INFO dynamic.dynamics Calculate fast dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:56,845 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:56,845 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:56,847 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:56,847 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:56,848 INFO static.sq Calculate S(q) for 342 selected atoms
+2024-08-12 22:31:56,852 INFO static.sq Calculate S(q) for 292 selected atoms
+2024-08-12 22:31:56,856 INFO static.sq Calculate S(q) for 290 selected atoms
+2024-08-12 22:31:56,859 INFO static.sq Calculate S(q) for 235 selected atoms
+2024-08-12 22:31:56,862 INFO static.sq Calculate S(q) for 160 selected atoms
+2024-08-12 22:31:56,864 INFO static.sq Calculate S(q) for 211 selected atoms
+2024-08-12 22:31:56,867 INFO static.sq Calculate S(q) for 300 selected atoms
+2024-08-12 22:31:56,871 INFO static.sq Calculate S(q) for 133 selected atoms
+2024-08-12 22:31:56,873 INFO static.sq Calculate S(q) for 217 selected atoms
+2024-08-12 22:31:56,876 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:56,877 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:56,877 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:56,879 INFO static.sq Calculate S(q) for 342 selected atoms
+2024-08-12 22:31:56,883 INFO static.sq Calculate S(q) for 292 selected atoms
+2024-08-12 22:31:56,887 INFO static.sq Calculate S(q) for 290 selected atoms
+2024-08-12 22:31:56,891 INFO static.sq Calculate S(q) for 235 selected atoms
+2024-08-12 22:31:56,894 INFO static.sq Calculate S(q) for 160 selected atoms
+2024-08-12 22:31:56,896 INFO static.sq Calculate S(q) for 211 selected atoms
+2024-08-12 22:31:56,899 INFO static.sq Calculate S(q) for 300 selected atoms
+2024-08-12 22:31:56,903 INFO static.sq Calculate S(q) for 133 selected atoms
+2024-08-12 22:31:56,906 INFO static.sq Calculate S(q) for 217 selected atoms
+2024-08-12 22:31:56,910 INFO dynamic.dynamics Calculate fast dynamics [Linear] for a 2-dimensional system
+2024-08-12 22:31:56,910 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:56,911 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,912 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,913 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,914 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,916 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,917 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,918 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,919 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,921 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,922 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:56,923 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:57,143 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:57,143 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:57,150 INFO static.sq Calculate S(q) for 98 selected atoms
+2024-08-12 22:31:57,156 INFO static.sq Calculate S(q) for 75 selected atoms
+2024-08-12 22:31:57,163 INFO static.sq Calculate S(q) for 126 selected atoms
+2024-08-12 22:31:57,169 INFO static.sq Calculate S(q) for 105 selected atoms
+2024-08-12 22:31:57,176 INFO static.sq Calculate S(q) for 74 selected atoms
+2024-08-12 22:31:57,182 INFO static.sq Calculate S(q) for 59 selected atoms
+2024-08-12 22:31:57,188 INFO static.sq Calculate S(q) for 83 selected atoms
+2024-08-12 22:31:57,195 INFO static.sq Calculate S(q) for 50 selected atoms
+2024-08-12 22:31:57,201 INFO static.sq Calculate S(q) for 35 selected atoms
+2024-08-12 22:31:57,202 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:57,423 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:57,423 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:57,429 INFO static.sq Calculate S(q) for 98 selected atoms
+2024-08-12 22:31:57,435 INFO static.sq Calculate S(q) for 75 selected atoms
+2024-08-12 22:31:57,441 INFO static.sq Calculate S(q) for 126 selected atoms
+2024-08-12 22:31:57,448 INFO static.sq Calculate S(q) for 105 selected atoms
+2024-08-12 22:31:57,455 INFO static.sq Calculate S(q) for 74 selected atoms
+2024-08-12 22:31:57,461 INFO static.sq Calculate S(q) for 59 selected atoms
+2024-08-12 22:31:57,467 INFO static.sq Calculate S(q) for 83 selected atoms
+2024-08-12 22:31:57,473 INFO static.sq Calculate S(q) for 50 selected atoms
+2024-08-12 22:31:57,479 INFO static.sq Calculate S(q) for 35 selected atoms
+2024-08-12 22:31:57,482 INFO dynamic_test Finishing test Dynamic.relaxation using tests/sample_test_data/2d/2ddump.u.atom...
+.2024-08-12 22:31:57,482 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,482 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:57,488 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:57,488 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:57,488 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.00677490234375 seconds
+2024-08-12 22:31:57,488 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,488 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:57,495 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:57,495 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:57,495 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.0064029693603515625 seconds
+2024-08-12 22:31:57,495 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,495 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:57,503 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:57,503 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:57,503 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.007703065872192383 seconds
+2024-08-12 22:31:57,503 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,503 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:57,510 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:57,510 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:57,510 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.007344961166381836 seconds
+2024-08-12 22:31:57,510 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,510 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:57,517 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:57,517 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:57,517 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.007133960723876953 seconds
+2024-08-12 22:31:57,517 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,517 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:57,524 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:57,524 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:57,524 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.0068817138671875 seconds
+2024-08-12 22:31:57,524 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,524 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:57,537 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:57,537 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:57,537 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.012608051300048828 seconds
+2024-08-12 22:31:57,537 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,537 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:57,549 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:57,549 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:57,549 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.012639999389648438 seconds
+2024-08-12 22:31:57,549 INFO dynamic_test Starting test using tests/sample_test_data/3d/3dkaljdump.s.atom...
+2024-08-12 22:31:57,549 INFO dynamic.dynamics Calculate slow dynamics [Linear] for a 3-dimensional system
+2024-08-12 22:31:57,549 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:57,550 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:57,553 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:57,553 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:57,556 INFO static.sq Calculate S(q) for 500 selected atoms
+2024-08-12 22:31:57,568 INFO static.sq Calculate S(q) for 587 selected atoms
+2024-08-12 22:31:57,581 INFO static.sq Calculate S(q) for 564 selected atoms
+2024-08-12 22:31:57,593 INFO static.sq Calculate S(q) for 522 selected atoms
+2024-08-12 22:31:57,605 INFO static.sq Calculate S(q) for 583 selected atoms
+2024-08-12 22:31:57,618 INFO static.sq Calculate S(q) for 694 selected atoms
+2024-08-12 22:31:57,633 INFO static.sq Calculate S(q) for 707 selected atoms
+2024-08-12 22:31:57,649 INFO static.sq Calculate S(q) for 705 selected atoms
+2024-08-12 22:31:57,664 INFO static.sq Calculate S(q) for 638 selected atoms
+2024-08-12 22:31:57,678 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:57,681 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:57,681 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:57,685 INFO static.sq Calculate S(q) for 500 selected atoms
+2024-08-12 22:31:57,696 INFO static.sq Calculate S(q) for 587 selected atoms
+2024-08-12 22:31:57,709 INFO static.sq Calculate S(q) for 564 selected atoms
+2024-08-12 22:31:57,721 INFO static.sq Calculate S(q) for 522 selected atoms
+2024-08-12 22:31:57,733 INFO static.sq Calculate S(q) for 583 selected atoms
+2024-08-12 22:31:57,745 INFO static.sq Calculate S(q) for 694 selected atoms
+2024-08-12 22:31:57,760 INFO static.sq Calculate S(q) for 707 selected atoms
+2024-08-12 22:31:57,776 INFO static.sq Calculate S(q) for 705 selected atoms
+2024-08-12 22:31:57,791 INFO static.sq Calculate S(q) for 638 selected atoms
+2024-08-12 22:31:57,806 INFO dynamic.dynamics Calculate fast dynamics [Linear] for a 3-dimensional system
+2024-08-12 22:31:57,806 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:57,806 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:57,809 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:57,809 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:57,812 INFO static.sq Calculate S(q) for 500 selected atoms
+2024-08-12 22:31:57,824 INFO static.sq Calculate S(q) for 413 selected atoms
+2024-08-12 22:31:57,833 INFO static.sq Calculate S(q) for 436 selected atoms
+2024-08-12 22:31:57,842 INFO static.sq Calculate S(q) for 478 selected atoms
+2024-08-12 22:31:57,853 INFO static.sq Calculate S(q) for 417 selected atoms
+2024-08-12 22:31:57,862 INFO static.sq Calculate S(q) for 306 selected atoms
+2024-08-12 22:31:57,869 INFO static.sq Calculate S(q) for 293 selected atoms
+2024-08-12 22:31:57,875 INFO static.sq Calculate S(q) for 295 selected atoms
+2024-08-12 22:31:57,882 INFO static.sq Calculate S(q) for 362 selected atoms
+2024-08-12 22:31:57,890 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:57,893 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:57,893 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:57,897 INFO static.sq Calculate S(q) for 500 selected atoms
+2024-08-12 22:31:57,908 INFO static.sq Calculate S(q) for 413 selected atoms
+2024-08-12 22:31:57,917 INFO static.sq Calculate S(q) for 436 selected atoms
+2024-08-12 22:31:57,926 INFO static.sq Calculate S(q) for 478 selected atoms
+2024-08-12 22:31:57,937 INFO static.sq Calculate S(q) for 417 selected atoms
+2024-08-12 22:31:57,946 INFO static.sq Calculate S(q) for 306 selected atoms
+2024-08-12 22:31:57,953 INFO static.sq Calculate S(q) for 293 selected atoms
+2024-08-12 22:31:57,959 INFO static.sq Calculate S(q) for 295 selected atoms
+2024-08-12 22:31:57,966 INFO static.sq Calculate S(q) for 362 selected atoms
+2024-08-12 22:31:57,977 INFO dynamic_test Finishing test Dynamic.relaxation using tests/sample_test_data/3d/3dkaljdump.s.atom...
+.2024-08-12 22:31:57,977 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,977 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:57,984 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:57,984 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:57,984 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.007277727127075195 seconds
+2024-08-12 22:31:57,984 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,984 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:57,991 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:57,991 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:57,991 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.0069730281829833984 seconds
+2024-08-12 22:31:57,991 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:57,991 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,000 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,000 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,000 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.008205890655517578 seconds
+2024-08-12 22:31:58,000 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,000 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,007 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,007 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,007 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.0077970027923583984 seconds
+2024-08-12 22:31:58,007 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,007 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,015 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,015 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,015 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.0077800750732421875 seconds
+2024-08-12 22:31:58,015 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,015 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,023 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,023 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,023 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.007406711578369141 seconds
+2024-08-12 22:31:58,023 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,023 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,036 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,036 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,036 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.013380050659179688 seconds
+2024-08-12 22:31:58,036 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,036 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,049 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,049 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,049 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.013000965118408203 seconds
+2024-08-12 22:31:58,049 INFO dynamic_test Starting test using ('tests/sample_test_data/3d/3dkaljdump.s.atom', 'tests/sample_test_data/3d/3dkaljdump.u.atom')...
+2024-08-12 22:31:58,049 INFO dynamic.dynamics Calculate slow dynamics [Linear] for a 3-dimensional system
+2024-08-12 22:31:58,049 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:31:58,049 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:58,052 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:58,052 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:58,055 INFO static.sq Calculate S(q) for 506 selected atoms
+2024-08-12 22:31:58,067 INFO static.sq Calculate S(q) for 592 selected atoms
+2024-08-12 22:31:58,080 INFO static.sq Calculate S(q) for 569 selected atoms
+2024-08-12 22:31:58,092 INFO static.sq Calculate S(q) for 524 selected atoms
+2024-08-12 22:31:58,103 INFO static.sq Calculate S(q) for 589 selected atoms
+2024-08-12 22:31:58,116 INFO static.sq Calculate S(q) for 696 selected atoms
+2024-08-12 22:31:58,132 INFO static.sq Calculate S(q) for 713 selected atoms
+2024-08-12 22:31:58,147 INFO static.sq Calculate S(q) for 714 selected atoms
+2024-08-12 22:31:58,162 INFO static.sq Calculate S(q) for 645 selected atoms
+2024-08-12 22:31:58,177 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:58,179 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:58,179 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:58,182 INFO static.sq Calculate S(q) for 506 selected atoms
+2024-08-12 22:31:58,194 INFO static.sq Calculate S(q) for 592 selected atoms
+2024-08-12 22:31:58,207 INFO static.sq Calculate S(q) for 569 selected atoms
+2024-08-12 22:31:58,219 INFO static.sq Calculate S(q) for 524 selected atoms
+2024-08-12 22:31:58,230 INFO static.sq Calculate S(q) for 589 selected atoms
+2024-08-12 22:31:58,243 INFO static.sq Calculate S(q) for 696 selected atoms
+2024-08-12 22:31:58,257 INFO static.sq Calculate S(q) for 713 selected atoms
+2024-08-12 22:31:58,272 INFO static.sq Calculate S(q) for 714 selected atoms
+2024-08-12 22:31:58,286 INFO static.sq Calculate S(q) for 645 selected atoms
+2024-08-12 22:31:58,301 INFO dynamic.dynamics Calculate fast dynamics [Linear] for a 3-dimensional system
+2024-08-12 22:31:58,301 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:31:58,301 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:58,304 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:58,304 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:58,307 INFO static.sq Calculate S(q) for 494 selected atoms
+2024-08-12 22:31:58,318 INFO static.sq Calculate S(q) for 408 selected atoms
+2024-08-12 22:31:58,327 INFO static.sq Calculate S(q) for 431 selected atoms
+2024-08-12 22:31:58,336 INFO static.sq Calculate S(q) for 476 selected atoms
+2024-08-12 22:31:58,347 INFO static.sq Calculate S(q) for 411 selected atoms
+2024-08-12 22:31:58,356 INFO static.sq Calculate S(q) for 304 selected atoms
+2024-08-12 22:31:58,363 INFO static.sq Calculate S(q) for 287 selected atoms
+2024-08-12 22:31:58,369 INFO static.sq Calculate S(q) for 286 selected atoms
+2024-08-12 22:31:58,375 INFO static.sq Calculate S(q) for 355 selected atoms
+2024-08-12 22:31:58,383 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:58,386 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:58,386 INFO dynamic.dynamics Use only xu or x/xs for calculating both dynamics and Sq4
+2024-08-12 22:31:58,389 INFO static.sq Calculate S(q) for 494 selected atoms
+2024-08-12 22:31:58,399 INFO static.sq Calculate S(q) for 408 selected atoms
+2024-08-12 22:31:58,408 INFO static.sq Calculate S(q) for 431 selected atoms
+2024-08-12 22:31:58,417 INFO static.sq Calculate S(q) for 476 selected atoms
+2024-08-12 22:31:58,427 INFO static.sq Calculate S(q) for 411 selected atoms
+2024-08-12 22:31:58,436 INFO static.sq Calculate S(q) for 304 selected atoms
+2024-08-12 22:31:58,443 INFO static.sq Calculate S(q) for 287 selected atoms
+2024-08-12 22:31:58,449 INFO static.sq Calculate S(q) for 286 selected atoms
+2024-08-12 22:31:58,455 INFO static.sq Calculate S(q) for 355 selected atoms
+2024-08-12 22:31:58,464 INFO dynamic_test Finishing test Dynamic.relaxation using ('tests/sample_test_data/3d/3dkaljdump.s.atom', 'tests/sample_test_data/3d/3dkaljdump.u.atom')...
+.2024-08-12 22:31:58,465 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,465 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,472 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,472 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,472 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.006864309310913086 seconds
+2024-08-12 22:31:58,472 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,472 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,478 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,478 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,478 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.006575822830200195 seconds
+2024-08-12 22:31:58,478 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,478 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,486 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,486 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,486 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.007848024368286133 seconds
+2024-08-12 22:31:58,486 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,486 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,494 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,494 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,494 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.007577180862426758 seconds
+2024-08-12 22:31:58,494 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,494 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,501 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,501 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,501 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.0074520111083984375 seconds
+2024-08-12 22:31:58,501 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,501 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,508 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,508 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,508 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.007288932800292969 seconds
+2024-08-12 22:31:58,508 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,508 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,521 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,521 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,521 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.012835979461669922 seconds
+2024-08-12 22:31:58,521 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,521 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,534 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,534 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,534 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.012515068054199219 seconds
+2024-08-12 22:31:58,534 INFO dynamic_test Starting test using tests/sample_test_data/3d/3dkaljdump.u.atom...
+2024-08-12 22:31:58,534 INFO dynamic.dynamics Calculate slow dynamics [Linear] for a 3-dimensional system
+2024-08-12 22:31:58,534 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:58,534 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:58,536 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:58,536 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:58,540 INFO static.sq Calculate S(q) for 506 selected atoms
+2024-08-12 22:31:58,550 INFO static.sq Calculate S(q) for 592 selected atoms
+2024-08-12 22:31:58,563 INFO static.sq Calculate S(q) for 569 selected atoms
+2024-08-12 22:31:58,575 INFO static.sq Calculate S(q) for 524 selected atoms
+2024-08-12 22:31:58,586 INFO static.sq Calculate S(q) for 589 selected atoms
+2024-08-12 22:31:58,598 INFO static.sq Calculate S(q) for 696 selected atoms
+2024-08-12 22:31:58,613 INFO static.sq Calculate S(q) for 713 selected atoms
+2024-08-12 22:31:58,628 INFO static.sq Calculate S(q) for 714 selected atoms
+2024-08-12 22:31:58,642 INFO static.sq Calculate S(q) for 645 selected atoms
+2024-08-12 22:31:58,656 INFO dynamic.dynamics Calculate slow dynamics in linear output
+2024-08-12 22:31:58,658 INFO dynamic.dynamics Calculate S4(q) of slow particles at the time interval 10
+2024-08-12 22:31:58,658 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:58,662 INFO static.sq Calculate S(q) for 506 selected atoms
+2024-08-12 22:31:58,672 INFO static.sq Calculate S(q) for 592 selected atoms
+2024-08-12 22:31:58,685 INFO static.sq Calculate S(q) for 569 selected atoms
+2024-08-12 22:31:58,697 INFO static.sq Calculate S(q) for 524 selected atoms
+2024-08-12 22:31:58,709 INFO static.sq Calculate S(q) for 589 selected atoms
+2024-08-12 22:31:58,722 INFO static.sq Calculate S(q) for 696 selected atoms
+2024-08-12 22:31:58,736 INFO static.sq Calculate S(q) for 713 selected atoms
+2024-08-12 22:31:58,751 INFO static.sq Calculate S(q) for 714 selected atoms
+2024-08-12 22:31:58,766 INFO static.sq Calculate S(q) for 645 selected atoms
+2024-08-12 22:31:58,780 INFO dynamic.dynamics Calculate fast dynamics [Linear] for a 3-dimensional system
+2024-08-12 22:31:58,780 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and dynamical Sq
+2024-08-12 22:31:58,781 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:58,783 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:58,783 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:58,786 INFO static.sq Calculate S(q) for 494 selected atoms
+2024-08-12 22:31:58,796 INFO static.sq Calculate S(q) for 408 selected atoms
+2024-08-12 22:31:58,805 INFO static.sq Calculate S(q) for 431 selected atoms
+2024-08-12 22:31:58,814 INFO static.sq Calculate S(q) for 476 selected atoms
+2024-08-12 22:31:58,825 INFO static.sq Calculate S(q) for 411 selected atoms
+2024-08-12 22:31:58,833 INFO static.sq Calculate S(q) for 304 selected atoms
+2024-08-12 22:31:58,840 INFO static.sq Calculate S(q) for 287 selected atoms
+2024-08-12 22:31:58,846 INFO static.sq Calculate S(q) for 286 selected atoms
+2024-08-12 22:31:58,852 INFO static.sq Calculate S(q) for 355 selected atoms
+2024-08-12 22:31:58,860 INFO dynamic.dynamics Calculate fast dynamics in linear output
+2024-08-12 22:31:58,862 INFO dynamic.dynamics Calculate S4(q) of fast particles at the time interval 10
+2024-08-12 22:31:58,862 INFO dynamic.dynamics Use xu coordinates for dynamics and x/xs coordinates for Sq4
+2024-08-12 22:31:58,866 INFO static.sq Calculate S(q) for 494 selected atoms
+2024-08-12 22:31:58,876 INFO static.sq Calculate S(q) for 408 selected atoms
+2024-08-12 22:31:58,885 INFO static.sq Calculate S(q) for 431 selected atoms
+2024-08-12 22:31:58,894 INFO static.sq Calculate S(q) for 476 selected atoms
+2024-08-12 22:31:58,903 INFO static.sq Calculate S(q) for 411 selected atoms
+2024-08-12 22:31:58,912 INFO static.sq Calculate S(q) for 304 selected atoms
+2024-08-12 22:31:58,919 INFO static.sq Calculate S(q) for 287 selected atoms
+2024-08-12 22:31:58,926 INFO static.sq Calculate S(q) for 286 selected atoms
+2024-08-12 22:31:58,932 INFO static.sq Calculate S(q) for 355 selected atoms
+2024-08-12 22:31:58,941 INFO dynamic_test Finishing test Dynamic.relaxation using tests/sample_test_data/3d/3dkaljdump.u.atom...
+.2024-08-12 22:31:58,941 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,941 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,948 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,948 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,948 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.006649971008300781 seconds
+2024-08-12 22:31:58,948 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,948 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,955 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,955 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,955 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.006815910339355469 seconds
+2024-08-12 22:31:58,955 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,955 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,963 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,963 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,963 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.007897138595581055 seconds
+2024-08-12 22:31:58,963 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,963 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,971 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,971 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,971 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.007898807525634766 seconds
+2024-08-12 22:31:58,971 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,971 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,978 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,978 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,978 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.00750422477722168 seconds
+2024-08-12 22:31:58,978 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,978 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,986 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,986 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,986 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.007322788238525391 seconds
+2024-08-12 22:31:58,986 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,986 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:58,999 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:58,999 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:58,999 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.013026952743530273 seconds
+2024-08-12 22:31:58,999 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:58,999 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:59,011 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:59,011 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:59,011 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.012691974639892578 seconds
+2024-08-12 22:31:59,011 INFO dynamic_test Starting test using tests/sample_test_data/2d/2ddump.log.s.atom...
+2024-08-12 22:31:59,011 INFO neighbors.calculate_neighbors Calculate 6 nearest neighbors for a 2-dimensional system
+2024-08-12 22:31:59,476 INFO neighbors.calculate_neighbors 6-nearest neighbors saved to neighborlist.dat
+2024-08-12 22:31:59,477 INFO dynamic.dynamics Calculate slow dynamics [Log] for a 2-dimensional system
+2024-08-12 22:31:59,477 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:31:59,477 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:31:59,478 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:31:59,480 INFO dynamic.dynamics Calculate slow dynamics [Log] for a 2-dimensional system
+2024-08-12 22:31:59,480 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:31:59,480 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:59,481 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:31:59,537 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:31:59,593 INFO dynamic.dynamics Calculate fast dynamics [Log] for a 2-dimensional system
+2024-08-12 22:31:59,593 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:31:59,593 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:31:59,593 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:31:59,595 INFO dynamic.dynamics Calculate fast dynamics [Log] for a 2-dimensional system
+2024-08-12 22:31:59,595 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:31:59,595 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:31:59,596 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:31:59,651 INFO dynamic_test Finishing test Dynamic.relaxation using tests/sample_test_data/2d/2ddump.log.s.atom...
+.2024-08-12 22:31:59,652 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:59,652 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:59,658 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:59,659 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:59,659 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.006906747817993164 seconds
+2024-08-12 22:31:59,659 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:59,659 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:59,665 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:59,665 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:59,665 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.006662845611572266 seconds
+2024-08-12 22:31:59,665 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:59,665 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:59,673 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:59,673 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:59,673 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.00782322883605957 seconds
+2024-08-12 22:31:59,673 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:59,673 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:59,681 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:59,681 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:59,681 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.007603883743286133 seconds
+2024-08-12 22:31:59,681 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:59,681 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:59,688 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:59,688 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:59,688 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.007447004318237305 seconds
+2024-08-12 22:31:59,688 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:59,688 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:59,696 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:59,696 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:59,696 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.0073697566986083984 seconds
+2024-08-12 22:31:59,696 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:59,696 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:59,709 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:59,709 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:59,709 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.013109207153320312 seconds
+2024-08-12 22:31:59,709 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:31:59,709 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:31:59,721 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:31:59,721 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:31:59,721 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.012747049331665039 seconds
+2024-08-12 22:31:59,721 INFO dynamic_test Starting test using ('tests/sample_test_data/2d/2ddump.log.s.atom', 'tests/sample_test_data/2d/2ddump.log.u.atom')...
+2024-08-12 22:31:59,721 INFO neighbors.calculate_neighbors Calculate 6 nearest neighbors for a 2-dimensional system
+2024-08-12 22:32:00,186 INFO neighbors.calculate_neighbors 6-nearest neighbors saved to neighborlist.dat
+2024-08-12 22:32:00,186 INFO dynamic.dynamics Calculate slow dynamics [Log] for a 2-dimensional system
+2024-08-12 22:32:00,186 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:32:00,186 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:00,187 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:00,188 INFO dynamic.dynamics Calculate slow dynamics [Log] for a 2-dimensional system
+2024-08-12 22:32:00,188 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:32:00,188 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:32:00,190 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:00,244 INFO dynamic.dynamics Calculate fast dynamics [Log] for a 2-dimensional system
+2024-08-12 22:32:00,244 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:32:00,244 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:00,245 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:00,246 INFO dynamic.dynamics Calculate fast dynamics [Log] for a 2-dimensional system
+2024-08-12 22:32:00,246 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:32:00,246 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:32:00,247 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:00,303 INFO dynamic_test Finishing test Dynamic.relaxation using ('tests/sample_test_data/2d/2ddump.log.s.atom', 'tests/sample_test_data/2d/2ddump.log.u.atom')...
+.2024-08-12 22:32:00,304 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,304 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,310 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,310 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,310 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.006785154342651367 seconds
+2024-08-12 22:32:00,310 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,310 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,317 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,317 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,317 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.006639003753662109 seconds
+2024-08-12 22:32:00,317 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,317 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,325 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,325 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,325 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.007971048355102539 seconds
+2024-08-12 22:32:00,325 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,325 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,333 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,333 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,333 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.007669925689697266 seconds
+2024-08-12 22:32:00,333 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,333 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,340 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,340 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,340 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.007542133331298828 seconds
+2024-08-12 22:32:00,340 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,340 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,348 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,348 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,348 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.007313251495361328 seconds
+2024-08-12 22:32:00,348 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,348 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,361 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,361 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,361 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.013358831405639648 seconds
+2024-08-12 22:32:00,361 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,361 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,374 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,374 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,374 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.012814044952392578 seconds
+2024-08-12 22:32:00,374 INFO dynamic_test Starting test using ('tests/sample_test_data/2d/2ddump.log.s.atom', 'tests/sample_test_data/2d/2ddump.log.u.atom')...
+2024-08-12 22:32:00,374 INFO neighbors.calculate_neighbors Calculate 6 nearest neighbors for a 2-dimensional system
+2024-08-12 22:32:00,837 INFO neighbors.calculate_neighbors 6-nearest neighbors saved to neighborlist.dat
+2024-08-12 22:32:00,837 INFO dynamic.dynamics Calculate slow dynamics [Log] for a 2-dimensional system
+2024-08-12 22:32:00,837 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:32:00,837 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:00,838 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:00,839 INFO dynamic.dynamics Calculate slow dynamics [Log] for a 2-dimensional system
+2024-08-12 22:32:00,839 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:32:00,839 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:32:00,841 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:00,896 INFO dynamic.dynamics Calculate fast dynamics [Log] for a 2-dimensional system
+2024-08-12 22:32:00,896 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:32:00,896 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:00,897 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:00,898 INFO dynamic.dynamics Calculate fast dynamics [Log] for a 2-dimensional system
+2024-08-12 22:32:00,898 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:32:00,898 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-12 22:32:00,899 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:00,956 INFO dynamic_test Finishing test Dynamic.relaxation using tests/sample_test_data/2d/2ddump.log.u.atom...
+.2024-08-12 22:32:00,956 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,957 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,964 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,964 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,964 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.007099151611328125 seconds
+2024-08-12 22:32:00,964 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,964 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,970 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,970 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,971 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.0068819522857666016 seconds
+2024-08-12 22:32:00,971 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,971 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,979 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,979 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,979 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.008061885833740234 seconds
+2024-08-12 22:32:00,979 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,979 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,986 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,986 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,986 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.007673025131225586 seconds
+2024-08-12 22:32:00,986 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,986 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:00,994 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:00,994 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:00,994 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.007559776306152344 seconds
+2024-08-12 22:32:00,994 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:00,994 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,001 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,001 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,001 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.007279157638549805 seconds
+2024-08-12 22:32:01,001 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,001 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,014 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,014 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,014 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.013167142868041992 seconds
+2024-08-12 22:32:01,014 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,014 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,027 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,027 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,027 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.012731790542602539 seconds
+2024-08-12 22:32:01,027 INFO dynamic_test Starting test using tests/sample_test_data/3d/3dkaljdump.log.s.atom...
+2024-08-12 22:32:01,027 INFO dynamic.dynamics Calculate slow dynamics [Log] for a 3-dimensional system
+2024-08-12 22:32:01,027 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:32:01,027 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:01,029 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:01,031 INFO dynamic.dynamics Calculate fast dynamics [Log] for a 3-dimensional system
+2024-08-12 22:32:01,031 INFO dynamic.dynamics Use x/xs coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:32:01,031 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:01,032 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:01,034 INFO dynamic_test Finishing test Dynamic.relaxation using tests/sample_test_data/3d/3dkaljdump.log.s.atom...
+.2024-08-12 22:32:01,034 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,034 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,041 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,041 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,041 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.007032871246337891 seconds
+2024-08-12 22:32:01,041 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,041 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,048 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,048 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,048 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.006664276123046875 seconds
+2024-08-12 22:32:01,048 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,048 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,056 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,056 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,056 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.008025884628295898 seconds
+2024-08-12 22:32:01,056 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,056 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,064 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,064 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,064 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.007718086242675781 seconds
+2024-08-12 22:32:01,064 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,064 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,071 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,071 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,071 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.007578134536743164 seconds
+2024-08-12 22:32:01,071 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,071 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,079 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,079 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,079 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.00734400749206543 seconds
+2024-08-12 22:32:01,079 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,079 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,092 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,092 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,092 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.013287067413330078 seconds
+2024-08-12 22:32:01,092 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,092 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,105 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,105 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,105 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.013092279434204102 seconds
+2024-08-12 22:32:01,105 INFO dynamic_test Starting test using ('tests/sample_test_data/3d/3dkaljdump.log.s.atom', 'tests/sample_test_data/3d/3dkaljdump.log.u.atom')...
+2024-08-12 22:32:01,105 INFO dynamic.dynamics Calculate slow dynamics [Log] for a 3-dimensional system
+2024-08-12 22:32:01,105 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:32:01,105 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:01,106 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:01,108 INFO dynamic.dynamics Calculate fast dynamics [Log] for a 3-dimensional system
+2024-08-12 22:32:01,108 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and x/xs for dynamical Sq
+2024-08-12 22:32:01,108 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:01,109 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:01,111 INFO dynamic_test Finishing test Dynamic.relaxation using ('tests/sample_test_data/3d/3dkaljdump.log.u.atom', 'tests/sample_test_data/3d/3dkaljdump.log.s.atom')...
+.2024-08-12 22:32:01,111 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,111 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,118 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,118 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,118 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.007071256637573242 seconds
+2024-08-12 22:32:01,118 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,118 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,125 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,125 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,125 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.u.atom in 0.006751060485839844 seconds
+2024-08-12 22:32:01,125 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,125 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,133 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,133 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,133 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.008094310760498047 seconds
+2024-08-12 22:32:01,133 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,133 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,141 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,141 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,141 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.u.atom in 0.007936954498291016 seconds
+2024-08-12 22:32:01,141 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,141 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,149 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,149 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,149 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.0078067779541015625 seconds
+2024-08-12 22:32:01,149 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,149 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,156 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,156 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,156 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.u.atom in 0.007526874542236328 seconds
+2024-08-12 22:32:01,156 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,156 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,170 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,170 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,170 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.s.atom in 0.013541221618652344 seconds
+2024-08-12 22:32:01,170 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,170 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,184 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,184 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,184 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.log.u.atom in 0.014286279678344727 seconds
+2024-08-12 22:32:01,184 INFO dynamic_test Starting test using tests/sample_test_data/3d/3dkaljdump.log.u.atom...
+2024-08-12 22:32:01,184 INFO dynamic.dynamics Calculate slow dynamics [Log] for a 3-dimensional system
+2024-08-12 22:32:01,184 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:32:01,185 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:01,186 INFO dynamic.dynamics Calculate slow dynamics in log-scale output
+2024-08-12 22:32:01,188 INFO dynamic.dynamics Calculate fast dynamics [Log] for a 3-dimensional system
+2024-08-12 22:32:01,188 INFO dynamic.dynamics Use xu coordinates to calculate dynamics and for dynamical Sq
+2024-08-12 22:32:01,188 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:01,189 INFO dynamic.dynamics Calculate fast dynamics in log-scale output
+2024-08-12 22:32:01,190 INFO dynamic_test Finishing test Dynamic.relaxation using tests/sample_test_data/3d/3dkaljdump.log.u.atom...
+.2024-08-12 22:32:01,190 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,191 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,198 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,198 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,198 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.007200956344604492 seconds
+2024-08-12 22:32:01,198 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-12 22:32:01,198 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+.2024-08-12 22:32:01,198 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.log.s.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,198 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,206 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,206 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,206 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.log.s.atom in 0.008020877838134766 seconds
+2024-08-12 22:32:01,206 INFO dynamic.time_corr Calculate time correlation of input property in log style
+2024-08-12 22:32:01,207 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+.2024-08-12 22:32:01,207 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-12 22:32:01,207 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-12 22:32:01,214 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,214 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-12 22:32:01,214 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007651090621948242 seconds
+2024-08-12 22:32:01,214 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-12 22:32:01,214 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-12 22:32:01,214 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-12 22:32:01,222 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-12 22:32:01,222 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-12 22:32:01,222 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007266044616699219 seconds
+2024-08-12 22:32:01,222 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-12 22:32:01,222 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+.
+----------------------------------------------------------------------
+Ran 15 tests in 9.785s
+
+OK
