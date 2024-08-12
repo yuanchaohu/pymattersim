@@ -8,7 +8,7 @@ from reader.reader_utils import Snapshots, SingleSnapshot
 from neighbors.read_neighbors import read_neighbors
 from dynamic.time_corr import time_correlation
 from utils.pbc import remove_pbc
-from sq import conditional_sq
+from static.sq import conditional_sq
 from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)

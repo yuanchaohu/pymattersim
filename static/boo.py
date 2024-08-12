@@ -448,7 +448,7 @@ class boo_2d:
 
         self.ParticlePhi = self.lthorder(output_phi)
 
-    def lthorder(self, output_phi) -> np.ndarray:
+    def lthorder(self, output_phi:str="") -> np.ndarray:
         """
         Calculate l-th orientational order in 2D, such as hexatic order
 

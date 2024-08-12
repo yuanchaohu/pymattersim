@@ -54,23 +54,23 @@ def time_correlation(
             for n in range(snapshots.nsnapshots):
                 for nn in range(n+1):
                     # sum over particles
-                    results[nn] += (condition[n]*np.conj(condition[n-nn])).sum()
+                    results[nn] += (condition[n]*np.conj(condition[n-nn])).sum().real
                     counts[nn] += 1
             results /= counts
         else:
-            results = (np.conj(condition[0][np.newaxis,:])*condition).sum(axis=1)
+            results = (np.conj(condition[0][np.newaxis,:])*condition).sum(axis=1).real
     elif len(condition.shape)==3:
         # input condition is float or complex-number vector
         if cal_type=="linear":
             for n in range(snapshots.nsnapshots):
                 for nn in range(n+1):
                     # sum over particles and dimensionality, i.e. [x, y, z]
-                    results[nn] += (condition[n]*np.conj(condition[n-nn])).sum()
+                    results[nn] += (condition[n]*np.conj(condition[n-nn])).sum().real
                     counts[nn] += 1
             results /= counts
         else:
             for n in range(snapshots.nsnapshots):
-                results[n] = (condition[n]*np.conj(condition[0])).sum()
+                results[n] = (condition[n]*np.conj(condition[0])).sum().real
     elif len(condition.shape)==4:
         # input condition is float or complex-number tensor
         if cal_type=="linear":
@@ -91,7 +91,7 @@ def time_correlation(
     else:
         raise ValueError("WRONG input condition")
 
-    results = results.real / results[0].real
+    results /= results[0]
     results = np.column_stack(((timesteps - timesteps[0])*dt, results))
     results = pd.DataFrame(results, columns="t time_corr".split())
     if outputfile:
