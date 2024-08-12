@@ -45,11 +45,10 @@ def conditional_sq(
         (FFT in complex number is also returned for reference)
     """
     ndim = snapshot.positions.shape[1]
-    df_qvector = pd.DataFrame(qvector, columns=[f"q{i}" for i in range(ndim)])
-
     sqresults = pd.DataFrame(0, index=range(qvector.shape[0]), columns="q Sq".split())
     twopidl = 2*np.pi / snapshot.boxlength
     qvector = qvector.astype(np.float64) * twopidl[np.newaxis,:]
+    df_qvector = pd.DataFrame(qvector, columns=[f"q{i}" for i in range(ndim)])
     sqresults["q"] = np.linalg.norm(qvector, axis=1)
 
     if condition.dtype=="bool":
@@ -83,6 +82,7 @@ def conditional_sq(
         sqresults["Sq"] = (exp_thetas*np.conj(exp_thetas)).real
         sqresults["FFT"] = exp_thetas
 
+    # TODO @Yibang please test the new float df_qvector in sqresults
     sqresults = df_qvector.join(sqresults)
     # ensemble average over same q but different directions
     sqresults = sqresults.round(8)
@@ -193,7 +193,7 @@ class sq:
                 index=False
             )
         # ensemble average over same q but different directions
-        sqresults = sqresults.round(8)
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -245,7 +245,7 @@ class sq:
                 index=False
             )
         # ensemble average over same q but different directions
-        sqresults = sqresults.round(8)
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -306,7 +306,7 @@ class sq:
                 index=False
             )
         # ensemble average over same q but different directions
-        sqresults = sqresults.round(8)
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -378,7 +378,7 @@ class sq:
                 index=False
             )
         # ensemble average over same q but different directions
-        sqresults = sqresults.round(8)
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)
@@ -464,7 +464,7 @@ class sq:
                 index=False
             )
         # ensemble average over same q but different directions
-        sqresults = sqresults.round(8)
+        sqresults = sqresults.round(6)
         results = sqresults.groupby(sqresults["q"]).mean().reset_index()
         if self.outputfile:
             results.to_csv(self.outputfile, float_format="%.6f", index=False)

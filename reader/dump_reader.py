@@ -6,6 +6,7 @@ from time import time
 from utils.logging import get_logger_handle
 from reader.reader_utils import DumpFileType, Snapshots
 from reader.lammps_reader_helper import read_lammps_wrapper, read_lammps_centertype_wrapper
+from reader.lammps_reader_helper import read_lammps_vector_wrapper
 from reader.gsd_reader_helper import read_gsd_wrapper, read_gsd_dcd_wrapper
 
 logger = get_logger_handle(__name__)
@@ -17,6 +18,7 @@ FILE_TYPE_MAP_READER = {
     DumpFileType.LAMMPSCENTER: read_lammps_centertype_wrapper,
     DumpFileType.GSD: read_gsd_wrapper,
     DumpFileType.GSD_DCD: read_gsd_dcd_wrapper,
+    DumpFileType.LAMMPSVECTOR: read_lammps_vector_wrapper,
 }
 
 
@@ -43,6 +45,10 @@ class DumpReader:
     4. filetype=DumpFileType.GSD_DCD
         dyanmic properties in Hoomd-blue, both gsd and dcd files, by calling 
         reader.gsd_reader_helper.read_gsd_dcd_wrapper
+
+    5. filetype=DumpFileType.LAMMPSVECTOR
+        additional column(s) information from lammps configuration
+        reader.lammps_reader_helper.read_lammps_vector_wrapper 
 
     Example:
         from reader.dump_reader import DumpReader
@@ -87,7 +93,8 @@ class DumpReader:
             filename: str,
             ndim: int,
             filetype: DumpFileType=DumpFileType.LAMMPS,
-            moltypes: dict=None) -> None:
+            moltypes: dict=None,
+            columnsids: list=None) -> None:
         """
         Inputs:
             1. filename (str): the name of dump file
@@ -101,6 +108,7 @@ class DumpReader:
                     2. DumpFileType.LAMMPSCENTER
                     3. DumpFileType.GSD
                     4. DumpFileType.GSD_DCD
+                    5. DumpFileType.LAMMPSVECTOR
             
             4. moltypes (dict, optional): only used for molecular system in LAMMPS, default is None. 
                To specify, for example, if the system has 5 types of atoms in which 1-3 is 
@@ -108,6 +116,9 @@ class DumpReader:
                Then moltypes should be {3:1, 5:2}. The keys ([3, 5]) of the dict (moltypes) 
                are used to select specific atoms to present the corresponding molecules.
                The values ([1, 2]) is used to record the type of molecules.
+
+            5. columnsids (list of int, optional): column id for additional information, 
+                for example, [5, 6] for "vx vy" from "id type x y vx vy"
 
         Return:
             list of snapshot that has all of the configuration information
@@ -118,6 +129,7 @@ class DumpReader:
         self.ndim = ndim
         self.filetype = filetype
         self.moltypes = moltypes
+        self.columnsids = columnsids
         self.snapshots: Snapshots = None
 
     def read_onefile(self):
@@ -130,6 +142,8 @@ class DumpReader:
                 snapshot.nparticle:        particle number from each snapshot
                 snapshot.particle_type:    particle type in array in each snapshot
                 snapshot.positions:        particle coordinates in array in each snapshot
+                                           can be additional column information when 
+                                           self.columnids is activated
                 snapshot.boxlength:        box length in array in each snapshot
                 snapshot.boxbounds:        box boundaries in array in each snapshot
                 snapshot.realbounds:       real box bounds of a triclinic box
@@ -149,6 +163,9 @@ class DumpReader:
 
         if self.filetype == DumpFileType.LAMMPSCENTER:
             reader_inputs["moltypes"] = self.moltypes
+
+        if self.filetype == DumpFileType.LAMMPSVECTOR:
+            reader_inputs["columnsids"] = self.columnsids
 
         t0 = time()
         self.snapshots = FILE_TYPE_MAP_READER[self.filetype](**reader_inputs)

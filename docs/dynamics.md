@@ -272,3 +272,33 @@ condition=(input_xu.snapshots.snapshots[0].particle_type==1)
 
 result = dynamic.relaxation(qconst=2*np.pi, condition=condition, outputfile="")
 ```
+
+
+## 3. `time_correlation()`
+
+Calculate the time correlation of the input property given by condition
+
+There are three cases considered, given by the shape of condition:
+1. condition is float scalar type, for example, density
+2. condition is float vector type, for example, velocity
+3. condition is float tensor type, for example, nematic order
+
+#### Input:
+- `snapshots` (`read.reader_utils.snapshots`): multiple trajectories dumped linearly or in logscale
+- `condition` (`np.ndarray`): particle-level condition / property, type should be float
+                            shape: `[num_of_snapshots, num_of_particles, xxx]`
+- `dt` (`float`): time step of input snapshots, default 0.002
+- `outputfile` (`str`): output file name, default "" (None)
+    
+#### Return:
+- calculated time-correlation information in pandas dataframe
+
+#### Example:
+```python
+#example for random scalar condition
+from dynamic.time_corr import time_correlation
+readdump = DumpReader(test_file, ndim=2)
+readdump.read_onefile()
+condition = np.random.rand(readdump.snapshots.nsnapshots, readdump.snapshots.snapshots[0].positions)
+tc = time_correlation(readdump.snapshots,condition)
+```

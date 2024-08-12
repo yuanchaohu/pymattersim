@@ -17,7 +17,7 @@ def packing_capability_2d(
         sigmas: np.ndarray,
         neighborfile: str,
         ppp: np.ndarray=np.array([1,1]),
-        outputfile: str=None
+        outputfile: str="",
 ) -> np.ndarray:
     """
     Calculate packing capability of a 2D system based on geometry
@@ -31,9 +31,6 @@ def packing_capability_2d(
         4. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no, 
                              default np.ndarray=np.array([1,1])
         5. outputfile (str): file name to save the calculated packing capability, default None
-                             To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
-                             If the file extension is ".dat" or ".txt", also saved a text file.
-
 
     Return:
         Calculated packing capability of a 2D system
@@ -79,17 +76,12 @@ def packing_capability_2d(
 
     if outputfile:
         np.save(outputfile, results)
-        if outputfile.endswith('.dat') or outputfile.endswith('.txt'):
-            np.savetxt(outputfile, results, fmt='%.6f', header="", comments="")
-        else:
-            logger.info('The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
-    logger.info("Finish calculating packing capability of a 2D system")
     return results
 
 def q8_tetrahedral(
     snapshots: Snapshots,
     ppp: np.ndarray=np.array([1,1,1]),
-    outputfile: str=None
+    outputfile: str="",
 ) -> np.ndarray:
     """
     Calculate local tetrahedral order of the simulation system,
@@ -135,9 +127,4 @@ def q8_tetrahedral(
     results = 1.0 - 3.0/8*results/num_nearest
     if outputfile:
         np.save(outputfile, results)
-        if outputfile.endswith('.dat') or outputfile.endswith('.txt'):
-            np.savetxt(outputfile, results, fmt='%.6f', header="", comments="")
-        else:
-            logger.info('The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
-    logger.info("Finish calculating local tetrahedral order of the input system")
     return results

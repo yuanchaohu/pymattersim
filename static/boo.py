@@ -18,7 +18,7 @@ from utils.spherical_harmonics import sph_harm_l
 from utils.pbc import remove_pbc
 from utils.logging import get_logger_handle
 from utils.funcs import Wignerindex
-from utils.coarse_graining import time_average
+from utils.coarse_graining import time_average as utils_time_average
 from dynamic.time_corr import time_correlation
 
 logger = get_logger_handle(__name__)
@@ -317,7 +317,7 @@ class boo_3d:
         self,
         coarse_graining: bool=False,
         rdelta: float=0.01,
-        outputfile: str=None
+        outputfile: str="",
     ) -> pd.DataFrame:
         """
         Calculate spatial correlation function of qlm or Qlm
@@ -358,7 +358,7 @@ class boo_3d:
         self,
         coarse_graining: bool=False,
         dt: float=0.002,
-        outputfile: str=None
+        outputfile: str="",
     ) -> pd.DataFrame:
         """Calculate time correlation of qlm or Qlm
 
@@ -389,7 +389,7 @@ class boo_3d:
         gl_time["time_corr"] *= 4*np.pi/(2*self.l+1)
         gl_time["time_corr"] /= gl_time.loc[0, "time_corr"]
         if outputfile:
-            gl_time.to_csv(outputfile, float_format="%.6f", index=False)
+            gl_time.to_csv(outputfile, float_format="%.8f", index=False)
         return gl_time
 
 
@@ -402,13 +402,14 @@ class boo_2d:
     """
 
     def __init__(
-            self,
-            snapshots: Snapshots,
-            l: int,
-            neighborfile: str,
-            weightsfile: str=None,
-            ppp: np.ndarray=np.array([1,1]),
-            Nmax: int=10
+        self,
+        snapshots: Snapshots,
+        l: int,
+        neighborfile: str,
+        weightsfile: str="",
+        ppp: np.ndarray=np.array([1,1]),
+        Nmax: int=10,
+        output_phi: str="output_phi.npy",
     ) -> None:
         """
         Initializing class for BOO2D
@@ -424,6 +425,7 @@ class boo_2d:
             5. ppp (np.ndarray): the periodic boundary conditions,
                                  setting 1 for yes and 0 for no, default np.array([1,1])
             7. Nmax (int): maximum number for neighbors, default 10
+            8. output_phi (str): output file name of the original order parameter in complex number
 
         Return:
             None
@@ -444,14 +446,14 @@ class boo_2d:
             {tuple(snapshot.boxlength) for snapshot in self.snapshots.snapshots}
         ) == 1, "Simulation box length changes during simulation"
 
-        self.ParticlePhi = self.lthorder()
+        self.ParticlePhi = self.lthorder(output_phi)
 
-    def lthorder(self) -> np.ndarray:
+    def lthorder(self, output_phi:str="") -> np.ndarray:
         """
         Calculate l-th orientational order in 2D, such as hexatic order
 
         Inputs:
-            None
+            output_phi (str): output file name of the original order parameter in complex number
 
         Return:
             Calculated l-th order in complex number (np.ndarray)
@@ -488,14 +490,16 @@ class boo_2d:
         fneighbor.close()
         if self.weightsfile:
             fweights.close()
+        if output_phi:
+            np.save(output_phi, results)
         return results
 
     def time_average(
         self,
-        time_period: float=None,
+        time_period: float,
         dt: float=0.002,
         average_complex: bool=True,
-        outputfile: str=None
+        outputfile: str=""
     )->Tuple[np.ndarray, np.ndarray]:
         """
         calculate the particle-level phi considering time average of the order parameter if time_period not None
@@ -511,48 +515,45 @@ class boo_2d:
             2. average_quantity (np.ndarray): time averaged phi results if time_period not None
             3. average_snapshot_id (np.ndarray): middle snapshot number between time periods if time_period not None
         """
-        # time average
-        if time_period:
-            logger.info("Calculate modulus and phase of time averaged order parameter")
-            if average_complex:
-                average_quantity, average_snapshot_id = time_average(
-                    snapshots=self.snapshots,
-                    input_property=self.ParticlePhi,
-                    time_period=time_period,
-                    dt=dt
-                )
-            else:
-                average_modulus, average_snapshot_id = time_average(
-                    snapshots=self.snapshots,
-                    input_property=np.abs(self.ParticlePhi),
-                    time_period=time_period,
-                    dt=dt
-                )
-                average_phase, average_snapshot_id = time_average(
-                    snapshots=self.snapshots,
-                    input_property=np.angle(self.ParticlePhi),
-                    time_period=time_period,
-                    dt=dt
-                )
-                average_quantity = average_modulus.real * np.exp(1j * average_phase.real)
+        assert time_period>0, "time_period must be greater than 0"
 
-            if outputfile:
-                np.save(outputfile, average_quantity)
-                np.savetxt(
-                    outputfile+"_snapshot_id.dat",
-                    average_snapshot_id[:, np.newaxis],
-                    fmt="%d", header="middle_snapshot_id", comments="")
-            return average_quantity, average_snapshot_id
-        # original
-        logger.info("Calculate orignal modulus and phase of the order parameter")
+        logger.info(f"Time average over t={time_period} for BOO 2D order parameter")
+        if average_complex:
+            # average data in complex form, modulus & phase together
+            average_quantity, average_snapshot_id = utils_time_average(
+                snapshots=self.snapshots,
+                input_property=self.ParticlePhi,
+                time_period=time_period,
+                dt=dt
+            )
+        else:
+            # average data for modulus and phase separately
+            average_modulus, average_snapshot_id = utils_time_average(
+                snapshots=self.snapshots,
+                input_property=np.abs(self.ParticlePhi),
+                time_period=time_period,
+                dt=dt
+            )
+            average_phase, average_snapshot_id = utils_time_average(
+                snapshots=self.snapshots,
+                input_property=np.angle(self.ParticlePhi),
+                time_period=time_period,
+                dt=dt
+            )
+            average_quantity = average_modulus.real * np.exp(1j*average_phase.real)
+
         if outputfile:
-            np.save(outputfile, self.ParticlePhi)
-        return self.ParticlePhi
+            np.save(outputfile, average_quantity)
+            np.savetxt(
+                outputfile+".snapshot_id.dat",
+                average_snapshot_id[:, np.newaxis],
+                fmt="%d", header="middle_snapshot_id", comments="")
+        return average_quantity, average_snapshot_id
 
     def spatial_corr(
         self,
         rdelta: float=0.01,
-        outputfile: str=None
+        outputfile: str="",
     ) -> pd.DataFrame:
         """
         Calculate spatial correlation of the orientational order parameter
@@ -565,7 +566,6 @@ class boo_2d:
             calculated gl(r) based on phi
         """
         logger.info(f'Start calculating spatial correlation of phi for l={self.l}')
-
         glresults = 0
         for n, snapshot in enumerate(self.snapshots.snapshots):
             glresults += conditional_gr(
@@ -578,14 +578,12 @@ class boo_2d:
         glresults /= self.snapshots.nsnapshots
         if outputfile:
             glresults.to_csv(outputfile, float_format="%.8f", index=False)
-
-        logger.info(f'Finish calculating spatial correlation of phi for l={self.l}')
         return glresults
 
     def time_corr(
         self,
         dt: float=0.002,
-        outputfile: str=None
+        outputfile: str="",
     ) -> pd.DataFrame:
         """
         Calculate time correlation of the orientational order parameter
@@ -598,15 +596,10 @@ class boo_2d:
             time correlation quantity (pd.DataFrame)
         """
         logger.info(f'Start calculating time correlation of phi for l={self.l}')
-
         gl_time = time_correlation(
             snapshots=self.snapshots,
             condition=self.ParticlePhi,
-            dt=dt
+            dt=dt,
+            outputfile=outputfile
         )
-
-        # normalization
-        gl_time["time_corr"] /= gl_time.loc[0, "time_corr"]
-        if outputfile:
-            gl_time.to_csv(outputfile, float_format="%.6f", index=False)
         return gl_time
