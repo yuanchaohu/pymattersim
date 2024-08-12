@@ -20,7 +20,7 @@ class TestBOO(unittest.TestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_file_2D = f"{READ_TEST_FILE_PATH}/hexatic_2d.atom"
+        self.test_file_2D = f"{READ_TEST_FILE_PATH}/2d/2ddump.s.atom"
         self.test_file_3D = f"{READ_TEST_FILE_PATH}/test_additional_columns.dump"
 
     def test_boo_2d(self) -> None:
@@ -34,66 +34,56 @@ class TestBOO(unittest.TestCase):
 
         logger.info(f"Starting test boo_2d without weight using {self.test_file_2D}...")
         boo2d = boo_2d(readdump.snapshots, l=6, neighborfile='test.neighbor.dat')
-        lthorder_results = boo2d.lthorder()
-        average_quantity = boo2d.time_average(time_period=660000*0.002, dt=0.002)[0]
+        boo2d.lthorder()
+        average_quantity = boo2d.time_average(
+            time_period=12000*0.002,
+            dt=0.002,
+            average_complex=False
+        )[0]
         modulus = np.abs(average_quantity)
         spatial_corr_results = boo2d.spatial_corr()
         time_corr_results = boo2d.time_corr()
 
-        np.testing.assert_almost_equal([0.69947961, 0.6969084 , 0.69441761, 0.76109834, 0.74629209,
-        0.70049008, 0.74671562, 0.75135344, 0.76481242],
-        modulus[:, 0])
+        np.testing.assert_almost_equal([0.7600972, 0.45321275, 0.54769806, 0.61331616,
+            0.29276934, 0.34152073, 0.45443368, 0.52252638], modulus[:, 0])
 
-        np.testing.assert_almost_equal([np.nan, 0.56670746, 0.36672688, 0.1938731 , 0.10320944,
-            0.087699  , 0.09985958, 0.09326232, 0.0689976 , 0.05082657,
-            0.03889479, 0.03648945, 0.0343499 , 0.03599062, 0.037125  ,
-            0.0373614 , 0.03475584, 0.03160274, 0.02594629, 0.02284097,
-            0.02053917, 0.0194789 , 0.01554604, 0.01309105, 0.00973456,
-            0.00956214, 0.00743327, 0.00705371, 0.003614  , 0.00269637,
-            0.00160695, 0.00155615, 0.00537621, 0.00550019, 0.00603868,
-            0.00401431, 0.00608884, 0.00637763, 0.00471456, 0.00435431,
-            0.00376412, 0.00378589, 0.00342887, 0.00263142, 0.00370149,
-            0.00393035, 0.00574002],
-        (spatial_corr_results["gA"] / spatial_corr_results["gr"]).values[::100])
+        np.testing.assert_almost_equal([np.nan, 0.01449476, -0.01748584, 0.00497529, 0.0020236,
+        0.00815036, 0.00842069, 0.00435055],
+        (spatial_corr_results["gA"] / spatial_corr_results["gr"]).values[::200])
 
-        np.testing.assert_almost_equal([1., 0.78194936, 0.75952363, 0.74369314, 0.73077536,
-        0.72182454, 0.71635653, 0.70608569, 0.69985683, 0.69443874,
-        0.69166825, 0.68703406, 0.68054946, 0.67530054, 0.67100154,
-        0.66762826, 0.65914944, 0.6607412 , 0.65103986, 0.64090311, 0.62985627],
+        np.testing.assert_almost_equal([1., 0.54684874, 0.46090936, 0.40649116, 0.34239682,
+        0.29105545, 0.2643266, 0.211893, 0.16744193, 0.14603285],
         time_corr_results["time_corr"].values)
         logger.info(f"Finishing test boo_2d without weight using {self.test_file_2D}...")
 
         logger.info(f"Starting test boo_2d with weight using {self.test_file_2D}...")
-        boo2d = boo_2d(readdump.snapshots, l=6, neighborfile='test.neighbor.dat', weightsfile='test.edgelength.dat')
-        lthorder_results = boo2d.lthorder()
-        average_quantity = boo2d.time_average(time_period=660000*0.002, dt=0.002)[0]
+        boo2d = boo_2d(
+            readdump.snapshots,
+            l=6,
+            neighborfile='test.neighbor.dat',
+            weightsfile='test.edgelength.dat'
+        )
+        boo2d.lthorder()
+        average_quantity = boo2d.time_average(
+            time_period=12000*0.002,
+            dt=0.002,
+            average_complex=False
+        )[0]
         modulus = np.abs(average_quantity)
         spatial_corr_results = boo2d.spatial_corr()
         time_corr_results = boo2d.time_corr()
 
-        np.testing.assert_almost_equal([0.67306379, 0.67062055, 0.66655196, 0.73409457, 0.71626877,
-        0.6627454 , 0.71199943, 0.71366493, 0.7271525],
-        modulus[:, 0])
+        np.testing.assert_almost_equal([0.71827345,0.43844028,0.55639298,0.59800655,0.29661671,
+            0.33365584,0.43105367,0.43547185], modulus[:, 0])
 
-        np.testing.assert_almost_equal([np.nan, 0.56057468, 0.35892754, 0.18866238, 0.10018089,
-        0.08540145, 0.09734947, 0.09094341, 0.06731162, 0.04934658,
-        0.03792221, 0.0356162 , 0.03358274, 0.03522842, 0.03601499,
-        0.03644124, 0.03415839, 0.03086166, 0.02562946, 0.02267141,
-        0.02018834, 0.01895034, 0.01521761, 0.0127406 , 0.00935657,
-        0.0091015 , 0.00726615, 0.0068239 , 0.00361671, 0.00270346,
-        0.00171358, 0.00143922, 0.00534774, 0.00550025, 0.00604576,
-        0.00402913, 0.00598945, 0.00629252, 0.0046495 , 0.00436336,
-        0.0037118 , 0.0036971 , 0.00333052, 0.00254383, 0.00357564,
-        0.00377241, 0.00559918],
-        (spatial_corr_results["gA"] / spatial_corr_results["gr"]).values[::100])
+        np.testing.assert_almost_equal([np.nan, 0.013034,-0.01836656,0.00384457,0.00233856,
+        0.00780522,0.00840458,0.00359436],
+        (spatial_corr_results["gA"] / spatial_corr_results["gr"]).values[::200])
 
-        np.testing.assert_almost_equal([1., 0.77872807, 0.7563436 , 0.74073518, 0.72795521,
-        0.71900022, 0.71355796, 0.70347034, 0.69705656, 0.69192351,
-        0.68919953, 0.68452732, 0.67802516, 0.67316462, 0.66884567,
-        0.66501813, 0.65668504, 0.6583988, 0.64923752, 0.6389174, 0.62720087],
+        np.testing.assert_almost_equal([1., 0.54136574,0.45428546,0.39985094,0.33754559,
+        0.28445635,0.25830844,0.21076049,0.16584196,0.14278943],
         time_corr_results["time_corr"].values)
         logger.info(f"Finishing test boo_2d with weight using {self.test_file_2D}...")
-
 
     def test_boo_3d(self) -> None:
         """
@@ -112,17 +102,20 @@ class TestBOO(unittest.TestCase):
         spatial_corr = boo3d.spatial_corr(coarse_graining=False)
         time_corr = boo3d.time_corr(coarse_graining=False)
 
-        np.testing.assert_almost_equal([0.43227061, 0.18069028, 0.23708262, 0.2618971 , 0.23624358,
+        np.testing.assert_almost_equal([
+        0.43227061, 0.18069028, 0.23708262, 0.2618971 , 0.23624358,
         0.27478991, 0.44182122, 0.27323332, 0.27575202, 0.32819106,
         0.28877676, 0.32336161, 0.26660538, 0.31879222, 0.55303859,
         0.30757982, 0.18104789, 0.27169199, 0.28589434, 0.23295691,
         0.30206928, 0.29461928, 0.33530106, 0.17097392, 0.35306389,
         0.2194112 , 0.32827385, 0.34786644, 0.38473285, 0.20309584,
         0.33917366, 0.29470184, 0.27552243, 0.43496167, 0.23331706,
-        0.3508551 , 0.22890008, 0.35777388, 0.29653879, 0.35256505, 0.2230523],
+        0.3508551 , 0.22890008, 0.35777388, 0.29653879, 0.35256505,
+        0.2230523],
         ql[0, ::200])
 
-        np.testing.assert_almost_equal([0.00169547, -0.21999767,  0.65833819,  0.3530955 , -0.33517334,
+        np.testing.assert_almost_equal([
+        0.00169547, -0.21999767, 0.65833819, 0.3530955, -0.33517334,
         0.68435889,  0.30768949, -0.13527076,  0.33147907,  0.01519173,
        -0.39238554,  0.33193493,  0.20613125,  0.32522613,  0.21002388,
         0.33825666, -0.05798512,  0.28935847,  0.21305366, -0.0245117 ,
@@ -133,7 +126,8 @@ class TestBOO(unittest.TestCase):
         0.0892698],
         sij_ql[0][:, 2][::200])
 
-        np.testing.assert_almost_equal([-6.80722626e-03, -2.88831867e-05,  1.47122861e-04, -4.64774798e-04,
+        np.testing.assert_almost_equal([
+        -6.80722626e-03, -2.88831867e-05, 1.47122861e-04, -4.64774798e-04,
        -5.19573143e-04, -4.43810406e-04, -6.54182642e-03, -5.26617532e-04,
        -1.19830030e-03, -9.82009095e-04, -1.94379484e-03,  4.17253249e-04,
        -2.09158239e-04, -1.74024018e-03, -2.50606781e-02,  1.64887930e-03,
@@ -160,14 +154,20 @@ class TestBOO(unittest.TestCase):
 
 
         logger.info(f"Starting test boo_3d with weight and cg using {self.test_file_3D}...")
-        boo3d = boo_3d(readdump.snapshots, l=6, neighborfile='test.neighbor.dat', weightsfile='test.facearea.dat')
+        boo3d = boo_3d(
+            readdump.snapshots,
+            l=6,
+            neighborfile='test.neighbor.dat',
+            weightsfile='test.facearea.dat'
+        )
         ql = boo3d.ql_Ql(coarse_graining=True)
         sij_ql = boo3d.sij_ql_Ql(coarse_graining=True)
         w_cap = boo3d.w_W_cap(coarse_graining=True)
         spatial_corr = boo3d.spatial_corr(coarse_graining=True)
         time_corr = boo3d.time_corr(coarse_graining=True)
 
-        np.testing.assert_almost_equal([0.1332692 , 0.11445406, 0.14497341, 0.11440318, 0.14618663,
+        np.testing.assert_almost_equal([
+        0.1332692 , 0.11445406, 0.14497341, 0.11440318, 0.14618663,
         0.12408545, 0.16568628, 0.12062814, 0.18530042, 0.10790806,
         0.17858977, 0.14394689, 0.13878829, 0.10487729, 0.18884249,
         0.13868595, 0.15597141, 0.11172827, 0.10321681, 0.11282331,
@@ -178,7 +178,8 @@ class TestBOO(unittest.TestCase):
         0.14949572],
         ql[0, ::200])
 
-        np.testing.assert_almost_equal([0.93825674, 0.67991626, 0.79569107, 0.80296838, 0.67566144,
+        np.testing.assert_almost_equal([
+        0.93825674, 0.67991626, 0.79569107, 0.80296838, 0.67566144,
         0.37462878, 0.84344888, 0.2258824 , 0.67704016, 0.65985495,
         0.69218916, 0.53932601, 0.58289444, 0.50239587, 0.61709851,
         0.42270994, 0.82060504, 0.46258748, 0.84134471, 0.60550421,
@@ -189,7 +190,8 @@ class TestBOO(unittest.TestCase):
         0.76986873],
         sij_ql[0][:, 2][::200])
 
-        np.testing.assert_almost_equal([3.41472390e-05,  8.25167565e-06,  7.22615304e-05, -9.77617691e-05,
+        np.testing.assert_almost_equal([
+        3.41472390e-05,  8.25167565e-06,  7.22615304e-05, -9.77617691e-05,
        -4.03883043e-05,  5.59739702e-05, -8.14475186e-06,  5.55019418e-05,
        -2.10768125e-04,  8.62946935e-05, -2.93891601e-04,  4.78454588e-05,
         1.28529160e-04,  6.90560459e-05, -1.31313381e-04, -1.53222299e-04,
