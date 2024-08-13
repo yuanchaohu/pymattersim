@@ -178,9 +178,15 @@ This module calculates calculate gyration tensor of a cluster of atoms. This mod
 
 ### Example
 ``` python
+import numpy as np
+from reader.dump_reader import DumpReader
 from static.shape import gyration_tensor
 
-gyration_tensor(cluster_positions)
+test_file = "test.atom"
+input_v = DumpReader(test_file, ndim=2)
+input_v.read_onefile()
+
+gt = gyration_tensor(input_v.snapshots.snapshots[0].positions)
 ```
 
 # 5. Nematic order
