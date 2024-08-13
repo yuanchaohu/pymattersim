@@ -273,3 +273,42 @@ from utils.coarse_graining import time_average
 
 time_average(snapshots, input_property, time_period, dt)
 ```
+
+## 2. `gaussian_blurring()`
+Project input properties into a grid made from the simulation box. Basically, the calculation is to define a grid based on the simulation box, and then project the particle-level property to the grids based on the gaussian distribution function:
+$$
+p(\vec{r_j}) = \sum_i \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left(-\frac{(\vec{r_j}-\vec{r}_i)^2}{2\sigma^2}\right) p_i,
+$$
+in which $\vec{r_j}$ is the position of the $j_{th}$ grid, and $\vec{r_i}$ is the position of the $i_{th}$ particle. $p_i$ is the particle-level property of the $i_{th}$ particle, which can be a scalar, vector or tensor.
+
+### Input Arguments
+- `snapshots` (`read.reader_utils.snapshots)`: multiple trajectories dumped linearly or in logscale
+- `condition` (`np.ndarray`): particle-level condition / property, type should be float, shape: [num_of_snapshots, num_of_particles, xxx], The input property can be scalar or vector or tensor, based on the shape of condition, mapping as {"scalar": 3, "vector": 4, "tensor": 5}
+- `ngrids` (`np.ndarray` of `int`): predefined grid number in the simulation box, shape as the dimension, for example, [25, 25] for 2D systems
+- `sigma` (`float`): standard deviation of the gaussian distribution function, default 2.0
+- `ppp` (`np.ndarray`): the periodic boundary conditions (PBCs), setting 1 for yes and 0 for no, default `np.array([1,1,1]`)
+- `gaussian_cut` (`float`): the longest distance to consider the gaussian probability or the contribution from the simulation particles. default 6.0.
+- `outputfile` (`str`): file name to save the grid positions and the corresponding properties
+
+### Return
+- `grid_positions` (`np.ndarray`): Positions of the grids of each snapshot
+- `grid_property` (`np.ndarray`): properties of each grid of each snapshot
+
+### Example
+```python
+import numpy as np
+from reader.dump_reader import DumpReader
+from utils.coarse_graining import gaussian_blurring
+
+test_file = "test.atom"
+readdump = DumpReader(test_file, ndim=2)
+readdump.read_onefile()
+ppp = np.array([1,1])
+ngrids = np.array([20,20])
+input_property = np.random.rand([
+  readdump.snapshots.nsnapshots,
+  readdump.snapshots.snapshots.nparticle
+])
+
+gb_position, gb_property = gaussian_blurring(readdump.snapshots,input_property,ngrids,2.0,ppp)
+```

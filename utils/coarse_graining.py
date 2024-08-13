@@ -122,16 +122,15 @@ def gaussian_blurring(
                                     shape as the dimension, for example, [25, 25] for 2D systems
         4. sigma (float): standard deviation of the gaussian distribution function, default 2.0
         5. ppp (np.ndarray): the periodic boundary conditions (PBCs),
-                            setting 1 for yes and 0 for no, default np.array([0,0,0]) for 3D,
-                            default np.array([1,1,1])
+                            setting 1 for yes and 0 for no, default np.array([1,1,1])
         6. gaussian_cut (float): the longest distance to consider the gaussian probability 
                             or the contribution from the simulation particles.
                             default 6.0.
         7. outputfile (str): file name to save the grid positions and the corresponding properties
     
     Return:
-        the grid positions and corresponding properties in numpy arrays
-        "grid_positions, grid_property"
+        grid_positions (np.ndarray): Positions of the grids of each snapshot
+        grid_property (np.ndarray): properties of each grid of each snapshot
     """
 
     ndim = len(ngrids)
