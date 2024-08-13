@@ -290,9 +290,17 @@ Calculate spatial average of the input property over a certain distance, which i
 
 ### Example
 ```python
-from utils.coarse_graining import spatial_average
+import numpy as np
+from reader.dump_reader import DumpReader
+from utils.coarse_graining import spatial_average 
 
-spatial_average(input_property, neighborfile, Nmax, outputfile)
+test_file = "test.atom"
+readdump = DumpReader(test_file, ndim=2)
+readdump.read_onefile()
+input_property = np.random.rand([readdump.snapshots.nsnapshots, readdump.snapshots.snapshots.nparticle])
+Nnearests(readdump.snapshots, N=6, ppp=np.array([1,1]), fnfile='neighborlist.dat')
+neighborfile='neighborlist.dat'
+sa = spatial_average(input_property,neighborfile)
 ```
 
 
