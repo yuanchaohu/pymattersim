@@ -127,8 +127,8 @@ class NematicOrder():
         Inputs:
             1. rdelta (float): bin size in calculating g(r) and G_Q(r), default 0.01
             2. ppp (np.ndarray): the periodic boundary conditions,
-                       setting 1 for yes and 0 for no, default np.array([1,1,1]),
-                       set np.array([1,1]) for two-dimensional systems
+                       setting 1 for yes and 0 for no, default np.array([1,1]) 
+                       for two-dimensional systems
             3. outputfile (str): csv file name for G_Q(r), default None
 
         Return:

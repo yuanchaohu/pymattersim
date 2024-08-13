@@ -1,3 +1,12 @@
+# static orderings
+## [I. local tetrahedral order](#1-local-tetrahedral-order)
+## [II. packing capability](#2-packing-capability)
+## [III. pair entropy](#3-pair-entropy)
+## [IV. gyration tensor](#4-gyration-tensor-of-a-group)
+## [V. nematic order](#5-nematic-order)
+
+---
+
 # 1. Local tetrahedral order $q_{\rm tetra}$
 
 The class `static.tetrahedral` calculates the local tetrahedral order of the simulation system in three dimensions, such as for water-type and silicon/silica-type systems. Local tetrahedral order is defined as:
@@ -172,4 +181,91 @@ This module calculates calculate gyration tensor of a cluster of atoms. This mod
 from static.shape import gyration_tensor
 
 gyration_tensor(cluster_positions)
+```
+
+# 5. Nematic order
+This module calculates the order parameter for nematic phase, such as spin liquids, patchy particles, and liquid crystals. Basically, the requirements are particle positions and orientations. The tensorial order parameter is usually defined as
+$$
+Q_{\alpha \beta}^i = \frac{d}{2} {\bf u}^i_{\alpha} {\bf u}^i_{\beta} - \delta_{\alpha \beta}/2,
+$$
+where $\delta$ is the Kronecker delta function, $i$ is the particle index, $\alpha$ and $\beta$ are the dimensitionality ($x$ or $y$ or $z$), $d$ is the dimensionality. Similarly, a coarse-grained tensor order parameter is defined as 
+$$
+Q_{\rm CG}(i) = \frac{1}{1+N_i} \left( Q_{\alpha \beta}^i + \sum_{j}^{N_i} Q_{\alpha \beta}^j \right),
+$$
+where $N_i$ is the number of neighbors of particle $i$. Thus, the particle-level scalar order parameters are calculated as:
+- $S_i$: calculated as the twice of the largest eigenvalue of $Q^i$ or $Q^i_{\rm CG}$. This calculation can be quite slow. An equivalent (equal) parameter Hi can be calculated as $H_i$.
+- $H_i$: $H_i = \sqrt{{\rm Tr}[Q^i \cdot Q^i] \cdot \frac{d}{d-1}}$ or the coarse-grained version accordingly for $Q^i_{\rm CG}$.
+
+The time correlation and spatial correlation of $Q^i$ or $Q^i_{\rm CG}$ are also calculated by the module.
+- Time correlation: $C_{\rm Q}(t) = \langle Q(0) Q(t) \rangle$
+- Spatial correlation: $g_{\rm Q}(t) = \langle Q(0) Q(r) \rangle$
+
+Currently, the module only supports the calcualtion of two-dimensional systems.
+
+## 5.1 `NematicOrder()` class
+
+### Input Arguments
+- `snapshots_orientation` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`) (`DumpFileType`=`LAMMPSVECTOR`)
+- `snapshots_position` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`) (`DumpFileType`=`LAMMPS` or `LAMMPSCENTER`) or any other to provide atom positions. Only required for spatial correlation calculation
+
+### Return
+- `None`  
+
+### Example
+```python
+import numpy as np
+from reader.dump_reader import DumpReader
+from static.nematic import NematicOrder
+test_file = "test.atom"
+
+input_x =DumpReader(test_file, ndim=2)
+input_x.read_onefile()
+input_or =DumpReader(test_file, ndim=2, filetype=DumpFileType.LAMMPSVECTOR, columnsids=[5,6])
+input_or.read_onefile()
+
+Nematic = NematicOrder(input_or.snapshots,input_x.snapshots)
+```
+
+## 5.2 `tensor()`
+### Input Arguments
+- `ndim` (`int`): dimensionality of the input configurations
+- `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
+- `Nmax` (`int`): maximum number for neighbors, default 30
+- `eigvals` (`bool`): whether calculate eigenvalue of the Qtensor or not, default False
+- `outputfile` (`str`): file name of the calculation output
+
+### Return
+- Q-tensor or eigenvalue scalar nematic order parameter in numpy ndarray format shape as [num_of_snapshots, num_of_particles]
+
+### Example
+```python
+t = Nematic.tensor(outputfile='test')
+```
+
+## 5.3 `spatial_corr()`
+### Input Arguments
+- `rdelta` (`float`): bin size in calculating `g(r)` and `G_Q(r)`, default 0.01
+- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1]` for two-dimensional systems
+- `outputfile` (`str`): csv file name for `G_Q(r)`, default `None`
+
+### Return
+- `gQresults`: calculated `g_Q(r)` based on QIJ tensor
+
+### Example
+```python
+ppp = np.array([1,1])
+sc = Nematic.spatial_corr(rdelta=0.01,ppp=ppp)
+```
+
+## 5.4 `time_corr()`
+### Input Arguments
+- `dt` (`float`): timestep used in user simulations, default 0.002
+- `outputfile` (`str`): csv file name for time correlation results, default `None`
+
+### Return
+- `gQ_time`: time correlation quantity (`pd.DataFrame`)
+
+### Example
+```python
+tc = Nematic.time_corr(dt=0.002)
 ```
