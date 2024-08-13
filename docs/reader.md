@@ -18,10 +18,11 @@ The typical features of `reader` are:
    - `filetype=DumpFileType.LAMMPSCENTER`: Molecular system in LAMMPS, by calling `reader.dump_reader.DumpReader` or `reader.lammps_reader_helper.read_lammps_centertype_wrapper`
    - `filetype=DumpFileType.GSD`: Static properties in Hoomd-blue, GSD file, by calling `reader.dump_reader.DumpReader` or `reader.GSD_reader_helper.read_GSD_wrapper`.  
    - `filetype=DumpFileType.GSD_DCD`: Dynamic properties in Hoomd-blue, both GSD and DCD files, by calling `reader.dump_reader.DumpReader` or `reader.GSD_reader_helper.read_GSD_DCD_wrapper`.
+   - `filetype=DumpFileType.LAMMPSVECTOR`: additional columns other than the positions in the dump file. For example, the dump is "id type x y vx vy", this module is working to read "vx, vy" by giving `columnsids=[4, 5]`. This can be arbitray dimensions for the additional columns. This information is stored by the `positions` attribute.
 
-2. Supports any dimensionality. General cases include the two-dimensional (LAMMPS dump file format ***id type x y***) and three-dimensional snapshots (LAMMPS dump file format ***id type x y z***). As long as the input format includes ***id type***, only dimensional positions will be read-in and the other columns will be neglected. For example, for a two-dimensional system, the input format can be ***id type x y z xx yy zz nn...***, the positions ***(x y)*** can be read properly.
+1. Supports any dimensionality. General cases include the two-dimensional (LAMMPS dump file format ***id type x y***) and three-dimensional snapshots (LAMMPS dump file format ***id type x y z***). As long as the input format includes ***id type***, only dimensional positions will be read-in and the other columns will be neglected. For example, for a two-dimensional system, the input format can be ***id type x y z xx yy zz nn...***, the positions ***(x y)*** can be read properly. To read additional columns, use `DumpFileType.LAMMPSVECTOR` instead.
 
-3. Supports both orthogonal and triclinic cells with the use of H-matrix to deal with the periodic boundary conditions. As long as the simulator supports these two types cell, the module can process it properly. For a triclinic box, it converts the bounding box back into the trilinic box parameters by refering to 'https://docs.lammps.org/Howto_triclinic.html':
+2. Supports both orthogonal and triclinic cells with the use of H-matrix to deal with the periodic boundary conditions. As long as the simulator supports these two types cell, the module can process it properly. For a triclinic box, it converts the bounding box back into the trilinic box parameters by refering to 'https://docs.lammps.org/Howto_triclinic.html':
 
    ```python
    xlo = xlo_bound - MIN(0.0,xy,xz,xy+xz)
@@ -41,8 +42,10 @@ The typical features of `reader` are:
    - `DumpFileType.LAMMPSCENTER`
    - `DumpFileType.GSD`
    - `DumpFileType.GSD_DCD`
+   - `DumpFileType.LAMMPSVECTOR`
 
 4. `moltypes` (`dict`, optional): only used for molecular system in LAMMPS so far, default is `None`. To specify, for example, if the system has 5 types of atoms in which 1-3 is one type of molecules and 4-5 is the other, and type 3 and 5 are the center of mass. Then `moltypes` should be `{3:1, 5:2}`. The keys `[3, 5]` of  `moltypes` are used to select specific atoms to present the corresponding molecules. The values `[1, 2]` is used to record the type of molecules.
+5. `columnsids` (`list`): only used to read addtional columns in LAMMPS dump, default `None`.
 
 ## Return
 
@@ -50,7 +53,7 @@ The input simulation box will be transformed to a list of 'digital' snapshot, by
 
 - `snapshots[n].timestep` (`int`): simulation timestep at each snapshot
 - `snapshots[n].nparticle` (`int`): particle number from each snapshot
-- `snapshots[n].particle_type` (`np.ndarray`): particle type in array in each snapshot
+- `snapshots[n].particle_type` (`np.ndarray`): particle type in array in each snapshot. Additional columns information for `DumpFileType.LAMMPSVECTOR`.
 - `snapshots[n].positions` (`np.ndarray`): particle coordinates in array in each snapshot
 - `snapshots[n].boxlength` (`np.ndarray`): box length in array in each snapshot
 - `snapshots[n].boxbounds` (`np.ndarray`): box boundaries in array in each snapshot
@@ -65,6 +68,7 @@ The information is stored in a list of which the elements are mainly numpy array
 2. For the ***xs*** and ***x*** types in orthogonal cells with periodic boundary conditions, particle coordinates are **NOT** warpped to the inside of the box by default, which could be changed by hand when necessary. In non-periodic boundary conditions, there should be no particles at the outside of the cell.
 3. Snapshots should be stored in one file at this stage.
 4. In Hoomd-blue, GSD and DCD files are acceptable. GSD file has all the information with periodic boundary conditions, while DCD has the unwarpped coordinates. GSD file has all the information with periodic boundary conditions, while DCD only has the particle positions. Normally only GSD file is needed . But if one wants to analyze the dynamical properties, the DCD file should be dumped accompanying the GSD file to get the unwarp coordinates. More specifically, all the information about the trajectory will be obtained from the GSD file except the particle positions which will be obtained from the DCD file. Therefore, the DCD and GSD files shall be dumped with the same period or concurrently. Another important point in this case is the file name of GSD and DCD. They should share the same name with the only difference of the last three string, ie. ‘GSD ’or ‘DCD’. For example, if the file name of GSD is ***dumpfile.GSD*** then the DCD file name must be ***dumpfile.DCD***. To read the Hoomd-blue outputs, two new modules should be installed first: i) GSD; ii) mdtraj. These modules are available by conda. 
+5. The addtional columns are now readable from `DumpFileType.LAMMPSVECTOR` by specifying the column ids.
 
 ## Example
 
@@ -124,7 +128,7 @@ Some dump files are provided in `tests/sample_test_data`.
   snapshots.snapshots[0].positions
   ```
 
-- The `reader.lammps_reader_helper.read_additions` can read additional columns in the lammps dump file. `ncol` (`int`): specifying the column number starting from 0 (zero-based). `read_additions` returns a numpy array as shape [nsnapshots, nparticle] in float. For example, read ***order*** from ***id type x y z order***. 
+- The `reader.lammps_reader_helper.read_additions` can read additional columns in the lammps dump file. `ncol` (`int`): specifying the column number starting from 0 (zero-based). `read_additions` returns a numpy array as shape [nsnapshots, nparticle] in float. For example, read ***order*** from ***id type x y z order***. This is used to read only one column at a time from a dump file.
 
   ```python
   from reader.lammps_reader_helper import read_additions
