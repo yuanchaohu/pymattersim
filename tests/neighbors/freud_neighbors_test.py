@@ -12,6 +12,7 @@ logger = get_logger_handle(__name__)
 
 READ_TEST_FILE_PATH = "tests/sample_test_data"
 
+
 class TestFreudNeighbors(unittest.TestCase):
     """
     Test class for freud_neighbors
@@ -26,7 +27,8 @@ class TestFreudNeighbors(unittest.TestCase):
         """
         Test FreudNeighbors works properly for 2D lammps
         """
-        logger.info(f"Starting freud_neighbors test using {self.test_file_2d}...")
+        logger.info(
+            f"Starting freud_neighbors test using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
         cal_neighbors(readdump.snapshots, outputfile='dump')
@@ -60,14 +62,15 @@ class TestFreudNeighbors(unittest.TestCase):
         self.assertEqual(0.90653, item[2])
         os.remove('dump.overall.dat')
 
-        logger.info(f"Finishing freud_neighbors test using {self.test_file_2d}")
-
+        logger.info(
+            f"Finishing freud_neighbors test using {self.test_file_2d}")
 
     def test_FreudNeighbors_3d(self) -> None:
         """
         Test FreudNeighbors works properly for 3D lammps
         """
-        logger.info(f"Starting freud_neighbors test using {self.test_file_3d}...")
+        logger.info(
+            f"Starting freud_neighbors test using {self.test_file_3d}...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
         cal_neighbors(readdump.snapshots, outputfile='dump')
@@ -89,8 +92,20 @@ class TestFreudNeighbors(unittest.TestCase):
         self.assertEqual(456.0, item[0])
         self.assertEqual(14.0, item[1])
         # benchmaking with old code
-        self.assertEqual([0.43709, 0.496726, 0.239007, 0.560916, 0.816323, 0.673743, 0.323476,
-                          0.085478, 0.401778, 0.757736, 0.567622, 0.014058, 0.096788,0.600128],
+        self.assertEqual([0.43709,
+                          0.496726,
+                          0.239007,
+                          0.560916,
+                          0.816323,
+                          0.673743,
+                          0.323476,
+                          0.085478,
+                          0.401778,
+                          0.757736,
+                          0.567622,
+                          0.014058,
+                          0.096788,
+                          0.600128],
                          item[2:])
         os.remove('dump.facearea.dat')
 
@@ -103,4 +118,5 @@ class TestFreudNeighbors(unittest.TestCase):
         self.assertEqual(1.178814, item[2])
         os.remove('dump.overall.dat')
 
-        logger.info(f"Finishing freud_neighbors test using {self.test_file_3d}")
+        logger.info(
+            f"Finishing freud_neighbors test using {self.test_file_3d}")

@@ -30,5 +30,14 @@ class TestReadNeighbors(unittest.TestCase):
         f.close()
 
         self.assertEqual(10, neighborprop[1789][0])
-        np.testing.assert_almost_equal([6816, 7845,  769, 2934, 6428, 3829, 2071, 3712, 1433, 4440],
-                                        neighborprop[1789][1:11])
+        np.testing.assert_almost_equal([6816,
+                                        7845,
+                                        769,
+                                        2934,
+                                        6428,
+                                        3829,
+                                        2071,
+                                        3712,
+                                        1433,
+                                        4440],
+                                       neighborprop[1789][1:11])

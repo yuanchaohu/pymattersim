@@ -29,26 +29,30 @@ def participation_ratio(vector: np.ndarray) -> float:
 
     Inputs:
         vector (np.ndarray): input vector field, shape as [num_of_particles, ndim]
-    
+
     Return:
         participation ratio of the vector field (float)
     """
 
     num_of_particles = vector.shape[0]
-    value_PR = 1.0/(np.sum(np.square((vector*vector).sum(axis=1)))*num_of_particles)
-    value_PR *= np.square((vector*vector).sum())
+    value_PR = 1.0 / \
+        (np.sum(np.square((vector * vector).sum(axis=1))) * num_of_particles)
+    value_PR *= np.square((vector * vector).sum())
 
     return value_PR
 
-def local_vector_alignment(vector: np.ndarray, neighborfile:str)->np.ndarray:
+
+def local_vector_alignment(
+        vector: np.ndarray,
+        neighborfile: str) -> np.ndarray:
     """
     Calculate the local orientational order of a vector field
     Maximum 200 neighbors are considered
-    
+
     Inputs:
         1. vector (np.ndarray): input vector field, shape as [num_of_particles, ndim]
         2. neighborfile (str): file name of particle neighbors (see module neighbors)
-    
+
     Return:
         orientation order of the vector field, shape as [num_of_particles]
     """
@@ -59,19 +63,21 @@ def local_vector_alignment(vector: np.ndarray, neighborfile:str)->np.ndarray:
 
     results = np.zeros(num_of_particles)
     for i in range(num_of_particles):
-        medium = (vector[i]*vector[cnlist[i, 1:1+cnlist[i, 0]]]).sum(axis=1)
+        medium = (
+            vector[i] * vector[cnlist[i, 1:1 + cnlist[i, 0]]]).sum(axis=1)
         results[i] = medium.mean()
     return results
 
-def phase_quotient(vector:np.ndarray, neighborfile:str) -> float:
+
+def phase_quotient(vector: np.ndarray, neighborfile: str) -> float:
     """
     Calculate the phase quotient of a vector field
     Maximum 200 neighbors are considered
-    
+
     Inputs:
         1. vector (np.ndarray): input vector field, shape as [num_of_particles, ndim]
         2. neighborfile (str): file name of particle neighbors (see module neighbors)
-    
+
     Return:
         phase quotient measured as a float
     """
@@ -82,10 +88,11 @@ def phase_quotient(vector:np.ndarray, neighborfile:str) -> float:
 
     sum_0, sum_1 = 0, 0
     for i in range(num_of_particles):
-        medium = (vector[i]*vector[cnlist[i, 1:1+cnlist[i, 0]]]).sum(axis=1)
+        medium = (
+            vector[i] * vector[cnlist[i, 1:1 + cnlist[i, 0]]]).sum(axis=1)
         sum_0 += medium.sum()
         sum_1 += np.abs(medium).sum()
-    return sum_0/sum_1
+    return sum_0 / sum_1
 
 
 def divergence_curl(
@@ -101,7 +108,7 @@ def divergence_curl(
     Maximum 200 neighbors are considered
 
     Inputs:
-        1. snapshots (reader.reader_utils.SingleSnapshot): snapshot object of input trajectory 
+        1. snapshots (reader.reader_utils.SingleSnapshot): snapshot object of input trajectory
                      (returned by reader.dump_reader.DumpReader)
         2. vector (np.ndarray): vector field shape as [num_of_partices, ndim], it determines the
                     dimensionality of the calculation.
@@ -109,7 +116,7 @@ def divergence_curl(
                        setting 1 for yes and 0 for no, default np.array([1,1,1]),
                        set np.array([1,1]) for two-dimensional systems
         4. neighborfile (str): file name of particle neighbors (see module neighbors)
-    
+
     Return:
         divergence and curl (only 3D) in numpy array of the input vector
     """
@@ -119,18 +126,18 @@ def divergence_curl(
         cnlist = read_neighbors(f, num_of_particles)
 
     divergence = np.zeros(num_of_particles)
-    if ndim==3:
-        curl=np.zeros((num_of_particles, ndim))
+    if ndim == 3:
+        curl = np.zeros((num_of_particles, ndim))
 
     for i in range(num_of_particles):
-        i_cnlist = cnlist[i, 1:cnlist[i, 0]+1]
+        i_cnlist = cnlist[i, 1:cnlist[i, 0] + 1]
         RIJ = snapshot.positions[i_cnlist] - snapshot.positions[i]
         RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
 
         UIJ = vector[i_cnlist] - vector[i]
         divergence[i] = (RIJ * UIJ).sum(axis=1).mean()
 
-        if ndim==3:
+        if ndim == 3:
             for j in range(cnlist[i, 0]):
                 curl[i] += np.cross(RIJ[j], UIJ[j])
             curl[i] /= cnlist[i, 0]
@@ -139,25 +146,26 @@ def divergence_curl(
         return divergence
     return divergence, curl
 
+
 def kspace_decomposition():
     pass
 
 
 def vibrability(
-        eigenfrequencies: np.ndarray,
-        eigenvectors: np.ndarray,
-        num_of_partices: int,
-        outputfile: str="",
-    ) -> np.ndarray:
+    eigenfrequencies: np.ndarray,
+    eigenvectors: np.ndarray,
+    num_of_partices: int,
+    outputfile: str = "",
+) -> np.ndarray:
     """
     Calculate particle-level vibrability from the eigenmodes
 
     Inputs:
-        1. eigenfrequencies (np.ndarray): eigen frequencies generally from 
+        1. eigenfrequencies (np.ndarray): eigen frequencies generally from
                     Hessian diagonalization, shape as [num_of_modes,]
         2. eigenvectors (np.ndarray): eigen vectors associated with eigenfrequencies,
                     each column represents an eigen mode as from np.linalg.eig method
-    
+
     Return:
         particle-level vibrability in a numpy array
     """
@@ -165,18 +173,18 @@ def vibrability(
     eigenvalues = np.square(eigenfrequencies)
     for i in range(eigenvectors.shape[1]):
         medium = eigenvectors[:, i].reshape(num_of_partices, -1)
-        results += np.square(medium).sum(axis=1)/eigenvalues[i]
+        results += np.square(medium).sum(axis=1) / eigenvalues[i]
     if outputfile:
         np.save(outputfile, results)
     return results
 
 
 def vector_decomposition_sq(
-        snapshot: SingleSnapshot,
-        qvector: np.ndarray,
-        vector: np.ndarray,
-        outputfile: str="",
-    ) -> Tuple[pd.DataFrame, pd.DataFrame]:
+    snapshot: SingleSnapshot,
+    qvector: np.ndarray,
+    vector: np.ndarray,
+    outputfile: str = "",
+) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Decompose the input vector into transverse and longitudinal component by FFT
     and calculate the associated magnitude (or the spectra)
@@ -184,12 +192,12 @@ def vector_decomposition_sq(
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
-        2. qvector (np.ndarray of int): designed wavevectors in two-dimensional np.array 
+        2. qvector (np.ndarray of int): designed wavevectors in two-dimensional np.array
                                         (see utils.wavevector)
         3. vector (np.ndarray): particle-level vector, shape as [num_of_particles, ndim],
                                 for example, eigenvector field and velocity field
         4. outputfile (str): filename.csv to save the calculated S(q), default None
-    
+
     Return:
         1. vector_fft: calculated transverse and longitudinal S(q) for each input wavevector (pd.DataFrame), FFT in complex number is also returned for reference
         2. ave_sqresults: the ensemble averaged S(q) over the same wavenumber (pd.DataFrame)
@@ -214,7 +222,8 @@ def vector_decomposition_sq(
     vector_fft["Sq_L"] = (vector_L * np.conj(vector_L)).sum(axis=1).real
 
     vector_fft = vector_fft.round(8)
-    ave_sqresults = vector_fft[["Sq", "Sq_T", "Sq_L"]].groupby(vector_fft["q"]).mean().reset_index()
+    ave_sqresults = vector_fft[["Sq", "Sq_T", "Sq_L"]].groupby(
+        vector_fft["q"]).mean().reset_index()
     if outputfile:
         if not outputfile.endswith(".csv"):
             outputfile += ".csv"
@@ -223,24 +232,24 @@ def vector_decomposition_sq(
 
 
 def vector_fft_corr(
-        snapshots: Snapshots,
-        qvector: np.ndarray,
-        vectors: np.ndarray,
-        dt: float=0.002,
-        outputfile: str="",
-    ) -> dict[str, pd.DataFrame]:
+    snapshots: Snapshots,
+    qvector: np.ndarray,
+    vectors: np.ndarray,
+    dt: float = 0.002,
+    outputfile: str = "",
+) -> dict[str, pd.DataFrame]:
     """
     Calculate spectra and time correlation of the longitudinal and tranverse components of a vector field by FFT
 
     Inputs:
         1. snapshots (read.reader_utils.snapshots): multiple trajectories dumped linearly or in logscale
-        2. qvector (np.ndarray of int): designed wavevectors in two-dimensional np.array 
+        2. qvector (np.ndarray of int): designed wavevectors in two-dimensional np.array
                                         (see utils.wavevector)
         3. vectors (np.ndarray): particle-level vector, shape as [num_of_snapshots, num_of_particles, ndim],
                                 for example, eigenvector field and velocity field
         4. dt (float): time step of input snapshots, default 0.002
         5. outputfile (str): filename.csv to save the calculated S(q), default None
-    
+
     Return:
         1. the averaged spectra of full, transverse, and longitudinal mode,
             saved into a csv dataset
@@ -260,14 +269,18 @@ def vector_fft_corr(
         spectra += ave_sqresults
         vectors_fft.append(vector_fft)
     spectra /= snapshots.nsnapshots
-    spectra.to_csv(outputfile+".spectra.csv", float_format="%.8f", index=False)
+    spectra.to_csv(
+        outputfile +
+        ".spectra.csv",
+        float_format="%.8f",
+        index=False)
 
     logger.info(f"Calculate time correlations of decomposed modes at d={ndim}")
     alldata = {}
     for header in ["FFT", "T_FFT", "L_FFT"]:
         logger.info(f"Calculate autocorrelation for {header} vector")
         cal_data = pd.DataFrame(
-            0, 
+            0,
             columns=np.arange(qvector.shape[0]),
             index=np.arange(snapshots.nsnapshots)
         )
@@ -283,10 +296,11 @@ def vector_fft_corr(
         cal_data.index = medium["t"].values
         # columns: [q0, q1, q2, q, t1, t2, t3....]
         final_data = pd.concat([
-            vectors_fft[0][[f"q{i}" for i in range(ndim)]+["q"]],
+            vectors_fft[0][[f"q{i}" for i in range(ndim)] + ["q"]],
             cal_data.T
         ], axis=1).round(8)
-        np.save(outputfile+"."+header+".npy", final_data.values)
+        np.save(outputfile + "." + header + ".npy", final_data.values)
         alldata[header] = final_data
-    logger.info(f"Calculate time correlations of decomposed modes at d={ndim} Done")
+    logger.info(
+        f"Calculate time correlations of decomposed modes at d={ndim} Done")
     return alldata

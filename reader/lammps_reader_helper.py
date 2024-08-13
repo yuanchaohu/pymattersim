@@ -20,12 +20,12 @@ logger = get_logger_handle(__name__)
 def read_lammps_wrapper(file_name: str, ndim: int) -> Snapshots:
     """
     Wrapper function around read lammps atomistic system
-    
+
     input:
         1. filename (str): the name of dump file
 
         2. ndim (int): dimensionality
-    
+
     Return:
         Snapshots ([SingleSnapshot]): list of snapshots for the input file_name
     """
@@ -52,14 +52,14 @@ def read_lammps_centertype_wrapper(
         1. filename (str): the name of dump file
 
         2. ndim (int): dimensionality
-        
-        3. moltypes (dict, optional): only used for molecular system in LAMMPS, default is None. 
-            To specify, for example, if the system has 5 types of atoms in which 1-3 is 
+
+        3. moltypes (dict, optional): only used for molecular system in LAMMPS, default is None.
+            To specify, for example, if the system has 5 types of atoms in which 1-3 is
             one type of molecules and 4-5 is the other, and type 3 and 5 are the center of mass.
-            Then moltypes should be {3:1, 5:2}. The keys ([3, 5]) of the dict (moltypes) 
+            Then moltypes should be {3:1, 5:2}. The keys ([3, 5]) of the dict (moltypes)
             are used to select specific atoms to present the corresponding molecules.
             The values ([1, 2]) is used to record the type of molecules.
-    
+
     Return:
         Snapshots ([SingleSnapshot]): list of snapshots for the input file_name
     """
@@ -76,6 +76,7 @@ def read_lammps_centertype_wrapper(
     logger.info('---LAMMPS Molecule Center Dump Reading Completed---')
     return Snapshots(nsnapshots=nsnapshots, snapshots=snapshots)
 
+
 def read_lammps_vector_wrapper(
     file_name: str, ndim: int, columnsids: List[int]
 ) -> Snapshots:
@@ -87,18 +88,19 @@ def read_lammps_vector_wrapper(
 
     Inputs:
         1. filename (str): the name of dump file
-        2. ndim (int): dimensionality       
-        3. columnsids (list of int): column id for additional information, 
+        2. ndim (int): dimensionality
+        3. columnsids (list of int): column id for additional information,
                 for example, [5, 6] for "vx vy" above
-    
+
     Return:
         Snapshots ([SingleSnapshot]): list of snapshots for the input file_name
     """
     logger.info('-----Start Reading LAMMPS Dump with Additional Column(s)-----')
-    if len(columnsids)==1:
+    if len(columnsids) == 1:
         logger.info("LAMMPS additional information read is a scalar")
-    elif len(columnsids)>1:
-        logger.info(f"LAMMPS additional information read is a vector of length {len(columnsids)}")
+    elif len(columnsids) > 1:
+        logger.info(
+            f"LAMMPS additional information read is a vector of length {len(columnsids)}")
     else:
         raise ValueError("Empty input variable columnsids")
 
@@ -114,15 +116,16 @@ def read_lammps_vector_wrapper(
     logger.info('---LAMMPS Dump with Additional Column(s) Reading Completed---')
     return Snapshots(nsnapshots=nsnapshots, snapshots=snapshots)
 
+
 def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
-    """ 
+    """
     Read a snapshot at one time from LAMMPS atomistic system
-    
+
     Inputs:
         1. f: file open by python for the input dump file
 
         2. ndim: dimensionality
-    
+
     Return:
         Single snapshot information
     """
@@ -164,17 +167,20 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
                 atom_index = int(item[0]) - 1
                 particle_type[atom_index] = int(item[1])
                 positions[atom_index] = [float(j) for j in item[2: ndim + 2]]
-                
+
             if 'x' in names:
-                positions = np.where(positions < boxbounds[:, 0], positions + boxlength, positions)
-                positions = np.where(positions > boxbounds[:, 1], positions - boxlength, positions)
-                
+                positions = np.where(
+                    positions < boxbounds[:, 0], positions + boxlength, positions)
+                positions = np.where(
+                    positions > boxbounds[:, 1], positions - boxlength, positions)
+
         elif 'xs' in names:
             for i in range(particle_number):
                 item = f.readline().split()
                 atom_index = int(item[0]) - 1
                 particle_type[atom_index] = int(item[1])
-                positions[atom_index] = [float(j) for j in item[2: ndim + 2]] * boxlength
+                positions[atom_index] = [
+                    float(j) for j in item[2: ndim + 2]] * boxlength
 
         snapshot = SingleSnapshot(
             timestep=timestep,
@@ -254,7 +260,8 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
                         float(item[2]) * h0 + float(item[3]) * h5
                     positions[atom_index, 1] = ylo_bound + float(item[3]) * h1
                 else:
-                    logger.info(f"cannot read for {ndim} dimensionality so far")
+                    logger.info(
+                        f"cannot read for {ndim} dimensionality so far")
                     return None
 
         snapshot = SingleSnapshot(
@@ -271,21 +278,21 @@ def read_lammps(f: Any, ndim: int) -> SingleSnapshot:
 
 
 def read_lammps_centertype(
-        f: Any,
-        ndim: int,
-        moltypes: Dict[int, int]
-    ) -> SingleSnapshot:
+    f: Any,
+    ndim: int,
+    moltypes: Dict[int, int]
+) -> SingleSnapshot:
     """ Read a snapshot of molecules at one time from LAMMPS
 
     Inputs:
         1. f: open file type by python from reading input dump file
 
         2. ndim (int): dimensionality
-        
-        3. moltypes (dict, optional): only used for molecular system in LAMMPS, default is None. 
-            To specify, for example, if the system has 5 types of atoms in which 1-3 is 
+
+        3. moltypes (dict, optional): only used for molecular system in LAMMPS, default is None.
+            To specify, for example, if the system has 5 types of atoms in which 1-3 is
             one type of molecules and 4-5 is the other, and type 3 and 5 are the center of mass.
-            Then moltypes should be {3:1, 5:2}. The keys ([3, 5]) of the dict (moltypes) 
+            Then moltypes should be {3:1, 5:2}. The keys ([3, 5]) of the dict (moltypes)
             are used to select specific atoms to present the corresponding molecules.
             The values ([1, 2]) is used to record the type of molecules.
     """
@@ -331,18 +338,22 @@ def read_lammps_centertype(
         conditions = [True if atomtype in moltypes.keys()
                       else False for atomtype in particle_type]
         positions = positions[conditions]
-        particle_type = pd.Series(particle_type[conditions]).map(moltypes).values
-        
+        particle_type = pd.Series(
+            particle_type[conditions]).map(moltypes).values
+
         if 'x' in names:
-            positions = np.where(positions < boxbounds[:, 0], positions + boxlength, positions)
-            positions = np.where(positions > boxbounds[:, 1], positions - boxlength, positions)
+            positions = np.where(
+                positions < boxbounds[:, 0], positions + boxlength, positions)
+            positions = np.where(
+                positions > boxbounds[:, 1], positions - boxlength, positions)
 
     elif 'xs' in names:
         for i in range(particle_number):
             item = f.readline().split()
             atom_index = int(item[0]) - 1
             particle_type[atom_index] = int(item[1])
-            positions[atom_index] = [float(j) for j in item[2: ndim + 2]] * boxlength
+            positions[atom_index] = [float(j)
+                                     for j in item[2: ndim + 2]] * boxlength
             # MoleculeType[atom_index] = int(item[-1])
 
         # choose only center-of-mass
@@ -366,6 +377,7 @@ def read_lammps_centertype(
     )
     return snapshot
 
+
 def read_lammps_vector(
     f: Any,
     ndim: int,
@@ -378,10 +390,10 @@ def read_lammps_vector(
 
     Inputs:
         1. f: open file type by python from reading input dump file
-        2. ndim (int): dimensionality       
-        3. columnsids (list of int): column id for additional information, 
+        2. ndim (int): dimensionality
+        3. columnsids (list of int): column id for additional information,
                 for example, [5, 6] for "vx vy" above
-    
+
     Return:
         single snapshot object
     """
@@ -413,7 +425,7 @@ def read_lammps_vector(
     item = f.readline().split()
     particle_type = np.zeros(particle_number, dtype=int)
     particle_vector = np.zeros((particle_number, len(columnsids)))
-    columns_index = [int(i-1) for i in columnsids]
+    columns_index = [int(i - 1) for i in columnsids]
     for i in range(particle_number):
         item = f.readline().split()
         atom_index = int(item[0]) - 1
@@ -443,8 +455,8 @@ def read_additions(dumpfile, ncol) -> np.ndarray:
         1. dumpfile (str): file name of input snapshots
 
         2. ncol (int): specifying the column number starting from 0 (zero-based)
-    
-    Return: 
+
+    Return:
         in numpy array as [snapshot_number, particle_number] in float
     """
 
@@ -456,7 +468,8 @@ def read_additions(dumpfile, ncol) -> np.ndarray:
     results = np.zeros((nsnapshots, nparticles))
 
     for n in range(nsnapshots):
-        items = content[n * nparticles + (n + 1) * 9:(n + 1) * (nparticles + 9)]
+        items = content[n * nparticles +
+                        (n + 1) * 9:(n + 1) * (nparticles + 9)]
         for item in items:
             item = item.split()
             atom_index = int(item[0]) - 1

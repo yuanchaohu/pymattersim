@@ -14,11 +14,11 @@ class DumpFileType(Enum):
     An Enum class holds dump file type:
         1. LAMMPS: default, for more information see
         'http://lammps.sandia.gov/doc/Section_howto.html#howto-12'
-        
+
         2. LAMMPSCENTER: lammps molecular dump with known atom type of each molecule center
-        
+
         3. GSD: HOOMD-blue standard output for static properties
-        
+
         4. GSD_DCD: HOOMD-blue outputs for static and dynamic properties
 
         5. LAMMPSVECTOR: additional column(s) from lammps configurations,
@@ -30,6 +30,7 @@ class DumpFileType(Enum):
     GSD_DCD = 4
     LAMMPSVECTOR = 5
 
+
 @dataclass(frozen=True)
 class SingleSnapshot:
     """
@@ -38,7 +39,7 @@ class SingleSnapshot:
         nparticle:        particle number from each snapshot
         particle_type:    particle type in array in each snapshot
         positions:        particle coordinates in array in each snapshot
-                          can be additional column information when 
+                          can be additional column information when
                           columnids is activated, see dump_reader.py
         boxlength:        box length in array in each snapshot
         boxbounds:        box boundaries in array in each snapshot

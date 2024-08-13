@@ -5,7 +5,8 @@
 import numpy as np
 
 
-def remove_pbc(RIJ: np.array, hmatrix: np.array, ppp: np.ndarray=np.array([1,1,1])) -> np.ndarray:
+def remove_pbc(RIJ: np.array, hmatrix: np.array,
+               ppp: np.ndarray = np.array([1, 1, 1])) -> np.ndarray:
     """
     remove periodic boundary conditions.
     This module is usually embedded in other analysis modules.
@@ -15,7 +16,7 @@ def remove_pbc(RIJ: np.array, hmatrix: np.array, ppp: np.ndarray=np.array([1,1,1
         2. hmatrix (np.array): h-matrix of the box
         3. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no
                        default np.array([1, 1, 1]), that is, PBC is applied in all three dimensions for 3D box
- 
+
     Return:
         (np.array): position difference between particle i (center) and j (neighbors)
                     after removing PBC
@@ -25,5 +26,4 @@ def remove_pbc(RIJ: np.array, hmatrix: np.array, ppp: np.ndarray=np.array([1,1,1
     ppp = np.array(ppp)[np.newaxis, :]
     hmatrixinv = np.linalg.inv(hmatrix)
     matrixij = np.dot(RIJ, hmatrixinv)
-    return np.dot(matrixij - np.rint(matrixij)*ppp, hmatrix)
-    
+    return np.dot(matrixij - np.rint(matrixij) * ppp, hmatrix)

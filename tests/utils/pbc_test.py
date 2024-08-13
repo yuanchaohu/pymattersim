@@ -32,11 +32,12 @@ class TestPBC(unittest.TestCase):
         positions = readdump.snapshots.snapshots[0].positions
         hmatrix = readdump.snapshots.snapshots[0].hmatrix
         RIJ = positions[1:] - positions[0]
-        RIJ_removed = remove_pbc(RIJ = RIJ, hmatrix = hmatrix, ppp = [1, 1])
+        RIJ_removed = remove_pbc(RIJ=RIJ, hmatrix=hmatrix, ppp=[1, 1])
 
-        np.testing.assert_almost_equal(np.array([-41.7933, -14.9538]), RIJ_removed[10])
-        np.testing.assert_almost_equal(np.array([10.3199, 21.3197]), RIJ_removed[100])
-
+        np.testing.assert_almost_equal(
+            np.array([-41.7933, -14.9538]), RIJ_removed[10])
+        np.testing.assert_almost_equal(
+            np.array([10.3199, 21.3197]), RIJ_removed[100])
 
     def test_pbc_3d(self) -> None:
         """
@@ -48,7 +49,9 @@ class TestPBC(unittest.TestCase):
         positions = readdump.snapshots.snapshots[0].positions
         hmatrix = readdump.snapshots.snapshots[0].hmatrix
         RIJ = positions[1:] - positions[0]
-        RIJ_removed = remove_pbc(RIJ = RIJ, hmatrix = hmatrix, ppp = [1, 1, 1])
+        RIJ_removed = remove_pbc(RIJ=RIJ, hmatrix=hmatrix, ppp=[1, 1, 1])
 
-        np.testing.assert_almost_equal(np.array([-4.2156,  4.564109, -0.03429]), RIJ_removed[10])
-        np.testing.assert_almost_equal(np.array([-10.7619,  -5.11166,  -1.70274]), RIJ_removed[100])
+        np.testing.assert_almost_equal(
+            np.array([-4.2156, 4.564109, -0.03429]), RIJ_removed[10])
+        np.testing.assert_almost_equal(
+            np.array([-10.7619, -5.11166, -1.70274]), RIJ_removed[100])

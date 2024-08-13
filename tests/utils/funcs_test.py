@@ -2,8 +2,8 @@
 
 import unittest
 import numpy as np
-from utils.funcs import kronecker,nidealfac,areafac,alpha2factor
-from utils.funcs import Wignerindex,grid_gaussian,Legendre_polynomials
+from utils.funcs import kronecker, nidealfac, areafac, alpha2factor
+from utils.funcs import Wignerindex, grid_gaussian, Legendre_polynomials
 from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -31,10 +31,10 @@ class Test_funcs(unittest.TestCase):
         """
         Test kronecker function
         """
-        k1 = kronecker(2,1)
-        k2 = kronecker(3,3)
-        self.assertEqual(k1,0)
-        self.assertEqual(k2,1)
+        k1 = kronecker(2, 1)
+        k2 = kronecker(3, 3)
+        self.assertEqual(k1, 0)
+        self.assertEqual(k2, 1)
 
     def test_nidealfac(self) -> None:
         """
@@ -42,8 +42,8 @@ class Test_funcs(unittest.TestCase):
         """
         n1 = nidealfac(2)
         n2 = nidealfac(3)
-        self.assertEqual(n1,1.0)
-        self.assertEqual(n2,4.0 / 3)
+        self.assertEqual(n1, 1.0)
+        self.assertEqual(n2, 4.0 / 3)
 
     def test_areafac(self) -> None:
         """
@@ -51,9 +51,8 @@ class Test_funcs(unittest.TestCase):
         """
         a1 = areafac(2)
         a2 = areafac(3)
-        self.assertEqual(a1,2.0)
-        self.assertEqual(a2,4.0)
-
+        self.assertEqual(a1, 2.0)
+        self.assertEqual(a2, 4.0)
 
     def test_alpha2factor(self) -> None:
         """
@@ -61,8 +60,8 @@ class Test_funcs(unittest.TestCase):
         """
         a1 = alpha2factor(2)
         a2 = alpha2factor(3)
-        self.assertEqual(a1,1/2.0)
-        self.assertEqual(a2,3/5.0)
+        self.assertEqual(a1, 1 / 2.0)
+        self.assertEqual(a2, 3 / 5.0)
 
     def test_Wignerindex(self) -> None:
         """
@@ -70,7 +69,7 @@ class Test_funcs(unittest.TestCase):
         """
         w = Wignerindex(6)
         np.testing.assert_almost_equal(
-            w[:,3][:10],
+            w[:, 3][:10],
             np.array([
                 0.0511827251162099, -0.0957541107531435, 0.129114816600119,
                 -0.141438195120055, 0.129114816600119, -0.0957541107531435,
@@ -86,12 +85,13 @@ class Test_funcs(unittest.TestCase):
         sigma = 2.0
         bins = np.arange(5)
         expected = grid_gaussian(bins, sigma)
-        output = 1/(sigma * np.sqrt(2 * np.pi)) * np.exp(-bins**2/(2*sigma**2))
+        output = 1 / (sigma * np.sqrt(2 * np.pi)) * \
+            np.exp(-bins**2 / (2 * sigma**2))
         np.testing.assert_almost_equal(expected, output)
 
     def test_Legendre_polynomials(self) -> None:
         """
         Test Legendre_polynomials function
         """
-        Lp = Legendre_polynomials(6,3)
-        self.assertEqual(Lp,53.5)
+        Lp = Legendre_polynomials(6, 3)
+        self.assertEqual(Lp, 53.5)

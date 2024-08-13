@@ -34,17 +34,17 @@ class TestDumpReader(unittest.TestCase):
         read_dump = DumpReader(self.test_file_2d, ndim=2)
         read_dump.read_onefile()
         self.assertEqual(5, read_dump.snapshots.nsnapshots)
-        
+
         for n in range(read_dump.snapshots.nsnapshots):
             snapshot = read_dump.snapshots.snapshots[n]
             self.assertEqual(2, snapshot.particle_type[14])
             self.assertEqual(1, snapshot.particle_type[9999])
-            if n==0:
+            if n == 0:
                 np.testing.assert_almost_equal(
                     snapshot.positions[14],
                     np.array([18.9739, 24.6161])
                 )
-            if n==4:
+            if n == 4:
                 np.testing.assert_almost_equal(
                     snapshot.positions[14],
                     np.array([18.2545, 24.9591])
@@ -65,7 +65,7 @@ class TestDumpReader(unittest.TestCase):
         self.assertEqual(2, snapshot.particle_type[6389])
         np.testing.assert_almost_equal(
             snapshot.positions[6389],
-            np.array([13.6638, 5.51246,0.161101])
+            np.array([13.6638, 5.51246, 0.161101])
         )
 
         self.assertEqual(1, snapshot.particle_type[2554])
@@ -138,7 +138,7 @@ class TestDumpReader(unittest.TestCase):
             snapshot.positions[2],
             np.array([0.313574, 0.1959437, 0.5766102])
         )
-        
+
     def test_dump_reader_lammps_2d(self) -> None:
         """
         Test dump reader works properly for 2D v
@@ -147,55 +147,53 @@ class TestDumpReader(unittest.TestCase):
         read_columns = DumpReader(self.test_file_v,
                                   ndim=2,
                                   filetype=DumpFileType.LAMMPSVECTOR,
-                                  columnsids = [5])
+                                  columnsids=[5])
         read_columns.read_onefile()
-        
+
         snapshot = read_columns.snapshots.snapshots[0]
         self.assertEqual(10, read_columns.snapshots.nsnapshots)
         np.testing.assert_almost_equal(snapshot.positions[20:25],
-                                       np.array([[ 0.573728],
+                                       np.array([[0.573728],
                                                 [-0.669961],
-                                                [ 0.422935],
+                                                [0.422935],
                                                 [-0.465058],
-                                                [ 0.857502]],
+                                                [0.857502]],
                                                 )
-                                        )
-        
+                                       )
+
         snapshot = read_columns.snapshots.snapshots[5]
         np.testing.assert_almost_equal(snapshot.positions[20:25],
-                                       np.array([[ 0.552083],
-                                                [-0.69841 ],
-                                                [ 0.696141],
+                                       np.array([[0.552083],
+                                                [-0.69841],
+                                                [0.696141],
                                                 [-0.325622],
                                                 [-0.159647]])
-                                        )
-        
+                                       )
+
         read_columns = DumpReader(self.test_file_v,
                                   ndim=2,
                                   filetype=DumpFileType.LAMMPSVECTOR,
-                                  columnsids = [5,6])
+                                  columnsids=[5, 6])
         read_columns.read_onefile()
-        
+
         snapshot = read_columns.snapshots.snapshots[0]
         self.assertEqual(10, read_columns.snapshots.nsnapshots)
         np.testing.assert_almost_equal(snapshot.positions[68:75],
-                                       np.array([[ 0.990524,  0.770018],
-                                                 [ 0.1157  ,  0.049943],
-                                                 [-0.572635,  0.756168],
+                                       np.array([[0.990524, 0.770018],
+                                                 [0.1157, 0.049943],
+                                                 [-0.572635, 0.756168],
                                                  [-0.438618, -0.658475],
-                                                 [-1.63457 , -0.659318],
-                                                 [ 0.495837,  0.429668],
-                                                 [ 0.493329,  0.111817]]
+                                                 [-1.63457, -0.659318],
+                                                 [0.495837, 0.429668],
+                                                 [0.493329, 0.111817]]
                                                 )
-                                        )
-        
+                                       )
+
         snapshot = read_columns.snapshots.snapshots[9]
         self.assertEqual(10, read_columns.snapshots.nsnapshots)
         np.testing.assert_almost_equal(snapshot.positions[70:75],
-                                       np.array([[ 0.45497,   1.01626 ],
-                                                 [ 0.30524,  -0.558264],
-                                                 [ 1.01384,   0.355063],
-                                                 [ 0.429141, -0.276826],
-                                                 [ 0.23194,   1.63782 ]]))
-        
-        
+                                       np.array([[0.45497, 1.01626],
+                                                 [0.30524, -0.558264],
+                                                 [1.01384, 0.355063],
+                                                 [0.429141, -0.276826],
+                                                 [0.23194, 1.63782]]))

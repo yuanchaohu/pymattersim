@@ -4,23 +4,27 @@
 
 import numpy as np
 
+
 def write_dump_header(
-	timestep: int, nparticle: int, boxbounds: np.ndarray, addson:str=None) -> str:
+        timestep: int,
+        nparticle: int,
+        boxbounds: np.ndarray,
+        addson: str = None) -> str:
     """
     write the headers of lammps dump file
 
     Inputs:
-    	1. timestep (int): timestep for the current snapshot
-    	2. nparticle (int): number of particle
-    	3. boxbounds (np.ndarray): the bounds of the simulation box
-    						     for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
-    						     for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
-    						     wherein xho and xhi represent minimum and maximum coordinate values
-    						     in the x-direction, respectively, same as [ylo, yhi] and [zlo, zhi]
-    	4. addson (str): the name of additional columns, such as "order Q6"
+        1. timestep (int): timestep for the current snapshot
+        2. nparticle (int): number of particle
+        3. boxbounds (np.ndarray): the bounds of the simulation box
+                                                     for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
+                                                     for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
+                                                     wherein xho and xhi represent minimum and maximum coordinate values
+                                                     in the x-direction, respectively, same as [ylo, yhi] and [zlo, zhi]
+        4. addson (str): the name of additional columns, such as "order Q6"
 
-	Return:
-		header of lammps dump file (str)
+        Return:
+                header of lammps dump file (str)
     """
 
     header = 'ITEM: TIMESTEP\n'
@@ -43,7 +47,7 @@ def write_dump_header(
 
 
 def write_data_header(
-    nparticle: int, nparticle_type: int, boxbounds: np.ndarray) -> str:
+        nparticle: int, nparticle_type: int, boxbounds: np.ndarray) -> str:
     """
     write the headers of lammps data file
 

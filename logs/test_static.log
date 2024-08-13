@@ -1,29 +1,1067 @@
-2023-11-22 10:16:19,832 INFO packing_capability_test Starting test theta2d using tests/sample_test_data/dump_2D.atom...
-2023-11-22 10:16:19,832 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
-2023-11-22 10:16:19,832 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-22 10:16:19,907 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-22 10:16:19,907 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-22 10:16:19,907 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07499861717224121 seconds
-2023-11-22 10:16:19,907 INFO neighbors.freud_neighbors Start calculating neighbors by freud
-2023-11-22 10:16:24,475 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
-2023-11-22 10:16:24,477 INFO static.packing_capability Start calculating packing capability of a 2D system
-2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
-2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
-2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
-2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
-2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
-2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
-2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
-2023-11-22 10:16:24,477 INFO utils.geometry Calculate triangle angle
-2023-11-22 10:16:24,483 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-22 10:16:27,863 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-22 10:16:31,306 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-22 10:16:34,958 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-22 10:16:38,335 INFO neighbors.read_neighbors Reading neighboring particle properties
-2023-11-22 10:16:41,874 INFO static.packing_capability Finish calculating packing capability of a 2D system
-2023-11-22 10:16:41,881 INFO packing_capability_test Finishing test theta2d using tests/sample_test_data/dump_2D.atom...
+2024-08-13 23:46:32,401 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-13 23:46:32,401 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:46:32,408 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:46:32,408 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:46:32,408 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.00701904296875 seconds
+2024-08-13 23:46:32,408 INFO neighbors.freud_neighbors Start calculating neighbors by freud
+2024-08-13 23:46:32,889 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
+2024-08-13 23:46:32,889 INFO boo_test Starting test boo_2d without weight using tests/sample_test_data/2d/2ddump.s.atom...
+2024-08-13 23:46:32,889 INFO static.boo Calculate 6-th orinentational order in 2D
+2024-08-13 23:46:32,889 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:32,968 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,011 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,072 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,144 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,173 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,187 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,200 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,215 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,228 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,242 INFO static.boo Calculate 6-th orinentational order in 2D
+2024-08-13 23:46:33,242 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,255 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,269 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,282 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,295 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,308 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,321 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,334 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,347 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,360 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:33,375 INFO static.boo Time average over t=24.0 for BOO 2D order parameter
+2024-08-13 23:46:33,375 INFO utils.coarse_graining Time average of the input variables for time_period=24.0
+2024-08-13 23:46:33,375 INFO utils.coarse_graining Time average of the input variables for time_period=24.0
+2024-08-13 23:46:33,376 INFO static.boo Start calculating spatial correlation of phi for l=6
+2024-08-13 23:46:33,376 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:33,741 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:33,927 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:34,120 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:34,310 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:34,497 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:34,685 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:34,875 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:35,060 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:35,434 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:35,652 INFO static.boo Start calculating time correlation of phi for l=6
+2024-08-13 23:46:35,652 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:46:35,652 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:46:35,659 INFO boo_test Finishing test boo_2d without weight using tests/sample_test_data/2d/2ddump.s.atom...
+2024-08-13 23:46:35,659 INFO boo_test Starting test boo_2d with weight using tests/sample_test_data/2d/2ddump.s.atom...
+2024-08-13 23:46:35,659 INFO static.boo Calculate 6-th orinentational order in 2D
+2024-08-13 23:46:35,659 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,660 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,691 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,692 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,724 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,725 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,812 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,814 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,845 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,847 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,876 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,899 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,923 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,925 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,940 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,941 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,956 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,957 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,971 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,973 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,988 INFO static.boo Calculate 6-th orinentational order in 2D
+2024-08-13 23:46:35,988 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:35,989 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,004 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,005 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,020 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,021 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,036 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,037 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,052 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,053 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,067 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,069 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,084 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,085 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,099 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,101 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,116 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,117 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,132 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,133 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:36,148 INFO static.boo Time average over t=24.0 for BOO 2D order parameter
+2024-08-13 23:46:36,148 INFO utils.coarse_graining Time average of the input variables for time_period=24.0
+2024-08-13 23:46:36,148 INFO utils.coarse_graining Time average of the input variables for time_period=24.0
+2024-08-13 23:46:36,149 INFO static.boo Start calculating spatial correlation of phi for l=6
+2024-08-13 23:46:36,149 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:36,333 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:36,517 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:36,701 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:36,885 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:37,069 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:37,250 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:37,432 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:37,612 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:37,798 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:46:37,984 INFO static.boo Start calculating time correlation of phi for l=6
+2024-08-13 23:46:37,984 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:46:37,985 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:46:37,985 INFO boo_test Finishing test boo_2d with weight using tests/sample_test_data/2d/2ddump.s.atom...
+.2024-08-13 23:46:37,985 INFO reader.dump_reader Start reading file tests/sample_test_data/test_additional_columns.dump of type DumpFileType.LAMMPS
+2024-08-13 23:46:37,985 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:46:37,999 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:46:37,999 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:46:37,999 INFO reader.dump_reader Finish reading file tests/sample_test_data/test_additional_columns.dump in 0.013993024826049805 seconds
+2024-08-13 23:46:37,999 INFO neighbors.freud_neighbors Start calculating neighbors by freud
+2024-08-13 23:46:39,391 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
+2024-08-13 23:46:39,391 INFO boo_test Starting test boo_3d without weight and cg using tests/sample_test_data/test_additional_columns.dump...
+2024-08-13 23:46:39,391 INFO static.boo Calculate spherical harmonics for l=6
+2024-08-13 23:46:39,391 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:43,559 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:47,461 INFO static.boo Spherical harmonics for l=6 is ready for further calculations
+2024-08-13 23:46:47,462 INFO static.boo Start calculating local rotational invariants for l=6
+2024-08-13 23:46:47,462 INFO static.boo Finish calculating rotational invariants ql or Ql for l=6
+2024-08-13 23:46:47,462 INFO static.boo Start calculating local bond property for l=6
+2024-08-13 23:46:47,463 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:47,532 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:46:47,601 INFO static.boo Finish calculating bond property sij for l=6
+2024-08-13 23:46:47,601 INFO static.boo Start calculating local Wigner 3-j symbol boo for l=6
+2024-08-13 23:47:29,924 INFO static.boo Finish calculating wigner 3-j symbol boo for l=6
+2024-08-13 23:47:29,924 INFO static.boo Start calculating local spatial correlation for l=6
+2024-08-13 23:47:29,924 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:47:33,444 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:47:36,977 INFO static.boo Finish calculating spatial correlation for l=6
+2024-08-13 23:47:36,977 INFO static.boo Start calculating time correlation for l=6
+2024-08-13 23:47:36,977 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:47:36,978 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:47:36,979 INFO boo_test Finishing test boo_3d without weight and cg using tests/sample_test_data/test_additional_columns.dump...
+2024-08-13 23:47:36,979 INFO boo_test Starting test boo_3d with weight and cg using tests/sample_test_data/test_additional_columns.dump...
+2024-08-13 23:47:36,979 INFO static.boo Calculate spherical harmonics for l=6
+2024-08-13 23:47:36,979 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:47:36,996 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:47:40,723 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:47:40,740 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:47:44,477 INFO static.boo Spherical harmonics for l=6 is ready for further calculations
+2024-08-13 23:47:44,478 INFO static.boo Start calculating coarse-grained rotational invariants for l=6
+2024-08-13 23:47:44,479 INFO static.boo Finish calculating rotational invariants ql or Ql for l=6
+2024-08-13 23:47:44,479 INFO static.boo Start calculating coarse-grained bond property sij for l=6
+2024-08-13 23:47:44,479 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:47:44,546 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:47:44,614 INFO static.boo Finish calculating bond property sij for l=6
+2024-08-13 23:47:44,614 INFO static.boo Start calculating coarse-grained Wigner 3-j symbol boo for l=6
+2024-08-13 23:48:25,620 INFO static.boo Finish calculating wigner 3-j symbol boo for l=6
+2024-08-13 23:48:25,620 INFO static.boo Start calculating coarse-grained spatial correlation for l=6
+2024-08-13 23:48:25,620 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:48:29,245 INFO static.gr Calculate spatial correlation gA of complex-number physical quantity 'A'
+2024-08-13 23:48:32,888 INFO static.boo Finish calculating spatial correlation for l=6
+2024-08-13 23:48:32,888 INFO static.boo Start calculating coarse-grained time correlation for l=6
+2024-08-13 23:48:32,888 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:48:32,889 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:48:32,889 INFO boo_test Finishing test boo_3d with weight and cg using tests/sample_test_data/test_additional_columns.dump...
+.2024-08-13 23:48:32,891 INFO geometric_test Starting test tetrahedral using tests/sample_test_data/test_additional_columns.dump...
+2024-08-13 23:48:32,891 INFO reader.dump_reader Start reading file tests/sample_test_data/test_additional_columns.dump of type DumpFileType.LAMMPS
+2024-08-13 23:48:32,891 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:48:32,905 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:48:32,905 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:48:32,905 INFO reader.dump_reader Finish reading file tests/sample_test_data/test_additional_columns.dump in 0.014154195785522461 seconds
+2024-08-13 23:48:32,905 INFO static.geometric Start calculating local tetrahedral order q8
+2024-08-13 23:48:37,194 INFO geometric_test Finishing test tetrahedral using tests/sample_test_data/test_additional_columns.dump...
+.2024-08-13 23:48:37,194 INFO geometric_test Starting test theta2d using tests/sample_test_data/dump_2D.atom...
+2024-08-13 23:48:37,194 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2024-08-13 23:48:37,194 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:48:37,228 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:48:37,228 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:48:37,228 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.03376507759094238 seconds
+2024-08-13 23:48:37,228 INFO neighbors.freud_neighbors Start calculating neighbors by freud
+2024-08-13 23:48:39,064 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
+2024-08-13 23:48:39,065 INFO static.geometric Start calculating packing capability in two dimensions
+2024-08-13 23:48:39,065 INFO utils.geometry Calculate triangle angle
+2024-08-13 23:48:39,065 INFO utils.geometry Calculate triangle angle
+2024-08-13 23:48:39,065 INFO utils.geometry Calculate triangle angle
+2024-08-13 23:48:39,065 INFO utils.geometry Calculate triangle angle
+2024-08-13 23:48:39,065 INFO utils.geometry Calculate triangle angle
+2024-08-13 23:48:39,065 INFO utils.geometry Calculate triangle angle
+2024-08-13 23:48:39,065 INFO utils.geometry Calculate triangle angle
+2024-08-13 23:48:39,065 INFO utils.geometry Calculate triangle angle
+2024-08-13 23:48:39,065 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:48:40,543 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:48:42,022 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:48:43,489 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:48:44,947 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:48:46,438 INFO geometric_test Finishing test theta2d using tests/sample_test_data/dump_2D.atom...
+.2024-08-13 23:48:46,438 INFO gr_test Starting test gr using tests/sample_test_data/dump_2D.atom...
+2024-08-13 23:48:46,438 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2024-08-13 23:48:46,438 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:48:46,473 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:48:46,473 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:48:46,473 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.03417229652404785 seconds
+2024-08-13 23:48:46,473 INFO static.gr System composition: 0.667:0.333
+2024-08-13 23:48:46,473 INFO static.gr Start calculating g(r) of a binary system
+2024-08-13 23:49:12,613 INFO static.gr Finish calculating g(r) of a binary system
+2024-08-13 23:49:12,615 INFO gr_test Finishing test gr using tests/sample_test_data/dump_2D.atom...
+.2024-08-13 23:49:12,616 INFO gr_test Starting test conditional_gr...
+2024-08-13 23:49:12,616 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2024-08-13 23:49:12,616 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:49:12,622 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:49:12,622 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:49:12,622 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.006352901458740234 seconds
+2024-08-13 23:49:12,622 INFO static.gr Calculate g(r) for 405 selected atoms
+2024-08-13 23:49:15,387 INFO static.gr System composition: 0.85:0.05:0.1
+2024-08-13 23:49:15,388 INFO static.gr Start calculating g(r) of a ternary system
+2024-08-13 23:49:21,295 INFO static.gr Finish calculating g(r) of a ternary system
+2024-08-13 23:49:21,295 INFO static.gr Calculate g(r) for 405 selected atoms
+2024-08-13 23:49:24,010 INFO static.gr System composition: 0.85:0.05:0.1
+2024-08-13 23:49:24,011 INFO static.gr Start calculating g(r) of a ternary system
+2024-08-13 23:49:29,990 INFO static.gr Finish calculating g(r) of a ternary system
+2024-08-13 23:49:30,000 INFO reader.dump_reader Start reading file tests/sample_test_data/binary_velocity.dump of type DumpFileType.LAMMPS
+2024-08-13 23:49:30,000 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:49:30,007 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:49:30,007 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:49:30,007 INFO reader.dump_reader Finish reading file tests/sample_test_data/binary_velocity.dump in 0.007267951965332031 seconds
+2024-08-13 23:49:30,007 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:49:32,688 INFO static.gr Calculate spatial correlation gA of vector-type physical quantity 'A'
+.2024-08-13 23:49:35,467 INFO gr_test Starting test gr using tests/sample_test_data/ternary.dump...
+2024-08-13 23:49:35,467 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2024-08-13 23:49:35,467 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:49:35,474 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:49:35,474 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:49:35,474 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.006499052047729492 seconds
+2024-08-13 23:49:35,474 INFO static.gr System composition: 0.85:0.05:0.1
+2024-08-13 23:49:35,474 INFO static.gr Start calculating g(r) of a ternary system
+2024-08-13 23:49:41,393 INFO static.gr Finish calculating g(r) of a ternary system
+2024-08-13 23:49:41,395 INFO gr_test Finishing test gr using tests/sample_test_data/ternary.dump...
+.2024-08-13 23:49:41,396 INFO gr_test Starting test gr using tests/sample_test_data/unary.dump...
+2024-08-13 23:49:41,396 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
+2024-08-13 23:49:41,396 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:49:41,396 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:49:41,396 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:49:41,396 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.0005109310150146484 seconds
+2024-08-13 23:49:41,396 INFO static.gr System composition: 1.0
+2024-08-13 23:49:41,396 INFO static.gr Start calculating g(r) of a unary system
+2024-08-13 23:49:41,446 INFO static.gr Finish calculating g(r) of a unary system
+2024-08-13 23:49:41,446 INFO gr_test Finishing test gr using tests/sample_test_data/unary.dump...
+.2024-08-13 23:49:41,446 INFO nematic_test Starting test using tests/sample_test_data/2d/dump.nematic.atom...
+2024-08-13 23:49:41,447 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/dump.nematic.atom of type DumpFileType.LAMMPS
+2024-08-13 23:49:41,447 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:49:41,455 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:49:41,455 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:49:41,455 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/dump.nematic.atom in 0.008611202239990234 seconds
+2024-08-13 23:49:41,455 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/dump.nematic.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:49:41,455 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:49:41,455 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-13 23:49:41,462 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:49:41,462 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:49:41,462 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/dump.nematic.atom in 0.007187843322753906 seconds
+2024-08-13 23:49:41,462 INFO static.nematic Calcualte original nematic order for 5 configurations
+2024-08-13 23:49:41,479 INFO static.nematic Compute the scalar nematic order parameter
+2024-08-13 23:49:41,499 INFO static.nematic Calculate spatial correlation of tensorial QIJ
+2024-08-13 23:49:41,499 INFO static.gr Calculate spatial correlation gA of tensor-type physical quantity 'A'
+2024-08-13 23:49:45,641 INFO static.gr Calculate spatial correlation gA of tensor-type physical quantity 'A'
+2024-08-13 23:49:49,678 INFO static.gr Calculate spatial correlation gA of tensor-type physical quantity 'A'
+2024-08-13 23:49:53,749 INFO static.gr Calculate spatial correlation gA of tensor-type physical quantity 'A'
+2024-08-13 23:49:57,867 INFO static.gr Calculate spatial correlation gA of tensor-type physical quantity 'A'
+2024-08-13 23:50:01,968 INFO static.nematic Calculate time correlation of tensorial QIJ
+2024-08-13 23:50:01,968 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:50:02,038 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:50:02,038 INFO nematic_test Finishing test Nematic using tests/sample_test_data/2d/dump.nematic.atom...
+.2024-08-13 23:50:02,038 INFO nematic_test Starting test using tests/sample_test_data/2d/dump.nematic.atom...
+2024-08-13 23:50:02,038 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/dump.nematic.atom of type DumpFileType.LAMMPS
+2024-08-13 23:50:02,038 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:50:02,046 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:50:02,046 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:50:02,046 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/dump.nematic.atom in 0.007556915283203125 seconds
+2024-08-13 23:50:02,046 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/dump.nematic.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:50:02,046 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:50:02,046 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-13 23:50:02,053 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:50:02,053 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:50:02,053 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/dump.nematic.atom in 0.007272958755493164 seconds
+2024-08-13 23:50:02,053 INFO neighbors.calculate_neighbors Calculate 6 nearest neighbors for a 2-dimensional system
+2024-08-13 23:50:02,733 INFO neighbors.calculate_neighbors 6-nearest neighbors saved to neighborlist.dat
+2024-08-13 23:50:02,733 INFO static.nematic Calcualte coarse-grained nematic order for 5 configurations
+2024-08-13 23:50:02,749 INFO utils.coarse_graining Performing coarse-graining from neighborlist.dat
+2024-08-13 23:50:02,749 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:50:02,763 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:50:02,777 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:50:02,791 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:50:02,805 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:50:02,819 INFO static.nematic Compute the scalar nematic order parameter
+2024-08-13 23:50:02,838 INFO static.nematic Calculate spatial correlation of tensorial QIJ
+2024-08-13 23:50:02,839 INFO static.gr Calculate spatial correlation gA of tensor-type physical quantity 'A'
+2024-08-13 23:50:06,931 INFO static.gr Calculate spatial correlation gA of tensor-type physical quantity 'A'
+2024-08-13 23:50:11,010 INFO static.gr Calculate spatial correlation gA of tensor-type physical quantity 'A'
+2024-08-13 23:50:15,122 INFO static.gr Calculate spatial correlation gA of tensor-type physical quantity 'A'
+2024-08-13 23:50:19,243 INFO static.gr Calculate spatial correlation gA of tensor-type physical quantity 'A'
+2024-08-13 23:50:23,357 INFO static.nematic Calculate time correlation of tensorial QIJ
+2024-08-13 23:50:23,357 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:50:23,426 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:50:23,427 INFO nematic_test Finishing test Nematic using tests/sample_test_data/2d/dump.nematic.atom...
+.2024-08-13 23:50:23,427 INFO pairentropy_test Starting test S2 using tests/sample_test_data/2d/2ddump.s.atom...
+2024-08-13 23:50:23,427 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.atom of type DumpFileType.LAMMPS
+2024-08-13 23:50:23,427 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:50:23,434 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:50:23,434 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:50:23,434 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.atom in 0.0070989131927490234 seconds
+2024-08-13 23:50:23,434 INFO static.pairentropy System composition: 0.65:0.35
+2024-08-13 23:50:23,434 INFO static.pairentropy Start calculating particle S2 in d=2 system
+2024-08-13 23:50:40,676 INFO static.pairentropy Finish calculating particle S2 in d=2 system
+2024-08-13 23:50:40,677 INFO static.pairentropy Start calculating spatial correlation of S2 in d=2 system
+2024-08-13 23:50:40,677 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:50:40,850 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:50:41,031 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:50:41,208 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:50:41,385 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:50:41,566 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:50:41,745 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:50:41,924 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:50:42,105 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:50:42,280 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:50:42,453 INFO static.pairentropy Finish calculating spatial correlation of S2 in d=2 system
+2024-08-13 23:50:42,453 INFO static.pairentropy Start calculating time correlation of S2 in d=2 system
+2024-08-13 23:50:42,453 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:50:42,453 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:50:42,454 INFO static.pairentropy Finish calculating time correlation of S2 in d=2 system
+.2024-08-13 23:50:42,454 INFO pairentropy_test Starting test S2 using tests/sample_test_data/3d/3ddump.s.v.atom...
+2024-08-13 23:50:42,454 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-13 23:50:42,454 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:50:42,463 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:50:42,463 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:50:42,463 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3ddump.s.v.atom in 0.009727001190185547 seconds
+2024-08-13 23:50:42,464 INFO static.pairentropy System composition: 0.8:0.2
+2024-08-13 23:50:42,464 INFO static.pairentropy Start calculating particle S2 in d=3 system
+2024-08-13 23:51:28,385 INFO static.pairentropy Finish calculating particle S2 in d=3 system
+2024-08-13 23:51:28,385 INFO static.pairentropy Start calculating spatial correlation of S2 in d=3 system
+2024-08-13 23:51:28,386 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:51:28,564 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:51:28,742 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:51:28,920 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:51:29,098 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:51:29,275 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:51:29,457 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:51:29,638 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:51:29,817 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:51:29,997 INFO static.gr Calculate spatial correlation gA of float-scalar physical quantity 'A'
+2024-08-13 23:51:30,176 INFO static.pairentropy Finish calculating spatial correlation of S2 in d=3 system
+2024-08-13 23:51:30,176 INFO static.pairentropy Start calculating time correlation of S2 in d=3 system
+2024-08-13 23:51:30,176 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:30,176 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:30,176 INFO static.pairentropy Finish calculating time correlation of S2 in d=3 system
+.2024-08-13 23:51:30,177 INFO pairentropy_test Starting test S2 using tests/sample_test_data/unary.dump...
+2024-08-13 23:51:30,177 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
+2024-08-13 23:51:30,177 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:30,177 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:30,177 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:30,177 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.0006232261657714844 seconds
+2024-08-13 23:51:30,177 INFO static.pairentropy System composition: 1.0
+2024-08-13 23:51:30,177 INFO static.pairentropy Start calculating particle S2 in d=3 system
+2024-08-13 23:51:30,666 INFO static.pairentropy Finish calculating particle S2 in d=3 system
+.2024-08-13 23:51:30,666 INFO shape_test Starting test using tests/sample_test_data/3d/3dkaljdump.s.atom...
+2024-08-13 23:51:30,666 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3dkaljdump.s.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:30,666 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:30,674 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:30,674 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:30,674 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3dkaljdump.s.atom in 0.008145809173583984 seconds
+2024-08-13 23:51:30,674 INFO static.shape Calculating gyration tensor of 1000 atoms in 3-dimension
+2024-08-13 23:51:30,676 INFO static.shape 
+            Calculated shape factors are:
+                radius_of_gyration: 4.706419206451777,
+                asphericity: 0.28228365518691234,
+                acylindricity: 0.14422817056003634,
+                shape_anisotropy: 0.00019420654687231142,
+                fractal_dimension: 4.459702522482764
+            
+2024-08-13 23:51:30,676 INFO static.shape Calculating gyration tensor of 1000 atoms in 3-dimension
+2024-08-13 23:51:30,677 INFO static.shape 
+            Calculated shape factors are:
+                radius_of_gyration: 4.710464986859922,
+                asphericity: 0.18363043137026125,
+                acylindricity: 0.15827590448870055,
+                shape_anisotropy: 0.0001066535138434448,
+                fractal_dimension: 4.457229892782172
+            
+2024-08-13 23:51:30,677 INFO shape_test Finishing test gyration_tensor using tests/sample_test_data/3d/3dkaljdump.s.atom...
+.2024-08-13 23:51:30,677 INFO sq_test Starting test Sq using tests/sample_test_data/dump_2D.atom...
+2024-08-13 23:51:30,677 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:30,677 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:30,710 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:30,710 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:30,710 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.03343820571899414 seconds
+2024-08-13 23:51:30,711 INFO static.sq System Composition: 0.667:0.333
+2024-08-13 23:51:30,724 INFO static.sq Start calculating S(q) for a binary system
+2024-08-13 23:51:32,520 INFO static.sq Finish calculating S(q) of a binary system
+2024-08-13 23:51:32,521 INFO sq_test Finishing test Sq using tests/sample_test_data/dump_2D.atom...
+.2024-08-13 23:51:32,521 INFO sq_test Starting test Sq using tests/sample_test_data/ternary.dump...
+2024-08-13 23:51:32,521 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2024-08-13 23:51:32,521 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:32,528 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:32,528 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:32,528 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.006319761276245117 seconds
+2024-08-13 23:51:32,528 INFO static.sq System Composition: 0.85:0.05:0.1
+2024-08-13 23:51:33,219 INFO static.sq Start calculating S(q) for a ternary system
+2024-08-13 23:51:38,529 INFO static.sq Finish calculating S(q) of a ternary system
+2024-08-13 23:51:38,530 INFO sq_test Finishing test Sq using tests/sample_test_data/ternary.dump...
+.2024-08-13 23:51:38,531 INFO sq_test Starting test Sq using tests/sample_test_data/unary.dump...
+2024-08-13 23:51:38,531 INFO reader.dump_reader Start reading file tests/sample_test_data/unary.dump of type DumpFileType.LAMMPS
+2024-08-13 23:51:38,531 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:38,531 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:38,531 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:38,531 INFO reader.dump_reader Finish reading file tests/sample_test_data/unary.dump in 0.00047588348388671875 seconds
+2024-08-13 23:51:38,531 INFO static.sq System Composition: 1.0
+2024-08-13 23:51:38,578 INFO static.sq Start calculating S(q) of a unary system
+2024-08-13 23:51:38,634 INFO static.sq Finish calculating S(q) of a unary system
+2024-08-13 23:51:38,635 INFO sq_test Finishing test Sq using tests/sample_test_data/unary.dump...
+.2024-08-13 23:51:38,635 INFO sq_test Starting test conditional_sq using tests/sample_test_data/ternary.dump...
+2024-08-13 23:51:38,635 INFO reader.dump_reader Start reading file tests/sample_test_data/ternary.dump of type DumpFileType.LAMMPS
+2024-08-13 23:51:38,635 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:38,641 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:38,641 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:38,641 INFO reader.dump_reader Finish reading file tests/sample_test_data/ternary.dump in 0.00621795654296875 seconds
+2024-08-13 23:51:38,641 INFO static.sq Calculate S(q) for 405 selected atoms
+2024-08-13 23:51:38,643 INFO static.sq System Composition: 0.85:0.05:0.1
+2024-08-13 23:51:38,643 INFO static.sq Start calculating S(q) for a ternary system
+2024-08-13 23:51:38,669 INFO static.sq Finish calculating S(q) of a ternary system
+2024-08-13 23:51:38,669 INFO sq_test Finishing test conditional_sq using tests/sample_test_data/ternary.dump...
+.2024-08-13 23:51:38,670 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:38,670 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:38,677 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:38,677 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:38,677 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007399082183837891 seconds
+2024-08-13 23:51:38,677 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:51:38,677 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:51:38,677 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-13 23:51:38,684 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:38,684 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:51:38,684 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007013082504272461 seconds
+2024-08-13 23:51:38,684 INFO vector_test Starting test using tests/sample_test_data/2d/2ddump.s.v.atom...
+2024-08-13 23:51:38,684 INFO neighbors.calculate_neighbors Calculate 6 nearest neighbors for a 2-dimensional system
+2024-08-13 23:51:39,081 INFO neighbors.calculate_neighbors 6-nearest neighbors saved to neighborlist.dat
+2024-08-13 23:51:39,081 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:51:39,094 INFO vector_test Finishing test gyration_tensor using tests/sample_test_data/2d/2ddump.s.v.atom...
+.2024-08-13 23:51:39,094 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:39,094 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:39,101 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:39,101 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:39,101 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007523298263549805 seconds
+2024-08-13 23:51:39,101 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:51:39,101 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:51:39,101 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-13 23:51:39,108 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:39,108 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:51:39,108 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007027864456176758 seconds
+2024-08-13 23:51:39,108 INFO vector_test Starting test using tests/sample_test_data/3d/3ddump.s.v.atom...
+2024-08-13 23:51:39,108 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:39,108 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:39,117 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:39,117 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:39,117 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3ddump.s.v.atom in 0.008550882339477539 seconds
+2024-08-13 23:51:39,117 INFO reader.dump_reader Start reading file tests/sample_test_data/3d/3ddump.s.v.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:51:39,117 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:51:39,117 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 3
+2024-08-13 23:51:39,125 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:39,125 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:51:39,125 INFO reader.dump_reader Finish reading file tests/sample_test_data/3d/3ddump.s.v.atom in 0.008206844329833984 seconds
+2024-08-13 23:51:39,125 INFO neighbors.calculate_neighbors Calculate 12 nearest neighbors for a 3-dimensional system
+2024-08-13 23:51:39,627 INFO neighbors.calculate_neighbors 12-nearest neighbors saved to neighborlist.dat
+2024-08-13 23:51:39,627 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:51:39,769 INFO vector_test Finishing test gyration_tensor using tests/sample_test_data/3d/3ddump.s.v.atom...
+.2024-08-13 23:51:39,769 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:39,769 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:39,777 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:39,777 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:39,777 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007818937301635742 seconds
+2024-08-13 23:51:39,777 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:51:39,777 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:51:39,777 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-13 23:51:39,784 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:39,784 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:51:39,784 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.0072748661041259766 seconds
+2024-08-13 23:51:39,784 INFO vector_test Starting test using tests/sample_test_data/2d/2ddump.s.v.atom...
+2024-08-13 23:51:39,784 INFO neighbors.calculate_neighbors Calculate 6 nearest neighbors for a 2-dimensional system
+2024-08-13 23:51:40,185 INFO neighbors.calculate_neighbors 6-nearest neighbors saved to neighborlist.dat
+2024-08-13 23:51:40,185 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:51:40,191 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:51:40,197 INFO vector_test Finishing test gyration_tensor using tests/sample_test_data/2d/2ddump.s.v.atom...
+.2024-08-13 23:51:40,197 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:40,197 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:40,205 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:40,205 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:40,205 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007436037063598633 seconds
+2024-08-13 23:51:40,205 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:51:40,205 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:51:40,205 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-13 23:51:40,212 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:40,212 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:51:40,212 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.006979942321777344 seconds
+2024-08-13 23:51:40,212 INFO vector_test Starting test using tests/sample_test_data/2d/2ddump.s.v.atom...
+2024-08-13 23:51:40,212 INFO vector_test Finishing test gyration_tensor using tests/sample_test_data/2d/2ddump.s.v.atom...
+.2024-08-13 23:51:40,212 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:40,212 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:40,219 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:40,219 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:40,219 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007391214370727539 seconds
+2024-08-13 23:51:40,219 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:51:40,219 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:51:40,219 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-13 23:51:40,226 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:40,226 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:51:40,226 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.0069446563720703125 seconds
+2024-08-13 23:51:40,226 INFO vector_test Starting test using tests/sample_test_data/2d/2ddump.s.v.atom...
+2024-08-13 23:51:40,226 INFO neighbors.calculate_neighbors Calculate 6 nearest neighbors for a 2-dimensional system
+2024-08-13 23:51:40,623 INFO neighbors.calculate_neighbors 6-nearest neighbors saved to neighborlist.dat
+2024-08-13 23:51:40,623 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:51:40,629 INFO neighbors.read_neighbors Reading neighboring particle properties
+2024-08-13 23:51:40,635 INFO vector_test Finishing test gyration_tensor using tests/sample_test_data/2d/2ddump.s.v.atom...
+.2024-08-13 23:51:40,635 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:40,635 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:40,643 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:40,643 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:40,643 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007483959197998047 seconds
+2024-08-13 23:51:40,643 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:51:40,643 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:51:40,643 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-13 23:51:40,650 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:40,650 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:51:40,650 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.0070459842681884766 seconds
+2024-08-13 23:51:40,650 INFO vector_test Starting test using tests/sample_test_data/2d/2ddump.s.v.atom...
+2024-08-13 23:51:40,650 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,657 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,664 INFO vector_test Finishing test vector_decomposition_sq using tests/sample_test_data/2d/2ddump.s.v.atom...
+.2024-08-13 23:51:40,664 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:40,664 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:40,672 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:40,672 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:40,672 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.007551908493041992 seconds
+2024-08-13 23:51:40,672 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:51:40,672 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:51:40,672 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-13 23:51:40,679 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:40,679 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:51:40,679 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.0070819854736328125 seconds
+2024-08-13 23:51:40,679 INFO vector_test Starting test using tests/sample_test_data/2d/2ddump.s.v.atom...
+2024-08-13 23:51:40,679 INFO static.vector Calculate spectra of decomposed modes at d=2
+2024-08-13 23:51:40,679 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,687 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,695 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,704 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,712 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,720 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,728 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,736 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,744 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,752 INFO static.sq Calculate Fourier-Transform of float-Vector physical quantity A
+2024-08-13 23:51:40,760 INFO static.vector Calculate time correlations of decomposed modes at d=2
+2024-08-13 23:51:40,760 INFO static.vector Calculate autocorrelation for FFT vector
+2024-08-13 23:51:40,761 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,761 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,762 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,762 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,763 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,763 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,764 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,764 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,765 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,765 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,766 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,766 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,767 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,767 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,768 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,768 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,769 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,769 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,770 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,770 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,771 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,771 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,772 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,772 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,773 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,773 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,773 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,774 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,774 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,774 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,775 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,775 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,776 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,776 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,777 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,777 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,778 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,778 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,779 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,779 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,780 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,780 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,781 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,781 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,782 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,782 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,783 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,783 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,784 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,784 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,785 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,785 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,786 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,786 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,787 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,787 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,788 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,788 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,788 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,789 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,789 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,790 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,790 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,790 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,791 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,791 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,792 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,792 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,793 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,793 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,794 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,794 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,795 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,795 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,796 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,796 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,797 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,797 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,798 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,798 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,799 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,799 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,800 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,800 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,800 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,801 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,802 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,802 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,803 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,803 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,804 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,804 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,805 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,805 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,806 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,806 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,807 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,807 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,808 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,808 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,808 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,809 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,809 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,810 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,810 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,811 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,811 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,811 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,812 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,812 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,813 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,813 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,814 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,814 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,815 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,815 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,816 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,816 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,817 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,817 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,818 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,818 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,819 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,819 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,820 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,820 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,821 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,821 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,822 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,822 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,823 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,823 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,823 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,824 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,824 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,825 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,825 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,825 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,826 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,826 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,827 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,827 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,828 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,828 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,829 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,829 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,830 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,830 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,831 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,831 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,832 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,832 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,833 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,833 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,834 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,834 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,835 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,835 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,836 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,836 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,836 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,837 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,837 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,838 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,838 INFO static.vector Calculate autocorrelation for T_FFT vector
+2024-08-13 23:51:40,839 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,839 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,840 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,840 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,841 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,841 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,842 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,842 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,843 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,843 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,844 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,844 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,845 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,845 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,846 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,846 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,847 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,847 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,848 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,848 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,849 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,849 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,850 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,850 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,850 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,851 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,851 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,852 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,852 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,853 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,853 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,854 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,854 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,854 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,855 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,855 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,856 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,856 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,857 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,857 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,858 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,858 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,859 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,859 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,860 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,860 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,861 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,861 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,862 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,862 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,863 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,863 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,864 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,864 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,864 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,865 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,865 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,865 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,866 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,866 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,867 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,867 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,868 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,869 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,869 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,870 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,870 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,871 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,871 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,871 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,872 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,872 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,873 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,873 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,874 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,874 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,875 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,875 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,876 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,876 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,877 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,877 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,878 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,879 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,879 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,880 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,880 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,881 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,881 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,881 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,882 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,883 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,883 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,883 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,884 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,884 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,885 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,885 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,886 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,886 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,887 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,887 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,888 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,888 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,889 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,889 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,890 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,890 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,891 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,891 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,892 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,892 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,893 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,893 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,894 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,894 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,895 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,895 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,896 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,896 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,897 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,897 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,898 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,898 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,898 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,899 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,899 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,900 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,900 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,900 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,901 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,901 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,902 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,902 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,903 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,903 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,904 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,904 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,905 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,905 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,906 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,906 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,907 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,907 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,908 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,908 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,909 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,909 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,909 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,910 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,910 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,911 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,911 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,911 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,912 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,912 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,913 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,913 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,914 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,914 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,915 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,915 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,916 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,916 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,917 INFO static.vector Calculate autocorrelation for L_FFT vector
+2024-08-13 23:51:40,918 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,918 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,919 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,919 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,920 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,920 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,920 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,921 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,921 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,922 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,922 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,922 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,923 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,923 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,924 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,924 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,925 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,925 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,926 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,926 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,927 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,927 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,928 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,928 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,929 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,929 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,930 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,930 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,931 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,931 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,932 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,932 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,932 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,933 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,933 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,933 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,934 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,934 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,935 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,935 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,936 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,936 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,937 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,937 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,938 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,938 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,939 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,939 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,940 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,940 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,941 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,941 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,942 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,942 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,943 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,943 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,943 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,944 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,944 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,944 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,945 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,945 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,946 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,946 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,947 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,947 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,948 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,948 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,949 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,949 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,950 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,950 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,951 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,951 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,952 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,952 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,953 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,953 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,953 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,954 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,954 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,955 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,955 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,955 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,956 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,956 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,957 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,957 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,958 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,958 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,959 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,959 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,960 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,960 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,961 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,961 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,962 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,962 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,963 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,963 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,964 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,964 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,964 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,965 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,965 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,965 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,966 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,966 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,967 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,967 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,968 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,968 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,969 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,969 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,970 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,970 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,971 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,971 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,972 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,972 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,973 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,973 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,974 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,974 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,975 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,975 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,976 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,976 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,977 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,977 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,978 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,978 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,979 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,979 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,980 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,980 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,981 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,981 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,982 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,982 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,983 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,983 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,984 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,984 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,985 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,985 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,986 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,986 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,986 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,987 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,988 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,988 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,988 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,989 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,989 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,990 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,990 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,991 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,991 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,991 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,992 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,992 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,993 INFO dynamic.time_corr Calculate time correlation of input property in linear style
+2024-08-13 23:51:40,993 INFO dynamic.time_corr Finish calculating time correlation of input conditional property
+2024-08-13 23:51:40,994 INFO static.vector Calculate time correlations of decomposed modes at d=2 Done
+2024-08-13 23:51:40,995 INFO vector_test Finishing test vector_decomposition_sq using tests/sample_test_data/2d/2ddump.s.v.atom...
+.2024-08-13 23:51:40,996 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPS
+2024-08-13 23:51:40,996 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-13 23:51:41,003 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:41,003 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-13 23:51:41,003 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.0075838565826416016 seconds
+2024-08-13 23:51:41,003 INFO reader.dump_reader Start reading file tests/sample_test_data/2d/2ddump.s.v.atom of type DumpFileType.LAMMPSVECTOR
+2024-08-13 23:51:41,003 INFO reader.lammps_reader_helper -----Start Reading LAMMPS Dump with Additional Column(s)-----
+2024-08-13 23:51:41,003 INFO reader.lammps_reader_helper LAMMPS additional information read is a vector of length 2
+2024-08-13 23:51:41,010 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-13 23:51:41,010 INFO reader.lammps_reader_helper ---LAMMPS Dump with Additional Column(s) Reading Completed---
+2024-08-13 23:51:41,010 INFO reader.dump_reader Finish reading file tests/sample_test_data/2d/2ddump.s.v.atom in 0.0070421695709228516 seconds
+2024-08-13 23:51:41,010 INFO vector_test Starting test vibrability...
+2024-08-13 23:51:41,010 INFO vector_test Finishing test vibrability...
 .
 ----------------------------------------------------------------------
-Ran 1 test in 22.051s
+Ran 26 tests in 308.575s
 
 OK

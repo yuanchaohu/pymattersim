@@ -16,17 +16,18 @@ logger = get_logger_handle(__name__)
 # pylint: disable=too-many-locals
 # pylint: disable=consider-using-f-string
 
+
 def Nnearests(
-        snapshots: Snapshots,
-        N: int=12,
-        ppp: np.ndarray=np.array([1,1,1]),
-        fnfile: str='neighborlist.dat'
-    ) -> None:
+    snapshots: Snapshots,
+    N: int = 12,
+    ppp: np.ndarray = np.array([1, 1, 1]),
+    fnfile: str = 'neighborlist.dat'
+) -> None:
     """
     Get the N nearest neighbors of a particle.
 
     Inputs:
-        1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory 
+        1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                      (returned by reader.dump_reader.DumpReader)
 
         2. N (int): the number of nearest neighbors, default=12
@@ -37,18 +38,19 @@ def Nnearests(
 
         4. fnfile (str): the name of output file that stores the calculated neighborlist
                          default is 'neighborlist.dat'
-    
+
     Return:
         None [output neighbor list to a document]
     """
-    logger.info(f"Calculate {N} nearest neighbors for a {len(ppp)}-dimensional system")
+    logger.info(
+        f"Calculate {N} nearest neighbors for a {len(ppp)}-dimensional system")
 
     fneighbor = open(fnfile, 'w', encoding="utf-8")
     for snapshot in snapshots.snapshots:
         hmatrix = snapshot.hmatrix
         positions = snapshot.positions
         nparticle = snapshot.nparticle
-        neighbor = np.zeros((nparticle, 2+N), dtype=np.int32)
+        neighbor = np.zeros((nparticle, 2 + N), dtype=np.int32)
         neighbor[:, 0] = np.arange(nparticle) + 1
         neighbor[:, 1] = N
         for i in range(nparticle):
@@ -62,20 +64,26 @@ def Nnearests(
             # the saved particle ID is numbered starting from 1
             neighbor[i, 2:] = nearests[1:] + 1
         np.set_printoptions(threshold=np.inf, linewidth=np.inf)
-        # the neighborlist of each snapshot starts with header "id cn neighborlist"
+        # the neighborlist of each snapshot starts with header "id cn
+        # neighborlist"
         fneighbor.write('id     cn     neighborlist\n')
-        fneighbor.write(re.sub(r'[\[\]]', ' ', np.array2string(neighbor) + '\n'))
+        fneighbor.write(
+            re.sub(
+                r'[\[\]]',
+                ' ',
+                np.array2string(neighbor) +
+                '\n'))
 
     fneighbor.close()
     logger.info(f"{N}-nearest neighbors saved to {fnfile}")
 
 
 def cutoffneighbors(
-        snapshots: Snapshots,
-        r_cut: float,
-        ppp: np.ndarray=np.array([1,1,1]),
-        fnfile: str='neighborlist.dat'
-    ) -> None:
+    snapshots: Snapshots,
+    r_cut: float,
+    ppp: np.ndarray = np.array([1, 1, 1]),
+    fnfile: str = 'neighborlist.dat'
+) -> None:
     """
     Get the nearest neighbors around a particle by setting a global cutoff distance r_cut
     This is useful for single-component systems
@@ -91,12 +99,13 @@ def cutoffneighbors(
 
         4. fnfile (str): the name of output file that stores the calculated neighborlist
                          default is 'neighborlist.dat'
-    
+
     Return:
         None [saved to fnfile]
     """
 
-    logger.info(f"Calculate neighbors within {r_cut} for a {len(ppp)}-dimensional system")
+    logger.info(
+        f"Calculate neighbors within {r_cut} for a {len(ppp)}-dimensional system")
     fneighbor = open(fnfile, 'w', encoding="utf-8")
     for snapshot in snapshots.snapshots:
         hmatrix = snapshot.hmatrix
@@ -114,7 +123,8 @@ def cutoffneighbors(
             # nearests include the centered atom itself, so indexing [1:]
             nearests = nearests[1:] + 1
             # the saved particle ID is numbered starting from 1
-            # the neighborlist of each snapshot starts with header "id cn neighborlist"
+            # the neighborlist of each snapshot starts with header "id cn
+            # neighborlist"
             fneighbor.write('%d %d ' % (i + 1, CN))
             fneighbor.write(' '.join(map(str, nearests)))
             fneighbor.write('\n')
@@ -124,11 +134,11 @@ def cutoffneighbors(
 
 
 def cutoffneighbors_particletype(
-        snapshots: Snapshots,
-        r_cut: np.ndarray,
-        ppp: np.ndarray=np.array([1,1,1]),
-        fnfile: str='neighborlist.dat'
-    ) -> None:
+    snapshots: Snapshots,
+    r_cut: np.ndarray,
+    ppp: np.ndarray = np.array([1, 1, 1]),
+    fnfile: str = 'neighborlist.dat'
+) -> None:
     """
     Get the nearest neighbors around a particle by setting a cutoff distance r_cut
     for each particle type pair, should be used for multi-component systems

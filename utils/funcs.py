@@ -10,14 +10,16 @@ logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
 
+
 def kronecker(i: int, j: int) -> int:
     """Kronecker function"""
-    return int(i==j)
+    return int(i == j)
 
-def nidealfac(ndim: int=3) -> float:
+
+def nidealfac(ndim: int = 3) -> float:
     """
     Choose factor of Nideal in g(r) calculation
-    
+
     Inputs:
         ndim (int): system dimensionality, default 3
 
@@ -31,7 +33,8 @@ def nidealfac(ndim: int=3) -> float:
     else:
         raise ValueError("Wrong input dimensionality")
 
-def areafac(ndim: int=3) -> float:
+
+def areafac(ndim: int = 3) -> float:
     """
     Choose factor of area in S2 calculation
 
@@ -48,13 +51,14 @@ def areafac(ndim: int=3) -> float:
     else:
         raise ValueError("Wrong input dimensionality")
 
-def alpha2factor(ndim: int=3) -> float:
+
+def alpha2factor(ndim: int = 3) -> float:
     """
     Choose factor in alpha2 calculation
-    
+
     Inputs:
         ndim (int): system dimensionality, default 3
-    
+
     Return:
         (float): alpha2factor
     """
@@ -65,10 +69,11 @@ def alpha2factor(ndim: int=3) -> float:
     else:
         raise ValueError("Wrong input dimensionality")
 
+
 def moment_of_inertia(
     positions: np.ndarray,
-    m: int=1,
-    matrix: bool=False
+    m: int = 1,
+    matrix: bool = False
 ) -> np.ndarray:
     """
     moment of inertia for a rigid body made of n points / particles
@@ -77,7 +82,7 @@ def moment_of_inertia(
         1. positions (np.ndarray): positions of the point particles as [numofatoms, 3]
         2. m (int): assuming each point mass is 1.0/numofatoms
         3. matrix (bool): return the results as a matrix of [ixx iyy izz ixy ixz iyz]
-    
+
     Return:
         moment of inertia (np.ndarray)
     """
@@ -86,15 +91,18 @@ def moment_of_inertia(
     distance2 = np.square(positions).sum(axis=1)
     for i in range(3):
         for j in range(3):
-            Iij[i, j] = m*(distance2*kronecker(i, j)-positions[:, i]*positions[:, j]).sum()
+            Iij[i, j] = m * (distance2 * kronecker(i, j) -
+                             positions[:, i] * positions[:, j]).sum()
 
     Iij /= positions.shape[0]
     if matrix:
         return Iij
     else:
-        return np.array([Iij[0,0], Iij[1,1], Iij[2,2], Iij[0,1], Iij[0,2], Iij[1,2]])
+        return np.array([Iij[0, 0], Iij[1, 1], Iij[2, 2],
+                        Iij[0, 1], Iij[0, 2], Iij[1, 2]])
 
-def Wignerindex(l :int) -> np.ndarray:
+
+def Wignerindex(l: int) -> np.ndarray:
     """
     Define Wigner 3-j symbol
 
@@ -108,13 +116,14 @@ def Wignerindex(l :int) -> np.ndarray:
     for m1 in range(-l, l + 1):
         for m2 in range(-l, l + 1):
             for m3 in range(-l, l + 1):
-                if m1 + m2 + m3 ==0:
+                if m1 + m2 + m3 == 0:
                     windex = wigner_3j(l, l, l, m1, m2, m3).evalf()
                     selected.append(np.array([m1, m2, m3, windex]))
 
     return np.ravel(np.array(selected)).reshape(-1, 4)
 
-def grid_gaussian(distances: np.ndarray, sigma: float=1)->np.ndarray:
+
+def grid_gaussian(distances: np.ndarray, sigma: float = 1) -> np.ndarray:
     """
     Calculate the gaussian distribution from the zero center,
     give the gaussian probability based on distance and sigma
@@ -126,8 +135,9 @@ def grid_gaussian(distances: np.ndarray, sigma: float=1)->np.ndarray:
     Return:
         gaussian probability at various distances in numpy array
     """
-    sigma2 = 2*sigma**2
-    return np.exp(-np.square(distances)/sigma2)/np.sqrt(sigma2*np.pi)
+    sigma2 = 2 * sigma**2
+    return np.exp(-np.square(distances) / sigma2) / np.sqrt(sigma2 * np.pi)
+
 
 def Legendre_polynomials(x, ndim):
     return (ndim * x**2 - 1) / 2

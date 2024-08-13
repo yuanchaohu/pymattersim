@@ -46,7 +46,7 @@ def convert_configuration(snapshots: Snapshots):
     return list_box, list_points
 
 
-def cal_neighbors(snapshots: Snapshots, outputfile: str=None) -> None:
+def cal_neighbors(snapshots: Snapshots, outputfile: str = None) -> None:
     """
     calculate the particle neighbors and bond properties from freud
 
@@ -65,15 +65,19 @@ def cal_neighbors(snapshots: Snapshots, outputfile: str=None) -> None:
 
     list_box, list_points = convert_configuration(snapshots)
 
-    foverall = open(outputfile+'.overall.dat', 'w', encoding="utf-8")
+    foverall = open(outputfile + '.overall.dat', 'w', encoding="utf-8")
     foverall.write('id cn area_or_volume\n')
-    fneighbors = open(outputfile+'.neighbor.dat', 'w', encoding="utf-8")
+    fneighbors = open(outputfile + '.neighbor.dat', 'w', encoding="utf-8")
 
     ndim = snapshots.snapshots[0].positions.shape[1]
     if ndim == 2:
-        fbondinfos = open(outputfile+'.edgelength.dat', 'w', encoding="utf-8")
+        fbondinfos = open(
+            outputfile +
+            '.edgelength.dat',
+            'w',
+            encoding="utf-8")
     else:
-        fbondinfos = open(outputfile+'.facearea.dat', 'w', encoding="utf-8")
+        fbondinfos = open(outputfile + '.facearea.dat', 'w', encoding="utf-8")
 
     for n in range(snapshots.nsnapshots):
         # write header for each configuration
@@ -104,8 +108,8 @@ def cal_neighbors(snapshots: Snapshots, outputfile: str=None) -> None:
             fbondinfos.write('%d %d ' % (atomid, i_cn))
             foverall.write('%d %d %.6f\n' % (atomid, i_cn, volumes[i]))
             for _ in range(i_cn):
-                fneighbors.write('%d ' %nlist[nn, 1])
-                fbondinfos.write('%.6f '% weights[nn])
+                fneighbors.write('%d ' % nlist[nn, 1])
+                fbondinfos.write('%.6f ' % weights[nn])
                 nn += 1
             fneighbors.write('\n')
             fbondinfos.write('\n')
@@ -115,16 +119,18 @@ def cal_neighbors(snapshots: Snapshots, outputfile: str=None) -> None:
 
     logger.info("Finish calculating neighbors by freud")
 
-# TODO @Yibang please benchmark with 
+# TODO @Yibang please benchmark with
 # https://github.com/yuanchaohu/MyCodes/blob/master/CalfromFreud.py#L122
+
+
 def VolumeMatrix(
-        snapshots: Snapshots,
-        ndim: int=2,
-        nconfig: int=0,
-        deltar: float=0.01,
-        transform_matrix: bool=True,
-        outputfile: str="",
-    ) -> np.ndarray:
+    snapshots: Snapshots,
+    ndim: int = 2,
+    nconfig: int = 0,
+    deltar: float = 0.01,
+    transform_matrix: bool = True,
+    outputfile: str = "",
+) -> np.ndarray:
     """
     Calculate the Voronoi volume matrix for real-space vector decomposition
 
@@ -138,52 +144,53 @@ def VolumeMatrix(
         5. transform_matrix (bool): whether to transform the volume matrix internally
         6. outputfile (str): output file name of the calculated volume matrix,
                                 no output written if None
-    
+
     Return:
         local volume matrix or transformed matrix in numpy ndarray
     """
     list_box, list_points = convert_configuration(snapshots)
-    logger.info(f"Calculate the Voronoi volume matrix for configuration No.{nconfig}")
+    logger.info(
+        f"Calculate the Voronoi volume matrix for configuration No.{nconfig}")
     box = list_box[nconfig]
     points = list_points[nconfig]
     num_particles = points.shape[nconfig]
-    matrixA = np.zeros((num_particles, num_particles*ndim))
+    matrixA = np.zeros((num_particles, num_particles * ndim))
 
-    #original voronoi volume
+    # original voronoi volume
     voro = freud.locality.Voronoi()
     original = voro.compute((box, points)).volumes
 
-    #perturbations by small displacement
+    # perturbations by small displacement
     atomids = np.arange(num_particles, dtype=np.int32)
     for i in range(num_particles):
         condition = atomids != i
         for j in range(ndim):
-            #move positive deltar
+            # move positive deltar
             points[i, j] += deltar
             voro = freud.locality.Voronoi()
             V1 = voro.compute((box, points)).volumes
 
-            #move negative deltar
+            # move negative deltar
             points[i, j] -= 2 * deltar
             voro = freud.locality.Voronoi()
             V2 = voro.compute((box, points)).volumes
 
-            #move back to the original position
+            # move back to the original position
             points[i, j] += deltar
 
-            medium = (V1-V2)/2/deltar
-            matrixA[condition, ndim*i+j] = medium[condition]
+            medium = (V1 - V2) / 2 / deltar
+            matrixA[condition, ndim * i + j] = medium[condition]
 
-    #for pair i-i
+    # for pair i-i
     for i in range(num_particles):
         medium = matrixA[i].reshape(num_particles, ndim)
-        matrixA[i, ndim*i: ndim*i+ndim] = -medium.sum(axis=0)
+        matrixA[i, ndim * i: ndim * i + ndim] = -medium.sum(axis=0)
 
-    #local volume matrix
+    # local volume matrix
     matrixA /= original[:, np.newaxis]
 
     if transform_matrix:
-        #matrix manipulation
+        # matrix manipulation
         medium = np.matmul(matrixA, matrixA.T)
         medium = np.linalg.inv(medium)
         medium = np.matmul(matrixA.T, medium)

@@ -1,7 +1,39 @@
+************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
+.pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
+.pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
+.pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
+************* Module reader.gsd_reader_helper
+reader/gsd_reader_helper.py:32:4: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+reader/gsd_reader_helper.py:64:13: C0103: Argument name "f" doesn't conform to snake_case naming style (invalid-name)
+************* Module reader.dump_reader
+reader/dump_reader.py:91:4: R0913: Too many arguments (6/5) (too-many-arguments)
+reader/dump_reader.py:170:8: C0103: Variable name "t0" doesn't conform to snake_case naming style (invalid-name)
+************* Module reader.lammps_reader_helper
+reader/lammps_reader_helper.py:35:51: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:69:51: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:107:51: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:117:16: C0103: Argument name "f" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:204:30: C0103: Variable name "xy" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:205:30: C0103: Variable name "xz" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:206:30: C0103: Variable name "yz" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:213:8: C0103: Variable name "h0" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:214:8: C0103: Variable name "h1" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:215:8: C0103: Variable name "h2" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:216:8: C0103: Variable name "h3" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:217:8: C0103: Variable name "h4" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:218:8: C0103: Variable name "h5" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:140:4: R1702: Too many nested blocks (6/5) (too-many-nested-blocks)
+reader/lammps_reader_helper.py:274:8: C0103: Argument name "f" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:370:4: C0103: Argument name "f" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:451:50: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:458:8: C0103: Variable name "n" doesn't conform to snake_case naming style (invalid-name)
 ************* Module reader.simulation_log
-reader\simulation_log.py:1:0: R0801: Similar lines in 2 files
+reader/simulation_log.py:22:50: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
+************* Module reader.reader_utils
+reader/reader_utils.py:34:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
+reader/reader_utils.py:1:0: R0801: Similar lines in 2 files
 ==reader.gsd_reader_helper:[99:105]
-==reader.lammps_reader_helper:[141:149]
+==reader.lammps_reader_helper:[188:196]
             positions=positions,
             boxlength=boxlength,
             boxbounds=boxbounds,
@@ -9,28 +41,94 @@ reader\simulation_log.py:1:0: R0801: Similar lines in 2 files
             hmatrix=hmatrix,
         ) (duplicate-code)
 
-------------------------------------------------------------------
-Your code has been rated at 9.97/10 (previous run: 9.97/10, +0.00)
+-----------------------------------
+Your code has been rated at 9.33/10
 
+************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
+.pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
+.pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
+.pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
 
---------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+------------------------------------
+Your code has been rated at 10.00/10
 
+************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
+.pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
+.pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
+.pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
+************* Module utils.pbc
+utils/pbc.py:17:0: C0301: Line too long (110/100) (line-too-long)
 
---------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+-----------------------------------
+Your code has been rated at 8.33/10
 
+************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
+.pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
+.pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
+.pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
+************* Module neighbors.freud_neighbors
+neighbors/freud_neighbors.py:118:36: C0303: Trailing whitespace (trailing-whitespace)
+neighbors/freud_neighbors.py:118:1: W0511: TODO @Yibang please benchmark with  (fixme)
+neighbors/freud_neighbors.py:78:8: C0103: Variable name "n" doesn't conform to snake_case naming style (invalid-name)
+neighbors/freud_neighbors.py:97:8: C0103: Variable name "nn" doesn't conform to snake_case naming style (invalid-name)
+neighbors/freud_neighbors.py:109:16: C0103: Variable name "nn" doesn't conform to snake_case naming style (invalid-name)
+neighbors/freud_neighbors.py:120:0: C0103: Function name "VolumeMatrix" doesn't conform to snake_case naming style (invalid-name)
+neighbors/freud_neighbors.py:120:0: R0913: Too many arguments (6/5) (too-many-arguments)
+neighbors/freud_neighbors.py:150:4: C0103: Variable name "matrixA" doesn't conform to snake_case naming style (invalid-name)
+neighbors/freud_neighbors.py:164:12: C0103: Variable name "V1" doesn't conform to snake_case naming style (invalid-name)
+neighbors/freud_neighbors.py:169:12: C0103: Variable name "V2" doesn't conform to snake_case naming style (invalid-name)
+neighbors/freud_neighbors.py:183:4: C0103: Variable name "matrixA" doesn't conform to snake_case naming style (invalid-name)
+neighbors/freud_neighbors.py:190:8: C0103: Variable name "matrixA_transformation" doesn't conform to snake_case naming style (invalid-name)
+************* Module neighbors.calculate_neighbors
+neighbors/calculate_neighbors.py:35:0: C0301: Line too long (109/100) (line-too-long)
+neighbors/calculate_neighbors.py:89:0: C0301: Line too long (108/100) (line-too-long)
+neighbors/calculate_neighbors.py:145:0: C0301: Line too long (108/100) (line-too-long)
 
---------------------------------------------------------------------
-Your code has been rated at 10.00/10 (previous run: 10.00/10, +0.00)
+-----------------------------------
+Your code has been rated at 9.56/10
 
-************* Module static.gr
-static\gr.py:143:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
+.pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
+.pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
+.pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
+************* Module static.vector
+static/vector.py:142:0: C0116: Missing function or method docstring (missing-function-docstring)
+************* Module static.geometric
+static/geometric.py:64:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+************* Module static.nematic
+static/nematic.py:79:9: W0511: TODO add a function for three dimensioanl systems (fixme)
+static/nematic.py:53:4: R0913: Too many arguments (6/5) (too-many-arguments)
+static/nematic.py:53:4: R0912: Too many branches (13/12) (too-many-branches)
+************* Module static.pairentropy
+static/pairentropy.py:36:0: R0902: Too many instance attributes (12/7) (too-many-instance-attributes)
+static/pairentropy.py:41:4: R0913: Too many arguments (6/5) (too-many-arguments)
+static/pairentropy.py:86:4: R0914: Too many local variables (20/15) (too-many-locals)
 ************* Module static.sq
-static\sq.py:98:4: R0913: Too many arguments (7/5) (too-many-arguments)
-static\sq.py:150:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-static\sq.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[149:160]
+static/sq.py:85:5: W0511: TODO @Yibang please test the new float df_qvector in sqresults (fixme)
+static/sq.py:98:4: R0913: Too many arguments (7/5) (too-many-arguments)
+static/sq.py:150:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+************* Module static.boo
+static/boo.py:31:0: R0902: Too many instance attributes (10/7) (too-many-instance-attributes)
+static/boo.py:46:4: R0913: Too many arguments (7/5) (too-many-arguments)
+static/boo.py:105:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+static/boo.py:107:23: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+static/boo.py:218:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+static/boo.py:396:0: R0902: Too many instance attributes (9/7) (too-many-instance-attributes)
+static/boo.py:404:4: R0913: Too many arguments (8/5) (too-many-arguments)
+static/boo.py:464:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+static/boo.py:466:23: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+************* Module static.gr
+static/gr.py:24:0: R0912: Too many branches (14/12) (too-many-branches)
+static/gr.py:195:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+************* Module static.shape
+static/shape.py:10:0: R0914: Too many local variables (16/15) (too-many-locals)
+static/shape.py:54:9: C0103: Variable name "m" doesn't conform to snake_case naming style (invalid-name)
+static/shape.py:54:12: C0103: Variable name "n" doesn't conform to snake_case naming style (invalid-name)
+static/shape.py:55:8: C0103: Variable name "Smn" doesn't conform to snake_case naming style (invalid-name)
+static/shape.py:57:12: C0103: Variable name "Smn" doesn't conform to snake_case naming style (invalid-name)
+static/shape.py:68:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+static/shape.py:1:0: R0801: Similar lines in 2 files
+==static.gr:[201:212]
 ==static.sq:[156:167]
         if len(self.typenumber) == 1:
             return self.unary()
@@ -43,8 +141,8 @@ static\sq.py:1:0: R0801: Similar lines in 2 files
         if len(self.typenumber) == 5:
             return self.quinary()
         if len(self.typenumber) > 5: (duplicate-code)
-static\sq.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[125:131]
+static/shape.py:1:0: R0801: Similar lines in 2 files
+==static.gr:[177:183]
 ==static.sq:[127:133]
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}) == 1,\
@@ -53,6 +151,6 @@ static\sq.py:1:0: R0801: Similar lines in 2 files
             "Simulation Box Length Changes during simulation"
  (duplicate-code)
 
-------------------------------------------------------------------
-Your code has been rated at 9.91/10 (previous run: 9.91/10, +0.00)
+-----------------------------------
+Your code has been rated at 9.75/10
 

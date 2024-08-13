@@ -8,13 +8,14 @@ from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
+
 def read_lammpslog(filename) -> [pd.DataFrame]:
     """
     Extract the thermodynamic quantities from lammp log file
-    
+
     Input:
         filename (str): lammps log file name
-    
+
     Return:
         list of pandas dataframe for each logging section
     """
@@ -33,7 +34,8 @@ def read_lammpslog(filename) -> [pd.DataFrame]:
     start = np.array(start)
     end = np.array(end)
     linenum = end - start - 1
-    logger.info(f'Section Number: {len(linenum)} \t Line Numbers: {str(linenum)}')
+    logger.info(
+        f'Section Number: {len(linenum)} \t Line Numbers: {str(linenum)}')
     del data
 
     final = []

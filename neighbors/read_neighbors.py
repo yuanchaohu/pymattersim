@@ -10,7 +10,8 @@ logger = get_logger_handle(__name__)
 
 # pylint: disable=invalid-name
 
-def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.ndarray:
+
+def read_neighbors(f: TextIO, nparticle: int, Nmax: int = 200) -> np.ndarray:
     """
     Read the property of neighboring particles from a saved file,
     as long as the format of file is compatible, as like neighborlist.dat
@@ -48,12 +49,14 @@ def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.ndarray:
         if 'neighborlist' in header:
             if int(item[1]) <= Nmax:
                 neighborprop[atom_index, 0] = float(item[1])
-                # Be attention to the '-1' after '=', all particle id has been reduced by 1
+                # Be attention to the '-1' after '=', all particle id has been
+                # reduced by 1
                 neighborprop[atom_index, 1:(int(item[1]) + 1)] = \
                     [float(j) - 1 for j in item[2:(int(item[1]) + 2)]]
             else:
                 neighborprop[atom_index, 0] = Nmax
-                neighborprop[atom_index, 1:Nmax + 1] = [float(j) - 1 for j in item[2:Nmax + 2]]
+                neighborprop[atom_index, 1:Nmax +
+                             1] = [float(j) - 1 for j in item[2:Nmax + 2]]
                 if i == 0:
                     logger.info(f"Too Many neighbors {Nmax}")
                     logger.info("Warning: not for unsorted neighbor list")
@@ -64,14 +67,15 @@ def read_neighbors(f: TextIO, nparticle: int, Nmax: int=200) -> np.ndarray:
                     [float(j) for j in item[2:(int(item[1]) + 2)]]
             else:
                 neighborprop[atom_index, 0] = Nmax
-                neighborprop[atom_index, 1:Nmax + 1] = [float(j) for j in item[2:Nmax + 2]]
+                neighborprop[atom_index, 1:Nmax +
+                             1] = [float(j) for j in item[2:Nmax + 2]]
                 if i == 0:
                     logger.info(f"Too Many neighbors {Nmax}")
                     logger.info("Warning: not for unsorted neighbor list")
 
     max_cn = int(neighborprop[:, 0].max())
     if max_cn < Nmax:
-        neighborprop = neighborprop[:, :max_cn+1]  # save storage
+        neighborprop = neighborprop[:, :max_cn + 1]  # save storage
     else:
         logger.info("Warning: increase 'Nmax' to include all the neighbors")
 

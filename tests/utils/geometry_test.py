@@ -25,12 +25,13 @@ class TestGeometry(unittest.TestCase):
         """
         Test triangle_area works properly for 2D lammps
         """
-        logger.info(f"Starting test triangle_area using {self.test_file_2d}...")
+        logger.info(
+            f"Starting test triangle_area using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
         result = geometry.triangle_area(positions=readdump.snapshots.snapshots[0].positions[:3],
                                         hmatrix=readdump.snapshots.snapshots[0].hmatrix,
-                                        ppp=[1,1])
+                                        ppp=[1, 1])
         np.testing.assert_almost_equal(591.3143460374572, result)
 
     def test_triangle_angle(self) -> None:
@@ -63,4 +64,4 @@ class TestGeometry(unittest.TestCase):
                                            P4=np.array([0, 1]),
                                            R0=np.array([0.5, 0.5]),
                                            vector=np.array([-1.0, 0.0]))
-        np.testing.assert_almost_equal(np.array([1. , 0.5]), result)
+        np.testing.assert_almost_equal(np.array([1., 0.5]), result)

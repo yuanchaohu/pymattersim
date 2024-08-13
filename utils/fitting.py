@@ -15,16 +15,17 @@ logger = get_logger_handle(__name__)
 # pylint: disable=too-many-statements
 # pylint: disable=trailing-whitespace
 
+
 def fits(
     fit_func: Any,
     xdata: np.ndarray,
     ydata: np.ndarray,
-    rangea: float=0,
-    rangeb: float=0,
-    p0: List[float]=[],
-    bounds: Tuple[List[float]]=(),
-    max_iterations: int=5000000,
-    style = 'linear'
+    rangea: float = 0,
+    rangeb: float = 0,
+    p0: List[float] = [],
+    bounds: Tuple[List[float]] = (),
+    max_iterations: int = 5000000,
+    style='linear'
 ) -> List[Any]:
     """
     This function is used to fit existing data in numpy array
@@ -40,11 +41,11 @@ def fits(
         7. bounds (tuple of list): lower and upper bounds of the fit_func arguments
                                    each in a list
         8. max_iterations (int): maximum iteration numbers for curve fit, default 5000000
-        9. style (str): scale of returned fitting results of x, 
+        9. style (str): scale of returned fitting results of x,
                         select from 'linear'(default) or 'log'
 
     Return:
-        list of fitting results, such as 
+        list of fitting results, such as
         popt, perr, xfit, yfit
         popt: list of fitting parameter values
         perr: list of error bar of popt
@@ -52,11 +53,14 @@ def fits(
         yfit: fitting result of y
     """
     if len(p0) >= 1 and len(bounds) >= 1:
-        popt, pcov = curve_fit(fit_func, xdata, ydata, maxfev=max_iterations, p0=p0, bounds=bounds)
+        popt, pcov = curve_fit(fit_func, xdata, ydata,
+                               maxfev=max_iterations, p0=p0, bounds=bounds)
     elif len(p0) >= 1 and len(bounds) == 0:
-        popt, pcov = curve_fit(fit_func, xdata, ydata, maxfev=max_iterations, p0=p0)
+        popt, pcov = curve_fit(
+            fit_func, xdata, ydata, maxfev=max_iterations, p0=p0)
     elif len(p0) == 0 and len(bounds) >= 1:
-        popt, pcov = curve_fit(fit_func, xdata, ydata, maxfev=max_iterations, bounds=bounds)
+        popt, pcov = curve_fit(
+            fit_func, xdata, ydata, maxfev=max_iterations, bounds=bounds)
     else:
         popt, pcov = curve_fit(fit_func, xdata, ydata, maxfev=5000000)
 
@@ -65,17 +69,19 @@ def fits(
     ss_res = np.sum(residuals ** 2)
     ss_tot = np.square(ydata - ydata.mean()).sum()
     R2 = 1 - (ss_res / ss_tot)
-    logger.info('fitting R^2 = %.6f'%R2)
-    logger.info('fitting parameters values: '+' '.join(map('{:.6f}'.format, popt)))
-    logger.info('fitting parameters errors: '+' '.join(map('{:.6f}'.format, perr)))
+    logger.info('fitting R^2 = %.6f' % R2)
+    logger.info('fitting parameters values: ' +
+                ' '.join(map('{:.6f}'.format, popt)))
+    logger.info('fitting parameters errors: ' +
+                ' '.join(map('{:.6f}'.format, perr)))
 
     if rangeb == 0:
-        if style=='log':
+        if style == 'log':
             xfit = np.geomspace(xdata.min(), xdata.max(), 10000)
         else:
             xfit = np.linspace(xdata.min(), xdata.max(), 10000)
     else:
-        if style=='log':
+        if style == 'log':
             xfit = np.geomspace(rangea, rangeb, 10000)
         else:
             xfit = np.linspace(rangea, rangeb, 10000)
