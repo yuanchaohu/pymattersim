@@ -799,9 +799,17 @@ class TestDynamics(unittest.TestCase):
         x_snapshots = self.dump_2d_x.snapshots
         ppp = np.array([1, 0])
         if xu_snapshots:
-            Nnearests(snapshots=xu_snapshots, N=6, ppp=ppp, fnfile="test_dynamics_2d_x")
+            Nnearests(
+                snapshots=xu_snapshots,
+                N=6,
+                ppp=ppp,
+                fnfile="test_dynamics_2d_x")
         else:
-            Nnearests(snapshots=x_snapshots, N=6, ppp=ppp, fnfile="test_dynamics_2d_x")
+            Nnearests(
+                snapshots=x_snapshots,
+                N=6,
+                ppp=ppp,
+                fnfile="test_dynamics_2d_x")
         neighborfile = "test_dynamics_2d_x"
         t = 10
         qrange = 10.0
@@ -1500,9 +1508,17 @@ class TestDynamics(unittest.TestCase):
         x_snapshots = None
         ppp = np.array([0, 0])
         if xu_snapshots:
-            Nnearests(snapshots=xu_snapshots, N=6, ppp=ppp, fnfile="test_Dynamics_2d_xu")
+            Nnearests(
+                snapshots=xu_snapshots,
+                N=6,
+                ppp=ppp,
+                fnfile="test_Dynamics_2d_xu")
         else:
-            Nnearests(snapshots=x_snapshots, N=6, ppp=ppp, fnfile="test_Dynamics_2d_xu")
+            Nnearests(
+                snapshots=x_snapshots,
+                N=6,
+                ppp=ppp,
+                fnfile="test_Dynamics_2d_xu")
         neighborfile = 'test_Dynamics_2d_xu'
         t = 10
         qrange = 10.0

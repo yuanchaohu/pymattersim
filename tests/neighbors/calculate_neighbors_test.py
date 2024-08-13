@@ -54,7 +54,8 @@ class TestNnearests(unittest.TestCase):
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
         neighborfile = "test_Nnreasts_3d"
-        Nnearests(readdump.snapshots, N=12, ppp=np.array([1,1,1]), fnfile=neighborfile)
+        Nnearests(readdump.snapshots, N=12, ppp=np.array(
+            [1, 1, 1]), fnfile=neighborfile)
 
         with open(neighborfile, "r", encoding="utf-8") as f:
             content = f.readlines()
@@ -85,8 +86,8 @@ class TestCutoffNeighbors(unittest.TestCase):
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
         neighborfile = "test_cutoffneighbors_2d"
-        cutoffneighbors(
-            readdump.snapshots, r_cut=1.9, ppp=np.array([1, 1]), fnfile=neighborfile)
+        cutoffneighbors(readdump.snapshots, r_cut=1.9,
+                        ppp=np.array([1, 1]), fnfile=neighborfile)
 
         with open(neighborfile, "r", encoding="utf-8") as f:
             content = f.readlines()
@@ -106,8 +107,8 @@ class TestCutoffNeighbors(unittest.TestCase):
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
         neighborfile = "test_cutoffneighbors_3d"
-        cutoffneighbors(
-            readdump.snapshots, r_cut=1.5, ppp=np.array([1, 1, 1]), fnfile=neighborfile)
+        cutoffneighbors(readdump.snapshots, r_cut=1.5,
+                        ppp=np.array([1, 1, 1]), fnfile=neighborfile)
 
         with open(neighborfile, "r", encoding="utf-8") as f:
             content = f.readlines()
