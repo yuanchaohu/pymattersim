@@ -254,7 +254,7 @@ spherical_harmonics.SphHarm_above(l=12, theta=60*np.pi/180, phi=30*np.pi/180)
 `utils.coarse_graining` calculates the time average, spatial average, gaussian blurring, and atomic position average of input property.
 
 ## 1. `time_average()`
-Calculate time average of the input property
+Calculate time average of the input property over a certain time window
 
 ### Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory
@@ -274,7 +274,29 @@ from utils.coarse_graining import time_average
 time_average(snapshots, input_property, time_period, dt)
 ```
 
-## 2. `gaussian_blurring()`
+## 2. `spatial_average()`
+Calculate spatial average of the input property over a certain distance, which is demonstrated by the neighbor definition.
+
+### Input Arguments
+- `input_property` (`np.ndarray`): input property to be coarse-grained, should be in the shape [num_of_snapshots, num_of_particles, xxx]. The input property can be scalar or vector or tensor
+- `neighborfile` (`str`): file name of pre-defined neighbor list
+- `Namx` (`int`): maximum number of particle neighbors
+- `outputfile` (`str`): file name of coarse-grained variable
+
+
+### Return
+- `cg_input_property` (`np.ndarray`): coarse-grained input property in numpy ndarray
+
+
+### Example
+```python
+from utils.coarse_graining import spatial_average
+
+spatial_average(input_property, neighborfile, Nmax, outputfile)
+```
+
+
+## 3. `gaussian_blurring()`
 Project input properties into a grid made from the simulation box. Basically, the calculation is to define a grid based on the simulation box, and then project the particle-level property to the grids based on the gaussian distribution function:
 $$
 p(\vec{r_j}) = \sum_i \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left(-\frac{(\vec{r_j}-\vec{r}_i)^2}{2\sigma^2}\right) p_i,
