@@ -86,7 +86,7 @@ class S2:
     def particle_s2(
         self,
         savegr: bool=False,
-        outputfile: str=None
+        outputfile: str=""
     ) -> np.ndarray:
         """
         Calculate the particle-level g(r) by Gaussian smoothing
@@ -100,7 +100,7 @@ class S2:
             s2_results: particle level S2 in shape [nsnapshots, nparticle]
             particle_gr: particle level g(r) in shape [nsnapshots, nparticle, ndelta]
         """
-        logger.info('Start calculating particle S2 in {self.ndim} dimensionality')
+        logger.info(f'Start calculating particle S2 in d={self.ndim} system')
         s2_results = np.zeros((self.snapshots.nsnapshots, self.nparticle))
         gr_bins = np.arange(self.ndelta)*self.rdelta + self.rdelta/2
         rmax = gr_bins.max()
@@ -119,9 +119,10 @@ class S2:
                 RIJ = np.delete(snapshot.positions, i, axis=0) - snapshot.positions[i]
                 RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
                 distance = np.linalg.norm(RIJ, axis=1)
-                distance = distance[distance<rmax]
+                condition = distance<rmax
+                distance = distance[condition]
                 itype = int(snapshot.particle_type[i]-1)
-                jtypes = (np.delete(snapshot.particle_type, i)-1).astype(np.int64)
+                jtypes = (np.delete(snapshot.particle_type, i)-1).astype(np.int64)[condition]
                 gr_i = 0
                 for j, rij in enumerate(distance):
                     sigma = self.sigmas[itype, jtypes[j]]
@@ -138,7 +139,7 @@ class S2:
         if savegr:
             np.save('particle_gr.'+outputfile, particle_gr)
             return s2_results, particle_gr
-        logger.info('Finish calculating particle S2 in {self.ndim} dimensionality')
+        logger.info(f'Finish calculating particle S2 in d={self.ndim} system')
         return s2_results
 
     def spatial_corr(
@@ -156,7 +157,7 @@ class S2:
         Return:
             calculated Gl(r) based on S2 (pd.DataFrame)
         """
-        logger.info('Start calculating spatial correlation of S2 in {self.ndim} dimensionality')
+        logger.info(f'Start calculating spatial correlation of S2 in d={self.ndim} system')
         glresults = 0
 
         for n, snapshot in enumerate(self.snapshots.snapshots):
@@ -175,7 +176,7 @@ class S2:
         if outputfile:
             glresults.to_csv(outputfile, float_format="%.8f", index=False)
 
-        logger.info('Finish calculating spatial correlation of S2 in {self.ndim} dimensionality')
+        logger.info(f'Finish calculating spatial correlation of S2 in d={self.ndim} system')
         return glresults
 
     def time_corr(
@@ -193,7 +194,7 @@ class S2:
         Return:
             time correlation of S2 (pd.DataFrame)
         """
-        logger.info(f'Start calculating time correlation of S2 in {self.ndim} dimensionality')
+        logger.info(f'Start calculating time correlation of S2 in d={self.ndim} system')
 
         gl_time = time_correlation(
             snapshots=self.snapshots,
@@ -206,5 +207,5 @@ class S2:
         if outputfile:
             gl_time.to_csv(outputfile, float_format="%.6f", index=False)
 
-        logger.info(f'Finish calculating time correlation of S2 in {self.ndim} dimensionality')
+        logger.info(f'Finish calculating time correlation of S2 in d={self.ndim} system')
         return gl_time
