@@ -11,6 +11,14 @@ from utils.pbc import remove_pbc
 from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
+# pylint: disable=invalid-name
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=dangerous-default-value
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-return-statements
+# pylint: disable=line-too-long
+# pylint: disable=too-many-statements
+# pylint: disable=trailing-whitespace
 
 def packing_capability_2d(
         snapshots: Snapshots,
