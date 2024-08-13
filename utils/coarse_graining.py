@@ -4,9 +4,8 @@
 see documentation @ ../docs/utils.md
 """
 
-from typing import Tuple, List
+from typing import Tuple
 import numpy as np
-from numpy.linalg import cond
 from reader.reader_utils import Snapshots
 from neighbors.read_neighbors import read_neighbors
 from utils.logging import get_logger_handle
@@ -14,6 +13,14 @@ from utils.funcs import grid_gaussian
 from utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
+# pylint: disable=invalid-name
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=dangerous-default-value
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-return-statements
+# pylint: disable=line-too-long
+# pylint: disable=too-many-statements
+# pylint: disable=trailing-whitespace
 
 def time_average(
         snapshots: Snapshots,
@@ -91,7 +98,6 @@ def spatial_average(
         np.save(outputfile, cg_input_property)
     return cg_input_property
 
-# TODO add note
 def gaussian_blurring(
     snapshots: Snapshots,
     condition: np.ndarray,
@@ -102,6 +108,30 @@ def gaussian_blurring(
     outputfile: str="",
 ):
     """ 
+    Project particle-level property into a pre-defined grid,
+    this is usually called Gaussian blurring
+
+    Inputs:
+        1. snapshots (read.reader_utils.snapshots): multiple trajectories dumped linearly or in logscale
+        2. condition (np.ndarray): particle-level condition / property, type should be float
+                                   shape: [num_of_snapshots, num_of_particles, xxx],
+                                   The input property can be scalar or vector or tensor, based on
+                                   the shape of condition, mapping as 
+                                   {"scalar": 3, "vector": 4, "tensor": 5}
+        3. ngrids (np.ndarray of int): predefined grid number in the simulation box,
+                                    shape as the dimension, for example, [25, 25] for 2D systems
+        4. sigma (float): standard deviation of the gaussian distribution function, default 2.0
+        5. ppp (np.ndarray): the periodic boundary conditions (PBCs),
+                            setting 1 for yes and 0 for no, default np.array([0,0,0]) for 3D,
+                            default np.array([1,1,1])
+        6. gaussian_cut (float): the longest distance to consider the gaussian probability 
+                            or the contribution from the simulation particles.
+                            default 6.0.
+        7. outputfile (str): file name to save the grid positions and the corresponding properties
+    
+    Return:
+        the grid positions and corresponding properties in numpy arrays
+        "grid_positions, grid_property"
     """
 
     ndim = len(ngrids)
@@ -159,4 +189,7 @@ def gaussian_blurring(
     return grid_positions, grid_property
 
 def atomic_position_average():
+    """
+    average particle postions over a time window
+    """
     pass
