@@ -86,7 +86,7 @@ The integration in Eq. (1) is calculated numerically using the trapezoid rule.
 
 ### Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`)
-- `sigmas` (`np.ndarray`): gaussian standard deviation for each pair particle type, can be set based on particle size
+- `sigmas` (`np.ndarray`): gaussian standard deviation for each pair particle type, can be set based on particle size. It must be a two-dimensional numpy array to cover all particle type pairs
 - `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.ndarray=np.array([1,1,1])`, set `np.ndarray=np.array([1,1])` for two-dimensional systems
 - `rdelta` (`float`): bin size calculating g(r), the default value is `0.02`
 - `ndelta` (`int`): number of bins for g(r) calculation, `ndelta*rdelta` determines the range
@@ -155,3 +155,21 @@ $$
 s2.time_corr()
 ```
 
+
+# 4. Gyration tensor of a group
+This module calculates calculate gyration tensor of a cluster of atoms. This module calculates gyration tensor which is a tensor that describes the second moments of posiiton of a collection of particles gyration tensor is a symmetric matrix of shape (ndim, ndim). ref: https://en.wikipedia.org/wiki/Gyration_tensor. A group of atoms should be first defined. groupofatoms are the original coordinates of the selected group of a single configuration, the atom coordinates of the cluster should be removed from PBC which can be realized by ovito 'cluster analysis' method by choosing 'unwrap particle coordinates'.
+
+### Input Arguments
+- `pos_group` (`np.ndarray`): unwrapped particle positions of a group of atoms, shape as [num_of_particles, dimensionality]
+
+### Return
+`3D`: `radius_of_gyration`, `asphericity`, `acylindricity`, `shape_anisotropy`, `fractal_dimension` 
+
+`2D`: `radius_of_gyration`, `acylindricity`, `fractal_dimension`
+
+### Example
+``` python
+from static.shape import gyration_tensor
+
+gyration_tensor(cluster_positions)
+```

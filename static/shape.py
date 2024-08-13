@@ -8,7 +8,7 @@ from utils.logging import get_logger_handle
 logger = get_logger_handle(__name__)
 
 def gyration_tensor(pos_group: np.ndarray) -> List[Any]:
-    """calculate gyration tensor for three dimensional systems
+    """calculate gyration tensor of a cluster of atoms
 
     This module calculates gyration tensor which is a tensor that describes
     the second moments of posiiton of a collection of particles
