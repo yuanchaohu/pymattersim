@@ -116,7 +116,8 @@ def Wignerindex(l :int) -> np.ndarray:
 
 def grid_gaussian(distances: np.ndarray, sigma: float=1)->np.ndarray:
     """
-    Calculate the gaussian distribution from the zero center
+    Calculate the gaussian distribution from the zero center,
+    give the gaussian probability based on distance and sigma
 
     Inputs:
         1. distances (np.ndarray): grid distances to the zero center
