@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
 from utils.pbc import remove_pbc
-from utils.funcs import gaussian_smooth
+from utils.funcs import grid_gaussian
 from utils.logging import get_logger_handle
 from static.gr import conditional_gr
 from dynamic.time_corr import time_correlation
@@ -125,7 +125,7 @@ class S2:
                 gr_i = 0
                 for j, rij in enumerate(distance):
                     sigma = self.sigmas[itype, jtypes[j]]
-                    gr_i += gaussian_smooth(gr_bins, rij, sigma)
+                    gr_i += grid_gaussian(gr_bins-rij, sigma)
                 gr_i /= norms
 
                 if savegr:
@@ -144,7 +144,7 @@ class S2:
     def spatial_corr(
         self,
         mean_norm: bool=False,
-        outputfile: str=None
+        outputfile: str=""
     ) -> pd.DataFrame:
         """
         Calculate Spatial Correlation of S2
@@ -158,7 +158,7 @@ class S2:
         """
         logger.info('Start calculating spatial correlation of S2 in {self.ndim} dimensionality')
         glresults = 0
-        
+
         for n, snapshot in enumerate(self.snapshots.snapshots):
             if mean_norm:
                 s2_snapshot = self.s2_results[n] / np.mean(self.s2_results[n])
@@ -181,7 +181,7 @@ class S2:
     def time_corr(
         self,
         dt: float=0.002,
-        outputfile: str=None
+        outputfile: str=""
     ) -> pd.DataFrame:
         """
         Calculate time correlation of S2
