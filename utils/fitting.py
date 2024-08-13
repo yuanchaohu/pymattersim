@@ -6,9 +6,15 @@ from scipy.optimize import curve_fit
 from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
+# pylint: disable=invalid-name
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=dangerous-default-value
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-return-statements
+# pylint: disable=line-too-long
+# pylint: disable=too-many-statements
+# pylint: disable=trailing-whitespace
 
-# TODO @Yibang please benchmark with
-# https://github.com/yuanchaohu/MyCodes/blob/master/fitting.py#L7
 def fits(
     fit_func: Any,
     xdata: np.ndarray,
@@ -34,7 +40,8 @@ def fits(
         7. bounds (tuple of list): lower and upper bounds of the fit_func arguments
                                    each in a list
         8. max_iterations (int): maximum iteration numbers for curve fit, default 5000000
-        9. style (str): scale of returned fitting results of x, select from 'linear'(default) or 'log'
+        9. style (str): scale of returned fitting results of x, 
+                        select from 'linear'(default) or 'log'
 
     Return:
         list of fitting results, such as 

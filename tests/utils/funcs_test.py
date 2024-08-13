@@ -2,13 +2,19 @@
 
 import unittest
 import numpy as np
-import pandas as pd
 from utils.funcs import kronecker,nidealfac,areafac,alpha2factor
-from utils.funcs import moment_of_inertia,Wignerindex
-from utils.funcs import grid_gaussian,Legendre_polynomials
+from utils.funcs import Wignerindex,grid_gaussian,Legendre_polynomials
 from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
+# pylint: disable=invalid-name
+# pylint: disable=too-many-instance-attributes
+# pylint: disable=dangerous-default-value
+# pylint: disable=too-many-locals
+# pylint: disable=too-many-return-statements
+# pylint: disable=line-too-long
+# pylint: disable=too-many-statements
+# pylint: disable=trailing-whitespace
 
 READ_TEST_FILE_PATH = "tests/sample_test_data"
 
