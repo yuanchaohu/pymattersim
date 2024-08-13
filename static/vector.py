@@ -191,9 +191,8 @@ def vector_decomposition_sq(
         4. outputfile (str): filename.csv to save the calculated S(q), default None
     
     Return:
-        calculated transverse and longitudinal S(q) for each input wavevector (pd.DataFrame)
-        and the ensemble averaged S(q) over the same wavenumber (pd.DataFrame)
-        (FFT in complex number is also returned for reference)
+        1. vector_fft: calculated transverse and longitudinal S(q) for each input wavevector (pd.DataFrame), FFT in complex number is also returned for reference
+        2. ave_sqresults: the ensemble averaged S(q) over the same wavenumber (pd.DataFrame)
     """
     ndim = qvector.shape[1]
     vector_fft = conditional_sq(snapshot, qvector, vector)[0]
