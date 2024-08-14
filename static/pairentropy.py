@@ -3,6 +3,7 @@
 """see documentation @ ../docs/orderings.md"""
 
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 from reader.reader_utils import Snapshots
 from utils.pbc import remove_pbc
@@ -17,13 +18,13 @@ logger = get_logger_handle(__name__)
 # pylint: disable=line-too-long
 
 
-def s2_integral(gr: np.ndarray, gr_bins: np.ndarray, ndim: int = 3) -> float:
+def s2_integral(gr: npt.NDArray, gr_bins: npt.NDArray, ndim: int = 3) -> float:
     """
     spatial integration of derivative g(r) product to get S2
 
     Inputs:
-        1. gr (np.ndarray): g(r) results, supporting both particle-level gr and system gr
-        2. gr_bins (np.ndarray): r range
+        1. gr (npt.NDArray): g(r) results, supporting both particle-level gr and system gr
+        2. gr_bins (npt.NDArray): r range
         3. ndim (int): dimensionality of system, default 3
 
     Return:
@@ -43,8 +44,8 @@ class S2:
     def __init__(
         self,
         snapshots: Snapshots,
-        sigmas: np.ndarray,
-        ppp: np.ndarray = np.array([1, 1, 1]),
+        sigmas: npt.NDArray,
+        ppp: npt.NDArray = np.array([1, 1, 1]),
         rdelta: float = 0.02,
         ndelta: int = 500,
     ) -> None:
@@ -54,10 +55,10 @@ class S2:
         Inputs:
             1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                          (returned by reader.dump_reader.DumpReader)
-            2. sigmas (np.ndarray): gaussian standard deviation for each pair particle type
-            3. ppp (np.ndarray): the periodic boundary conditions,
-                                 setting 1 for yes and 0 for no, default np.ndarray=np.array([1,1,1]),
-                                 set np.ndarray=np.array([1,1]) for two-dimensional systems
+            2. sigmas (npt.NDArray): gaussian standard deviation for each pair particle type
+            3. ppp (npt.NDArray): the periodic boundary conditions,
+                                 setting 1 for yes and 0 for no, default npt.NDArray=np.array([1,1,1]),
+                                 set npt.NDArray=np.array([1,1]) for two-dimensional systems
             4. rdelta (float): bin size calculating g(r), the default value is 0.02
             5. ndelta (int): number of bins for g(r) calculation, ndelta*rdelta determines the range
 
@@ -91,7 +92,7 @@ class S2:
         self,
         savegr: bool = False,
         outputfile: str = ""
-    ) -> np.ndarray:
+    ) -> npt.NDArray:
         """
         Calculate the particle-level g(r) by Gaussian smoothing
         and then calculate the particle-level S2

@@ -6,6 +6,7 @@ see documentation @ ../docs/utils.md
 
 from typing import Tuple
 import numpy as np
+import numpy.typing as npt
 from reader.reader_utils import Snapshots
 from neighbors.read_neighbors import read_neighbors
 from utils.logging import get_logger_handle
@@ -25,23 +26,23 @@ logger = get_logger_handle(__name__)
 
 def time_average(
         snapshots: Snapshots,
-        input_property: np.ndarray,
+        input_property: npt.NDArray,
         time_period: float = 0.0,
         dt: float = 0.002
-) -> Tuple[np.ndarray, np.ndarray]:
+) -> Tuple[npt.NDArray, npt.NDArray]:
     """
     Calculate time average of the input property
 
     Input:
         1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                      (returned by reader.dump_reader.DumpReader)
-        2. input_property (np.ndarray): the input particle-level property,
-                          in np.ndarray with shape [nsnapshots, nparticle]
+        2. input_property (npt.NDArray): the input particle-level property,
+                          in npt.NDArray with shape [nsnapshots, nparticle]
         3. time_period (float): time used to average, default 0.0
         4. dt (float): timestep used in user simulations, default 0.002
 
     Return:
-        1. Calculated time averaged input results (np.ndarray)
+        1. Calculated time averaged input results (npt.NDArray)
            shape [nsnapshots_updated, nparticles]
         2. Corresponding snapshot id of the middle snapshot of each time period
            shape [nsnapshots_updated]
@@ -67,17 +68,17 @@ def time_average(
 
 
 def spatial_average(
-    input_property: np.ndarray,
+    input_property: npt.NDArray,
     neighborfile: str,
     Nmax: int = 30,
     outputfile: str = "",
-) -> np.ndarray:
+) -> npt.NDArray:
     """
     coarse-graining the input variable over certain length scale
     given by the pre-defined neighbor list
 
     Inputs:
-        1. input_property (np.ndarray): input property to be coarse-grained,
+        1. input_property (npt.NDArray): input property to be coarse-grained,
             should be in the shape [num_of_snapshots, num_of_particles, xxx]
             The input property can be scalar or vector or tensor
         2. neighborfile (str): file name of pre-defined neighbor list
@@ -104,10 +105,10 @@ def spatial_average(
 
 def gaussian_blurring(
     snapshots: Snapshots,
-    condition: np.ndarray,
-    ngrids: np.ndarray,
+    condition: npt.NDArray,
+    ngrids: npt.NDArray,
     sigma: float = 2.0,
-    ppp: np.ndarray = np.array([1, 1, 1]),
+    ppp: npt.NDArray = np.array([1, 1, 1]),
     gaussian_cut: float = 6.0,
     outputfile: str = "",
 ):
@@ -117,15 +118,15 @@ def gaussian_blurring(
 
     Inputs:
         1. snapshots (read.reader_utils.snapshots): multiple trajectories dumped linearly or in logscale
-        2. condition (np.ndarray): particle-level condition / property, type should be float
+        2. condition (npt.NDArray): particle-level condition / property, type should be float
                                    shape: [num_of_snapshots, num_of_particles, xxx],
                                    The input property can be scalar or vector or tensor, based on
                                    the shape of condition, mapping as
                                    {"scalar": 3, "vector": 4, "tensor": 5}
-        3. ngrids (np.ndarray of int): predefined grid number in the simulation box,
+        3. ngrids (npt.NDArray of int): predefined grid number in the simulation box,
                                     shape as the dimension, for example, [25, 25] for 2D systems
         4. sigma (float): standard deviation of the gaussian distribution function, default 2.0
-        5. ppp (np.ndarray): the periodic boundary conditions (PBCs),
+        5. ppp (npt.NDArray): the periodic boundary conditions (PBCs),
                             setting 1 for yes and 0 for no, default np.array([1,1,1])
         6. gaussian_cut (float): the longest distance to consider the gaussian probability
                             or the contribution from the simulation particles.
@@ -133,8 +134,8 @@ def gaussian_blurring(
         7. outputfile (str): file name to save the grid positions and the corresponding properties
 
     Return:
-        grid_positions (np.ndarray): Positions of the grids of each snapshot
-        grid_property (np.ndarray): properties of each grid of each snapshot
+        grid_positions (npt.NDArray): Positions of the grids of each snapshot
+        grid_property (npt.NDArray): properties of each grid of each snapshot
     """
 
     ndim = len(ngrids)

@@ -2,6 +2,7 @@
 
 """see documentation @ ../docs/dynamics.md"""
 
+import numpy.typing as npt
 import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
@@ -20,7 +21,7 @@ logger = get_logger_handle(__name__)
 
 def time_correlation(
     snapshots: Snapshots,
-    condition: np.ndarray,
+    condition: npt.NDArray,
     dt: float = 0.002,
     outputfile: str = ""
 ) -> pd.DataFrame:
@@ -33,7 +34,7 @@ def time_correlation(
 
     Input:
         1. snapshots (read.reader_utils.snapshots): multiple trajectories dumped linearly or in logscale
-        2. condition (np.ndarray): particle-level condition / property, type should be float
+        2. condition (npt.NDArray): particle-level condition / property, type should be float
                                    shape: [num_of_snapshots, num_of_particles, xxx]
         3. dt (float): time step of input snapshots, default 0.002
         4. outputfile (str): output file name, default "" (None)

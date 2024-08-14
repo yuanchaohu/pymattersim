@@ -19,13 +19,13 @@ In this calculation, only **4** nearest neighbors are taken into consideration. 
 ## 1.1 Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory
 (returned by `reader.dump_reader.DumpReader`)
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1,1])`
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1,1])`
 - `outputfile` (`str`): file name to save the calculated local tetrahedral order, default `None`.
                         To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
                         If the file extension is ".dat" or ".txt", also saved a text file.
 
 ## 1.2 Return
-- calculated local tetrahedral order in `np.ndarray` with shape `[nsnapshots, nparticle]`
+- calculated local tetrahedral order in `npt.NDArray` with shape `[nsnapshots, nparticle]`
 
 
 ## 1.3 Example
@@ -49,15 +49,15 @@ where $N_o$ is the unique nearest pair number around the center, which equals to
 ## 2.1 Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory
 (returned by `reader.dump_reader.DumpReader`)
-- `sigmas` (`np.ndarray`): particle sizes for each pair type (ascending order) in numpy array, can refer to  first peak position of partial g(r), shape as `[particle_type, particle_type]`
+- `sigmas` (`npt.NDArray`): particle sizes for each pair type (ascending order) in numpy array, can refer to  first peak position of partial g(r), shape as `[particle_type, particle_type]`
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1])`
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1])`
 - `outputfile` (`str`): file name to save the calculated packing capability theta_2D, default `None`.
                         To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
                         If the file extension is ".dat" or ".txt", also saved as a text file.
 
 ## 2.2 Return
-- calculated packing capability of a 2D system in `np.ndarray` with shape `[nsnapshots, nparticle]`
+- calculated packing capability of a 2D system in `npt.NDArray` with shape `[nsnapshots, nparticle]`
 
 ## 2.3 Example
 ```python
@@ -95,8 +95,8 @@ The integration in Eq. (1) is calculated numerically using the trapezoid rule.
 
 ### Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`)
-- `sigmas` (`np.ndarray`): gaussian standard deviation for each pair particle type, can be set based on particle size. It must be a two-dimensional numpy array to cover all particle type pairs
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.ndarray=np.array([1,1,1])`, set `np.ndarray=np.array([1,1])` for two-dimensional systems
+- `sigmas` (`npt.NDArray`): gaussian standard deviation for each pair particle type, can be set based on particle size. It must be a two-dimensional numpy array to cover all particle type pairs
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `npt.NDArray=np.array([1,1,1])`, set `npt.NDArray=np.array([1,1])` for two-dimensional systems
 - `rdelta` (`float`): bin size calculating g(r), the default value is `0.02`
 - `ndelta` (`int`): number of bins for g(r) calculation, `ndelta*rdelta` determines the range
 
@@ -169,7 +169,7 @@ s2.time_corr()
 This module calculates calculate gyration tensor of a cluster of atoms. This module calculates gyration tensor which is a tensor that describes the second moments of posiiton of a collection of particles gyration tensor is a symmetric matrix of shape (ndim, ndim). ref: https://en.wikipedia.org/wiki/Gyration_tensor. A group of atoms should be first defined. groupofatoms are the original coordinates of the selected group of a single configuration, the atom coordinates of the cluster should be removed from PBC which can be realized by ovito 'cluster analysis' method by choosing 'unwrap particle coordinates'.
 
 ### Input Arguments
-- `pos_group` (`np.ndarray`): unwrapped particle positions of a group of atoms, shape as [num_of_particles, dimensionality]
+- `pos_group` (`npt.NDArray`): unwrapped particle positions of a group of atoms, shape as [num_of_particles, dimensionality]
 
 ### Return
 `3D`: `radius_of_gyration`, `asphericity`, `acylindricity`, `shape_anisotropy`, `fractal_dimension` 
@@ -251,7 +251,7 @@ t = Nematic.tensor(outputfile='test')
 ## 5.3 `spatial_corr()`
 ### Input Arguments
 - `rdelta` (`float`): bin size in calculating `g(r)` and `G_Q(r)`, default 0.01
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1]` for two-dimensional systems
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1]` for two-dimensional systems
 - `outputfile` (`str`): csv file name for `G_Q(r)`, default `None`
 
 ### Return

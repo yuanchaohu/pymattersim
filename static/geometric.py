@@ -4,6 +4,7 @@
 
 from itertools import combinations
 import numpy as np
+import numpy.typing as npt
 from reader.reader_utils import Snapshots
 from neighbors.read_neighbors import read_neighbors
 from utils.geometry import triangle_angle
@@ -23,22 +24,22 @@ logger = get_logger_handle(__name__)
 
 def packing_capability_2d(
         snapshots: Snapshots,
-        sigmas: np.ndarray,
+        sigmas: npt.NDArray,
         neighborfile: str,
-        ppp: np.ndarray = np.array([1, 1]),
+        ppp: npt.NDArray = np.array([1, 1]),
         outputfile: str = "",
-) -> np.ndarray:
+) -> npt.NDArray:
     """
     Calculate packing capability of a 2D system based on geometry
 
     Inputs:
         1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                      (returned by reader.dump_reader.DumpReader)
-        2. sigmas (np.ndarray): particle sizes for each pair of particle type (ascending order)
+        2. sigmas (npt.NDArray): particle sizes for each pair of particle type (ascending order)
                                 in numpy array, shape [particle_type, particle_type]
         3. neighborfile (str): file name of particle neighbors (see module neighbors)
-        4. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no,
-                             default np.ndarray=np.array([1,1])
+        4. ppp (npt.NDArray): the periodic boundary conditions, setting 1 for yes and 0 for no,
+                             default npt.NDArray=np.array([1,1])
         5. outputfile (str): file name to save the calculated packing capability, default None
 
     Return:
@@ -95,9 +96,9 @@ def packing_capability_2d(
 
 def q8_tetrahedral(
     snapshots: Snapshots,
-    ppp: np.ndarray = np.array([1, 1, 1]),
+    ppp: npt.NDArray = np.array([1, 1, 1]),
     outputfile: str = "",
-) -> np.ndarray:
+) -> npt.NDArray:
     """
     Calculate local tetrahedral order of the simulation system,
     such as for water-type and silicon-type systems in three dimensions
@@ -105,14 +106,14 @@ def q8_tetrahedral(
     Inputs:
         1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                      (returned by reader.dump_reader.DumpReader)
-        2. ppp (np.ndarray): the periodic boundary conditions,
-                        setting 1 for yes and 0 for no, default np.ndarray=np.array([1,1,1])
+        2. ppp (npt.NDArray): the periodic boundary conditions,
+                        setting 1 for yes and 0 for no, default npt.NDArray=np.array([1,1,1])
         3. outputfile (str): file name to save the calculated local tetrahedral order, default None
                              To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
                              If the file extension is ".dat" or ".txt", also saved a text file.
 
     Return:
-        calculated local tetrahedral order in np.ndarray with shape [nsnapshots, nparticle]
+        calculated local tetrahedral order in npt.NDArray with shape [nsnapshots, nparticle]
     """
     logger.info("Start calculating local tetrahedral order q8")
 

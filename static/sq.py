@@ -5,6 +5,7 @@
 from typing import Optional, Callable, Tuple
 from math import sqrt
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 from reader.reader_utils import SingleSnapshot, Snapshots
 from utils.wavevector import choosewavevector
@@ -24,8 +25,8 @@ logger = get_logger_handle(__name__)
 
 def conditional_sq(
     snapshot: SingleSnapshot,
-    qvector: np.ndarray,
-    condition: np.ndarray
+    qvector: npt.NDArray,
+    condition: npt.NDArray
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
     Calculate the structure factor of a single configuration for selected particles,
@@ -37,8 +38,8 @@ def conditional_sq(
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
-        2. qvector (np.ndarray of int): designed wavevectors in two-dimensional np.array (see utils.wavevector)
-        3. condition (np.ndarray): particle-level condition / property
+        2. qvector (npt.NDArray of int): designed wavevectors in two-dimensional np.array (see utils.wavevector)
+        3. condition (npt.NDArray): particle-level condition / property
 
     Return:
         calculated conditional S(q) for each input wavevector (pd.DataFrame)
@@ -115,7 +116,7 @@ class sq:
             snapshots: Snapshots,
             qrange: float = 10.0,
             onlypositive: bool = False,
-            qvector: np.ndarray = None,
+            qvector: npt.NDArray = None,
             saveqvectors: bool = False,
             outputfile: str = None
     ) -> None:
@@ -127,7 +128,7 @@ class sq:
                          (returned by reader.dump_reader.DumpReader)
             2. qrange (float): the wave number range to be calculated, default 10
             3. onlypositive (bool): whether only consider positive wave vectors, default False
-            4. qvector (np.ndarray of int): input wave vectors in integers as two-dimensional np.array,
+            4. qvector (npt.NDArray of int): input wave vectors in integers as two-dimensional np.array,
                                             if None (default) use qrange & onlypositive
             5. saveqvectors (bool): whether to save S(q) for specific wavevectors, default False
             6. outputfile (str): the name of csv file to save the calculated S(q), default None

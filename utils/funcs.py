@@ -3,6 +3,7 @@
 """mathmatical functions for feasible computation"""
 
 import numpy as np
+import numpy.typing as npt
 from sympy.physics.wigner import wigner_3j
 from utils.logging import get_logger_handle
 
@@ -71,20 +72,20 @@ def alpha2factor(ndim: int = 3) -> float:
 
 
 def moment_of_inertia(
-    positions: np.ndarray,
+    positions: npt.NDArray,
     m: int = 1,
     matrix: bool = False
-) -> np.ndarray:
+) -> npt.NDArray:
     """
     moment of inertia for a rigid body made of n points / particles
 
     Inputs:
-        1. positions (np.ndarray): positions of the point particles as [numofatoms, 3]
+        1. positions (npt.NDArray): positions of the point particles as [numofatoms, 3]
         2. m (int): assuming each point mass is 1.0/numofatoms
         3. matrix (bool): return the results as a matrix of [ixx iyy izz ixy ixz iyz]
 
     Return:
-        moment of inertia (np.ndarray)
+        moment of inertia (npt.NDArray)
     """
 
     Iij = np.zeros((3, 3))
@@ -102,7 +103,7 @@ def moment_of_inertia(
                         Iij[0, 1], Iij[0, 2], Iij[1, 2]])
 
 
-def Wignerindex(l: int) -> np.ndarray:
+def Wignerindex(l: int) -> npt.NDArray:
     """
     Define Wigner 3-j symbol
 
@@ -110,7 +111,7 @@ def Wignerindex(l: int) -> np.ndarray:
         l (int): degree of harmonics
 
     Return:
-        Wigner 3-j symbol (np.ndarray)
+        Wigner 3-j symbol (npt.NDArray)
     """
     selected = []
     for m1 in range(-l, l + 1):
@@ -123,13 +124,13 @@ def Wignerindex(l: int) -> np.ndarray:
     return np.ravel(np.array(selected)).reshape(-1, 4)
 
 
-def grid_gaussian(distances: np.ndarray, sigma: float = 1) -> np.ndarray:
+def grid_gaussian(distances: npt.NDArray, sigma: float = 1) -> npt.NDArray:
     """
     Calculate the gaussian distribution from the zero center,
     give the gaussian probability based on distance and sigma
 
     Inputs:
-        1. distances (np.ndarray): grid distances to the zero center
+        1. distances (npt.NDArray): grid distances to the zero center
         2. sigma (float): standard deviation in the standard gaussian function
 
     Return:

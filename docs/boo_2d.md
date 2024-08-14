@@ -53,7 +53,7 @@ $$
 - `l` (`int`): degree of orientational order, like l=6 for hexatic order
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
 - `weightsfile` (`str`): file name of particle-neighbor weights (see module `neighbors`), one typical example is Voronoi cell edge length of the polygon; this file should be consistent with neighborfile, default `None`
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([1,1])`,
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([1,1])`,
 - `Nmax` (`int`): maximum number for neighbors, default 10
 
 ### Return:
@@ -84,7 +84,7 @@ Calculate $l$-th orientational order in 2D, such as hexatic order
 - None
 
 ### Return
-- Calculated $l$-th order in complex number (`np.ndarray`) with shape `[nsnapshots, nparticle]`
+- Calculated $l$-th order in complex number (`npt.NDArray`) with shape `[nsnapshots, nparticle]`
 
 ### Example
 ```python
@@ -106,9 +106,9 @@ As equation (3) and (4) shows, one snapshot is intended to be averaged from $-\t
 - `outputfile` (`float`): file name of the output modulus and phase, default `None`
 
 ### Return
-- `ParticlePhi` (`np.ndarray`): the original complex order parameter if `time_period=None`
-- `average_quantity` (`np.ndarray`): time averaged $\varphi_l(j)$ results if `time_period` not `None`
-- `average_snapshot_id` (`np.ndarray`): middle snapshot number between time periods if `time_period` not `None`
+- `ParticlePhi` (`npt.NDArray`): the original complex order parameter if `time_period=None`
+- `average_quantity` (`npt.NDArray`): time averaged $\varphi_l(j)$ results if `time_period` not `None`
+- `average_snapshot_id` (`npt.NDArray`): middle snapshot number between time periods if `time_period` not `None`
 
 ### Example
 ```python

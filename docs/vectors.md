@@ -18,7 +18,7 @@ $$
 where $e_{i,n}$ is the eigenvector of particle $i$ in mode $n$. $N$ is the particle number.
 
 ### Input Argument
-- `vector` (`np.ndarray`): input vector field, shape as [num_of_particles, ndim]
+- `vector` (`npt.NDArray`): input vector field, shape as [num_of_particles, ndim]
 
 ### Return
 - participation ratio of the vector field (float)
@@ -45,7 +45,7 @@ $$
 where ${\vec e_i}$ is the eigenvector of particle $i$ and ${CN_i}$ is the number of neighbors of particle $i$.
 
 ### Input Argument
-- `vector` (`np.ndarray`): input vector field, shape as [num_of_particles, ndim]
+- `vector` (`npt.NDArray`): input vector field, shape as [num_of_particles, ndim]
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
 
 ### Return
@@ -83,7 +83,7 @@ $$
 where $i$ and $j$ are atom indices, $N$ is the total atom number, ${CN_i}$ is the coordination number of atom $i$, n is the mode number, $\vec e_{i, n}$ is the eigenvector of atom $i$ in mode $n$. The upper bound $PQ_n=1$ means acoustic nature of the mode (an atom has the same direction as the neighbors), while the lower bound of -1 means optical nature of the mode (an atom has the opposite direction as the neighbors). If $PQ_n \gt 0$, the mode is acoustic-like otherwise is optical-like mode.
 
 ### Input Argument
-- `vector` (`np.ndarray`): input vector field, shape as [num_of_particles, ndim]
+- `vector` (`npt.NDArray`): input vector field, shape as [num_of_particles, ndim]
 - `neighborfile` (`str`): file name of particle neighbors (see module neighbors)
 
 ### Return
@@ -121,8 +121,8 @@ in which $\vec R_i$ is the position vector of atom $i$, $\vec u_i$ is the vector
 
 ### Input Arguments
 - `snapshots` (`reader.reader_utils.SingleSnapshot`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`)
-- `vector` (`np.ndarray`): vector field shape as [num_of_partices, ndim], it determines the dimensionality of the calculation.
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1,1])`, set `np.array([1,1])` for two-dimensional systems
+- `vector` (`npt.NDArray`): vector field shape as [num_of_partices, ndim], it determines the dimensionality of the calculation.
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1,1])`, set `np.array([1,1])` for two-dimensional systems
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
 
 ### Return
@@ -158,8 +158,8 @@ $$
 where $\omega_l^2$ is the eigenvalue of the lth mode, while ${\vec e}_{l, i}$ is the corresponding eigenvector for particle $i$. Larger $\Psi$ indicates more susceptible to excitation and hence more disorder.
 
 ### Input Arguments
-- `eigenfrequencies` (`np.ndarray`): eigen frequencies generally from Hessian diagonalization, shape as [num_of_modes,]
-- `eigenvectors` (`np.ndarray`): eigen vectors associated with eigenfrequencies, each column represents an eigen mode as from `np.linalg.eig` method
+- `eigenfrequencies` (`npt.NDArray`): eigen frequencies generally from Hessian diagonalization, shape as [num_of_modes,]
+- `eigenvectors` (`npt.NDArray`): eigen vectors associated with eigenfrequencies, each column represents an eigen mode as from `np.linalg.eig` method
 
 ### Return
 - particle-level vibrability in a numpy array
@@ -232,8 +232,8 @@ This new method is utilized in the calculation. Basically, the vector field is f
 
 ### Input Arguments
 - `snapshot` (`reader.reader_utils.SingleSnapshot`): single snapshot object of input trajectory
-- `qvector` (`np.ndarray` of `int`): designed wavevectors in two-dimensional `np.array` (see `utils.wavevector`)
-- `vector` (`np.ndarray`): particle-level vector, shape as [num_of_particles, ndim], for example, eigenvector field and velocity field
+- `qvector` (`npt.NDArray` of `int`): designed wavevectors in two-dimensional `np.array` (see `utils.wavevector`)
+- `vector` (`npt.NDArray`): particle-level vector, shape as [num_of_particles, ndim], for example, eigenvector field and velocity field
 - `outputfile` (`str`): filename.csv to save the calculated `S(q)`, default `None`
 
 ### Return
@@ -292,8 +292,8 @@ where $\alpha$ represents longitudinal ($L$) or transverse ($T$) current.
 
 ### Input Arguments
 - `snapshots` (`read.reader_utils.snapshots`): multiple trajectories dumped linearly or in logscale
-- `qvector` (`np.ndarray` of `int`): designed wavevectors in two-dimensional `np.array` (see `utils.wavevector`)
-- `vectors` (`np.ndarray`): particle-level vector, shape as [num_of_snapshots, num_of_particles, ndim], for example, eigenvector field and velocity field
+- `qvector` (`npt.NDArray` of `int`): designed wavevectors in two-dimensional `np.array` (see `utils.wavevector`)
+- `vectors` (`npt.NDArray`): particle-level vector, shape as [num_of_snapshots, num_of_particles, ndim], for example, eigenvector field and velocity field
 - `dt` (`float`): time step of input snapshots, default 0.002
 - `outputfile` (`str`): filename.csv to save the calculated `S(q)`, default `None`
 

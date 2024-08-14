@@ -4,6 +4,7 @@
 
 import re
 import numpy as np
+import numpy.typing as npt
 from reader.reader_utils import Snapshots
 from utils.pbc import remove_pbc
 from utils.logging import get_logger_handle
@@ -20,7 +21,7 @@ logger = get_logger_handle(__name__)
 def Nnearests(
     snapshots: Snapshots,
     N: int = 12,
-    ppp: np.ndarray = np.array([1, 1, 1]),
+    ppp: npt.NDArray = np.array([1, 1, 1]),
     fnfile: str = 'neighborlist.dat'
 ) -> None:
     """
@@ -32,7 +33,7 @@ def Nnearests(
 
         2. N (int): the number of nearest neighbors, default=12
 
-        3. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no
+        3. ppp (npt.NDArray): the periodic boundary conditions, setting 1 for yes and 0 for no
                        default np.array([1,1,1]), that is, PBC is applied in all three dimensions for 3D box.
                        set np.array([1,1]) for two-dimensional systems
 
@@ -81,7 +82,7 @@ def Nnearests(
 def cutoffneighbors(
     snapshots: Snapshots,
     r_cut: float,
-    ppp: np.ndarray = np.array([1, 1, 1]),
+    ppp: npt.NDArray = np.array([1, 1, 1]),
     fnfile: str = 'neighborlist.dat'
 ) -> None:
     """
@@ -93,7 +94,7 @@ def cutoffneighbors(
 
         2. r_cut (float): the global cutoff distance to screen the nearest neighbors
 
-        3. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no
+        3. ppp (npt.NDArray): the periodic boundary conditions, setting 1 for yes and 0 for no
                        default np.array([1,1,1]), that is, PBC is applied in all three dimensions for 3D box
                        set np.array([1,1]) for two dimensional systems
 
@@ -135,8 +136,8 @@ def cutoffneighbors(
 
 def cutoffneighbors_particletype(
     snapshots: Snapshots,
-    r_cut: np.ndarray,
-    ppp: np.ndarray = np.array([1, 1, 1]),
+    r_cut: npt.NDArray,
+    ppp: npt.NDArray = np.array([1, 1, 1]),
     fnfile: str = 'neighborlist.dat'
 ) -> None:
     """
@@ -146,12 +147,12 @@ def cutoffneighbors_particletype(
     Inputs:
         1. snapshots (reader.reader_utils.Snapshots): returned by reader.dump_reader.DumpReader
 
-        2. r_cut (np.ndarray): the cutoff distances of each particle pair, for example,
+        2. r_cut (npt.NDArray): the cutoff distances of each particle pair, for example,
                              for a binary system A-B should be np.array([[A-A, A-B], [B-A, B-B]]))
                              Usually, these cutoff distances can be determined as the position of
                              the first valley in partial pair correlation function of each pair.
 
-        3. ppp (np.ndarray): the periodic boundary conditions, setting 1 for yes and 0 for no
+        3. ppp (npt.NDArray): the periodic boundary conditions, setting 1 for yes and 0 for no
                        default np.array([1,1,1]), that is, PBC is applied in all three dimensions for 3D box
                        set np.array([1,1]) for two-dimensional system
 
@@ -162,7 +163,7 @@ def cutoffneighbors_particletype(
     logger.info(f"Calculate the particle type specific cutoff neighbors for "
                 f"{len(ppp)}-dimensional system")
 
-    if not isinstance(r_cut, np.ndarray):
+    if not isinstance(r_cut, npt.NDArray):
         errorinfo = "input r_cut type error: please give a numpy array over all pairs\n"
         errorinfo += "shape of r_cut input is (atom_type_number, atom_type_number)"
         raise IOError(errorinfo)

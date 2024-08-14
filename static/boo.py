@@ -10,6 +10,7 @@ see documentation @ ../docs/boo_2d.md
 
 from typing import Tuple
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 from reader.reader_utils import Snapshots
 from neighbors.read_neighbors import read_neighbors
@@ -49,7 +50,7 @@ class boo_3d:
             l: int,
             neighborfile: str,
             weightsfile: str = None,
-            ppp: np.ndarray = np.array([1, 1, 1]),
+            ppp: npt.NDArray = np.array([1, 1, 1]),
             Nmax: int = 30
     ) -> None:
         """
@@ -63,7 +64,7 @@ class boo_3d:
             4. weightsfile (str): file name of particle-neighbor weights (see module neighbors)
                                   one typical example is Voronoi face area of the polyhedron;
                                   this file should be consistent with neighborfile, default None
-            5. ppp (np.ndarray): the periodic boundary conditions,
+            5. ppp (npt.NDArray): the periodic boundary conditions,
                                  setting 1 for yes and 0 for no, default np.array([1,1,1]),
             7. Nmax (int): maximum number for neighbors, default 30
 
@@ -89,7 +90,7 @@ class boo_3d:
         # for easy reuse and extendability
         self.smallqlm, self.largeQlm = self.qlm_Qlm()
 
-    def qlm_Qlm(self) -> Tuple[np.ndarray, np.ndarray]:
+    def qlm_Qlm(self) -> Tuple[npt.NDArray, npt.NDArray]:
         """
         BOO of the l-fold symmetry as a 2l + 1 vector
 
@@ -165,7 +166,7 @@ class boo_3d:
         return np.array(smallqlm), np.array(largeQlm)
 
     def ql_Ql(self, coarse_graining: bool = False,
-              outputfile: str = None) -> np.ndarray:
+              outputfile: str = None) -> npt.NDArray:
         """
         Calculate BOO ql (local) or Ql (coarse-grained)
 
@@ -177,7 +178,7 @@ class boo_3d:
                                  If the file extension is ".dat" or ".txt", also saved a text file.
 
         Return:
-            Calculated ql or Ql (np.ndarray)
+            Calculated ql or Ql (npt.NDArray)
             shape [nsnapshots, nparticle]
         """
         if coarse_graining:
@@ -213,7 +214,7 @@ class boo_3d:
         c: float = 0.7,
         outputqlQl: str = None,
         outputsij: str = None
-    ) -> list[np.ndarray]:
+    ) -> list[npt.NDArray]:
         """
         Calculate orientation correlation of qlm or Qlm, named as sij
 
@@ -225,7 +226,7 @@ class boo_3d:
             4. outputsij (str): txt file name for sij of ql or Ql, default None
 
         Return:
-            calculated sij (np.ndarray in a list for each snapshot)
+            calculated sij (npt.NDArray in a list for each snapshot)
         """
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
@@ -296,7 +297,7 @@ class boo_3d:
         coarse_graining: bool = False,
         outputw: str = None,
         outputwcap: str = None
-    ) -> Tuple[np.ndarray, np.ndarray]:
+    ) -> Tuple[npt.NDArray, npt.NDArray]:
         """
         Calculate wigner 3-j symbol boo based on qlm or Qlm
 
@@ -455,7 +456,7 @@ class boo_2d:
         l: int,
         neighborfile: str,
         weightsfile: str = "",
-        ppp: np.ndarray = np.array([1, 1]),
+        ppp: npt.NDArray = np.array([1, 1]),
         Nmax: int = 10,
         output_phi: str = "",
     ) -> None:
@@ -470,7 +471,7 @@ class boo_2d:
             4. weightsfile (str): file name of particle-neighbor weights (see module neighbors)
                                   one typical example is Voronoi cell edge length of the polygon;
                                   this file should be consistent with neighborfile, default None
-            5. ppp (np.ndarray): the periodic boundary conditions,
+            5. ppp (npt.NDArray): the periodic boundary conditions,
                                  setting 1 for yes and 0 for no, default np.array([1,1])
             7. Nmax (int): maximum number for neighbors, default 10
             8. output_phi (str): output file name of the original order parameter in complex number
@@ -496,7 +497,7 @@ class boo_2d:
 
         self.ParticlePhi = self.lthorder(output_phi)
 
-    def lthorder(self, output_phi: str = "") -> np.ndarray:
+    def lthorder(self, output_phi: str = "") -> npt.NDArray:
         """
         Calculate l-th orientational order in 2D, such as hexatic order
 
@@ -504,7 +505,7 @@ class boo_2d:
             output_phi (str): output file name of the original order parameter in complex number
 
         Return:
-            Calculated l-th order in complex number (np.ndarray)
+            Calculated l-th order in complex number (npt.NDArray)
             shape: [nsnapshots, nparticle]
         """
 
@@ -557,7 +558,7 @@ class boo_2d:
         dt: float = 0.002,
         average_complex: bool = True,
         outputfile: str = ""
-    ) -> Tuple[np.ndarray, np.ndarray]:
+    ) -> Tuple[npt.NDArray, npt.NDArray]:
         """
         calculate the particle-level phi considering time average of the order parameter if time_period not None
 
@@ -568,9 +569,9 @@ class boo_2d:
             4. outputfile (float): file name of the output modulus and phase, default None
 
         Return:
-            1. ParticlePhi (np.ndarray): the original complex order parameter if time_period=None
-            2. average_quantity (np.ndarray): time averaged phi results if time_period not None
-            3. average_snapshot_id (np.ndarray): middle snapshot number between time periods if time_period not None
+            1. ParticlePhi (npt.NDArray): the original complex order parameter if time_period=None
+            2. average_quantity (npt.NDArray): time averaged phi results if time_period not None
+            3. average_snapshot_id (npt.NDArray): middle snapshot number between time periods if time_period not None
         """
         assert time_period > 0, "time_period must be greater than 0"
 

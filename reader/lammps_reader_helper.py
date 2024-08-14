@@ -3,6 +3,7 @@
 
 from typing import Dict, Any, List
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 
 from utils.logging import get_logger_handle
@@ -445,7 +446,7 @@ def read_lammps_vector(
     return snapshot
 
 
-def read_additions(dumpfile, ncol) -> np.ndarray:
+def read_additions(dumpfile, ncol) -> npt.NDArray:
     """
     Read additional columns in the lammps dump file
     for example, read "order" from:

@@ -19,11 +19,11 @@ $$
 in which $j$ is the center particle and $i$ is its neighbor.
 
 #### Input Arguments:
-- `RII`(`np.ndarray`): original (absolute) displacement matrix with shape `[num_of_particles, ndim]`                  
-- `cnlist`(`np.ndarray`): neighbor list of the initial or reference configuration with shape `[num_of_particles, num_of_neighbors]`. This gives the particle identifiers ($i$) for each center ($j$). It available from the 'neighbors' module.
+- `RII`(`npt.NDArray`): original (absolute) displacement matrix with shape `[num_of_particles, ndim]`                  
+- `cnlist`(`npt.NDArray`): neighbor list of the initial or reference configuration with shape `[num_of_particles, num_of_neighbors]`. This gives the particle identifiers ($i$) for each center ($j$). It available from the 'neighbors' module.
 
 #### Return:
-- `RII_relative`(`np.ndarray`): cage-relative displacement matrix with shape `[num_of_particles, ndim]` (the same as the input `RII`)
+- `RII_relative`(`npt.NDArray`): cage-relative displacement matrix with shape `[num_of_particles, ndim]` (the same as the input `RII`)
 
 #### Example
 ```python
@@ -73,7 +73,7 @@ The functions are listed below.
 - `xu_snapshots`(`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
 - `x_snapshots`(`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
 - `dt`(`float`): timestep used in user simulations, default 0.002
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([0,0,0])` for 3D. It requires to be precisely given to determine the model dimensionality.
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([0,0,0])` for 3D. It requires to be precisely given to determine the model dimensionality.
 - `diameters` (`dict[int, float]`): map particle types to particle diameters, for example, `{1: 1.0, 2:1.5}` for binary systems.
 - `a`(`float`): mobility cutoff scaling factor, used together with `diameters` to determine the cutoff for each particle type, default 0.3.
 - `cal_type`(`str`): calculation type for the dynamical structure factor, can be either `slow`(default) or `fast`, accounting for the slow and fast dynamics.
@@ -158,7 +158,7 @@ which is usually used to measure the degree of dynamical heterogeneity in the di
 
 #### Input Arguments:
 - `qconst`(`float`): the wavenumber factor for calculating self-intermediate scattering function. default $2\pi$, used internally as `qconst/diameters` to define the wavenumber for each particle. For example, if input `qconst=2PI` and `diamter=1.0` then the used wavenumber is `2PI/1.0`. This setting provides flexibility for polydisperse systems or considering dynamics differently for different particle types.
-- `condition`(`np.ndarray`): particle-level selection with the shape `[num_of_snapshots, num_of_particles]` , preferring the `bool` type. Default `None`.
+- `condition`(`npt.NDArray`): particle-level selection with the shape `[num_of_snapshots, num_of_particles]` , preferring the `bool` type. Default `None`.
 - `outputfile`(`str`): file name to save the calculated dynamics results
 
 #### Return:
@@ -189,7 +189,7 @@ which is essentially the same as the quantity $Q(t)$ as above, accounting for th
 #### Input Arguments:
 -   `t` (`float`): characteristic time, typically peak time of $\chi_4(t)$, see self.relaxation()
 -   `qrange` (`float`): the wave number range to be calculated, default 10.0. It determines how many wavevector is involved in the computation.
--   `condition` (`np.ndarray`): particle-level condition / property, shape `[num_of_snapshots, num_of_particles]`. This supplements the fast or slow dynamics, for example, to calculate the slow dynamics of particles with type=1 will require this `condition` to be a `bool` type with `True` only for particle type of 1.
+-   `condition` (`npt.NDArray`): particle-level condition / property, shape `[num_of_snapshots, num_of_particles]`. This supplements the fast or slow dynamics, for example, to calculate the slow dynamics of particles with type=1 will require this `condition` to be a `bool` type with `True` only for particle type of 1.
 -   `outputfile` (`str`): output filename for the calculated dynamical structure factor
 
 #### Return:
@@ -210,7 +210,7 @@ Ensemble average is absent compared to the above `Dynamics()` class!
 - `xu_snapshots`(`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
 - `x_snapshots`(`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
 - `dt`(`float`): timestep used in user simulations, default 0.002
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([0,0,0])` for 3D. It requires to be precisely given to determine the model dimensionality.
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([0,0,0])` for 3D. It requires to be precisely given to determine the model dimensionality.
 - `diameters` (`dict[int, float]`): map particle types to particle diameters, for example, `{1: 1.0, 2:1.5}` for binary systems.
 - `a`(`float`): mobility cutoff scaling factor, used together with `diameters` to determine the cutoff for each particle type, default 0.3.
 - `cal_type`(`str`): calculation type for the dynamical structure factor, can be either `slow`(default) or `fast`, accounting for the slow and fast dynamics.
@@ -258,7 +258,7 @@ Compute the self-intermediate scattering functions ISF, overlap function Qt and 
 
 #### Input Arguments:
 - `qconst`(`float`): the wavenumber factor for calculating self-intermediate scattering function. default $2\pi$, used internally as `qconst/diameters` to define the wavenumber for each particle. For example, if input `qconst=2PI` and `diamter=1.0` then the used wavenumber is `2PI/1.0`. This setting provides flexibility for polydisperse systems or considering dynamics differently for different particle types.
-- `condition`(`np.ndarray`): particle-level selection with the shape `[num_of_snapshots, num_of_particles]` , preferring the `bool` type. Default `None`.
+- `condition`(`npt.NDArray`): particle-level selection with the shape `[num_of_snapshots, num_of_particles]` , preferring the `bool` type. Default `None`.
 - `outputfile`(`str`): file name to save the calculated dynamics results
 
 #### Return:
@@ -285,7 +285,7 @@ There are three cases considered, given by the shape of condition:
 
 #### Input:
 - `snapshots` (`read.reader_utils.snapshots`): multiple trajectories dumped linearly or in logscale
-- `condition` (`np.ndarray`): particle-level condition / property, type should be float
+- `condition` (`npt.NDArray`): particle-level condition / property, type should be float
                             shape: `[num_of_snapshots, num_of_particles, xxx]`
 - `dt` (`float`): time step of input snapshots, default 0.002
 - `outputfile` (`str`): output file name, default "" (None)

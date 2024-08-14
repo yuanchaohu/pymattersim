@@ -2,6 +2,7 @@
 
 from typing import Any, List, Tuple
 import numpy as np
+import numpy.typing as npt
 from scipy.optimize import curve_fit
 from utils.logging import get_logger_handle
 
@@ -18,8 +19,8 @@ logger = get_logger_handle(__name__)
 
 def fits(
     fit_func: Any,
-    xdata: np.ndarray,
-    ydata: np.ndarray,
+    xdata: npt.NDArray,
+    ydata: npt.NDArray,
     rangea: float = 0,
     rangeb: float = 0,
     p0: List[float] = [],
@@ -33,8 +34,8 @@ def fits(
 
     Inputs:
         1. fit_func: fitting function
-        2. xdata (np.ndarray): x-variable
-        3. ydata (np.ndarray): y-variable
+        2. xdata (npt.NDArray): x-variable
+        3. ydata (npt.NDArray): y-variable
         4. rangea (float): lower x-limit of fitting result, default 0 (False)
         5. rangeb (float): upper x-limit of fitting result, default 0 (False)
         6. p0 (list of float): initial values of the fit_func arguments

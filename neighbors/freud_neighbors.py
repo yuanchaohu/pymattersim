@@ -2,6 +2,7 @@
 
 """see documentation @ ../docs/neighbors.md"""
 
+import numpy.typing as npt
 import numpy as np
 import freud
 
@@ -130,7 +131,7 @@ def VolumeMatrix(
     deltar: float = 0.01,
     transform_matrix: bool = True,
     outputfile: str = "",
-) -> np.ndarray:
+) -> npt.NDArray:
     """
     Calculate the Voronoi volume matrix for real-space vector decomposition
 

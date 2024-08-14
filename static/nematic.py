@@ -3,6 +3,7 @@
 """see documentation @ ../docs/orderings.md"""
 
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 from reader.reader_utils import Snapshots
 from static.gr import conditional_gr
@@ -59,7 +60,7 @@ class NematicOrder():
         Nmax: int = 30,
         eigvals: bool = False,
         outputfile: str = "",
-    ) -> np.ndarray:
+    ) -> npt.NDArray:
         """
         Calculate the nematic order parameter of a model system
 
@@ -126,13 +127,13 @@ class NematicOrder():
         return Qtrace
 
     def spatial_corr(self, rdelta: float = 0.01,
-                     ppp: np.ndarray = np.array([1, 1]), outputfile: str = ""):
+                     ppp: npt.NDArray = np.array([1, 1]), outputfile: str = ""):
         """
         Calculate the spatial correlation of the nematic order QIJ
 
         Inputs:
             1. rdelta (float): bin size in calculating g(r) and G_Q(r), default 0.01
-            2. ppp (np.ndarray): the periodic boundary conditions,
+            2. ppp (npt.NDArray): the periodic boundary conditions,
                        setting 1 for yes and 0 for no, default np.array([1,1])
                        for two-dimensional systems
             3. outputfile (str): csv file name for G_Q(r), default None

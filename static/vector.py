@@ -3,6 +3,7 @@
 from typing import Optional, Tuple
 
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 
 from dynamic.time_corr import time_correlation
@@ -23,12 +24,12 @@ logger = get_logger_handle(__name__)
 # pylint: disable=trailing-whitespace
 
 
-def participation_ratio(vector: np.ndarray) -> float:
+def participation_ratio(vector: npt.NDArray) -> float:
     """
     Calculate the participation ratio for an vector field
 
     Inputs:
-        vector (np.ndarray): input vector field, shape as [num_of_particles, ndim]
+        vector (npt.NDArray): input vector field, shape as [num_of_particles, ndim]
 
     Return:
         participation ratio of the vector field (float)
@@ -43,14 +44,14 @@ def participation_ratio(vector: np.ndarray) -> float:
 
 
 def local_vector_alignment(
-        vector: np.ndarray,
-        neighborfile: str) -> np.ndarray:
+        vector: npt.NDArray,
+        neighborfile: str) -> npt.NDArray:
     """
     Calculate the local orientational order of a vector field
     Maximum 200 neighbors are considered
 
     Inputs:
-        1. vector (np.ndarray): input vector field, shape as [num_of_particles, ndim]
+        1. vector (npt.NDArray): input vector field, shape as [num_of_particles, ndim]
         2. neighborfile (str): file name of particle neighbors (see module neighbors)
 
     Return:
@@ -69,13 +70,13 @@ def local_vector_alignment(
     return results
 
 
-def phase_quotient(vector: np.ndarray, neighborfile: str) -> float:
+def phase_quotient(vector: npt.NDArray, neighborfile: str) -> float:
     """
     Calculate the phase quotient of a vector field
     Maximum 200 neighbors are considered
 
     Inputs:
-        1. vector (np.ndarray): input vector field, shape as [num_of_particles, ndim]
+        1. vector (npt.NDArray): input vector field, shape as [num_of_particles, ndim]
         2. neighborfile (str): file name of particle neighbors (see module neighbors)
 
     Return:
@@ -97,10 +98,10 @@ def phase_quotient(vector: np.ndarray, neighborfile: str) -> float:
 
 def divergence_curl(
     snapshot: SingleSnapshot,
-    vector: np.ndarray,
-    ppp: np.ndarray,
+    vector: npt.NDArray,
+    ppp: npt.NDArray,
     neighborfile: str
-) -> Tuple[np.ndarray, Optional[np.ndarray]]:
+) -> Tuple[npt.NDArray, Optional[npt.NDArray]]:
     """
     Calculate the divergence and curl of a vector field at 2D and 3D
     Divergence is scalar over all dimensions
@@ -110,9 +111,9 @@ def divergence_curl(
     Inputs:
         1. snapshots (reader.reader_utils.SingleSnapshot): snapshot object of input trajectory
                      (returned by reader.dump_reader.DumpReader)
-        2. vector (np.ndarray): vector field shape as [num_of_partices, ndim], it determines the
+        2. vector (npt.NDArray): vector field shape as [num_of_partices, ndim], it determines the
                     dimensionality of the calculation.
-        3. ppp (np.ndarray): the periodic boundary conditions,
+        3. ppp (npt.NDArray): the periodic boundary conditions,
                        setting 1 for yes and 0 for no, default np.array([1,1,1]),
                        set np.array([1,1]) for two-dimensional systems
         4. neighborfile (str): file name of particle neighbors (see module neighbors)
@@ -152,18 +153,18 @@ def kspace_decomposition():
 
 
 def vibrability(
-    eigenfrequencies: np.ndarray,
-    eigenvectors: np.ndarray,
+    eigenfrequencies: npt.NDArray,
+    eigenvectors: npt.NDArray,
     num_of_partices: int,
     outputfile: str = "",
-) -> np.ndarray:
+) -> npt.NDArray:
     """
     Calculate particle-level vibrability from the eigenmodes
 
     Inputs:
-        1. eigenfrequencies (np.ndarray): eigen frequencies generally from
+        1. eigenfrequencies (npt.NDArray): eigen frequencies generally from
                     Hessian diagonalization, shape as [num_of_modes,]
-        2. eigenvectors (np.ndarray): eigen vectors associated with eigenfrequencies,
+        2. eigenvectors (npt.NDArray): eigen vectors associated with eigenfrequencies,
                     each column represents an eigen mode as from np.linalg.eig method
 
     Return:
@@ -181,8 +182,8 @@ def vibrability(
 
 def vector_decomposition_sq(
     snapshot: SingleSnapshot,
-    qvector: np.ndarray,
-    vector: np.ndarray,
+    qvector: npt.NDArray,
+    vector: npt.NDArray,
     outputfile: str = "",
 ) -> Tuple[pd.DataFrame, pd.DataFrame]:
     """
@@ -192,9 +193,9 @@ def vector_decomposition_sq(
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
-        2. qvector (np.ndarray of int): designed wavevectors in two-dimensional np.array
+        2. qvector (npt.NDArray of int): designed wavevectors in two-dimensional np.array
                                         (see utils.wavevector)
-        3. vector (np.ndarray): particle-level vector, shape as [num_of_particles, ndim],
+        3. vector (npt.NDArray): particle-level vector, shape as [num_of_particles, ndim],
                                 for example, eigenvector field and velocity field
         4. outputfile (str): filename.csv to save the calculated S(q), default None
 
@@ -233,8 +234,8 @@ def vector_decomposition_sq(
 
 def vector_fft_corr(
     snapshots: Snapshots,
-    qvector: np.ndarray,
-    vectors: np.ndarray,
+    qvector: npt.NDArray,
+    vectors: npt.NDArray,
     dt: float = 0.002,
     outputfile: str = "",
 ) -> dict[str, pd.DataFrame]:
@@ -243,9 +244,9 @@ def vector_fft_corr(
 
     Inputs:
         1. snapshots (read.reader_utils.snapshots): multiple trajectories dumped linearly or in logscale
-        2. qvector (np.ndarray of int): designed wavevectors in two-dimensional np.array
+        2. qvector (npt.NDArray of int): designed wavevectors in two-dimensional np.array
                                         (see utils.wavevector)
-        3. vectors (np.ndarray): particle-level vector, shape as [num_of_snapshots, num_of_particles, ndim],
+        3. vectors (npt.NDArray): particle-level vector, shape as [num_of_snapshots, num_of_particles, ndim],
                                 for example, eigenvector field and velocity field
         4. dt (float): time step of input snapshots, default 0.002
         5. outputfile (str): filename.csv to save the calculated S(q), default None

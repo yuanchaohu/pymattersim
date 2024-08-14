@@ -6,6 +6,7 @@ like static/dynamic structure factor
 
 from math import sqrt, modf
 import numpy as np
+import numpy.typing as npt
 from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -13,7 +14,7 @@ logger = get_logger_handle(__name__)
 # pylint: disable=too-many-branches
 
 
-def wavevector3d(numofq: int = 500) -> np.ndarray:
+def wavevector3d(numofq: int = 500) -> npt.NDArray:
     """
     Define wave vector for three dimensional systems
 
@@ -21,7 +22,7 @@ def wavevector3d(numofq: int = 500) -> np.ndarray:
         numofq (int): number of q
 
     Return:
-        wavevector (np.ndarray)
+        wavevector (npt.NDArray)
     """
 
     wavenumber = np.square(np.arange(numofq))
@@ -37,7 +38,7 @@ def wavevector3d(numofq: int = 500) -> np.ndarray:
     return np.array(wavevector)
 
 
-def wavevector2d(numofq: int = 500) -> np.ndarray:
+def wavevector2d(numofq: int = 500) -> npt.NDArray:
     """
     Define Wave Vector for two dimensional system
 
@@ -45,7 +46,7 @@ def wavevector2d(numofq: int = 500) -> np.ndarray:
         numofq (int): number of q
 
     Return:
-        wavevector (np.ndarray)
+        wavevector (npt.NDArray)
     """
 
     wavenumber = np.square(np.arange(numofq))
@@ -63,7 +64,7 @@ def wavevector2d(numofq: int = 500) -> np.ndarray:
 def choosewavevector(
         ndim: int,
         numofq: int,
-        onlypositive: bool = False) -> np.ndarray:
+        onlypositive: bool = False) -> npt.NDArray:
     """
     define wave vector for [nx, ny, nz] as long as they are integers
     considering qvector values from [-N/2, N/2] or from [0, N/2] (onlypositive=True)
@@ -76,7 +77,7 @@ def choosewavevector(
                                 default False
 
     Return:
-        qvectors (np.ndarray)
+        qvectors (npt.NDArray)
     """
 
     qvectors = np.zeros((numofq**ndim, ndim), dtype=np.int32)
@@ -138,7 +139,7 @@ def choosewavevector(
 def continuousvector(
         ndim: int,
         numofq: int = 100,
-        onlypositive: bool = False) -> np.ndarray:
+        onlypositive: bool = False) -> npt.NDArray:
     """
     define wave vector for [nx, ny, nz] as long as they are integers
     considering qvector values from [-N/2, N/2]
@@ -150,7 +151,7 @@ def continuousvector(
                                 default False
 
     Return:
-        qvectors (np.ndarray)
+        qvectors (npt.NDArray)
     """
 
     qvectors = np.zeros((numofq**ndim, ndim), dtype=np.int32)

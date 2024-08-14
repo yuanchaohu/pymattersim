@@ -3,6 +3,7 @@
 """see documentation @ ../docs/utils.md"""
 
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 from utils.logging import get_logger_handle
 
@@ -13,8 +14,8 @@ logger = get_logger_handle(__name__)
 
 
 def Filon_COS(
-        C: np.ndarray,
-        t: np.ndarray,
+        C: npt.NDArray,
+        t: npt.NDArray,
         a: float = 0,
         outputfile: str = "") -> pd.DataFrame:
     """
@@ -22,8 +23,8 @@ def Filon_COS(
     by Filon's integration method
 
     Inputs:
-    1. C (np.ndarray): the auto-correlation function
-    2. t (np.ndarray): the time corresponding to C
+    1. C (npt.NDArray): the auto-correlation function
+    2. t (npt.NDArray): the time corresponding to C
     3. a (float): the frequency interval, default 0
     4. outputfile (str): filename to save the calculated results
 

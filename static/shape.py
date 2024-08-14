@@ -3,12 +3,13 @@
 
 from typing import List, Any
 import numpy as np
+import numpy.typing as npt
 from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
 
-def gyration_tensor(pos_group: np.ndarray) -> List[Any]:
+def gyration_tensor(pos_group: npt.NDArray) -> List[Any]:
     """calculate gyration tensor of a cluster of atoms
 
     This module calculates gyration tensor which is a tensor that describes
@@ -26,7 +27,7 @@ def gyration_tensor(pos_group: np.ndarray) -> List[Any]:
     by choosing 'unwrap particle coordinates'
 
     Input:
-        1. pos_group (np.ndarray): unwrapped particle positions of a
+        1. pos_group (npt.NDArray): unwrapped particle positions of a
             group of atoms, shape as [num_of_particles, dimensionality]
 
     Return:

@@ -2,13 +2,13 @@
 
 """see documentation @ ../docs/writer.md"""
 
-import numpy as np
+import numpy.typing as npt
 
 
 def write_dump_header(
         timestep: int,
         nparticle: int,
-        boxbounds: np.ndarray,
+        boxbounds: npt.NDArray,
         addson: str = None) -> str:
     """
     write the headers of lammps dump file
@@ -16,7 +16,7 @@ def write_dump_header(
     Inputs:
         1. timestep (int): timestep for the current snapshot
         2. nparticle (int): number of particle
-        3. boxbounds (np.ndarray): the bounds of the simulation box
+        3. boxbounds (npt.NDArray): the bounds of the simulation box
                                                      for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
                                                      for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
                                                      wherein xho and xhi represent minimum and maximum coordinate values
@@ -47,14 +47,14 @@ def write_dump_header(
 
 
 def write_data_header(
-        nparticle: int, nparticle_type: int, boxbounds: np.ndarray) -> str:
+        nparticle: int, nparticle_type: int, boxbounds: npt.NDArray) -> str:
     """
     write the headers of lammps data file
 
     Inputs:
         1. nparticle (int): number of particle
         2. nparticle_type (int): number of particle type
-        3. boxbounds (np.ndarray): the bounds of the simulation box
+        3. boxbounds (npt.NDArray): the bounds of the simulation box
                                  for two-dimensional box, [[xlo, xhi], [ylo, yhi]]
                                  for three-dimensional box, [[xlo, xhi], [ylo, yhi], [zlo, zhi]]
                                  wherein xho and xhi represent minimum and maximum coordinate values

@@ -4,6 +4,7 @@
 
 from typing import Optional, Callable
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 from reader.reader_utils import SingleSnapshot, Snapshots
 from utils.pbc import remove_pbc
@@ -24,9 +25,9 @@ logger = get_logger_handle(__name__)
 
 def conditional_gr(
     snapshot: SingleSnapshot,
-    condition: np.ndarray,
+    condition: npt.NDArray,
     conditiontype: str = None,
-    ppp: np.ndarray = np.array([1, 1, 1]),
+    ppp: npt.NDArray = np.array([1, 1, 1]),
     rdelta: float = 0.01,
 ) -> pd.DataFrame:
     """
@@ -41,10 +42,10 @@ def conditional_gr(
 
     Input:
         1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
-        2. condition (np.ndarray): particle-level condition for g(r)
+        2. condition (npt.NDArray): particle-level condition for g(r)
         3. conditiontype (str): whether condition is vector or tensor,
                                 choosing from None (default), vector, tensor
-        4. ppp (np.ndarray): the periodic boundary conditions,
+        4. ppp (npt.NDArray): the periodic boundary conditions,
                        setting 1 for yes and 0 for no, default np.array([1,1,1]),
                        set np.array([1,1]) for two-dimensional systems
         5. rdelta (float): bin size calculating g(r), default 0.01
@@ -171,7 +172,7 @@ class gr:
     def __init__(
             self,
             snapshots: Snapshots,
-            ppp: np.ndarray = np.array([1, 1, 1]),
+            ppp: npt.NDArray = np.array([1, 1, 1]),
             rdelta: float = 0.01,
             outputfile: str = None
     ) -> None:
@@ -181,9 +182,9 @@ class gr:
         Inputs:
             1. snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                          (returned by reader.dump_reader.DumpReader)
-            2. ppp (np.ndarray): the periodic boundary conditions,
-                           setting 1 for yes and 0 for no, default np.ndarray=np.array([1,1,1]),
-                           set np.ndarray=np.array([1,1]) for two-dimensional systems
+            2. ppp (npt.NDArray): the periodic boundary conditions,
+                           setting 1 for yes and 0 for no, default npt.NDArray=np.array([1,1,1]),
+                           set npt.NDArray=np.array([1,1]) for two-dimensional systems
             3. rdelta (float): bin size calculating g(r), the default value is 0.01
             4. outputfile (str): the name of csv file to save the calculated g(r)
 

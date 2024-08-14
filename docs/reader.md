@@ -53,12 +53,12 @@ The input simulation box will be transformed to a list of 'digital' snapshot, by
 
 - `snapshots[n].timestep` (`int`): simulation timestep at each snapshot
 - `snapshots[n].nparticle` (`int`): particle number from each snapshot
-- `snapshots[n].particle_type` (`np.ndarray`): particle type in array in each snapshot. Additional columns information for `DumpFileType.LAMMPSVECTOR`.
-- `snapshots[n].positions` (`np.ndarray`): particle coordinates in array in each snapshot
-- `snapshots[n].boxlength` (`np.ndarray`): box length in array in each snapshot
-- `snapshots[n].boxbounds` (`np.ndarray`): box boundaries in array in each snapshot
-- `snapshots[n].realbounds` (`np.ndarray`): real box bounds of a triclinic box (optional)
-- `snapshots[n].hmatrix` (`np.ndarray`): h-matrix of the cells in each snapshot
+- `snapshots[n].particle_type` (`npt.NDArray`): particle type in array in each snapshot. Additional columns information for `DumpFileType.LAMMPSVECTOR`.
+- `snapshots[n].positions` (`npt.NDArray`): particle coordinates in array in each snapshot
+- `snapshots[n].boxlength` (`npt.NDArray`): box length in array in each snapshot
+- `snapshots[n].boxbounds` (`npt.NDArray`): box boundaries in array in each snapshot
+- `snapshots[n].realbounds` (`npt.NDArray`): real box bounds of a triclinic box (optional)
+- `snapshots[n].hmatrix` (`npt.NDArray`): h-matrix of the cells in each snapshot
 
 The information is stored in a list of which the elements are mainly numpy arrays. Particle-level information is referred by particle ID.
 

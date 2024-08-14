@@ -2,6 +2,7 @@
 
 """see documentation @ ../docs/dynamics.md"""
 
+import numpy.typing as npt
 import numpy as np
 import pandas as pd
 from reader.reader_utils import Snapshots
@@ -24,20 +25,20 @@ logger = get_logger_handle(__name__)
 # pylint: disable=trailing-whitespace
 
 
-def cage_relative(RII: np.ndarray, cnlist: np.ndarray) -> np.ndarray:
+def cage_relative(RII: npt.NDArray, cnlist: npt.NDArray) -> npt.NDArray:
     """
     get the cage-relative or coarse-grained motion for single configuration
     The coarse-graining is done based on given neighboring particles
 
     inputs:
-        RII (np.ndarray): original (absolute) displacement matrix
+        RII (npt.NDArray): original (absolute) displacement matrix
                           shape [num_of_particles, ndim]
-        cnlist (np.ndarray): neighbor list of the initial or reference configuration
+        cnlist (npt.NDArray): neighbor list of the initial or reference configuration
                           shape [num_of_particles, num_of_neighbors]
                           available from the 'neighbors' module
 
     return:
-        np.ndarray: cage-relative displacement matrix
+        npt.NDArray: cage-relative displacement matrix
                     shape [num_of_particles, ndim]
     """
     RII_relative = np.zeros_like(RII)
@@ -73,7 +74,7 @@ class Dynamics:
         xu_snapshots: Snapshots = None,
         x_snapshots: Snapshots = None,
         dt: float = 0.002,
-        ppp: np.ndarray = np.array([0, 0, 0]),
+        ppp: npt.NDArray = np.array([0, 0, 0]),
         diameters: dict[int, float] = {1: 1.0, 2: 1.0},
         a: float = 0.3,
         cal_type: str = "slow",
@@ -89,7 +90,7 @@ class Dynamics:
             2. x_snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                             with dump format [x,y,z] or [xs,ys,zs], coordinates with PBCs, default None
             3. dt (float): timestep used in user simulations, default 0.002
-            4. ppp (np.ndarray): the periodic boundary conditions (PBCs),
+            4. ppp (npt.NDArray): the periodic boundary conditions (PBCs),
                                  setting 1 for yes and 0 for no, default np.array([0,0,0]) for 3D,
                                  default no periodic boundary conditions considered.
                                  Dimensionality is refered from the shape of ppp
@@ -163,7 +164,7 @@ class Dynamics:
     def relaxation(
         self,
         qconst: float = 2 * np.pi,
-        condition: np.ndarray = None,
+        condition: npt.NDArray = None,
         outputfile: str = "",
     ) -> pd.DataFrame:
         """
@@ -176,7 +177,7 @@ class Dynamics:
 
         Inputs:
             1. qconst (float): characteristic wavenumber nominator [2pi/sigma], default 2pi
-            2. condition (np.ndarray): particle-level condition / property, shape [nsnapshots, nparticles]
+            2. condition (npt.NDArray): particle-level condition / property, shape [nsnapshots, nparticles]
             3. outputfile (str): file name to save the calculated dynamics results
 
         Return:
@@ -254,7 +255,7 @@ class Dynamics:
         self,
         t: float,
         qrange: float = 10.0,
-        condition: np.ndarray = None,
+        condition: npt.NDArray = None,
         outputfile: str = ""
     ) -> pd.DataFrame:
         """
@@ -263,7 +264,7 @@ class Dynamics:
         Inputs:
             1. t (float): characteristic time, typically peak time of X4, see self.relaxation()
             2. qrange (float): the wave number range to be calculated, default 10.0
-            3. condition (np.ndarray): particle-level condition / property, shape [nsnapshots, nparticles]
+            3. condition (npt.NDArray): particle-level condition / property, shape [nsnapshots, nparticles]
             4. outputfile (str): output filename for the calculated dynamical structure factor
 
         Based on overlap function Qt and its corresponding dynamic susceptibility X4_Qt
@@ -358,7 +359,7 @@ class LogDynamics:
         xu_snapshots: Snapshots = None,
         x_snapshots: Snapshots = None,
         dt: float = 0.002,
-        ppp: np.ndarray = np.array([0, 0, 0]),
+        ppp: npt.NDArray = np.array([0, 0, 0]),
         diameters: dict[int, float] = {1: 1.0, 2: 1.0},
         a: float = 0.3,
         cal_type: str = "slow",
@@ -374,7 +375,7 @@ class LogDynamics:
             2. x_snapshots (reader.reader_utils.Snapshots): snapshot object of input trajectory
                             with dump format [x,y,z] or [xs,ys,zs], coordinates with PBCs, default None
             3. dt (float): timestep used in user simulations, default 0.002
-            4. ppp (np.ndarray): the periodic boundary conditions (PBCs),
+            4. ppp (npt.NDArray): the periodic boundary conditions (PBCs),
                                  setting 1 for yes and 0 for no, default np.array([0,0,0]) for 3D,
                                  default no periodic boundary conditions considered.
                                  Dimensionality is refered from the shape of ppp
@@ -446,7 +447,7 @@ class LogDynamics:
     def relaxation(
         self,
         qconst: float = 2 * np.pi,
-        condition: np.ndarray = None,
+        condition: npt.NDArray = None,
         outputfile: str = "",
     ) -> pd.DataFrame:
         """
@@ -456,7 +457,7 @@ class LogDynamics:
 
         Inputs:
             1. qconst (float): characteristic wavenumber nominator [2pi/sigma], default 2pi
-            2. condition (np.ndarray): particle-level condition / property,
+            2. condition (npt.NDArray): particle-level condition / property,
                                        shape [nparticles]
             3. outputfile (str): file name to save the calculated dynamic results
 
