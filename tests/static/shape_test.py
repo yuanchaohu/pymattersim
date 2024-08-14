@@ -1,9 +1,7 @@
 # coding = utf-8
 
-import os
 import unittest
 import numpy as np
-import pandas as pd
 from reader.dump_reader import DumpReader
 from static.shape import gyration_tensor
 from utils.logging import get_logger_handle
