@@ -31,7 +31,7 @@ class TestShape(unittest.TestCase):
         readdump = DumpReader(self.test_file_IPL_2D, ndim=2)
         readdump.read_onefile()
 
-        masses = {1:1.0, 2:1.0}
+        masses = {1: 1.0, 2: 1.0}
         epsilons = np.ones((2, 2))
 
         sigmas = np.zeros((2, 2))
@@ -58,7 +58,7 @@ class TestShape(unittest.TestCase):
             epsilons=epsilons,
             sigmas=sigmas,
             r_cuts=r_cuts,
-            ppp=np.array([1,1]),
+            ppp=np.array([1, 1]),
             shiftpotential=True
         )
         h.diagonalize_hessian(
@@ -69,8 +69,8 @@ class TestShape(unittest.TestCase):
         )
         calculated = pd.read_csv("new.omega_PR.csv")["PR"][:100:10]
         expected = np.array([
-            1.        , 0.60509595, 0.4184461 , 0.47013442, 0.39952026,
-            0.48376086, 0.37543589, 0.4782805 , 0.37811075, 0.28011895
+            1., 0.60509595, 0.4184461, 0.47013442, 0.39952026,
+            0.48376086, 0.37543589, 0.4782805, 0.37811075, 0.28011895
         ])
         np.testing.assert_array_almost_equal(calculated, expected)
 
@@ -91,8 +91,10 @@ class TestShape(unittest.TestCase):
         interaction_params = InteractionParams(
             model_name=ModelName.lennard_jones
         )
-        calculated = pair_interaction.caller(interaction_params=interaction_params)
-        expected = np.array([-49.673659761738136, 0.06864965447468592, 787.6721753507363])
+        calculated = pair_interaction.caller(
+            interaction_params=interaction_params)
+        expected = np.array(
+            [-49.673659761738136, 0.06864965447468592, 787.6721753507363])
         np.testing.assert_array_almost_equal(
             calculated,
             expected
@@ -104,8 +106,10 @@ class TestShape(unittest.TestCase):
             ipl_n=10,
             ipl_A=1.0
         )
-        calculated = pair_interaction.caller(interaction_params=interaction_params)
-        expected = np.array([-15.165074976445762, -0.0010878944375367285, 158.8722140389556])
+        calculated = pair_interaction.caller(
+            interaction_params=interaction_params)
+        expected = np.array(
+            [-15.165074976445762, -0.0010878944375367285, 158.8722140389556])
         np.testing.assert_array_almost_equal(
             calculated,
             expected
@@ -116,7 +120,8 @@ class TestShape(unittest.TestCase):
             model_name=ModelName.harmonic_hertz,
             harmonic_hertz_alpha=2.0
         )
-        calculated = pair_interaction.caller(interaction_params=interaction_params)
+        calculated = pair_interaction.caller(
+            interaction_params=interaction_params)
         expected = np.array([-0.04132231404958684, 0, 0.8264462809917354])
         np.testing.assert_array_almost_equal(
             calculated,
