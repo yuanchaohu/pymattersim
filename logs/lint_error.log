@@ -9,38 +9,26 @@ reader/gsd_reader_helper.py:64:13: C0103: Argument name "f" doesn't conform to s
 reader/dump_reader.py:91:4: R0913: Too many arguments (6/5) (too-many-arguments)
 reader/dump_reader.py:170:8: C0103: Variable name "t0" doesn't conform to snake_case naming style (invalid-name)
 ************* Module reader.lammps_reader_helper
-reader/lammps_reader_helper.py:35:51: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:69:51: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:109:51: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:120:16: C0103: Argument name "f" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:210:30: C0103: Variable name "xy" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:211:30: C0103: Variable name "xz" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:212:30: C0103: Variable name "yz" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:219:8: C0103: Variable name "h0" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:220:8: C0103: Variable name "h1" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:221:8: C0103: Variable name "h2" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:222:8: C0103: Variable name "h3" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:223:8: C0103: Variable name "h4" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:224:8: C0103: Variable name "h5" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:281:4: C0103: Argument name "f" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:382:4: C0103: Argument name "f" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:463:50: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
-reader/lammps_reader_helper.py:470:8: C0103: Variable name "n" doesn't conform to snake_case naming style (invalid-name)
+reader/lammps_reader_helper.py:124:0: R0912: Too many branches (21/12) (too-many-branches)
+reader/lammps_reader_helper.py:342:22: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
+reader/lammps_reader_helper.py:364:22: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
 ************* Module reader.simulation_log
 reader/simulation_log.py:23:50: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
 ************* Module reader.reader_utils
 reader/reader_utils.py:1:0: R0801: Similar lines in 2 files
 ==reader.gsd_reader_helper:[99:105]
-==reader.lammps_reader_helper:[188:196]
+==reader.lammps_reader_helper:[192:200]
             positions=positions,
             boxlength=boxlength,
             boxbounds=boxbounds,
             realbounds=None,
             hmatrix=hmatrix,
-        ) (duplicate-code)
+        )
+
+    # -------Read Triclinic Boxes--------- (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.38/10 (previous run: 9.33/10, +0.05)
+Your code has been rated at 9.76/10 (previous run: 9.38/10, +0.38)
 
 ************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
 .pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
@@ -52,41 +40,47 @@ writer/lammps_writer.py:21:0: C0301: Line too long (116/100) (line-too-long)
 writer/lammps_writer.py:22:0: C0301: Line too long (120/100) (line-too-long)
 writer/lammps_writer.py:23:0: C0301: Line too long (120/100) (line-too-long)
 
--------------------------------------------------------------------
-Your code has been rated at 8.46/10 (previous run: 10.00/10, -1.54)
+------------------------------------------------------------------
+Your code has been rated at 8.46/10 (previous run: 8.46/10, +0.00)
 
 ************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
 .pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
 ************* Module utils.pbc
-utils/pbc.py:18:0: C0301: Line too long (110/100) (line-too-long)
+utils/pbc.py:19:0: C0301: Line too long (110/100) (line-too-long)
 
 ------------------------------------------------------------------
-Your code has been rated at 8.33/10 (previous run: 8.33/10, +0.00)
+Your code has been rated at 8.57/10 (previous run: 8.33/10, +0.24)
 
 ************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
 .pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
 ************* Module neighbors.freud_neighbors
-neighbors/freud_neighbors.py:122:1: W0511: TODO @Yibang please benchmark with (fixme)
-neighbors/freud_neighbors.py:82:8: C0103: Variable name "n" doesn't conform to snake_case naming style (invalid-name)
-neighbors/freud_neighbors.py:101:8: C0103: Variable name "nn" doesn't conform to snake_case naming style (invalid-name)
-neighbors/freud_neighbors.py:113:16: C0103: Variable name "nn" doesn't conform to snake_case naming style (invalid-name)
-neighbors/freud_neighbors.py:126:0: C0103: Function name "VolumeMatrix" doesn't conform to snake_case naming style (invalid-name)
-neighbors/freud_neighbors.py:126:0: R0913: Too many arguments (6/5) (too-many-arguments)
-neighbors/freud_neighbors.py:157:4: C0103: Variable name "matrixA" doesn't conform to snake_case naming style (invalid-name)
-neighbors/freud_neighbors.py:171:12: C0103: Variable name "V1" doesn't conform to snake_case naming style (invalid-name)
-neighbors/freud_neighbors.py:176:12: C0103: Variable name "V2" doesn't conform to snake_case naming style (invalid-name)
-neighbors/freud_neighbors.py:190:4: C0103: Variable name "matrixA" doesn't conform to snake_case naming style (invalid-name)
-neighbors/freud_neighbors.py:197:8: C0103: Variable name "matrixA_transformation" doesn't conform to snake_case naming style (invalid-name)
+neighbors/freud_neighbors.py:127:1: W0511: TODO @Yibang please benchmark with (fixme)
+neighbors/freud_neighbors.py:49:24: I1101: Module 'freud.box' has no 'Box' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
+neighbors/freud_neighbors.py:97:15: I1101: Module 'freud.locality' has no 'Voronoi' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
+neighbors/freud_neighbors.py:112:29: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+neighbors/freud_neighbors.py:113:29: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+neighbors/freud_neighbors.py:114:27: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+neighbors/freud_neighbors.py:116:33: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+neighbors/freud_neighbors.py:117:33: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+neighbors/freud_neighbors.py:73:15: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors/freud_neighbors.py:75:17: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors/freud_neighbors.py:85:21: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors/freud_neighbors.py:131:0: R0913: Too many arguments (6/5) (too-many-arguments)
+neighbors/freud_neighbors.py:165:11: I1101: Module 'freud.locality' has no 'Voronoi' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
+neighbors/freud_neighbors.py:175:19: I1101: Module 'freud.locality' has no 'Voronoi' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
+neighbors/freud_neighbors.py:180:19: I1101: Module 'freud.locality' has no 'Voronoi' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
 ************* Module neighbors.calculate_neighbors
-neighbors/calculate_neighbors.py:36:0: C0301: Line too long (109/100) (line-too-long)
-neighbors/calculate_neighbors.py:97:0: C0301: Line too long (108/100) (line-too-long)
-neighbors/calculate_neighbors.py:155:0: C0301: Line too long (108/100) (line-too-long)
+neighbors/calculate_neighbors.py:52:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors/calculate_neighbors.py:132:28: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+neighbors/calculate_neighbors.py:113:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors/calculate_neighbors.py:203:28: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
+neighbors/calculate_neighbors.py:186:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
 neighbors/calculate_neighbors.py:1:0: R0801: Similar lines in 2 files
-==neighbors.calculate_neighbors:[69:76]
+==neighbors.calculate_neighbors:[73:80]
 ==neighbors.voropp_neighbors:[199:205]
         fneighbor.write(
             re.sub(
@@ -97,51 +91,53 @@ neighbors/calculate_neighbors.py:1:0: R0801: Similar lines in 2 files
  (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.56/10 (previous run: 9.56/10, +0.00)
+Your code has been rated at 9.54/10 (previous run: 9.56/10, -0.03)
 
 ************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
 .pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
+************* Module static.hessians
+static/hessians.py:44:4: R0913: Too many arguments (6/5) (too-many-arguments)
+static/hessians.py:146:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
+static/hessians.py:149:4: R0913: Too many arguments (8/5) (too-many-arguments)
+static/hessians.py:187:4: R0914: Too many local variables (18/15) (too-many-locals)
+static/hessians.py:235:4: R0914: Too many local variables (27/15) (too-many-locals)
 ************* Module static.vector
-static/vector.py:150:0: C0116: Missing function or method docstring (missing-function-docstring)
+static/vector.py:151:0: C0116: Missing function or method docstring (missing-function-docstring)
 ************* Module static.geometric
-static/geometric.py:67:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+static/geometric.py:68:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
 ************* Module static.nematic
-static/nematic.py:83:9: W0511: TODO add a function for three dimensioanl systems (fixme)
-static/nematic.py:55:4: R0913: Too many arguments (6/5) (too-many-arguments)
-static/nematic.py:55:4: R0912: Too many branches (13/12) (too-many-branches)
+static/nematic.py:84:9: W0511: TODO add a function for three dimensioanl systems (fixme)
+static/nematic.py:56:4: R0913: Too many arguments (6/5) (too-many-arguments)
+static/nematic.py:56:4: R0912: Too many branches (13/12) (too-many-branches)
 ************* Module static.pairentropy
-static/pairentropy.py:37:0: R0902: Too many instance attributes (12/7) (too-many-instance-attributes)
-static/pairentropy.py:43:4: R0913: Too many arguments (6/5) (too-many-arguments)
-static/pairentropy.py:90:4: R0914: Too many local variables (20/15) (too-many-locals)
+static/pairentropy.py:50:4: R0913: Too many arguments (6/5) (too-many-arguments)
 ************* Module static.sq
-static/sq.py:97:5: W0511: TODO @Yibang please test the new float df_qvector in sqresults (fixme)
-static/sq.py:113:4: R0913: Too many arguments (7/5) (too-many-arguments)
-static/sq.py:169:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+static/sq.py:98:5: W0511: TODO @Yibang please test the new float df_qvector in sqresults (fixme)
+static/sq.py:114:4: R0913: Too many arguments (7/5) (too-many-arguments)
+static/sq.py:170:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 ************* Module static.boo
-static/boo.py:31:0: R0902: Too many instance attributes (10/7) (too-many-instance-attributes)
-static/boo.py:46:4: R0913: Too many arguments (7/5) (too-many-arguments)
-static/boo.py:105:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-static/boo.py:107:23: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-static/boo.py:241:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-static/boo.py:444:0: R0902: Too many instance attributes (9/7) (too-many-instance-attributes)
-static/boo.py:452:4: R0913: Too many arguments (8/5) (too-many-arguments)
-static/boo.py:512:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-static/boo.py:514:23: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+static/boo.py:52:4: R0913: Too many arguments (7/5) (too-many-arguments)
+static/boo.py:111:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+static/boo.py:113:23: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+static/boo.py:247:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+static/boo.py:458:4: R0913: Too many arguments (8/5) (too-many-arguments)
+static/boo.py:518:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+static/boo.py:520:23: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
 ************* Module static.gr
-static/gr.py:25:0: R0912: Too many branches (14/12) (too-many-branches)
-static/gr.py:222:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
+static/gr.py:26:0: R0912: Too many branches (14/12) (too-many-branches)
+static/gr.py:223:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
 ************* Module static.shape
-static/shape.py:11:0: R0914: Too many local variables (16/15) (too-many-locals)
-static/shape.py:56:9: C0103: Variable name "m" doesn't conform to snake_case naming style (invalid-name)
-static/shape.py:56:12: C0103: Variable name "n" doesn't conform to snake_case naming style (invalid-name)
-static/shape.py:57:8: C0103: Variable name "Smn" doesn't conform to snake_case naming style (invalid-name)
-static/shape.py:59:12: C0103: Variable name "Smn" doesn't conform to snake_case naming style (invalid-name)
-static/shape.py:70:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+static/shape.py:12:0: R0914: Too many local variables (16/15) (too-many-locals)
+static/shape.py:57:9: C0103: Variable name "m" doesn't conform to snake_case naming style (invalid-name)
+static/shape.py:57:12: C0103: Variable name "n" doesn't conform to snake_case naming style (invalid-name)
+static/shape.py:58:8: C0103: Variable name "Smn" doesn't conform to snake_case naming style (invalid-name)
+static/shape.py:60:12: C0103: Variable name "Smn" doesn't conform to snake_case naming style (invalid-name)
+static/shape.py:71:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
 static/shape.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[228:240]
-==static.sq:[175:187]
+==static.gr:[229:241]
+==static.sq:[176:188]
         if len(self.typenumber) == 1:
             return self.unary()
         if len(self.typenumber) == 2:
@@ -155,8 +151,8 @@ static/shape.py:1:0: R0801: Similar lines in 2 files
         if len(self.typenumber) > 5:
             logger.info( (duplicate-code)
 static/shape.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[206:213]
-==static.pairentropy:[79:86]
+==static.gr:[207:214]
+==static.pairentropy:[86:93]
         self.typenumber, self.typecount = np.unique(
             self.snapshots.snapshots[0].particle_type, return_counts=True)
         logger.info(
@@ -165,8 +161,8 @@ static/shape.py:1:0: R0801: Similar lines in 2 files
             "Sum of Indivdual Types is Not the Total Amount"
  (duplicate-code)
 static/shape.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[199:205]
-==static.sq:[142:148]
+==static.gr:[200:206]
+==static.sq:[143:149]
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}
                    ) == 1, "Paticle Number Changes during simulation"
@@ -175,5 +171,5 @@ static/shape.py:1:0: R0801: Similar lines in 2 files
  (duplicate-code)
 
 ------------------------------------------------------------------
-Your code has been rated at 9.74/10 (previous run: 9.75/10, -0.01)
+Your code has been rated at 9.76/10 (previous run: 9.74/10, +0.02)
 

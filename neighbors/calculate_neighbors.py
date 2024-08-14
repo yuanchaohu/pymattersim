@@ -166,7 +166,7 @@ def cutoffneighbors_particletype(
     logger.info(f"Calculate the particle type specific cutoff neighbors for "
                 f"{len(ppp)}-dimensional system")
 
-    if not isinstance(r_cut, npt.NDArray):
+    if not isinstance(r_cut, np.ndarray):
         errorinfo = "input r_cut type error: please give a numpy array over all pairs\n"
         errorinfo += "shape of r_cut input is (atom_type_number, atom_type_number)"
         raise IOError(errorinfo)
