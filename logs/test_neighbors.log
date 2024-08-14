@@ -1,96 +1,95 @@
-2023-11-09 10:32:22,426 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_2D.atom...
-2023-11-09 10:32:22,426 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:32:22,427 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:32:22,512 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:32:22,513 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:32:22,513 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.08554697036743164 seconds
-2023-11-09 10:32:22,513 INFO neighbors.calculate_neighbors Calculate neighbors within 1.9 for a 2-dimensional system
-2023-11-09 10:32:35,339 INFO neighbors.calculate_neighbors Neighbors within 1.9 saved to neighborlist.dat
-.2023-11-09 10:32:35,362 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_3D.atom...
-2023-11-09 10:32:35,362 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:32:35,362 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:32:35,383 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:32:35,383 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:32:35,383 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.021001815795898438 seconds
-2023-11-09 10:32:35,383 INFO neighbors.calculate_neighbors Calculate neighbors within 1.5 for a 3-dimensional system
-2023-11-09 10:32:36,506 INFO neighbors.calculate_neighbors Neighbors within 1.5 saved to neighborlist.dat
-.2023-11-09 10:32:36,524 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_2D.atom...
-2023-11-09 10:32:36,524 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:32:36,524 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:32:36,601 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:32:36,601 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:32:36,601 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.07654881477355957 seconds
-2023-11-09 10:32:36,601 INFO neighbors.calculate_neighbors Calculate the particle type specific cutoff neighbors for 2-dimensional system
-2023-11-09 10:32:48,968 INFO neighbors.calculate_neighbors Particle-type specific neighbors saved to neighborlist.dat
-.2023-11-09 10:32:48,990 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_3D.atom...
-2023-11-09 10:32:48,990 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:32:48,990 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:32:49,002 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:32:49,002 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:32:49,002 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.011498689651489258 seconds
-2023-11-09 10:32:49,002 INFO neighbors.calculate_neighbors Calculate the particle type specific cutoff neighbors for 3-dimensional system
-2023-11-09 10:32:50,179 INFO neighbors.calculate_neighbors Particle-type specific neighbors saved to neighborlist.dat
-.2023-11-09 10:32:50,187 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_2D.atom...
-2023-11-09 10:32:50,187 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:32:50,187 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:32:50,260 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:32:50,260 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:32:50,260 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.0735158920288086 seconds
-2023-11-09 10:32:50,260 INFO neighbors.calculate_neighbors Calculate 12 nearest neighbors for a 2-dimensional system
-2023-11-09 10:33:06,275 INFO neighbors.calculate_neighbors 12-nearest neighbors saved to neighborlist.dat
-.2023-11-09 10:33:06,303 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_3D.atom...
-2023-11-09 10:33:06,303 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:33:06,303 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:33:06,314 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:33:06,314 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:33:06,314 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.011503934860229492 seconds
-2023-11-09 10:33:06,314 INFO neighbors.calculate_neighbors Calculate 12 nearest neighbors for a 3-dimensional system
-2023-11-09 10:33:07,828 INFO neighbors.calculate_neighbors 12-nearest neighbors saved to neighborlist.dat
-.2023-11-09 10:33:07,838 INFO freud_neighbors_test Starting freud_neighbors test using tests/sample_test_data/dump_2D.atom...
-2023-11-09 10:33:07,838 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:33:07,838 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:33:07,924 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:33:07,924 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:33:07,924 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.0865480899810791 seconds
-2023-11-09 10:33:07,924 INFO neighbors.freud_neighbors Start calculating neighbors by freud
-2023-11-09 10:33:11,833 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
-2023-11-09 10:33:11,889 INFO freud_neighbors_test Finishing freud_neighbors test using tests/sample_test_data/dump_2D.atom
-.2023-11-09 10:33:11,890 INFO freud_neighbors_test Starting freud_neighbors test using tests/sample_test_data/dump_3D.atom...
-2023-11-09 10:33:11,891 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:33:11,891 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:33:11,902 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:33:11,902 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:33:11,902 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.01100778579711914 seconds
-2023-11-09 10:33:11,902 INFO neighbors.freud_neighbors Start calculating neighbors by freud
-2023-11-09 10:33:12,832 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
-2023-11-09 10:33:12,861 INFO freud_neighbors_test Finishing freud_neighbors test using tests/sample_test_data/dump_3D.atom
-.2023-11-09 10:33:12,862 INFO read_neighbors_test Starting test using tests/sample_test_data/neighborlist.dat...
-2023-11-09 10:33:12,868 INFO neighbors.read_neighbors Start reading neighboring particle properties
-2023-11-09 10:33:12,917 INFO neighbors.read_neighbors Finish reading neighboring particle properties
-.2023-11-09 10:33:12,926 INFO voropp_neighbors_test Starting calvoro test using tests/sample_test_data/dump_3D.atom under PBC...
-2023-11-09 10:33:12,926 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
-2023-11-09 10:33:12,926 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:33:12,937 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:33:12,938 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:33:12,938 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.01199960708618164 seconds
-2023-11-09 10:33:12,938 INFO neighbors.voropp_neighbors Start calculating particle neighbors by voro++ with PBC
-2023-11-09 10:33:12,958 INFO neighbors.voropp_neighbors Start calculating Voronoi for PBC by voro++, command: voro++ -p -r -c "%i %s %v %F @%i %A @%i %s %n @%i %s %f" 0.000000 67.304182 0.000000 10.768669 0.000000 10.768669 dumpused
-2023-11-09 10:33:13,260 INFO neighbors.voropp_neighbors Finish calculating Voronoi for PBC by voro++
-2023-11-09 10:33:13,304 INFO neighbors.voropp_neighbors Getting the statistics of Voronoi clusters
-2023-11-09 10:33:13,320 INFO neighbors.voropp_neighbors Now you have the fractions of Voronoi clusters
-2023-11-09 10:33:13,327 INFO voropp_neighbors_test Finishing calvoro test using tests/sample_test_data/dump_3D.atom under PBC
-.2023-11-09 10:33:13,327 INFO voropp_neighbors_test Starting voronowalls test using tests/sample_test_data/dump_3D_wrapped.atom under non-PBC...
-2023-11-09 10:33:13,327 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D_wrapped.atom of type DumpFileType.LAMMPS
-2023-11-09 10:33:13,327 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
-2023-11-09 10:33:13,345 INFO reader.lammps_reader_helper Reach end of file.
-2023-11-09 10:33:13,345 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
-2023-11-09 10:33:13,345 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D_wrapped.atom in 0.017998456954956055 seconds
-2023-11-09 10:33:13,345 INFO neighbors.voropp_neighbors Start calculating particle neighbors by voro++ without PBC
-2023-11-09 10:33:13,362 INFO neighbors.voropp_neighbors Start calculating Voronoi for non-PBC by voro++, command: voro++  -r -c "%i %s %v %F @%i %A @%i %s %n @%i %s %f" 0.000000 67.304182 0.000000 10.768669 0.000000 10.768669 dumpused
-2023-11-09 10:34:16,642 INFO neighbors.voropp_neighbors Finish calculating Voronoi for non-PBC by voro++
-2023-11-09 10:34:16,681 INFO voropp_neighbors_test Finishing voronowalls test using tests/sample_test_data/dump_3D_wrapped.atom under non-PBC
+2024-08-14 19:00:35,517 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_2D.atom...
+2024-08-14 19:00:35,517 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2024-08-14 19:00:35,517 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-14 19:00:35,549 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-14 19:00:35,549 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-14 19:00:35,549 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.03137397766113281 seconds
+2024-08-14 19:00:35,549 INFO neighbors.calculate_neighbors Calculate neighbors within 1.9 for a 2-dimensional system
+2024-08-14 19:00:44,776 INFO neighbors.calculate_neighbors Neighbors within 1.9 saved to test_cutoffneighbors_2d
+.2024-08-14 19:00:44,780 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_3D.atom...
+2024-08-14 19:00:44,780 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
+2024-08-14 19:00:44,780 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-14 19:00:44,785 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-14 19:00:44,785 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-14 19:00:44,785 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.004804849624633789 seconds
+2024-08-14 19:00:44,785 INFO neighbors.calculate_neighbors Calculate neighbors within 1.5 for a 3-dimensional system
+2024-08-14 19:00:45,820 INFO neighbors.calculate_neighbors Neighbors within 1.5 saved to test_cutoffneighbors_3d
+.2024-08-14 19:00:45,820 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_2D.atom...
+2024-08-14 19:00:45,821 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2024-08-14 19:00:45,821 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-14 19:00:45,853 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-14 19:00:45,853 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-14 19:00:45,853 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.032591819763183594 seconds
+2024-08-14 19:00:45,853 INFO neighbors.calculate_neighbors Calculate the particle type specific cutoff neighbors for 2-dimensional system
+2024-08-14 19:00:55,243 INFO neighbors.calculate_neighbors Particle-type specific neighbors saved to test_cutoffneighbors_particletype_2d
+.2024-08-14 19:00:55,246 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_3D.atom...
+2024-08-14 19:00:55,246 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
+2024-08-14 19:00:55,246 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-14 19:00:55,251 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-14 19:00:55,251 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-14 19:00:55,251 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.004640102386474609 seconds
+2024-08-14 19:00:55,251 INFO neighbors.calculate_neighbors Calculate the particle type specific cutoff neighbors for 3-dimensional system
+2024-08-14 19:00:56,288 INFO neighbors.calculate_neighbors Particle-type specific neighbors saved to test_cutoffneighbors_particletype_3d
+.2024-08-14 19:00:56,289 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_2D.atom...
+2024-08-14 19:00:56,289 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2024-08-14 19:00:56,289 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-14 19:00:56,322 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-14 19:00:56,322 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-14 19:00:56,322 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.03292107582092285 seconds
+2024-08-14 19:00:56,322 INFO neighbors.calculate_neighbors Calculate 12 nearest neighbors for a 2-dimensional system
+2024-08-14 19:01:09,168 INFO neighbors.calculate_neighbors 12-nearest neighbors saved to test_Nnearest_2d
+.2024-08-14 19:01:09,172 INFO calculate_neighbors_test Starting test using tests/sample_test_data/dump_3D.atom...
+2024-08-14 19:01:09,172 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
+2024-08-14 19:01:09,172 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-14 19:01:09,177 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-14 19:01:09,177 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-14 19:01:09,177 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.004974842071533203 seconds
+2024-08-14 19:01:09,177 INFO neighbors.calculate_neighbors Calculate 12 nearest neighbors for a 3-dimensional system
+2024-08-14 19:01:10,548 INFO neighbors.calculate_neighbors 12-nearest neighbors saved to test_Nnreasts_3d
+.2024-08-14 19:01:10,549 INFO freud_neighbors_test Starting freud_neighbors test using tests/sample_test_data/dump_2D.atom...
+2024-08-14 19:01:10,549 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_2D.atom of type DumpFileType.LAMMPS
+2024-08-14 19:01:10,549 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-14 19:01:10,586 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-14 19:01:10,586 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-14 19:01:10,586 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_2D.atom in 0.03648090362548828 seconds
+2024-08-14 19:01:10,586 INFO neighbors.freud_neighbors Start calculating neighbors by freud
+2024-08-14 19:01:12,412 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
+2024-08-14 19:01:12,419 INFO freud_neighbors_test Finishing freud_neighbors test using tests/sample_test_data/dump_2D.atom
+.2024-08-14 19:01:12,419 INFO freud_neighbors_test Starting freud_neighbors test using tests/sample_test_data/dump_3D.atom...
+2024-08-14 19:01:12,419 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
+2024-08-14 19:01:12,419 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-14 19:01:12,424 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-14 19:01:12,424 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-14 19:01:12,424 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.004640102386474609 seconds
+2024-08-14 19:01:12,424 INFO neighbors.freud_neighbors Start calculating neighbors by freud
+2024-08-14 19:01:12,884 INFO neighbors.freud_neighbors Finish calculating neighbors by freud
+2024-08-14 19:01:12,885 INFO freud_neighbors_test Finishing freud_neighbors test using tests/sample_test_data/dump_3D.atom
+.2024-08-14 19:01:12,885 INFO read_neighbors_test Starting test using tests/sample_test_data/neighborlist.dat...
+2024-08-14 19:01:12,886 INFO neighbors.read_neighbors Reading neighboring particle properties
+.2024-08-14 19:01:12,917 INFO voropp_neighbors_test Starting calvoro test using tests/sample_test_data/dump_3D.atom under PBC...
+2024-08-14 19:01:12,917 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D.atom of type DumpFileType.LAMMPS
+2024-08-14 19:01:12,917 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-14 19:01:12,922 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-14 19:01:12,922 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-14 19:01:12,922 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D.atom in 0.004724025726318359 seconds
+2024-08-14 19:01:12,922 INFO neighbors.voropp_neighbors Start calculating particle neighbors by voro++ with PBC
+2024-08-14 19:01:12,929 INFO neighbors.voropp_neighbors Start calculating Voronoi for PBC by voro++, command: voro++ -p -r -c "%i %s %v %F @%i %A @%i %s %n @%i %s %f" 0.000000 67.304182 0.000000 10.768669 0.000000 10.768669 dumpused
+2024-08-14 19:01:13,017 INFO neighbors.voropp_neighbors Finish calculating Voronoi for PBC by voro++
+2024-08-14 19:01:13,019 INFO neighbors.voropp_neighbors Getting the statistics of Voronoi clusters
+2024-08-14 19:01:13,027 INFO neighbors.voropp_neighbors Now you have the fractions of Voronoi clusters
+2024-08-14 19:01:13,027 INFO voropp_neighbors_test Finishing calvoro test using tests/sample_test_data/dump_3D.atom under PBC
+.2024-08-14 19:01:13,028 INFO voropp_neighbors_test Starting voronowalls test using tests/sample_test_data/dump_3D_wrapped.atom under non-PBC...
+2024-08-14 19:01:13,028 INFO reader.dump_reader Start reading file tests/sample_test_data/dump_3D_wrapped.atom of type DumpFileType.LAMMPS
+2024-08-14 19:01:13,028 INFO reader.lammps_reader_helper --------Start Reading LAMMPS Atomic Dump---------
+2024-08-14 19:01:13,032 INFO reader.lammps_reader_helper Reach end of file.
+2024-08-14 19:01:13,032 INFO reader.lammps_reader_helper -------LAMMPS Atomic Dump Reading Completed--------
+2024-08-14 19:01:13,032 INFO reader.dump_reader Finish reading file tests/sample_test_data/dump_3D_wrapped.atom in 0.004641056060791016 seconds
+2024-08-14 19:01:13,032 INFO neighbors.voropp_neighbors Start calculating particle neighbors by voro++ without PBC
+2024-08-14 19:01:13,039 INFO neighbors.voropp_neighbors Start calculating Voronoi for non-PBC by voro++, command: voro++  -r -c "%i %s %v %F @%i %A @%i %s %n @%i %s %f" 0.000000 67.304182 0.000000 10.768669 0.000000 10.768669 dumpused
+2024-08-14 19:01:14,680 INFO neighbors.voropp_neighbors Finish calculating Voronoi for non-PBC by voro++
+2024-08-14 19:01:14,681 INFO voropp_neighbors_test Finishing voronowalls test using tests/sample_test_data/dump_3D_wrapped.atom under non-PBC
 .
 ----------------------------------------------------------------------
-Ran 11 tests in 114.255s
+Ran 11 tests in 39.164s
 
 OK

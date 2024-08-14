@@ -1,9 +1,7 @@
 # coding = utf-8
 
-import os
 import unittest
 import numpy as np
-import pandas as pd
 from reader.dump_reader import DumpReader
 from static.shape import gyration_tensor
 from utils.logging import get_logger_handle
@@ -32,17 +30,18 @@ class TestShape(unittest.TestCase):
 
         gt1 = gyration_tensor(input_3d.snapshots.snapshots[0].positions)
         gt2 = gyration_tensor(input_3d.snapshots.snapshots[9].positions)
-        
-        np.testing.assert_almost_equal(gt1,[4.706419206451776,
-                                            0.28228365518691767,
-                                            0.14422817056004078,
-                                            0.00019420654687231966,
-                                            4.459702522482764])
-        
-        np.testing.assert_almost_equal(gt2,[4.710464986859923,
-                                            0.18363043137025592,
-                                            0.15827590448870943,
-                                            0.00010665351384344504,
-                                            4.457229892782171])
-        
-        logger.info(f"Finishing test gyration_tensor using {self.test_file_3d}...")
+
+        np.testing.assert_almost_equal(gt1, [4.706419206451776,
+                                             0.28228365518691767,
+                                             0.14422817056004078,
+                                             0.00019420654687231966,
+                                             4.459702522482764])
+
+        np.testing.assert_almost_equal(gt2, [4.710464986859923,
+                                             0.18363043137025592,
+                                             0.15827590448870943,
+                                             0.00010665351384344504,
+                                             4.457229892782171])
+
+        logger.info(
+            f"Finishing test gyration_tensor using {self.test_file_3d}...")

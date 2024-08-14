@@ -11,6 +11,7 @@ logger = get_logger_handle(__name__)
 
 READ_TEST_FILE_PATH = "tests/sample_test_data"
 
+
 class TestDumpWriter(unittest.TestCase):
     """
     Test class for lammps dump writer
@@ -26,10 +27,10 @@ class TestDumpWriter(unittest.TestCase):
         Test dump writer works properly for 2D lammps
         """
         logger.info(f"Starting test using {self.test_file_2d}...")
-        header_writer = write_dump_header(timestep = 26000, 
-                                          nparticle = 10000,
-                                          boxbounds = np.array([[0.0, 100.0], [0.0, 100.0]]),
-                                          addson = ''
+        header_writer = write_dump_header(timestep=26000,
+                                          nparticle=10000,
+                                          boxbounds=np.array([[0.0, 100.0], [0.0, 100.0]]),
+                                          addson=''
                                           )
         with open(self.test_file_2d, 'r') as file:
             header_dump = file.readlines()[:9]
@@ -42,12 +43,12 @@ class TestDumpWriter(unittest.TestCase):
         Test dump writer works properly for 3D lammps
         """
         logger.info(f"Starting test using {self.test_file_3d}...")
-        header_writer = write_dump_header(timestep = 5451182, 
-                                          nparticle = 6400,
-                                          boxbounds = np.array([[0.000000, 67.304182],
-                                                                [0.000000, 10.768669],
-                                                                [0.000000, 10.768669]]),
-                                          addson = ''
+        header_writer = write_dump_header(timestep=5451182,
+                                          nparticle=6400,
+                                          boxbounds=np.array([[0.000000, 67.304182],
+                                                              [0.000000, 10.768669],
+                                                              [0.000000, 10.768669]]),
+                                          addson=''
                                           )
         with open(self.test_file_3d, 'r') as file:
             header_dump = file.readlines()[:9]
@@ -70,11 +71,11 @@ class TestDataWriter(unittest.TestCase):
         Test data writer works properly for 3D lammps
         """
         logger.info(f"Starting test using {self.test_file_data}...")
-        header_writer = write_data_header(nparticle = 8100,
-                                          nparticle_type = 2,
-                                          boxbounds = [[-17.598971, 35.584472],
-                                                       [-17.598971, 35.584472],
-                                                       [-17.598971, 35.584472]],
+        header_writer = write_data_header(nparticle=8100,
+                                          nparticle_type=2,
+                                          boxbounds=[[-17.598971, 35.584472],
+                                                     [-17.598971, 35.584472],
+                                                     [-17.598971, 35.584472]],
                                           )
         with open(self.test_file_data, 'r') as file:
             header_dump = file.readlines()[:11]

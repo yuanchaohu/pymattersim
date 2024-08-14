@@ -34,12 +34,12 @@ class TestLammpsReaderHelper(unittest.TestCase):
             snapshot = snapshots.snapshots[n]
             self.assertEqual(2, snapshot.particle_type[14])
             self.assertEqual(1, snapshot.particle_type[9999])
-            if n==0:
+            if n == 0:
                 np.testing.assert_almost_equal(
                     snapshot.positions[14],
                     np.array([18.9739, 24.6161])
                 )
-            if n==4:
+            if n == 4:
                 np.testing.assert_almost_equal(
                     snapshot.positions[14],
                     np.array([18.2545, 24.9591])
@@ -59,7 +59,7 @@ class TestLammpsReaderHelper(unittest.TestCase):
         self.assertEqual(2, snapshot.particle_type[6389])
         np.testing.assert_almost_equal(
             snapshot.positions[6389],
-            np.array([13.6638, 5.51246,0.161101])
+            np.array([13.6638, 5.51246, 0.161101])
         )
 
         self.assertEqual(1, snapshot.particle_type[2554])

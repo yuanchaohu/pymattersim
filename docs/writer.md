@@ -8,7 +8,7 @@ This module is used to write the header of lammps dump and data files for conven
 
    - `timestep` (`int`):  timestep for the current snapshot
    - `nparticle` (`int`): number of particle
-   - `boxbounds` (`np.ndarray`): the bounds of the simulation box. For two-dimensional box, `[[xlo, xhi], [ylo, yhi]]`. For three-dimensional box, `[[xlo, xhi], [ylo, yhi], [zlo, zhi]]`. `xho` and `xhi` represent minimum and maximum coordinate values in the x-direction, respectively, same as `[ylo, yhi]` and `[zlo, zhi]`
+   - `boxbounds` (`npt.NDArray`): the bounds of the simulation box. For two-dimensional box, `[[xlo, xhi], [ylo, yhi]]`. For three-dimensional box, `[[xlo, xhi], [ylo, yhi], [zlo, zhi]]`. `xho` and `xhi` represent minimum and maximum coordinate values in the x-direction, respectively, same as `[ylo, yhi]` and `[zlo, zhi]`
    - `addson` (`str`): the name of additional columns, such as "order Q6", default `addson = ''`
 
 2. `writer.lammps_writer.write_data_header` writes the header of lammps data file:
@@ -17,7 +17,7 @@ This module is used to write the header of lammps dump and data files for conven
 
    - `nparticle_type` (`int`): number of particle type
 
-   - `boxbounds` (`np.ndarray`): same as the definition in `write_dump_header`
+   - `boxbounds` (`npt.NDArray`): same as the definition in `write_dump_header`
 
 ## Return
 

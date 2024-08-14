@@ -1,3 +1,12 @@
+# static orderings
+## [I. local tetrahedral order](#1-local-tetrahedral-order)
+## [II. packing capability](#2-packing-capability)
+## [III. pair entropy](#3-pair-entropy)
+## [IV. gyration tensor](#4-gyration-tensor-of-a-group)
+## [V. nematic order](#5-nematic-order)
+
+---
+
 # 1. Local tetrahedral order $q_{\rm tetra}$
 
 The class `static.tetrahedral` calculates the local tetrahedral order of the simulation system in three dimensions, such as for water-type and silicon/silica-type systems. Local tetrahedral order is defined as:
@@ -10,13 +19,13 @@ In this calculation, only **4** nearest neighbors are taken into consideration. 
 ## 1.1 Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory
 (returned by `reader.dump_reader.DumpReader`)
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1,1])`
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1,1])`
 - `outputfile` (`str`): file name to save the calculated local tetrahedral order, default `None`.
                         To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
                         If the file extension is ".dat" or ".txt", also saved a text file.
 
 ## 1.2 Return
-- calculated local tetrahedral order in `np.ndarray` with shape `[nsnapshots, nparticle]`
+- calculated local tetrahedral order in `npt.NDArray` with shape `[nsnapshots, nparticle]`
 
 
 ## 1.3 Example
@@ -40,15 +49,15 @@ where $N_o$ is the unique nearest pair number around the center, which equals to
 ## 2.1 Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory
 (returned by `reader.dump_reader.DumpReader`)
-- `sigmas` (`np.ndarray`): particle sizes for each pair type (ascending order) in numpy array, can refer to  first peak position of partial g(r), shape as `[particle_type, particle_type]`
+- `sigmas` (`npt.NDArray`): particle sizes for each pair type (ascending order) in numpy array, can refer to  first peak position of partial g(r), shape as `[particle_type, particle_type]`
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1])`
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1])`
 - `outputfile` (`str`): file name to save the calculated packing capability theta_2D, default `None`.
                         To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
                         If the file extension is ".dat" or ".txt", also saved as a text file.
 
 ## 2.2 Return
-- calculated packing capability of a 2D system in `np.ndarray` with shape `[nsnapshots, nparticle]`
+- calculated packing capability of a 2D system in `npt.NDArray` with shape `[nsnapshots, nparticle]`
 
 ## 2.3 Example
 ```python
@@ -86,8 +95,8 @@ The integration in Eq. (1) is calculated numerically using the trapezoid rule.
 
 ### Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`)
-- `sigmas` (`np.ndarray`): gaussian standard deviation for each pair particle type, can be set based on particle size
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.ndarray=np.array([1,1,1])`, set `np.ndarray=np.array([1,1])` for two-dimensional systems
+- `sigmas` (`npt.NDArray`): gaussian standard deviation for each pair particle type, can be set based on particle size. It must be a two-dimensional numpy array to cover all particle type pairs
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `npt.NDArray=np.array([1,1,1])`, set `npt.NDArray=np.array([1,1])` for two-dimensional systems
 - `rdelta` (`float`): bin size calculating g(r), the default value is `0.02`
 - `ndelta` (`int`): number of bins for g(r) calculation, `ndelta*rdelta` determines the range
 
@@ -155,3 +164,114 @@ $$
 s2.time_corr()
 ```
 
+
+# 4. Gyration tensor of a group
+This module calculates calculate gyration tensor of a cluster of atoms. This module calculates gyration tensor which is a tensor that describes the second moments of posiiton of a collection of particles gyration tensor is a symmetric matrix of shape (ndim, ndim). ref: https://en.wikipedia.org/wiki/Gyration_tensor. A group of atoms should be first defined. groupofatoms are the original coordinates of the selected group of a single configuration, the atom coordinates of the cluster should be removed from PBC which can be realized by ovito 'cluster analysis' method by choosing 'unwrap particle coordinates'.
+
+### Input Arguments
+- `pos_group` (`npt.NDArray`): unwrapped particle positions of a group of atoms, shape as [num_of_particles, dimensionality]
+
+### Return
+`3D`: `radius_of_gyration`, `asphericity`, `acylindricity`, `shape_anisotropy`, `fractal_dimension` 
+
+`2D`: `radius_of_gyration`, `acylindricity`, `fractal_dimension`
+
+### Example
+``` python
+import numpy as np
+from reader.dump_reader import DumpReader
+from static.shape import gyration_tensor
+
+test_file = "test.atom"
+input_v = DumpReader(test_file, ndim=2)
+input_v.read_onefile()
+
+gt = gyration_tensor(input_v.snapshots.snapshots[0].positions)
+```
+
+# 5. Nematic order
+This module calculates the order parameter for nematic phase, such as spin liquids, patchy particles, and liquid crystals. Basically, the requirements are particle positions and orientations. The tensorial order parameter is usually defined as
+$$
+Q_{\alpha \beta}^i = \frac{d}{2} {\bf u}^i_{\alpha} {\bf u}^i_{\beta} - \delta_{\alpha \beta}/2,
+$$
+where $\delta$ is the Kronecker delta function, $i$ is the particle index, $\alpha$ and $\beta$ are the dimensitionality ($x$ or $y$ or $z$), $d$ is the dimensionality. Similarly, a coarse-grained tensor order parameter is defined as 
+$$
+Q_{\rm CG}(i) = \frac{1}{1+N_i} \left( Q_{\alpha \beta}^i + \sum_{j}^{N_i} Q_{\alpha \beta}^j \right),
+$$
+where $N_i$ is the number of neighbors of particle $i$. Thus, the particle-level scalar order parameters are calculated as:
+- $S_i$: calculated as the twice of the largest eigenvalue of $Q^i$ or $Q^i_{\rm CG}$. This calculation can be quite slow. An equivalent (equal) parameter Hi can be calculated as $H_i$.
+- $H_i$: $H_i = \sqrt{{\rm Tr}[Q^i \cdot Q^i] \cdot \frac{d}{d-1}}$ or the coarse-grained version accordingly for $Q^i_{\rm CG}$.
+
+The time correlation and spatial correlation of $Q^i$ or $Q^i_{\rm CG}$ are also calculated by the module.
+- Time correlation: $C_{\rm Q}(t) = \langle Q(0) Q(t) \rangle$
+- Spatial correlation: $g_{\rm Q}(t) = \langle Q(0) Q(r) \rangle$
+
+Currently, the module only supports the calcualtion of two-dimensional systems.
+
+## 5.1 `NematicOrder()` class
+
+### Input Arguments
+- `snapshots_orientation` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`) (`DumpFileType`=`LAMMPSVECTOR`)
+- `snapshots_position` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`) (`DumpFileType`=`LAMMPS` or `LAMMPSCENTER`) or any other to provide atom positions. Only required for spatial correlation calculation
+
+### Return
+- `None`  
+
+### Example
+```python
+import numpy as np
+from reader.dump_reader import DumpReader
+from static.nematic import NematicOrder
+test_file = "test.atom"
+
+input_x =DumpReader(test_file, ndim=2)
+input_x.read_onefile()
+input_or =DumpReader(test_file, ndim=2, filetype=DumpFileType.LAMMPSVECTOR, columnsids=[5,6])
+input_or.read_onefile()
+
+Nematic = NematicOrder(input_or.snapshots,input_x.snapshots)
+```
+
+## 5.2 `tensor()`
+### Input Arguments
+- `ndim` (`int`): dimensionality of the input configurations
+- `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
+- `Nmax` (`int`): maximum number for neighbors, default 30
+- `eigvals` (`bool`): whether calculate eigenvalue of the Qtensor or not, default False
+- `outputfile` (`str`): file name of the calculation output
+
+### Return
+- Q-tensor or eigenvalue scalar nematic order parameter in numpy ndarray format shape as [num_of_snapshots, num_of_particles]
+
+### Example
+```python
+t = Nematic.tensor(outputfile='test')
+```
+
+## 5.3 `spatial_corr()`
+### Input Arguments
+- `rdelta` (`float`): bin size in calculating `g(r)` and `G_Q(r)`, default 0.01
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1]` for two-dimensional systems
+- `outputfile` (`str`): csv file name for `G_Q(r)`, default `None`
+
+### Return
+- `gQresults`: calculated `g_Q(r)` based on QIJ tensor
+
+### Example
+```python
+ppp = np.array([1,1])
+sc = Nematic.spatial_corr(rdelta=0.01,ppp=ppp)
+```
+
+## 5.4 `time_corr()`
+### Input Arguments
+- `dt` (`float`): timestep used in user simulations, default 0.002
+- `outputfile` (`str`): csv file name for time correlation results, default `None`
+
+### Return
+- `gQ_time`: time correlation quantity (`pd.DataFrame`)
+
+### Example
+```python
+tc = Nematic.time_corr(dt=0.002)
+```

@@ -32,17 +32,19 @@ class TestNnearests(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
-        Nnearests(snapshots = readdump.snapshots, N=12, ppp=[1, 1], fnfile='neighborlist.dat')
+        neighborfile = "test_Nnearest_2d"
+        Nnearests(snapshots=readdump.snapshots, N=12,
+                  ppp=np.array([1, 1]), fnfile=neighborfile)
 
-        with open(r'neighborlist.dat') as f:
+        with open(neighborfile, "r", encoding="utf-8") as f:
             content = f.readlines()
         item = [int(i) for i in content[789].split()]
         self.assertEqual(789, item[0])
         self.assertEqual(12, item[1])
         # benchmarking with old code and ovito
-        self.assertEqual([4039, 5385, 8949, 3946, 2059, 2819, 2384, 9131, 399, 2629, 691, 3416],
-                         item[2:])
-        os.remove("neighborlist.dat")
+        self.assertEqual([4039, 5385, 8949, 3946, 2059, 2819,
+                         2384, 9131, 399, 2629, 691, 3416], item[2:])
+        os.remove(neighborfile)
 
     def test_Nnearests_3d(self) -> None:
         """
@@ -51,17 +53,19 @@ class TestNnearests(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_3d}...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
-        Nnearests(readdump.snapshots, N=12, ppp=[1, 1, 1], fnfile='neighborlist.dat')
+        neighborfile = "test_Nnreasts_3d"
+        Nnearests(readdump.snapshots, N=12, ppp=np.array(
+            [1, 1, 1]), fnfile=neighborfile)
 
-        with open(r'neighborlist.dat') as f:
+        with open(neighborfile, "r", encoding="utf-8") as f:
             content = f.readlines()
         item = [int(i) for i in content[456].split()]
         self.assertEqual(456, item[0])
         self.assertEqual(12, item[1])
         # benchmarking with old code and ovito
-        self.assertEqual([3801, 1238, 5135, 1973, 1535, 6238, 435, 281, 3327, 2350, 1056, 5263],
-                         item[2:])
-        os.remove("neighborlist.dat")
+        self.assertEqual([3801, 1238, 5135, 1973, 1535, 6238,
+                         435, 281, 3327, 2350, 1056, 5263], item[2:])
+        os.remove(neighborfile)
 
 
 class TestCutoffNeighbors(unittest.TestCase):
@@ -81,17 +85,19 @@ class TestCutoffNeighbors(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
-        cutoffneighbors(readdump.snapshots, r_cut=1.9, ppp=[1, 1], fnfile='neighborlist.dat')
+        neighborfile = "test_cutoffneighbors_2d"
+        cutoffneighbors(readdump.snapshots, r_cut=1.9,
+                        ppp=np.array([1, 1]), fnfile=neighborfile)
 
-        with open(r'neighborlist.dat') as f:
+        with open(neighborfile, "r", encoding="utf-8") as f:
             content = f.readlines()
         item = [int(i) for i in content[789].split()]
         self.assertEqual(789, item[0])
         self.assertEqual(11, item[1])
         # benchmarking with old code and ovito
-        self.assertEqual([4039, 5385, 8949, 3946, 2059, 2819, 2384, 9131, 399, 2629, 691],
-                         item[2:])
-        os.remove("neighborlist.dat")
+        self.assertEqual([4039, 5385, 8949, 3946, 2059, 2819,
+                         2384, 9131, 399, 2629, 691], item[2:])
+        os.remove(neighborfile)
 
     def test_cutoffneighbors_3d(self) -> None:
         """
@@ -100,17 +106,19 @@ class TestCutoffNeighbors(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_3d}...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
-        cutoffneighbors(readdump.snapshots, r_cut=1.5, ppp=[1, 1, 1], fnfile='neighborlist.dat')
+        neighborfile = "test_cutoffneighbors_3d"
+        cutoffneighbors(readdump.snapshots, r_cut=1.5,
+                        ppp=np.array([1, 1, 1]), fnfile=neighborfile)
 
-        with open(r'neighborlist.dat') as f:
+        with open(neighborfile, "r", encoding="utf-8") as f:
             content = f.readlines()
         item = [int(i) for i in content[456].split()]
         self.assertEqual(456, item[0])
         self.assertEqual(11, item[1])
         # benchmarking with old code and ovito
-        self.assertEqual([3801, 1238, 5135, 1973, 1535, 6238, 435, 281, 3327, 2350, 1056],
-                         item[2:])
-        os.remove("neighborlist.dat")
+        self.assertEqual([3801, 1238, 5135, 1973, 1535, 6238,
+                         435, 281, 3327, 2350, 1056], item[2:])
+        os.remove(neighborfile)
 
 
 class TestCutoffNeighbors_particletype(unittest.TestCase):
@@ -130,19 +138,20 @@ class TestCutoffNeighbors_particletype(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
+        neighborfile = "test_cutoffneighbors_particletype_2d"
         cutoffneighbors_particletype(readdump.snapshots,
                                      r_cut=np.array([[1.8, 1.6], [1.6, 1.9]]),
-                                     ppp=[1, 1], fnfile='neighborlist.dat')
+                                     ppp=np.array([1, 1]), fnfile=neighborfile)
 
-        with open(r'neighborlist.dat') as f:
+        with open(neighborfile, "r", encoding="utf-8") as f:
             content = f.readlines()
         item = [int(i) for i in content[789].split()]
         self.assertEqual(789, item[0])
         self.assertEqual(11, item[1])
         # benchmaking with old code
-        self.assertEqual([4039, 5385, 8949, 3946, 2059, 2819, 2384, 9131, 399, 2629, 691],
-                         item[2:])
-        os.remove("neighborlist.dat")
+        self.assertEqual([4039, 5385, 8949, 3946, 2059, 2819,
+                         2384, 9131, 399, 2629, 691], item[2:])
+        os.remove(neighborfile)
 
     def test_cutoffneighbors_particletype_3d(self) -> None:
         """
@@ -151,17 +160,31 @@ class TestCutoffNeighbors_particletype(unittest.TestCase):
         logger.info(f"Starting test using {self.test_file_3d}...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
+        neighborfile = "test_cutoffneighbors_particletype_3d"
         cutoffneighbors_particletype(readdump.snapshots,
                                      r_cut=np.array([[1.8, 1.6], [1.6, 1.9]]),
-                                     ppp=[1, 1, 1], fnfile='neighborlist.dat')
+                                     ppp=np.array([1, 1, 1]), fnfile=neighborfile)
 
-        with open(r'neighborlist.dat') as f:
+        with open(neighborfile, "r", encoding="utf-8") as f:
             content = f.readlines()
         item = [int(i) for i in content[456].split()]
         self.assertEqual(456, item[0])
         self.assertEqual(15, item[1])
         # benchmaking with old code
-        self.assertEqual([3801, 1238, 5135, 1973, 1535, 6238, 435, 281, 3327, 2350,
-                          1056, 5263, 6135, 3126, 2388],
+        self.assertEqual([3801,
+                          1238,
+                          5135,
+                          1973,
+                          1535,
+                          6238,
+                          435,
+                          281,
+                          3327,
+                          2350,
+                          1056,
+                          5263,
+                          6135,
+                          3126,
+                          2388],
                          item[2:])
-        os.remove("neighborlist.dat")
+        os.remove(neighborfile)

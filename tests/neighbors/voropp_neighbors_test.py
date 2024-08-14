@@ -27,7 +27,8 @@ class TestVoronoi(unittest.TestCase):
         """
         Test calvoro works properly for 3D lammps under PBC
         """
-        logger.info(f"Starting calvoro test using {self.test_file_3d} under PBC...")
+        logger.info(
+            f"Starting calvoro test using {self.test_file_3d} under PBC...")
         readdump = DumpReader(self.test_file_3d, ndim=3)
         readdump.read_onefile()
         cal_voro(readdump.snapshots, outputfile='dump')
@@ -49,9 +50,23 @@ class TestVoronoi(unittest.TestCase):
         self.assertEqual(766, item[0])
         self.assertEqual(17, item[1])
         # benchmaking with old code
-        self.assertEqual([0.43136, 0.478498, 0.410967, 0.489784, 0.290117, 0.455774,
-                          0.606689, 0.285958, 0.648885, 0.152756, 0.590822, 0.431302,
-                          0.0129808, 0.356881, 0.449561, 0.469773, 0.0171054],
+        self.assertEqual([0.43136,
+                          0.478498,
+                          0.410967,
+                          0.489784,
+                          0.290117,
+                          0.455774,
+                          0.606689,
+                          0.285958,
+                          0.648885,
+                          0.152756,
+                          0.590822,
+                          0.431302,
+                          0.0129808,
+                          0.356881,
+                          0.449561,
+                          0.469773,
+                          0.0171054],
                          item[2:])
         os.remove('dump.facearea.dat')
 
@@ -82,14 +97,15 @@ class TestVoronoi(unittest.TestCase):
         os.remove('dump.voroindex.dat')
         os.remove('voroindex_frction.dat')
 
-        logger.info(f"Finishing calvoro test using {self.test_file_3d} under PBC")
-
+        logger.info(
+            f"Finishing calvoro test using {self.test_file_3d} under PBC")
 
     def test_VoronoWalls_3d(self) -> None:
         """
         Test voronowalls works properly for 3D lammps under non-PBC
         """
-        logger.info(f"Starting voronowalls test using {self.test_file_3d_wrapped} under non-PBC...")
+        logger.info(
+            f"Starting voronowalls test using {self.test_file_3d_wrapped} under non-PBC...")
         readdump = DumpReader(self.test_file_3d_wrapped, ndim=3)
         readdump.read_onefile()
         voronowalls(readdump.snapshots, ppp='', outputfile='dump')
@@ -100,7 +116,7 @@ class TestVoronoi(unittest.TestCase):
         self.assertEqual(766, item[0])
         self.assertEqual(14, item[1])
         # benchmaking with old code
-        self.assertEqual([5145, 2718, 4257, 3510, 1348, 3420, 3421, 5169, 
+        self.assertEqual([5145, 2718, 4257, 3510, 1348, 3420, 3421, 5169,
                           5258, 1381, 4092, 359, 6125, 2647],
                          item[2:])
         os.remove('dump.neighbor.dat')
@@ -111,8 +127,20 @@ class TestVoronoi(unittest.TestCase):
         self.assertEqual(766, item[0])
         self.assertEqual(14, item[1])
         # benchmaking with old code
-        self.assertEqual([0.152756, 0.431360, 0.613284, 0.737899, 0.944141, 0.340742, 1.183400,
-                          0.544653, 0.650052, 0.293644, 0.017105, 0.469773, 0.478498, 0.410967],
+        self.assertEqual([0.152756,
+                          0.431360,
+                          0.613284,
+                          0.737899,
+                          0.944141,
+                          0.340742,
+                          1.183400,
+                          0.544653,
+                          0.650052,
+                          0.293644,
+                          0.017105,
+                          0.469773,
+                          0.478498,
+                          0.410967],
                          item[2:])
         os.remove('dump.facearea.dat')
 
@@ -135,4 +163,5 @@ class TestVoronoi(unittest.TestCase):
         self.assertEqual(7.268274, item[3])
         os.remove('dump.overall.dat')
 
-        logger.info(f"Finishing voronowalls test using {self.test_file_3d_wrapped} under non-PBC")
+        logger.info(
+            f"Finishing voronowalls test using {self.test_file_3d_wrapped} under non-PBC")

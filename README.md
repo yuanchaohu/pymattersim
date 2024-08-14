@@ -10,4 +10,4 @@ Simulators:
    1. GSD for structure analysis
    2. GSD + DCD for dynamics analysis
 3. VASP (to be added)
-4. Any type of simulators as long as the input were formatted well
+4. Any type of simulators as long as the input were formatted well, modifying the `reader` module to use the computational modules.

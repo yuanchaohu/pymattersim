@@ -24,7 +24,7 @@ def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
         1. file_name (str): file name of gsd snapshots
 
         2. ndim (int): dimensionality
-    
+
     Return:
         list of single snapshot information
     """
@@ -43,7 +43,7 @@ def read_gsd_dcd_wrapper(file_name: str, ndim: int) -> Snapshots:
         1. file_name (str): file name of gsd snapshots
 
         2. ndim (int): dimensionality
-    
+
     Return:
         list of single snapshot information
     """
@@ -69,9 +69,9 @@ def read_gsd(f: Any, ndim: int) -> Snapshots:
 
     Inputs:
         1. f: open file type by python
-        
+
         2. ndim (int): dimensionality
-    
+
     Return:
         list of single snapshot information
     """
@@ -120,11 +120,11 @@ def read_gsd_dcd(f_gsd: Any, f_dcd: Any, ndim: int) -> Snapshots:
 
     Inputs:
         1. f_gsd (str): file name of input gsd file
-        
+
         2. f_dcd (str): file name of input dcd file
 
         3. ndim (int): dimensionality
-    
+
     Return:
         list of single snapshot information
     """

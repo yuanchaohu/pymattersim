@@ -92,7 +92,7 @@ Note that this module accounts for both orthogonal and triclinic cells.
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
 - `weightsfile` (`str`): file name of particle-neighbor weights (see module `neighbors`), default `None`.
   one typical example is Voronoi face area of the polyhedron; this file should be consistent with `neighborfile`. If provided, `weightsfile` will be read to calculate the weighted BOO, otherwise calculate the original BOO.
-- `ppp` (`np.ndarray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([1,1,1])`,
+- `ppp` (`npt.NDArray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([1,1,1])`,
 - `Nmax` (`int`): maximum number for neighbors, default 30
 
 ### Return:
@@ -124,8 +124,8 @@ different snapshots are stored in an array for each of them, separately. Both of
 - None
 
 ### Return
-- `smallqlm` (`np.ndarray`): $q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
-- `largeQlm` (`np.ndarray`): $Q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
+- `smallqlm` (`npt.NDArray`): $q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
+- `largeQlm` (`npt.NDArray`): $Q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
 
 
 ### Example
@@ -141,7 +141,7 @@ qlm, Qlm = boo.qlm_Qlm()
 - `outputfile` (`str`): file name for $q_l$ or $Q_l$ results, default `None`. To reduce storage size and ensure loading speed, save npy file as default with extension ".npy". If the file extension is ".dat" or ".txt", also saved a text file.
 
 ### Return
-- calculated $q_l$ or $Q_l$ in `np.ndarray` with shape `[nsnapshots, nparticle]`
+- calculated $q_l$ or $Q_l$ in `npt.NDArray` with shape `[nsnapshots, nparticle]`
 
 ### Example
 ```python
@@ -158,7 +158,7 @@ Ql = boo.ql_Ql(coarse_graining=True, outputfile='./results/Ql.npy')
 - `outputsij` (`str`): txt file name for $s_{ij}$ of $q_l$ or $Q_l$, default `None`
 
 ### Return
-- calculated $s_{ij}$ or $S_{ij}$ in `np.ndarray` with shape `[nsnapshots*nparticle, 2+max_neighbors]`, where `max_neighbors` is the maximum number of neighbors and the first two columns are particle index and coordination number. The returned result is also stored in `outputsij` file for each pair
+- calculated $s_{ij}$ or $S_{ij}$ in `npt.NDArray` with shape `[nsnapshots*nparticle, 2+max_neighbors]`, where `max_neighbors` is the maximum number of neighbors and the first two columns are particle index and coordination number. The returned result is also stored in `outputsij` file for each pair
 
 In `outputqlQl` file, the first column is particle index, the second is the sum of $s_{ij}$, and third one is number of neighbors.
 

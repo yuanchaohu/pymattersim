@@ -10,6 +10,7 @@ see documentation @ ../docs/boo_2d.md
 
 from typing import Tuple
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 from reader.reader_utils import Snapshots
 from neighbors.read_neighbors import read_neighbors
@@ -23,9 +24,14 @@ from dynamic.time_corr import time_correlation
 
 logger = get_logger_handle(__name__)
 
+# pylint: disable=dangerous-default-value
 # pylint: disable=invalid-name
+# pylint: disable=too-many-instance-attributes
 # pylint: disable=too-many-locals
+# pylint: disable=too-many-return-statements
 # pylint: disable=line-too-long
+# pylint: disable=too-many-statements
+# pylint: disable=trailing-whitespace
 
 
 class boo_3d:
@@ -33,7 +39,7 @@ class boo_3d:
     This module calculates bond orientational orders in three dimensions
     Including original quantatities and weighted ones
     The bond orientational order parameters include
-        q_l (local), 
+        q_l (local),
         Q_l (coarse-grained),
         w_l (local),
         W_l (coarse-grained),
@@ -48,9 +54,9 @@ class boo_3d:
             snapshots: Snapshots,
             l: int,
             neighborfile: str,
-            weightsfile: str=None,
-            ppp: np.ndarray=np.array([1,1,1]),
-            Nmax: int=30
+            weightsfile: str = None,
+            ppp: npt.NDArray = np.array([1, 1, 1]),
+            Nmax: int = 30
     ) -> None:
         """
         Initializing class for BOO3D
@@ -63,7 +69,7 @@ class boo_3d:
             4. weightsfile (str): file name of particle-neighbor weights (see module neighbors)
                                   one typical example is Voronoi face area of the polyhedron;
                                   this file should be consistent with neighborfile, default None
-            5. ppp (np.ndarray): the periodic boundary conditions,
+            5. ppp (npt.NDArray): the periodic boundary conditions,
                                  setting 1 for yes and 0 for no, default np.array([1,1,1]),
             7. Nmax (int): maximum number for neighbors, default 30
 
@@ -89,7 +95,7 @@ class boo_3d:
         # for easy reuse and extendability
         self.smallqlm, self.largeQlm = self.qlm_Qlm()
 
-    def qlm_Qlm(self) -> Tuple[np.ndarray, np.ndarray]:
+    def qlm_Qlm(self) -> Tuple[npt.NDArray, npt.NDArray]:
         """
         BOO of the l-fold symmetry as a 2l + 1 vector
 
@@ -109,52 +115,63 @@ class boo_3d:
         smallqlm = []
         largeQlm = []
         for snapshot in self.snapshots.snapshots:
-            Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
-            Particlesmallqlm = np.zeros((snapshot.nparticle, 2*self.l+1), dtype=np.complex128)
+            Neighborlist = read_neighbors(
+                fneighbor, snapshot.nparticle, self.Nmax)
+            Particlesmallqlm = np.zeros(
+                (snapshot.nparticle, 2 * self.l + 1), dtype=np.complex128)
             if not self.weightsfile:
                 for i in range(snapshot.nparticle):
-                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
-                    RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
+                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0] + 1)]
+                    RIJ = snapshot.positions[cnlist] - \
+                        snapshot.positions[i][np.newaxis, :]
                     RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
                     distance = np.linalg.norm(RIJ, axis=1)
-                    theta = np.arccos(RIJ[:, 2]/distance)
+                    theta = np.arccos(RIJ[:, 2] / distance)
                     phi = np.arctan2(RIJ[:, 1], RIJ[:, 0])
                     for j in range(Neighborlist[i, 0]):
-                        Particlesmallqlm[i] += sph_harm_l(self.l, theta[j], phi[j])
+                        Particlesmallqlm[i] += sph_harm_l(
+                            self.l, theta[j], phi[j])
                 Particlesmallqlm /= (Neighborlist[:, 0])[:, np.newaxis]
                 smallqlm.append(Particlesmallqlm)
             else:
-                weightslist = read_neighbors(fweights, snapshot.nparticle, self.Nmax)[:, 1:]
+                weightslist = read_neighbors(
+                    fweights, snapshot.nparticle, self.Nmax)[:, 1:]
                 # normalization of center-neighbors weights
-                weightsfrac = weightslist / weightslist.sum(axis=1)[:, np.newaxis]
+                weightsfrac = weightslist / \
+                    weightslist.sum(axis=1)[:, np.newaxis]
                 for i in range(snapshot.nparticle):
-                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
-                    RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
+                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0] + 1)]
+                    RIJ = snapshot.positions[cnlist] - \
+                        snapshot.positions[i][np.newaxis, :]
                     RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
                     distance = np.linalg.norm(RIJ, axis=1)
-                    theta = np.arccos(RIJ[:, 2]/distance)
+                    theta = np.arccos(RIJ[:, 2] / distance)
                     phi = np.arctan2(RIJ[:, 1], RIJ[:, 0])
                     for j in range(Neighborlist[i, 0]):
-                        Particlesmallqlm[i] += sph_harm_l(self.l, theta[j], phi[j]) * weightsfrac[i, j]
+                        Particlesmallqlm[i] += sph_harm_l(
+                            self.l, theta[j], phi[j]) * weightsfrac[i, j]
                 smallqlm.append(Particlesmallqlm)
 
             # coarse-graining over the neighbors
             ParticlelargeQlm = np.copy(Particlesmallqlm)
             for i in range(snapshot.nparticle):
                 for j in range(Neighborlist[i, 0]):
-                    ParticlelargeQlm[i] += Particlesmallqlm[Neighborlist[i, j+1]]
-            ParticlelargeQlm = ParticlelargeQlm / (1+Neighborlist[:, 0])[:, np.newaxis]
+                    ParticlelargeQlm[i] += Particlesmallqlm[Neighborlist[i, j + 1]]
+            ParticlelargeQlm = ParticlelargeQlm / \
+                (1 + Neighborlist[:, 0])[:, np.newaxis]
             largeQlm.append(ParticlelargeQlm)
 
         fneighbor.close()
         if self.weightsfile:
             fweights.close()
 
-        logger.info(f"Spherical harmonics for l={self.l} is ready for further calculations")
+        logger.info(
+            f"Spherical harmonics for l={self.l} is ready for further calculations")
 
         return np.array(smallqlm), np.array(largeQlm)
 
-    def ql_Ql(self, coarse_graining: bool=False, outputfile: str=None) -> np.ndarray:
+    def ql_Ql(self, coarse_graining: bool = False,
+              outputfile: str = None) -> npt.NDArray:
         """
         Calculate BOO ql (local) or Ql (coarse-grained)
 
@@ -166,33 +183,43 @@ class boo_3d:
                                  If the file extension is ".dat" or ".txt", also saved a text file.
 
         Return:
-            Calculated ql or Ql (np.ndarray)
+            Calculated ql or Ql (npt.NDArray)
             shape [nsnapshots, nparticle]
         """
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
-            logger.info(f'Start calculating coarse-grained rotational invariants for l={self.l}')
+            logger.info(
+                f'Start calculating coarse-grained rotational invariants for l={self.l}')
         else:
             cal_qlmQlm = self.smallqlm
-            logger.info(f'Start calculating local rotational invariants for l={self.l}')
+            logger.info(
+                f'Start calculating local rotational invariants for l={self.l}')
 
-        ql_Ql = np.sqrt(4*np.pi/(2*self.l+1)*np.square(np.abs(cal_qlmQlm)).sum(axis=2))
+        ql_Ql = np.sqrt(4 * np.pi / (2 * self.l + 1) *
+                        np.square(np.abs(cal_qlmQlm)).sum(axis=2))
         if outputfile:
             np.save(outputfile, ql_Ql)
             if outputfile.endswith('.dat') or outputfile.endswith('.txt'):
-                np.savetxt(outputfile, ql_Ql, fmt='%.6f', header="", comments="")
+                np.savetxt(
+                    outputfile,
+                    ql_Ql,
+                    fmt='%.6f',
+                    header="",
+                    comments="")
             else:
-                logger.info('The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
-        logger.info(f'Finish calculating rotational invariants ql or Ql for l={self.l}')
+                logger.info(
+                    'The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
+        logger.info(
+            f'Finish calculating rotational invariants ql or Ql for l={self.l}')
         return ql_Ql
 
     def sij_ql_Ql(
         self,
-        coarse_graining: bool=False,
-        c: float=0.7,
-        outputqlQl: str=None,
-        outputsij: str=None
-    ) -> list[np.ndarray]:
+        coarse_graining: bool = False,
+        c: float = 0.7,
+        outputqlQl: str = None,
+        outputsij: str = None
+    ) -> list[npt.NDArray]:
         """
         Calculate orientation correlation of qlm or Qlm, named as sij
 
@@ -204,14 +231,16 @@ class boo_3d:
             4. outputsij (str): txt file name for sij of ql or Ql, default None
 
         Return:
-            calculated sij (np.ndarray in a list for each snapshot)
+            calculated sij (npt.NDArray in a list for each snapshot)
         """
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
-            logger.info(f'Start calculating coarse-grained bond property sij for l={self.l}')
+            logger.info(
+                f'Start calculating coarse-grained bond property sij for l={self.l}')
         else:
             cal_qlmQlm = self.smallqlm
-            logger.info(f'Start calculating local bond property for l={self.l}')
+            logger.info(
+                f'Start calculating local bond property for l={self.l}')
 
         norm_qlmQlm = np.sqrt(np.square(np.abs(cal_qlmQlm)).sum(axis=2))
 
@@ -221,7 +250,8 @@ class boo_3d:
         # particle-neighbors information, with number of neighbors
         resultssij = []
         for n, snapshot in enumerate(self.snapshots.snapshots):
-            Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
+            Neighborlist = read_neighbors(
+                fneighbor, snapshot.nparticle, self.Nmax)
             sij = np.zeros((snapshot.nparticle, self.Nmax), dtype=np.float32)
             sijresults = np.zeros((snapshot.nparticle, 3))
 
@@ -231,29 +261,37 @@ class boo_3d:
                 )
 
             for i in range(snapshot.nparticle):
-                cnlist = Neighborlist[i, 1:Neighborlist[i, 0]+1]
-                sijup = (cal_qlmQlm[n, i][np.newaxis, :] * np.conj(cal_qlmQlm[n, cnlist])).sum(axis=1)
+                cnlist = Neighborlist[i, 1:Neighborlist[i, 0] + 1]
+                sijup = (cal_qlmQlm[n, i][np.newaxis, :] *
+                         np.conj(cal_qlmQlm[n, cnlist])).sum(axis=1)
                 sijdown = norm_qlmQlm[n, i] * norm_qlmQlm[n, cnlist]
                 sij[i, :Neighborlist[i, 0]] = sijup.real / sijdown
 
             sijresults[:, 0] = np.arange(self.nparticle) + 1
-            sijresults[:, 1] = (np.where(sij>c, 1, 0)).sum(axis=1)
+            sijresults[:, 1] = (np.where(sij > c, 1, 0)).sum(axis=1)
             sijresults[:, 2] = Neighborlist[:, 0]
             results.append(sijresults)
-            resultssij.append(np.column_stack((sijresults[:, 0], Neighborlist[:, 0], sij)))
+            resultssij.append(np.column_stack(
+                (sijresults[:, 0], Neighborlist[:, 0], sij)))
 
         results = np.concatenate(results, axis=0)
         if outputqlQl:
-            results = pd.DataFrame(results, columns="id sum_sij num_neighbors".split())
+            results = pd.DataFrame(
+                results, columns="id sum_sij num_neighbors".split())
             results.to_csv(outputqlQl, float_format="%d", index=False)
 
         if outputsij:
             resultssij = np.concatenate(resultssij, axis=0)
             names = 'id CN sij'
             max_neighbors = int(resultssij[:, 1].max())
-            resultssij = resultssij[:, :2+max_neighbors]
-            data_format = "%d "*2 + "%.6f "*max_neighbors
-            np.savetxt(outputsij, resultssij, header=names, fmt=data_format, comments="")
+            resultssij = resultssij[:, :2 + max_neighbors]
+            data_format = "%d " * 2 + "%.6f " * max_neighbors
+            np.savetxt(
+                outputsij,
+                resultssij,
+                header=names,
+                fmt=data_format,
+                comments="")
 
         fneighbor.close()
         logger.info(f'Finish calculating bond property sij for l={self.l}')
@@ -261,10 +299,10 @@ class boo_3d:
 
     def w_W_cap(
         self,
-        coarse_graining: bool=False,
-        outputw: str=None,
-        outputwcap: str=None
-    ) -> Tuple[np.ndarray, np.ndarray]:
+        coarse_graining: bool = False,
+        outputw: str = None,
+        outputwcap: str = None
+    ) -> Tuple[npt.NDArray, npt.NDArray]:
         """
         Calculate wigner 3-j symbol boo based on qlm or Qlm
 
@@ -283,10 +321,12 @@ class boo_3d:
         """
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
-            logger.info(f'Start calculating coarse-grained Wigner 3-j symbol boo for l={self.l}')
+            logger.info(
+                f'Start calculating coarse-grained Wigner 3-j symbol boo for l={self.l}')
         else:
             cal_qlmQlm = self.smallqlm
-            logger.info(f'Start calculating local Wigner 3-j symbol boo for l={self.l}')
+            logger.info(
+                f'Start calculating local Wigner 3-j symbol boo for l={self.l}')
 
         w_W = np.zeros((cal_qlmQlm.shape[0], cal_qlmQlm.shape[1]))
         Windex = Wignerindex(self.l)
@@ -294,30 +334,41 @@ class boo_3d:
         Windex = Windex[:, :3].astype(np.int64) + self.l
         for n in range(cal_qlmQlm.shape[0]):
             for i in range(cal_qlmQlm.shape[1]):
-                w_W[n, i] = (np.real(np.prod(cal_qlmQlm[n, i, Windex], axis=1))*w3j).sum()
+                w_W[n, i] = (
+                    np.real(np.prod(cal_qlmQlm[n, i, Windex], axis=1)) * w3j).sum()
         if outputw:
             np.save(outputw, w_W)
             if outputw.endswith('.dat') or outputw.endswith('.txt'):
                 np.savetxt(outputw, w_W, fmt='%.6f', header="", comments="")
             else:
-                logger.info('The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
+                logger.info(
+                    'The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
 
-        w_W_cap = np.power(np.square(np.abs(cal_qlmQlm)).sum(axis=2), -3/2) * w_W
+        w_W_cap = np.power(
+            np.square(
+                np.abs(cal_qlmQlm)).sum(
+                axis=2), -3 / 2) * w_W
         if outputwcap:
             np.save(outputwcap, w_W_cap)
             if outputwcap.endswith('.dat') or outputwcap.endswith('.txt'):
-                np.savetxt(outputwcap, w_W_cap, fmt='%.6f', header="", comments="")
+                np.savetxt(
+                    outputwcap,
+                    w_W_cap,
+                    fmt='%.6f',
+                    header="",
+                    comments="")
             else:
-                logger.info('The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
+                logger.info(
+                    'The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
 
         logger.info(f'Finish calculating wigner 3-j symbol boo for l={self.l}')
         return w_W, w_W_cap
 
     def spatial_corr(
         self,
-        coarse_graining: bool=False,
-        rdelta: float=0.01,
-        outputfile: str="",
+        coarse_graining: bool = False,
+        rdelta: float = 0.01,
+        outputfile: str = "",
     ) -> pd.DataFrame:
         """
         Calculate spatial correlation function of qlm or Qlm
@@ -327,16 +378,18 @@ class boo_3d:
                                        default False
             2. rdelta (float): bin size in calculating g(r) and Gl(r), default 0.01
             3. outputfile (str): csv file name for gl, default None
-        
+
         Return:
             calculated Gl(r) based on Qlm or qlm
         """
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
-            logger.info(f'Start calculating coarse-grained spatial correlation for l={self.l}')
+            logger.info(
+                f'Start calculating coarse-grained spatial correlation for l={self.l}')
         else:
             cal_qlmQlm = self.smallqlm
-            logger.info(f'Start calculating local spatial correlation for l={self.l}')
+            logger.info(
+                f'Start calculating local spatial correlation for l={self.l}')
 
         glresults = 0
         for n, snapshot in enumerate(self.snapshots.snapshots):
@@ -356,9 +409,9 @@ class boo_3d:
 
     def time_corr(
         self,
-        coarse_graining: bool=False,
-        dt: float=0.002,
-        outputfile: str="",
+        coarse_graining: bool = False,
+        dt: float = 0.002,
+        outputfile: str = "",
     ) -> pd.DataFrame:
         """Calculate time correlation of qlm or Qlm
 
@@ -367,14 +420,15 @@ class boo_3d:
                                        default False
             2. dt (float): timestep used in user simulations, default 0.002
             2. outputfile (str): csv file name for time correlation results, default None
-        
+
         Return:
             time correlation quantity (pd.DataFrame)
         """
 
         if coarse_graining:
             cal_qlmQlm = self.largeQlm
-            logger.info(f'Start calculating coarse-grained time correlation for l={self.l}')
+            logger.info(
+                f'Start calculating coarse-grained time correlation for l={self.l}')
         else:
             cal_qlmQlm = self.smallqlm
             logger.info(f'Start calculating time correlation for l={self.l}')
@@ -386,7 +440,7 @@ class boo_3d:
         )
 
         # normalization
-        gl_time["time_corr"] *= 4*np.pi/(2*self.l+1)
+        gl_time["time_corr"] *= 4 * np.pi / (2 * self.l + 1)
         gl_time["time_corr"] /= gl_time.loc[0, "time_corr"]
         if outputfile:
             gl_time.to_csv(outputfile, float_format="%.8f", index=False)
@@ -406,10 +460,10 @@ class boo_2d:
         snapshots: Snapshots,
         l: int,
         neighborfile: str,
-        weightsfile: str="",
-        ppp: np.ndarray=np.array([1,1]),
-        Nmax: int=10,
-        output_phi: str="output_phi.npy",
+        weightsfile: str = "",
+        ppp: npt.NDArray = np.array([1, 1]),
+        Nmax: int = 10,
+        output_phi: str = "",
     ) -> None:
         """
         Initializing class for BOO2D
@@ -422,7 +476,7 @@ class boo_2d:
             4. weightsfile (str): file name of particle-neighbor weights (see module neighbors)
                                   one typical example is Voronoi cell edge length of the polygon;
                                   this file should be consistent with neighborfile, default None
-            5. ppp (np.ndarray): the periodic boundary conditions,
+            5. ppp (npt.NDArray): the periodic boundary conditions,
                                  setting 1 for yes and 0 for no, default np.array([1,1])
             7. Nmax (int): maximum number for neighbors, default 10
             8. output_phi (str): output file name of the original order parameter in complex number
@@ -448,7 +502,7 @@ class boo_2d:
 
         self.ParticlePhi = self.lthorder(output_phi)
 
-    def lthorder(self, output_phi:str="") -> np.ndarray:
+    def lthorder(self, output_phi: str = "") -> npt.NDArray:
         """
         Calculate l-th orientational order in 2D, such as hexatic order
 
@@ -456,7 +510,7 @@ class boo_2d:
             output_phi (str): output file name of the original order parameter in complex number
 
         Return:
-            Calculated l-th order in complex number (np.ndarray)
+            Calculated l-th order in complex number (npt.NDArray)
             shape: [nsnapshots, nparticle]
         """
 
@@ -465,28 +519,37 @@ class boo_2d:
         if self.weightsfile:
             fweights = open(self.weightsfile, 'r', encoding="utf-8")
 
-        results = np.zeros((self.snapshots.nsnapshots, self.nparticle), dtype=np.complex128)
+        results = np.zeros(
+            (self.snapshots.nsnapshots,
+             self.nparticle),
+            dtype=np.complex128)
         for n, snapshot in enumerate(self.snapshots.snapshots):
-            Neighborlist = read_neighbors(fneighbor, snapshot.nparticle, self.Nmax)
+            Neighborlist = read_neighbors(
+                fneighbor, snapshot.nparticle, self.Nmax)
             if not self.weightsfile:
                 for i in range(snapshot.nparticle):
-                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
-                    RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
+                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0] + 1)]
+                    RIJ = snapshot.positions[cnlist] - \
+                        snapshot.positions[i][np.newaxis, :]
                     RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
                     theta = np.arctan2(RIJ[:, 1], RIJ[:, 0])
-                    results[n, i] = (np.exp(1j*self.l*theta)).mean()
+                    results[n, i] = (np.exp(1j * self.l * theta)).mean()
             else:
-                weightslist = read_neighbors(fweights, snapshot.nparticle, self.Nmax)
-                if (weightslist<0).any():
-                    logger.info(f"Negative weights for {n}-snapshot, normalization by sum of absolutes")
+                weightslist = read_neighbors(
+                    fweights, snapshot.nparticle, self.Nmax)
+                if (weightslist < 0).any():
+                    logger.info(
+                        f"Negative weights for {n}-snapshot, normalization by sum of absolutes")
                 for i in range(snapshot.nparticle):
-                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0]+1)]
-                    RIJ = snapshot.positions[cnlist] - snapshot.positions[i][np.newaxis, :]
+                    cnlist = Neighborlist[i, 1:(Neighborlist[i, 0] + 1)]
+                    RIJ = snapshot.positions[cnlist] - \
+                        snapshot.positions[i][np.newaxis, :]
                     RIJ = remove_pbc(RIJ, snapshot.hmatrix, self.ppp)
                     theta = np.arctan2(RIJ[:, 1], RIJ[:, 0])
-                    weights = weightslist[i, 1:Neighborlist[i, 0]+1]
+                    weights = weightslist[i, 1:Neighborlist[i, 0] + 1]
                     weights /= np.abs(weights).sum()
-                    results[n, i] = (weights*np.exp(1j*self.l*theta)).sum()
+                    results[n, i] = (
+                        weights * np.exp(1j * self.l * theta)).sum()
         fneighbor.close()
         if self.weightsfile:
             fweights.close()
@@ -497,27 +560,28 @@ class boo_2d:
     def time_average(
         self,
         time_period: float,
-        dt: float=0.002,
-        average_complex: bool=True,
-        outputfile: str=""
-    )->Tuple[np.ndarray, np.ndarray]:
+        dt: float = 0.002,
+        average_complex: bool = True,
+        outputfile: str = ""
+    ) -> Tuple[npt.NDArray, npt.NDArray]:
         """
         calculate the particle-level phi considering time average of the order parameter if time_period not None
-        
+
         Inputs:
             1. time_period (float): time average period, default None
             2. dt (float): simulation snapshots time step, default 0.002
             3. average_complex (bool): whether averaging the complex order parameter or not, default True
             4. outputfile (float): file name of the output modulus and phase, default None
-        
-        Return:
-            1. ParticlePhi (np.ndarray): the original complex order parameter if time_period=None
-            2. average_quantity (np.ndarray): time averaged phi results if time_period not None
-            3. average_snapshot_id (np.ndarray): middle snapshot number between time periods if time_period not None
-        """
-        assert time_period>0, "time_period must be greater than 0"
 
-        logger.info(f"Time average over t={time_period} for BOO 2D order parameter")
+        Return:
+            1. ParticlePhi (npt.NDArray): the original complex order parameter if time_period=None
+            2. average_quantity (npt.NDArray): time averaged phi results if time_period not None
+            3. average_snapshot_id (npt.NDArray): middle snapshot number between time periods if time_period not None
+        """
+        assert time_period > 0, "time_period must be greater than 0"
+
+        logger.info(
+            f"Time average over t={time_period} for BOO 2D order parameter")
         if average_complex:
             # average data in complex form, modulus & phase together
             average_quantity, average_snapshot_id = utils_time_average(
@@ -540,20 +604,21 @@ class boo_2d:
                 time_period=time_period,
                 dt=dt
             )
-            average_quantity = average_modulus.real * np.exp(1j*average_phase.real)
+            average_quantity = average_modulus.real * \
+                np.exp(1j * average_phase.real)
 
         if outputfile:
             np.save(outputfile, average_quantity)
             np.savetxt(
-                outputfile+".snapshot_id.dat",
+                outputfile + ".snapshot_id.dat",
                 average_snapshot_id[:, np.newaxis],
                 fmt="%d", header="middle_snapshot_id", comments="")
         return average_quantity, average_snapshot_id
 
     def spatial_corr(
         self,
-        rdelta: float=0.01,
-        outputfile: str="",
+        rdelta: float = 0.01,
+        outputfile: str = "",
     ) -> pd.DataFrame:
         """
         Calculate spatial correlation of the orientational order parameter
@@ -565,7 +630,8 @@ class boo_2d:
         Return:
             calculated gl(r) based on phi
         """
-        logger.info(f'Start calculating spatial correlation of phi for l={self.l}')
+        logger.info(
+            f'Start calculating spatial correlation of phi for l={self.l}')
         glresults = 0
         for n, snapshot in enumerate(self.snapshots.snapshots):
             glresults += conditional_gr(
@@ -582,8 +648,8 @@ class boo_2d:
 
     def time_corr(
         self,
-        dt: float=0.002,
-        outputfile: str="",
+        dt: float = 0.002,
+        outputfile: str = "",
     ) -> pd.DataFrame:
         """
         Calculate time correlation of the orientational order parameter
@@ -595,7 +661,8 @@ class boo_2d:
         Return:
             time correlation quantity (pd.DataFrame)
         """
-        logger.info(f'Start calculating time correlation of phi for l={self.l}')
+        logger.info(
+            f'Start calculating time correlation of phi for l={self.l}')
         gl_time = time_correlation(
             snapshots=self.snapshots,
             condition=self.ParticlePhi,
