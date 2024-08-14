@@ -2,7 +2,10 @@
 
 """see documentation @ ../docs/hessians.md"""
 
-from typing import Any, Dict, List, Tuple
+from dataclasses import dataclass
+from enum import Enum
+from typing import Dict, List, Tuple
+import numpy.typing as npt
 
 import numpy as np
 import pandas as pd
@@ -15,6 +18,21 @@ from utils.pbc import remove_pbc
 logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name
 # pylint: disable=line-too-long
+
+class ModelName(Enum):
+    """Define model name class for each pair potential"""
+    lennard_jones = 1
+    inverse_power_law = 2
+    harmonic_hertz = 3
+
+
+@dataclass(frozen=True)
+class InteractionParams:
+    """Define model name and its associated parameters"""
+    model_name: ModelName
+    ipl_n: float=0
+    ipl_A: float=0
+    harmonic_hertz_alpha: float=0
 
 
 class PairInteractions:
@@ -42,6 +60,21 @@ class PairInteractions:
         self.r_c = r_c
         self.shift = shift
 
+    def caller(self, interaction_params: InteractionParams) -> List[float]:
+        """Calculate pair potential and force based on model inputs"""
+        if interaction_params.model_name == ModelName.lennard_jones:
+            return self.lennard_jones()
+
+        if interaction_params.model_name == ModelName.inverse_power_law:
+            return self.inverse_power_law(
+                n=interaction_params.ipl_n,
+                A=interaction_params.ipl_A
+            )
+        # interaction_params.model_name == ModelName.harmonic_hertz
+        return self.harmonic_hertz(
+            alpha=interaction_params.harmonic_hertz_alpha
+        )
+
     def lennard_jones(self) -> List[float]:
         """
         Lennard-Jones interaction
@@ -60,12 +93,12 @@ class PairInteractions:
 
         return [s1, s1rc, s2]
 
-    def inverse_power_law(self, n: int, A: float=1.0) -> List[float]:
+    def inverse_power_law(self, n: float, A: float=1.0) -> List[float]:
         """
         Inverse power-law potential
 
         Inputs:
-            1. n (int): power law exponent for a pair
+            1. n (float): power law exponent for a pair
             2. A (float): power law prefactor for a pair, default 1.0
 
         Return:
@@ -104,10 +137,10 @@ class HessianMatrix:
     def __init__(self,
         snapshot: SingleSnapshot,
         masses: Dict[int, float],
-        epsilons: np.ndarray,
-        sigmas: np.ndarray,
-        r_cuts: np.ndarray,
-        ppp: np.ndarray,
+        epsilons: npt.NDArray,
+        sigmas: npt.NDArray,
+        r_cuts: npt.NDArray,
+        ppp: npt.NDArray,
         shiftpotential: bool=True
     ) -> None:
         """
@@ -116,13 +149,13 @@ class HessianMatrix:
         Inputs:
             1. snapshot (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
             2. masses (dict of int to float): mass for each particle type, example {1:1.0, 2:2.0}
-            3. epsilons (np.ndarray): cohesive energies for all pairs of particle type, 
+            3. epsilons (npt.NDArray): cohesive energies for all pairs of particle type, 
                                     shape as [num_of_particletype, num_of_particletype]
-            4. sigmas (np.ndarray): diameters for all pairs of particle type, 
+            4. sigmas (npt.NDArray): diameters for all pairs of particle type, 
                                     shape as [num_of_particletype, num_of_particletype]
-            5. r_cuts (np.ndarray): cutoff distances of pair potentials for all pairs of particle type, 
+            5. r_cuts (npt.NDArray): cutoff distances of pair potentials for all pairs of particle type, 
                                     shape as [num_of_particletype, num_of_particletype]
-            6. ppp (np.ndarray): the periodic boundary conditions,
+            6. ppp (npt.NDArray): the periodic boundary conditions,
                        setting 1 for yes and 0 for no, default np.array([1,1,1]),
                        set np.array([1,1]) for two-dimensional systems
             7. shiftpotential (bool): whether shift the potential energy at r_c to 0, default True
@@ -139,21 +172,22 @@ class HessianMatrix:
         self.ndim = len(ppp)
         self.shiftpotential = shiftpotential
 
-    def pair_matrix(self, Rji: np.ndarray, dudrs: List[float])->Tuple[np.ndarray, np.ndarray]:
+    def pair_matrix(self, Rji: npt.NDArray, dudrs: List[float])->Tuple[npt.NDArray, npt.NDArray]:
         """
         Hessian matrix block for a pair
 
         Inputs:
-            1. Rji (np.ndarray): Ri - Rj, positional vector for i-j pair, shape as [ndim]
+            1. Rji (npt.NDArray): Ri - Rj, positional vector for i-j pair, shape as [ndim]
             2. dudrs (list of float): a list of [s'(r), s'(r_c), s''(r)], 
                 named as [s1, s1rc, s2], returned by the PairInteractions class
         
         Return:
-            dudr2i (np.ndarray): hessian matrix block of pair i-j centered on i
-            dudr2j (np.ndarray): hessian matrix block of pair i-j centered on j
+            dudr2i (npt.NDArray): hessian matrix block of pair i-j centered on i
+            dudr2j (npt.NDArray): hessian matrix block of pair i-j centered on j
             Both have the shape [ndim, ndim]
         """
         s1, s1rc, s2 = dudrs
+        z = 0
         if self.ndim==2:
             x, y = Rji
         else:
@@ -187,7 +221,7 @@ class HessianMatrix:
 
     def diagonalize_hessian(
         self,
-        interaction_params: Dict[str, Any],
+        interaction_params: InteractionParams,
         saveevecs: bool=True,
         savehessian: bool=False,
         outputfile: str=""
@@ -197,11 +231,7 @@ class HessianMatrix:
         by hessian diagonalization
         
         Inputs:
-            1. interaction_params (list of str and float/int): get the model name and model specific 
-                                parameters, currently there are only three types of interactions, should be
-                                {"lennard_jones": []} or
-                                {"inverse_power_law": [n (int), A (float)]} or
-                                {"harmonic_hertz": [alpha (float)]]
+            1. interaction_params (InteractionParams): pair interaction parameters
             2. saveevecs (bool): save the eigenvectors or not, default True
             3. savehessian (bool): save the hessian matrix in dN*dN or not, default False
             4. outputfile (str): filename to save the computational results, defult None to use model name
@@ -224,12 +254,12 @@ class HessianMatrix:
         for i in range(nparticle):
             if i%100==0:
                 logger.info(f"calculating for particle {i} / {nparticle}")
-            itype = self.snapshot.particle_type[i] - 1
+            itype = int(self.snapshot.particle_type[i] - 1)
             RJI = positions[i] - positions
             RJI = remove_pbc(RJI, self.snapshot.hmatrix, self.ppp)
             distance = np.linalg.norm(RJI, axis=1)
             for j in range(nparticle):
-                jtype = self.snapshot.particle_type[j] - 1
+                jtype = int(self.snapshot.particle_type[j] - 1)
                 if (j != i) & (distance[j] <= self.r_cuts[itype, jtype]):
                     pair_interaction = PairInteractions(
                         r=distance[j],
@@ -238,19 +268,7 @@ class HessianMatrix:
                         r_c=self.r_cuts[itype, jtype],
                         shift=self.shiftpotential
                     )
-                    if "lennard_jones" in interaction_params.keys():
-                        dudrs = pair_interaction.lennard_jones()
-                    elif "inverse_power_law" in interaction_params.keys():
-                        dudrs = pair_interaction.inverse_power_law(
-                            interaction_params["inverse_power_law"]
-                        )
-                    elif "harmonic_hertz" in interaction_params.keys():
-                        dudrs = pair_interaction.harmonic_hertz(
-                            interaction_params["harmonic_hertz"]
-                        )
-                    else:
-                        raise ValueError("Pair interaction is not supported")
-
+                    dudrs = pair_interaction.caller(interaction_params)
                     dudr2i, dudr2j = self.pair_matrix(RJI[j], dudrs)
                     index_i_0 = i*self.ndim
                     index_i_1 = index_i_0 + self.ndim
@@ -262,7 +280,7 @@ class HessianMatrix:
                     hessian_matrix[index_i_0:index_i_1, index_j_0:index_j_1] = dudr2j * prefactor[itype, jtype]
 
         if not outputfile:
-            outputfile = list(interaction_params.keys())[0]
+            outputfile = interaction_params.model_name.name
         if savehessian:
             np.save(outputfile+".hessianmatrix.npy", hessian_matrix)
         # diagonalize the hessian matrix
