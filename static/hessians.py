@@ -126,7 +126,7 @@ class PairInteractions:
 
     def harmonic_hertz(self, alpha: float) -> List[float]:
         """
-        Inverse power-law potential
+        harmonic or hertz potential
 
         Inputs:
             1. alpha (float): spring exponent
