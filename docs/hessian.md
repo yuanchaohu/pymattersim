@@ -1,99 +1,12 @@
+# Hessian matrix calculation and diagonalization
 
-*general derivations*
-
-**Potential energy (shifted):**
-$$
-U(r) = s(r) - s(r_c) - (r-r_c) \cdot \frac{ds}{dr}|_{r=r_c}
-= s(r) - s(r_c) - (r-r_c) \cdot s'(r_c)
-$$
-
-$$
-U'(r) = \frac{dU}{dr} = s'(r) - s'(r_c)
-$$
-
-**Three parameters are important as input for hessian:** $s'(r)$, $s'(r_c)$, $s''(r)$
-
-*first derivatives (force part)*
-$$
-\frac{\partial s}{\partial x_i} = \frac{\partial s}{\partial r}\frac{\partial r}{\partial x_i} =s'(\frac{x}{r}) \qquad\qquad{\rm shifted:}\quad \frac{\partial U}{\partial x_i}= [s'-s'(r_c)] (\frac{x}{r})
-$$
-
-$$
-\frac{\partial s}{\partial y_i} = \frac{\partial s}{\partial r} \frac{\partial r}{\partial y_i} =s'(\frac{y}{r}) \qquad\qquad{\rm shifted:}\quad \frac{\partial U}{\partial y_i}=[s'-s'(r_c)](\frac{y}{r})
-$$
-
-$$
-\frac{\partial s}{\partial z_i} = \frac{\partial s}{\partial r} \frac{\partial r}{\partial z_i} =s'(\frac{z}{r}) \qquad\qquad{\rm shifted:}\quad \frac{\partial U}{\partial z_i}=[s'-s'(r_c)](\frac{z}{r})
-$$
-
-*second derivatives (hessian part) -- only shifted version*
-$$
-\frac{\partial ^2 U}{\partial x_i^2} = s'' (\frac{x}{r})^2 + [s'-s'(r_c)] \frac{r^2-x^2}{r^3}
-$$
-
-$$
-\frac{\partial ^2 U}{\partial y_i^2} = s'' (\frac{y}{r})^2 + [s'-s'(r_c)] \frac{r^2-y^2}{r^3}
-$$
-
-$$
-\frac{\partial ^2 U}{\partial z_i^2} = s'' (\frac{z}{r})^2 + [s'-s'(r_c)] \frac{r^2-z^2}{r^3}
-$$
-
-$$
-\frac{\partial^2 U}{\partial x_i \partial y_i}= s''(\frac{xy}{r^2}) + [s'-s'(r_c)](\frac{-xy}{r^3})
-$$
-
-$$
-\frac{\partial^2 U}{\partial x_i \partial z_i}= s''(\frac{xz}{r^2}) + [s'-s'(r_c)](\frac{-xz}{r^3})
-$$
-
-$$
-\frac{\partial^2 U}{\partial y_i \partial z_i}= s''(\frac{yz}{r^2}) + [s'-s'(r_c)](\frac{-yz}{r^3})
-$$
-
-$$
-\frac{\partial^2 U}{\partial x_i \partial x_j} = -\frac{\partial^2 U}{\partial x_i^2}
-\qquad\quad
-\frac{\partial^2 U}{\partial x_i \partial y_j} = -\frac{\partial^2 U}{\partial x_i \partial y_i}
-\qquad\quad
-\frac{\partial^2 U}{\partial x_i \partial z_j} = -\frac{\partial^2 U}{\partial x_i \partial z_i}
-$$
-
-$$
-\frac{\partial^2 U}{\partial y_i \partial x_j} = -\frac{\partial^2 U}{\partial x_i \partial y_i}
-\qquad\quad
-\frac{\partial^2 U}{\partial y_i \partial y_j} = -\frac{\partial^2 U}{\partial y_i^2}
-\qquad\quad
-\frac{\partial^2 U}{\partial y_i \partial z_j} = -\frac{\partial^2 U}{\partial y_i \partial z_i}
-$$
-
-$$
-\frac{\partial^2 U}{\partial z_i \partial x_j} = -\frac{\partial^2 U}{\partial x_i \partial z_i}
-\qquad\quad
-\frac{\partial^2 U}{\partial z_i \partial y_j} = -\frac{\partial^2 U}{\partial y_i \partial z_i}
-\qquad\quad
-\frac{\partial^2 U}{\partial z_i \partial z_j} = -\frac{\partial^2 U}{\partial z_i^2}
-$$
-
-
-
-*an example of hessian matrix*
-$$
-pair\ i-i \qquad\quad\quad\quad\quad pair\ i-j
-\\
-\left[
-\matrix{
-x_i^2     & x_iy_i    & x_iz_i &|& x_ix_j    & x_iy_j    & x_iz_j   \\
-y_ix_i    & y_i^2     & y_iz_i &|& y_ix_j    & y_iy_j    & y_iz_j   \\
-z_ix_i    & z_iy_i    & z_i^2  &|& z_ix_j    & z_iy_j    & z_iz_j \\
-}
-\right]
-$$
-
-
+# [1. Pair interactions](#1-pair-interactions)
+# [2. Hessian matrix](#2-hessian-matrix)
 ---
 
-**Lennard-Jones interaction**
+This module calculates the hessian matrix of a simulation configuration with a pair potential. Currently, there are three types of pair potentials at 2D and 3D are supported, i.e. lennard-jones, inverse-power law, and harmonic or hertz potentials. They are defined as
+
+Lennard-Jones interaction:
 $$
 s(r) = 4 \epsilon \left[(\frac{\sigma}{r})^{12} - (\frac{\sigma}{r})^{6} \right]
 $$
@@ -109,10 +22,7 @@ s''=\frac{d^2 s}{d r^2} = \frac{ds'}{dr} = \frac{24\epsilon}{r^2} \left[26(\frac
 $$
 
 
-
----
-
-**Inverse power law (IPL) interaction**
+Inverse power law interaction:
 $$
 s(r) = A \epsilon (\frac{\sigma}{r})^n
 $$
@@ -126,9 +36,8 @@ $$
 s''=\frac{d^2s}{dr^2}=\frac{ds'}{dr} = \frac{A \epsilon n (n+1)}{r^2} (\frac{\sigma}{r})^n \qquad\qquad\qquad\qquad
 $$
 
----
 
-**Harmonic & Hertz interactions**
+Harmonic & Hertz interactions:
 $$
 s(r) = \frac{\epsilon}{\alpha} \left(1 - \frac{r}{\sigma} \right)^\alpha
 $$
@@ -143,8 +52,45 @@ $$
 s'' = \frac{d^2s}{dr^2} = \frac{ds'}{dr} = \frac{\epsilon}{\sigma^2} (\alpha-1) \left(1 - \frac{r}{\sigma} \right)^{\alpha-2} \qquad
 $$
 
+After measuring the Hessian matrix, it can be diagonalized by numpy method and then provides eigenvalues and eigenvectors. For each eigenvector, the participation ratio (see the `vector` module) can be evaluated accompanied by its corresponding frequency.
+
+# 1. PairInteractions
+This class aims to calculate the pair potential and force between a pair of particles. The return will be used for hessian matrix calculation. For each of the above pair potential, a class method is defined that can be called independently and a `caller` function is used to easily access each potential.
+
+### Input Arguments
+- `r` (`float`): pair distance
+- `epsilon` (`float`): cohesive enerrgy between the pair
+- `sigma` (`float`): diameter or reference length between the pair
+- `r_c` (`float`): cutoff distance where the potential energy is cut to 0
+- `shift` (`bool`): whether shift the potential energy at `r_c` to 0, default True
+
+### Return
+- None
+
+### Example 
+```python
+from hessians import PairInteractions
+
+pair_interaction = PairInteractions(r, epsilon, sigma, r_c, shift)
+```
+
+## 1.1 caller()
+
+### Example 
+```python
+from hessians import InteractionParams, ModelName
+
+interaction_params = InteractionParams(
+    model_name=ModelName.inverse_power_law,
+    ipl_n=10,
+    ipl_A=1.0
+)
+
+pair_interaction.caller(interaction_params)
+```
 
 # 2. HessianMatrix class
+This class calculates the hessian matrix of the simulation configuration and diagonalize it with numpy. The eigenvalues and eigenvectors are given for further analysis, such as the frequency and participation ratio of each eigenvector.
 
 ### Input Arguments
 - `snapshot` (reader.reader_utils.SingleSnapshot): single snapshot object of input trajectory
