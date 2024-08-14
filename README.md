@@ -11,3 +11,4 @@ Simulators:
    2. GSD + DCD for dynamics analysis
 3. VASP (to be added)
 4. Any type of simulators as long as the input were formatted well, modifying the `reader` module to use the computational modules.
+5. Voro++ is recommend to install separately for some specific analysis
