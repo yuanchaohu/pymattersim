@@ -61,7 +61,16 @@ class PairInteractions:
         self.shift = shift
 
     def caller(self, interaction_params: InteractionParams) -> List[float]:
-        """Calculate pair potential and force based on model inputs"""
+        """
+        Calculate pair potential and force based on model inputs
+        
+        Input:
+            interaction_params (InteractionParams): define the name and parameters
+                for the pair potential
+        
+        Return:
+            [s1, s1rc, s2] (list of float)
+        """
         if interaction_params.model_name == ModelName.lennard_jones:
             return self.lennard_jones()
 

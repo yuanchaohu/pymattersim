@@ -5,7 +5,8 @@ import unittest
 import numpy as np
 import pandas as pd
 from reader.dump_reader import DumpReader
-from static.hessians import HessianMatrix, ModelName, InteractionParams
+from static.hessians import ModelName, InteractionParams
+from static.hessians import HessianMatrix, PairInteractions
 from utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -76,3 +77,48 @@ class TestShape(unittest.TestCase):
         os.remove("new.omega_PR.csv")
         logger.info(
             f"Finishing test hessian matrix class using {self.test_file_IPL_2D}...")
+
+    def test_pair_interactions(self):
+        """test pair interactions"""
+
+        r = 1.05
+        epsilon = 1.0
+        sigma = 1.1
+        r_c = 2.5
+        pair_interaction = PairInteractions(r, epsilon, sigma, r_c, shift=True)
+
+        # lennard-jones potential
+        interaction_params = InteractionParams(
+            model_name=ModelName.lennard_jones
+        )
+        calculated = pair_interaction.caller(interaction_params=interaction_params)
+        expected = np.array([-49.673659761738136, 0.06864965447468592, 787.6721753507363])
+        np.testing.assert_array_almost_equal(
+            calculated,
+            expected
+        )
+
+        # inverse-power law potential
+        interaction_params = InteractionParams(
+            model_name=ModelName.inverse_power_law,
+            ipl_n=10,
+            ipl_A=1.0
+        )
+        calculated = pair_interaction.caller(interaction_params=interaction_params)
+        expected = np.array([-15.165074976445762, -0.0010878944375367285, 158.8722140389556])
+        np.testing.assert_array_almost_equal(
+            calculated,
+            expected
+        )
+
+        # harmonic potential
+        interaction_params = InteractionParams(
+            model_name=ModelName.harmonic_hertz,
+            harmonic_hertz_alpha=2.0
+        )
+        calculated = pair_interaction.caller(interaction_params=interaction_params)
+        expected = np.array([-0.04132231404958684, 0, 0.8264462809917354])
+        np.testing.assert_array_almost_equal(
+            calculated,
+            expected
+        )
