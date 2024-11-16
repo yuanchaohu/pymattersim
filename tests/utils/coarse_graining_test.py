@@ -2,12 +2,12 @@
 
 import unittest
 import numpy as np
-from utils.coarse_graining import spatial_average, gaussian_blurring
-from reader.dump_reader import DumpReader
-from reader.reader_utils import DumpFileType
-from neighbors.calculate_neighbors import Nnearests
+from PyMatterSim.utils.coarse_graining import spatial_average, gaussian_blurring
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.reader.reader_utils import DumpFileType
+from PyMatterSim.neighbors.calculate_neighbors import Nnearests
 
-from utils.logging import get_logger_handle
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

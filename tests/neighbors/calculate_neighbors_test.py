@@ -3,12 +3,12 @@
 import os
 import unittest
 import numpy as np
-from reader.dump_reader import DumpReader
-from neighbors.calculate_neighbors import Nnearests
-from neighbors.calculate_neighbors import cutoffneighbors
-from neighbors.calculate_neighbors import cutoffneighbors_particletype
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.neighbors.calculate_neighbors import Nnearests
+from PyMatterSim.neighbors.calculate_neighbors import cutoffneighbors
+from PyMatterSim.neighbors.calculate_neighbors import cutoffneighbors_particletype
 
-from utils.logging import get_logger_handle
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

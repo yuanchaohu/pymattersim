@@ -6,9 +6,9 @@ import unittest
 import numpy as np
 import pandas as pd
 from tables import atom
-from reader.dump_reader import DumpReader
-from static.pairentropy import S2
-from utils.logging import get_logger_handle
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.pairentropy import S2
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

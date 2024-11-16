@@ -4,10 +4,10 @@ import os
 import unittest
 import numpy as np
 import pandas as pd
-from reader.dump_reader import DumpReader
-from reader.lammps_reader_helper import read_additions
-from static.gr import gr, conditional_gr
-from utils.logging import get_logger_handle
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.reader.lammps_reader_helper import read_additions
+from PyMatterSim.static.gr import gr, conditional_gr
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

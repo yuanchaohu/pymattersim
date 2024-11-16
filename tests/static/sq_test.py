@@ -4,9 +4,9 @@ import os
 import unittest
 import numpy as np
 import pandas as pd
-from reader.dump_reader import DumpReader
-from static.sq import sq, conditional_sq
-from utils.logging import get_logger_handle
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.sq import sq, conditional_sq
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

@@ -1,8 +1,8 @@
 import numpy as np
 import unittest
-from reader.lammps_reader_helper import read_lammps_wrapper
-from utils.logging import get_logger_handle
-from reader.lammps_reader_helper import read_additions
+from PyMatterSim.reader.lammps_reader_helper import read_lammps_wrapper
+from PyMatterSim.utils.logging import get_logger_handle
+from PyMatterSim.reader.lammps_reader_helper import read_additions
 
 logger = get_logger_handle(__name__)
 

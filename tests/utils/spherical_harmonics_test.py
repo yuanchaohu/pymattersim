@@ -2,9 +2,9 @@
 
 import unittest
 import numpy as np
-from utils import spherical_harmonics
+from PyMatterSim.utils import spherical_harmonics
 
-from utils.logging import get_logger_handle
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

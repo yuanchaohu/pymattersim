@@ -2,11 +2,11 @@
 
 import os
 import unittest
-from reader.dump_reader import DumpReader
+from PyMatterSim.reader.dump_reader import DumpReader
 
-from neighbors.freud_neighbors import cal_neighbors
+from PyMatterSim.neighbors.freud_neighbors import cal_neighbors
 
-from utils.logging import get_logger_handle
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

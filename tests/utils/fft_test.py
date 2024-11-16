@@ -2,9 +2,9 @@
 
 import unittest
 import numpy as np
-from utils import fft
+from PyMatterSim.utils import fft
 
-from utils.logging import get_logger_handle
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

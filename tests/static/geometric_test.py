@@ -3,11 +3,11 @@
 import os
 import unittest
 import numpy as np
-from reader.dump_reader import DumpReader
-from static.geometric import packing_capability_2d
-from static.geometric import q8_tetrahedral
-from neighbors.freud_neighbors import cal_neighbors
-from utils.logging import get_logger_handle
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.geometric import packing_capability_2d
+from PyMatterSim.static.geometric import q8_tetrahedral
+from PyMatterSim.neighbors.freud_neighbors import cal_neighbors
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

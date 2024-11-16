@@ -2,9 +2,9 @@
 
 import unittest
 import numpy as np
-from neighbors.read_neighbors import read_neighbors
+from PyMatterSim.neighbors.read_neighbors import read_neighbors
 
-from utils.logging import get_logger_handle
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

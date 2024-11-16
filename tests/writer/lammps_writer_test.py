@@ -2,10 +2,10 @@
 
 import unittest
 import numpy as np
-from writer.lammps_writer import write_dump_header
-from writer.lammps_writer import write_data_header
+from PyMatterSim.writer.lammps_writer import write_dump_header
+from PyMatterSim.writer.lammps_writer import write_data_header
 
-from utils.logging import get_logger_handle
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

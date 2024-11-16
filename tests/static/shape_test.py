@@ -2,9 +2,9 @@
 
 import unittest
 import numpy as np
-from reader.dump_reader import DumpReader
-from static.shape import gyration_tensor
-from utils.logging import get_logger_handle
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.shape import gyration_tensor
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

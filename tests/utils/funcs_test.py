@@ -2,9 +2,9 @@
 
 import unittest
 import numpy as np
-from utils.funcs import kronecker, nidealfac, areafac, alpha2factor
-from utils.funcs import Wignerindex, grid_gaussian, Legendre_polynomials
-from utils.logging import get_logger_handle
+from PyMatterSim.utils.funcs import kronecker, nidealfac, areafac, alpha2factor
+from PyMatterSim.utils.funcs import Wignerindex, grid_gaussian, Legendre_polynomials
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name

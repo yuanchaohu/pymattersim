@@ -2,10 +2,10 @@
 
 import unittest
 import numpy as np
-from utils.pbc import remove_pbc
-from reader.dump_reader import DumpReader
+from PyMatterSim.utils.pbc import remove_pbc
+from PyMatterSim.reader.dump_reader import DumpReader
 
-from utils.logging import get_logger_handle
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

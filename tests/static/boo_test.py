@@ -3,10 +3,10 @@
 import os
 import unittest
 import numpy as np
-from reader.dump_reader import DumpReader
-from neighbors.freud_neighbors import cal_neighbors
-from static.boo import boo_2d, boo_3d
-from utils.logging import get_logger_handle
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.neighbors.freud_neighbors import cal_neighbors
+from PyMatterSim.static.boo import boo_2d, boo_3d
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

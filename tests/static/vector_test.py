@@ -4,14 +4,14 @@ import os
 import unittest
 import numpy as np
 import pandas as pd
-from reader.dump_reader import DumpReader
-from reader.reader_utils import DumpFileType
-from neighbors.calculate_neighbors import Nnearests
-from static.vector import participation_ratio, local_vector_alignment
-from static.vector import phase_quotient, divergence_curl, vibrability
-from static.vector import vector_decomposition_sq, vector_fft_corr
-from utils.logging import get_logger_handle
-from utils.wavevector import choosewavevector
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.reader.reader_utils import DumpFileType
+from PyMatterSim.neighbors.calculate_neighbors import Nnearests
+from PyMatterSim.static.vector import participation_ratio, local_vector_alignment
+from PyMatterSim.static.vector import phase_quotient, divergence_curl, vibrability
+from PyMatterSim.static.vector import vector_decomposition_sq, vector_fft_corr
+from PyMatterSim.utils.logging import get_logger_handle
+from PyMatterSim.utils.wavevector import choosewavevector
 
 
 logger = get_logger_handle(__name__)
