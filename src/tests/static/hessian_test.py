@@ -76,7 +76,8 @@ class TestShape(unittest.TestCase):
 
         os.remove("new.omega_PR.csv")
         logger.info(
-            f"Finishing test hessian matrix class using {self.test_file_IPL_2D}...")
+            f"Finishing test hessian matrix class using {
+                self.test_file_IPL_2D}...")
 
     def test_pair_interactions(self):
         """test pair interactions"""

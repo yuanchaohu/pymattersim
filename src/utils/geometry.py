@@ -1,4 +1,4 @@
-#coding = utf-8
+# coding = utf-8
 
 """
 math geometrical functions to assist other analysis

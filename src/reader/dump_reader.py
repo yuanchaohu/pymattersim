@@ -171,4 +171,4 @@ class DumpReader:
         self.snapshots = FILE_TYPE_MAP_READER[self.filetype](**reader_inputs)
 
         logger.info(
-            f"Finish reading file {self.filename} in {time()-t0} seconds")
+            f"Finish reading file {self.filename} in {time() - t0} seconds")

@@ -112,7 +112,8 @@ class Dynamics:
         self.ndim = len(ppp)
         self.cal_type = cal_type
         logger.info(
-            f"Calculate {cal_type} dynamics [Linear] for a {self.ndim}-dimensional system")
+            f"Calculate {cal_type} dynamics [Linear] for a {
+                self.ndim}-dimensional system")
 
         if x_snapshots and xu_snapshots:
             logger.info(
@@ -276,7 +277,8 @@ class Dynamics:
             calculated dynamical structure factor as pandas dataframe
         """
         logger.info(
-            f"Calculate S4(q) of {self.cal_type} particles at the time interval {t}")
+            f"Calculate S4(q) of {
+                self.cal_type} particles at the time interval {t}")
         if self.x_snapshots is None:
             logger.info(
                 "Use xu coordinates for dynamics and x/xs coordinates for Sq4")
@@ -397,7 +399,8 @@ class LogDynamics:
         self.ndim = len(ppp)
         self.cal_type = cal_type
         logger.info(
-            f"Calculate {cal_type} dynamics [Log] for a {self.ndim}-dimensional system")
+            f"Calculate {cal_type} dynamics [Log] for a {
+                self.ndim}-dimensional system")
 
         if x_snapshots and xu_snapshots:
             logger.info(

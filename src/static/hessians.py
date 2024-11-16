@@ -253,7 +253,8 @@ class HessianMatrix:
             None
         """
         logger.info(
-            f"Calculate and diagonalize hessian matrix of d={self.ndim} system")
+            f"Calculate and diagonalize hessian matrix of d={
+                self.ndim} system")
         nparticle = self.snapshot.nparticle
         positions = self.snapshot.positions
 

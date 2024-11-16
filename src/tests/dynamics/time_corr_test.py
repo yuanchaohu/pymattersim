@@ -25,7 +25,8 @@ class TestTime_Corr(unittest.TestCase):
         super().setUp()
         self.test_file_2D = f"{READ_TEST_FILE_PATH}/2d/2ddump.s.atom"
         self.test_file_log_2D = f"{READ_TEST_FILE_PATH}/2d/2ddump.log.s.atom"
-        self.test_file_velocity_2D = f"{READ_TEST_FILE_PATH}/2d/2ddump.s.v.atom"
+        self.test_file_velocity_2D = f"{
+            READ_TEST_FILE_PATH}/2d/2ddump.s.v.atom"
 
     def test_time_correlation_linear(self) -> None:
         """

@@ -109,7 +109,8 @@ def cutoffneighbors(
     """
 
     logger.info(
-        f"Calculate neighbors within {r_cut} for a {len(ppp)}-dimensional system")
+        f"Calculate neighbors within {r_cut} for a {
+            len(ppp)}-dimensional system")
     fneighbor = open(fnfile, 'w', encoding="utf-8")
     for snapshot in snapshots.snapshots:
         hmatrix = snapshot.hmatrix

@@ -1,4 +1,4 @@
-#coding = utf-8
+# coding = utf-8
 
 """see documentation @ ../docs/orderings.md"""
 
@@ -51,7 +51,7 @@ def packing_capability_2d(
 
     # calcualte reference angles, save to a 3d numpy array
     particle_type = sigmas.shape[0]
-    assert particle_type == snapshots.snapshots[0].particle_type.max(),\
+    assert particle_type == snapshots.snapshots[0].particle_type.max(), \
         'Error shape of input sigmas (particle diameters)'
 
     reference_angles = np.zeros((particle_type, particle_type, particle_type))

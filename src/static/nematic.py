@@ -1,4 +1,4 @@
-#coding = utf-8
+# coding = utf-8
 
 """see documentation @ ../docs/orderings.md"""
 
@@ -76,11 +76,11 @@ class NematicOrder():
             shape as [num_of_snapshots, num_of_particles]
         """
         if neighborfile:
-            logger.info(
-                f"Calcualte coarse-grained nematic order for {self.orientations.nsnapshots} configurations")
+            logger.info(f"Calcualte coarse-grained nematic order for {
+                self.orientations.nsnapshots} configurations")
         else:
-            logger.info(
-                f"Calcualte original nematic order for {self.orientations.nsnapshots} configurations")
+            logger.info(f"Calcualte original nematic order for {
+                self.orientations.nsnapshots} configurations")
         # TODO add a function for three dimensioanl systems
         assert ndim == 2, "please set the correction dimensionality"
 

@@ -104,7 +104,8 @@ def read_lammps_vector_wrapper(
         logger.info("LAMMPS additional information read is a scalar")
     elif len(columnsids) > 1:
         logger.info(
-            f"LAMMPS additional information read is a vector of length {len(columnsids)}")
+            f"LAMMPS additional information read is a vector of length {
+                len(columnsids)}")
     else:
         raise ValueError("Empty input variable columnsids")
 

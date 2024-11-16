@@ -1,23 +1,27 @@
-************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
+************* Module /Users/ychu/GitHub/pymattersim/src/.pylintrc
 .pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
-************* Module reader.gsd_reader_helper
-reader/gsd_reader_helper.py:32:4: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
-reader/gsd_reader_helper.py:64:13: C0103: Argument name "f" doesn't conform to snake_case naming style (invalid-name)
-************* Module reader.dump_reader
+************* Module src.reader.reader_utils
+reader/reader_utils.py:1:0: F0002: reader/reader_utils.py: Fatal error while checking 'reader/reader_utils.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-36.txt'. (astroid-error)
+************* Module src.reader.gsd_reader_helper
+reader/gsd_reader_helper.py:1:0: F0002: reader/gsd_reader_helper.py: Fatal error while checking 'reader/gsd_reader_helper.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-36.txt'. (astroid-error)
+************* Module src.reader.dump_reader
+reader/dump_reader.py:6:0: E0401: Unable to import 'utils.logging' (import-error)
+reader/dump_reader.py:7:0: E0401: Unable to import 'reader.reader_utils' (import-error)
+reader/dump_reader.py:8:0: E0401: Unable to import 'reader.lammps_reader_helper' (import-error)
+reader/dump_reader.py:9:0: E0401: Unable to import 'reader.lammps_reader_helper' (import-error)
+reader/dump_reader.py:10:0: E0401: Unable to import 'reader.gsd_reader_helper' (import-error)
 reader/dump_reader.py:91:4: R0913: Too many arguments (6/5) (too-many-arguments)
 reader/dump_reader.py:170:8: C0103: Variable name "t0" doesn't conform to snake_case naming style (invalid-name)
-************* Module reader.lammps_reader_helper
-reader/lammps_reader_helper.py:124:0: R0912: Too many branches (21/12) (too-many-branches)
-reader/lammps_reader_helper.py:342:22: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
-reader/lammps_reader_helper.py:364:22: R1719: The if expression can be replaced with 'test' (simplifiable-if-expression)
-************* Module reader.simulation_log
+************* Module src.reader.lammps_reader_helper
+reader/lammps_reader_helper.py:1:0: F0002: reader/lammps_reader_helper.py: Fatal error while checking 'reader/lammps_reader_helper.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-36.txt'. (astroid-error)
+************* Module src.reader.simulation_log
+reader/simulation_log.py:7:0: E0401: Unable to import 'utils.logging' (import-error)
 reader/simulation_log.py:23:50: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
-************* Module reader.reader_utils
-reader/reader_utils.py:1:0: R0801: Similar lines in 2 files
-==reader.gsd_reader_helper:[99:105]
-==reader.lammps_reader_helper:[192:200]
+reader/simulation_log.py:1:0: R0801: Similar lines in 2 files
+==src.reader.gsd_reader_helper:[111:117]
+==src.reader.lammps_reader_helper:[192:200]
             positions=positions,
             boxlength=boxlength,
             boxbounds=boxbounds,
@@ -27,40 +31,44 @@ reader/reader_utils.py:1:0: R0801: Similar lines in 2 files
 
     # -------Read Triclinic Boxes--------- (duplicate-code)
 
-------------------------------------------------------------------
-Your code has been rated at 9.76/10 (previous run: 9.38/10, +0.38)
+-----------------------------------
+Your code has been rated at 0.00/10
 
-************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
+************* Module /Users/ychu/GitHub/pymattersim/src/.pylintrc
 .pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
-************* Module writer.lammps_writer
+************* Module src.writer.lammps_writer
 writer/lammps_writer.py:20:0: C0301: Line too long (102/100) (line-too-long)
 writer/lammps_writer.py:21:0: C0301: Line too long (116/100) (line-too-long)
 writer/lammps_writer.py:22:0: C0301: Line too long (120/100) (line-too-long)
 writer/lammps_writer.py:23:0: C0301: Line too long (120/100) (line-too-long)
 
-------------------------------------------------------------------
-Your code has been rated at 8.46/10 (previous run: 8.46/10, +0.00)
+-----------------------------------
+Your code has been rated at 8.46/10
 
-************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
+************* Module /Users/ychu/GitHub/pymattersim/src/.pylintrc
 .pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
 ************* Module utils.pbc
 utils/pbc.py:19:0: C0301: Line too long (110/100) (line-too-long)
+utils/pbc.py:28:17: E1101: Module 'numpy.linalg' has no 'inv' member (no-member)
 
-------------------------------------------------------------------
-Your code has been rated at 8.57/10 (previous run: 8.33/10, +0.24)
+-----------------------------------
+Your code has been rated at 1.43/10
 
-************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
+************* Module /Users/ychu/GitHub/pymattersim/src/.pylintrc
 .pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
-************* Module neighbors.freud_neighbors
+************* Module src.neighbors.read_neighbors
+neighbors/read_neighbors.py:1:0: F0002: neighbors/read_neighbors.py: Fatal error while checking 'neighbors/read_neighbors.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-42.txt'. (astroid-error)
+************* Module src.neighbors.freud_neighbors
 neighbors/freud_neighbors.py:127:1: W0511: TODO @Yibang please benchmark with (fixme)
-neighbors/freud_neighbors.py:49:24: I1101: Module 'freud.box' has no 'Box' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
-neighbors/freud_neighbors.py:97:15: I1101: Module 'freud.locality' has no 'Voronoi' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
+neighbors/freud_neighbors.py:7:0: E0401: Unable to import 'freud' (import-error)
+neighbors/freud_neighbors.py:9:0: E0401: Unable to import 'reader.reader_utils' (import-error)
+neighbors/freud_neighbors.py:10:0: E0401: Unable to import 'utils.logging' (import-error)
 neighbors/freud_neighbors.py:112:29: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
 neighbors/freud_neighbors.py:113:29: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
 neighbors/freud_neighbors.py:114:27: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
@@ -70,74 +78,97 @@ neighbors/freud_neighbors.py:73:15: R1732: Consider using 'with' for resource-al
 neighbors/freud_neighbors.py:75:17: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
 neighbors/freud_neighbors.py:85:21: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
 neighbors/freud_neighbors.py:131:0: R0913: Too many arguments (6/5) (too-many-arguments)
-neighbors/freud_neighbors.py:165:11: I1101: Module 'freud.locality' has no 'Voronoi' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
-neighbors/freud_neighbors.py:175:19: I1101: Module 'freud.locality' has no 'Voronoi' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
-neighbors/freud_neighbors.py:180:19: I1101: Module 'freud.locality' has no 'Voronoi' member, but source is unavailable. Consider adding this module to extension-pkg-allow-list if you want to perform analysis based on run-time introspection of living objects. (c-extension-no-member)
-************* Module neighbors.calculate_neighbors
+neighbors/freud_neighbors.py:200:17: E1101: Module 'numpy.linalg' has no 'inv' member (no-member)
+************* Module src.neighbors.voropp_neighbors
+neighbors/voropp_neighbors.py:11:0: E0401: Unable to import 'reader.reader_utils' (import-error)
+neighbors/voropp_neighbors.py:12:0: E0401: Unable to import 'utils.logging' (import-error)
+neighbors/voropp_neighbors.py:1:0: F0002: neighbors/voropp_neighbors.py: Fatal error while checking 'neighbors/voropp_neighbors.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-44.txt'. (astroid-error)
+************* Module src.neighbors.calculate_neighbors
+neighbors/calculate_neighbors.py:5:0: C0413: Import "import re" should be placed at the top of the module (wrong-import-position)
+neighbors/calculate_neighbors.py:6:0: C0413: Import "import numpy as np" should be placed at the top of the module (wrong-import-position)
+neighbors/calculate_neighbors.py:7:0: C0413: Import "import numpy.typing as npt" should be placed at the top of the module (wrong-import-position)
+neighbors/calculate_neighbors.py:8:0: E0401: Unable to import 'reader.reader_utils' (import-error)
+neighbors/calculate_neighbors.py:8:0: C0413: Import "from reader.reader_utils import Snapshots" should be placed at the top of the module (wrong-import-position)
+neighbors/calculate_neighbors.py:9:0: E0401: Unable to import 'utils.pbc' (import-error)
+neighbors/calculate_neighbors.py:9:0: C0413: Import "from utils.pbc import remove_pbc" should be placed at the top of the module (wrong-import-position)
+neighbors/calculate_neighbors.py:10:0: E0401: Unable to import 'utils.logging' (import-error)
+neighbors/calculate_neighbors.py:10:0: C0413: Import "from utils.logging import get_logger_handle" should be placed at the top of the module (wrong-import-position)
+neighbors/calculate_neighbors.py:63:23: E1101: Module 'numpy.linalg' has no 'norm' member (no-member)
 neighbors/calculate_neighbors.py:52:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors/calculate_neighbors.py:123:23: E1101: Module 'numpy.linalg' has no 'norm' member (no-member)
 neighbors/calculate_neighbors.py:132:28: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
 neighbors/calculate_neighbors.py:113:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors/calculate_neighbors.py:197:23: E1101: Module 'numpy.linalg' has no 'norm' member (no-member)
 neighbors/calculate_neighbors.py:203:28: C0209: Formatting a regular string which could be a f-string (consider-using-f-string)
 neighbors/calculate_neighbors.py:186:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
+neighbors/calculate_neighbors.py:5:0: C0411: standard import "import re" should be placed before "import numpy as np" (wrong-import-order)
+neighbors/calculate_neighbors.py:6:0: C0411: third party import "import numpy as np" should be placed before "from reader.reader_utils import Snapshots" (wrong-import-order)
+neighbors/calculate_neighbors.py:7:0: C0411: third party import "import numpy.typing as npt" should be placed before "from reader.reader_utils import Snapshots" (wrong-import-order)
+neighbors/calculate_neighbors.py:6:0: C0412: Imports from package numpy are not grouped (ungrouped-imports)
+neighbors/calculate_neighbors.py:8:0: C0412: Imports from package reader are not grouped (ungrouped-imports)
+neighbors/calculate_neighbors.py:9:0: C0412: Imports from package utils are not grouped (ungrouped-imports)
 neighbors/calculate_neighbors.py:1:0: R0801: Similar lines in 2 files
-==neighbors.calculate_neighbors:[73:80]
-==neighbors.voropp_neighbors:[199:205]
-        fneighbor.write(
-            re.sub(
-                r'[\[\]]',
-                ' ',
-                np.array2string(neighbor) +
-                '\n'))
- (duplicate-code)
+==src.neighbors.calculate_neighbors:[73:80]
+==src.neighbors.voropp_neighbors:[202:208]
+            fneighbor.write(
+                re.sub(
+                    r'[\[\]]',
+                    ' ',
+                    np.array2string(neighbor) +
+                    '\n')) (duplicate-code)
 
-------------------------------------------------------------------
-Your code has been rated at 9.54/10 (previous run: 9.56/10, -0.03)
+-----------------------------------
+Your code has been rated at 0.00/10
 
-************* Module /Users/ychu/GitHub/pymattersim/.pylintrc
+************* Module /Users/ychu/GitHub/pymattersim/src/.pylintrc
 .pylintrc:1:0: E0015: Unrecognized option found: source-roots (unrecognized-option)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
-************* Module static.hessians
-static/hessians.py:44:4: R0913: Too many arguments (6/5) (too-many-arguments)
-static/hessians.py:146:0: R0902: Too many instance attributes (8/7) (too-many-instance-attributes)
-static/hessians.py:149:4: R0913: Too many arguments (8/5) (too-many-arguments)
-static/hessians.py:187:4: R0914: Too many local variables (18/15) (too-many-locals)
-static/hessians.py:235:4: R0914: Too many local variables (27/15) (too-many-locals)
-************* Module static.vector
-static/vector.py:151:0: C0116: Missing function or method docstring (missing-function-docstring)
-************* Module static.geometric
+************* Module src.static.hessians
+static/hessians.py:1:0: F0002: static/hessians.py: Fatal error while checking 'static/hessians.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-48.txt'. (astroid-error)
+************* Module src.static.vector
+static/vector.py:1:0: F0002: static/vector.py: Fatal error while checking 'static/vector.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-48.txt'. (astroid-error)
+************* Module src.static.geometric
+static/geometric.py:8:0: E0401: Unable to import 'reader.reader_utils' (import-error)
+static/geometric.py:9:0: E0401: Unable to import 'neighbors.read_neighbors' (import-error)
+static/geometric.py:10:0: E0401: Unable to import 'utils.geometry' (import-error)
+static/geometric.py:11:0: E0401: Unable to import 'utils.pbc' (import-error)
+static/geometric.py:12:0: E0401: Unable to import 'utils.logging' (import-error)
+static/geometric.py:82:31: E1101: Module 'numpy.linalg' has no 'norm' member (no-member)
 static/geometric.py:68:16: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-************* Module static.nematic
+static/geometric.py:137:23: E1101: Module 'numpy.linalg' has no 'norm' member (no-member)
+************* Module src.static.nematic
 static/nematic.py:84:9: W0511: TODO add a function for three dimensioanl systems (fixme)
+static/nematic.py:8:0: E0401: Unable to import 'reader.reader_utils' (import-error)
+static/nematic.py:9:0: E0401: Unable to import 'static.gr' (import-error)
+static/nematic.py:10:0: E0401: Unable to import 'dynamic.time_corr' (import-error)
+static/nematic.py:11:0: E0401: Unable to import 'utils.funcs' (import-error)
+static/nematic.py:12:0: E0401: Unable to import 'utils.coarse_graining' (import-error)
+static/nematic.py:13:0: E0401: Unable to import 'utils.logging' (import-error)
 static/nematic.py:56:4: R0913: Too many arguments (6/5) (too-many-arguments)
+static/nematic.py:116:40: E1101: Module 'numpy.linalg' has no 'eig' member (no-member)
 static/nematic.py:56:4: R0912: Too many branches (13/12) (too-many-branches)
-************* Module static.pairentropy
+************* Module src.static.pairentropy
+static/pairentropy.py:8:0: E0401: Unable to import 'reader.reader_utils' (import-error)
+static/pairentropy.py:9:0: E0401: Unable to import 'utils.pbc' (import-error)
+static/pairentropy.py:10:0: E0401: Unable to import 'utils.funcs' (import-error)
+static/pairentropy.py:11:0: E0401: Unable to import 'utils.logging' (import-error)
+static/pairentropy.py:12:0: E0401: Unable to import 'static.gr' (import-error)
+static/pairentropy.py:13:0: E0401: Unable to import 'dynamic.time_corr' (import-error)
 static/pairentropy.py:50:4: R0913: Too many arguments (6/5) (too-many-arguments)
-************* Module static.sq
+static/pairentropy.py:136:27: E1101: Module 'numpy.linalg' has no 'norm' member (no-member)
+************* Module src.static.sq
 static/sq.py:98:5: W0511: TODO @Yibang please test the new float df_qvector in sqresults (fixme)
-static/sq.py:114:4: R0913: Too many arguments (7/5) (too-many-arguments)
-static/sq.py:170:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-************* Module static.boo
-static/boo.py:52:4: R0913: Too many arguments (7/5) (too-many-arguments)
-static/boo.py:111:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-static/boo.py:113:23: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-static/boo.py:247:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-static/boo.py:458:4: R0913: Too many arguments (8/5) (too-many-arguments)
-static/boo.py:518:20: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-static/boo.py:520:23: R1732: Consider using 'with' for resource-allocating operations (consider-using-with)
-************* Module static.gr
-static/gr.py:26:0: R0912: Too many branches (14/12) (too-many-branches)
-static/gr.py:223:4: R1710: Either all return statements in a function should return an expression, or none of them should. (inconsistent-return-statements)
-************* Module static.shape
-static/shape.py:12:0: R0914: Too many local variables (16/15) (too-many-locals)
-static/shape.py:57:9: C0103: Variable name "m" doesn't conform to snake_case naming style (invalid-name)
-static/shape.py:57:12: C0103: Variable name "n" doesn't conform to snake_case naming style (invalid-name)
-static/shape.py:58:8: C0103: Variable name "Smn" doesn't conform to snake_case naming style (invalid-name)
-static/shape.py:60:12: C0103: Variable name "Smn" doesn't conform to snake_case naming style (invalid-name)
-static/shape.py:71:4: R1705: Unnecessary "else" after "return", remove the "else" and de-indent the code inside it (no-else-return)
+static/sq.py:1:0: F0002: static/sq.py: Fatal error while checking 'static/sq.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-49.txt'. (astroid-error)
+************* Module src.static.boo
+static/boo.py:1:0: F0002: static/boo.py: Fatal error while checking 'static/boo.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-49.txt'. (astroid-error)
+************* Module src.static.gr
+static/gr.py:1:0: F0002: static/gr.py: Fatal error while checking 'static/gr.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-50.txt'. (astroid-error)
+************* Module src.static.shape
+static/shape.py:1:0: F0002: static/shape.py: Fatal error while checking 'static/shape.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-26-50.txt'. (astroid-error)
 static/shape.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[229:241]
-==static.sq:[176:188]
+==src.static.gr:[229:241]
+==src.static.sq:[176:188]
         if len(self.typenumber) == 1:
             return self.unary()
         if len(self.typenumber) == 2:
@@ -151,8 +182,8 @@ static/shape.py:1:0: R0801: Similar lines in 2 files
         if len(self.typenumber) > 5:
             logger.info( (duplicate-code)
 static/shape.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[207:214]
-==static.pairentropy:[86:93]
+==src.static.gr:[207:214]
+==src.static.pairentropy:[86:93]
         self.typenumber, self.typecount = np.unique(
             self.snapshots.snapshots[0].particle_type, return_counts=True)
         logger.info(
@@ -161,8 +192,8 @@ static/shape.py:1:0: R0801: Similar lines in 2 files
             "Sum of Indivdual Types is Not the Total Amount"
  (duplicate-code)
 static/shape.py:1:0: R0801: Similar lines in 2 files
-==static.gr:[200:206]
-==static.sq:[143:149]
+==src.static.gr:[200:206]
+==src.static.sq:[143:149]
         self.nparticle = snapshots.snapshots[0].nparticle
         assert len({snapshot.nparticle for snapshot in self.snapshots.snapshots}
                    ) == 1, "Paticle Number Changes during simulation"
@@ -170,6 +201,6 @@ static/shape.py:1:0: R0801: Similar lines in 2 files
                    ) == 1, "Simulation Box Length Changes during simulation"
  (duplicate-code)
 
-------------------------------------------------------------------
-Your code has been rated at 9.76/10 (previous run: 9.74/10, +0.02)
+-----------------------------------
+Your code has been rated at 0.00/10
 

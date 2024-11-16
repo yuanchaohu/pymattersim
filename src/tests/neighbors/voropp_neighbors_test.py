@@ -21,7 +21,8 @@ class TestVoronoi(unittest.TestCase):
     def setUp(self) -> None:
         super().setUp()
         self.test_file_3d = f"{READ_TEST_FILE_PATH}/dump_3D.atom"
-        self.test_file_3d_wrapped = f"{READ_TEST_FILE_PATH}/dump_3D_wrapped.atom"
+        self.test_file_3d_wrapped = f"{
+            READ_TEST_FILE_PATH}/dump_3D_wrapped.atom"
 
     def test_CalVoro_3d(self) -> None:
         """
@@ -105,7 +106,8 @@ class TestVoronoi(unittest.TestCase):
         Test voronowalls works properly for 3D lammps under non-PBC
         """
         logger.info(
-            f"Starting voronowalls test using {self.test_file_3d_wrapped} under non-PBC...")
+            f"Starting voronowalls test using {
+                self.test_file_3d_wrapped} under non-PBC...")
         readdump = DumpReader(self.test_file_3d_wrapped, ndim=3)
         readdump.read_onefile()
         voronowalls(readdump.snapshots, ppp='', outputfile='dump')
@@ -163,5 +165,5 @@ class TestVoronoi(unittest.TestCase):
         self.assertEqual(7.268274, item[3])
         os.remove('dump.overall.dat')
 
-        logger.info(
-            f"Finishing voronowalls test using {self.test_file_3d_wrapped} under non-PBC")
+        logger.info(f"Finishing voronowalls test using {
+            self.test_file_3d_wrapped} under non-PBC")

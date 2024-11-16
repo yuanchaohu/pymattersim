@@ -92,11 +92,11 @@ def choosewavevector(
                     index += 1
         # choose wavevector along a specific dimension 'x', 'y', or 'z'
         if onlypositive == 'x':
-            #[x, 0]
+            # [x, 0]
             condition = (qvectors[:, 0] > 0) * (qvectors[:, 1] == 0)
             qvectors = qvectors[condition]
         elif onlypositive == 'y':
-            #[0, y]
+            # [0, y]
             condition = (qvectors[:, 0] == 0) * (qvectors[:, 1] > 0)
             qvectors = qvectors[condition]
 
@@ -110,17 +110,17 @@ def choosewavevector(
                         index += 1
         # choose wavevector along a specific dimension 'x', 'y', or 'z'
         if onlypositive == 'x':
-            #[x, 0, 0]
+            # [x, 0, 0]
             condition = (qvectors[:, 0] > 0) * \
                 (qvectors[:, 1] == 0) * (qvectors[:, 2] == 0)
             qvectors = qvectors[condition]
         elif onlypositive == 'y':
-            #[0, y, 0]
+            # [0, y, 0]
             condition = (qvectors[:, 0] == 0) * \
                 (qvectors[:, 1] > 0) * (qvectors[:, 2] == 0)
             qvectors = qvectors[condition]
         elif onlypositive == 'z':
-            #[0, 0, z]
+            # [0, 0, z]
             condition = (qvectors[:, 0] == 0) * \
                 (qvectors[:, 1] == 0) * (qvectors[:, 2] > 0)
             qvectors = qvectors[condition]

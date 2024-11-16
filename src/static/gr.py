@@ -138,9 +138,8 @@ def conditional_gr(
                     0, maxbin * rdelta), weights=SIJ)
             grresults["gA"] += countvalue
     else:
-        raise ValueError(
-            f"input conditiontype {conditiontype} is not correct; please choose from None/'vector'/'tensor'"
-        )
+        raise ValueError(f"input conditiontype {
+            conditiontype} is not correct; please choose from None/'vector'/'tensor'")
 
     binleft = binedge[:-1]
     binright = binedge[1:]
@@ -207,9 +206,9 @@ class gr:
         self.boxvolume = np.prod(self.snapshots.snapshots[0].boxlength)
         self.typenumber, self.typecount = np.unique(
             self.snapshots.snapshots[0].particle_type, return_counts=True)
-        logger.info(
-            f'System composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
-        assert np.sum(self.typecount) == self.nparticle,\
+        logger.info(f'System composition: {":".join(
+            [str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
+        assert np.sum(self.typecount) == self.nparticle, \
             "Sum of Indivdual Types is Not the Total Amount"
 
         self.nidealfac = nidealfac(self.ndim)

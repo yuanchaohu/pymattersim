@@ -256,7 +256,8 @@ class TestVector(unittest.TestCase):
         np.testing.assert_almost_equal(ave_sqresults2["Sq"].values, np.array(
             [1.74958771, 1.13272437, 0.66712606, 0.4084669, 0.8715305]))
         logger.info(
-            f"Finishing test vector_decomposition_sq using {self.test_file_2d}...")
+            f"Finishing test vector_decomposition_sq using {
+                self.test_file_2d}...")
 
     def test_vector_fft_corr(self) -> None:
         """
@@ -314,4 +315,5 @@ class TestVector(unittest.TestCase):
         os.remove("test.L_FFT.npy")
         os.remove("test.FFT.npy")
         logger.info(
-            f"Finishing test vector_decomposition_sq using {self.test_file_2d}...")
+            f"Finishing test vector_decomposition_sq using {
+                self.test_file_2d}...")
