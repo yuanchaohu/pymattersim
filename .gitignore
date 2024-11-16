@@ -1,8 +1,9 @@
 .devcontainer/
-.env/
+.venv/
 .vscode/
 __pycache__/
 venv/
 .pytest_cache/
 .ipynb_checkpoints
 test.ipynb
+.DS_Store

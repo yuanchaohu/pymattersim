@@ -3,9 +3,9 @@
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
 ************* Module PyMatterSim.reader.reader_utils
-reader/reader_utils.py:1:0: F0002: reader/reader_utils.py: Fatal error while checking 'reader/reader_utils.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-39.txt'. (astroid-error)
+reader/reader_utils.py:1:0: F0002: reader/reader_utils.py: Fatal error while checking 'reader/reader_utils.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-24.txt'. (astroid-error)
 ************* Module PyMatterSim.reader.gsd_reader_helper
-reader/gsd_reader_helper.py:1:0: F0002: reader/gsd_reader_helper.py: Fatal error while checking 'reader/gsd_reader_helper.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-39.txt'. (astroid-error)
+reader/gsd_reader_helper.py:1:0: F0002: reader/gsd_reader_helper.py: Fatal error while checking 'reader/gsd_reader_helper.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-24.txt'. (astroid-error)
 ************* Module PyMatterSim.reader.dump_reader
 reader/dump_reader.py:6:0: E0401: Unable to import 'utils.logging' (import-error)
 reader/dump_reader.py:7:0: E0401: Unable to import 'reader.reader_utils' (import-error)
@@ -15,7 +15,7 @@ reader/dump_reader.py:10:0: E0401: Unable to import 'reader.gsd_reader_helper' (
 reader/dump_reader.py:91:4: R0913: Too many arguments (6/5) (too-many-arguments)
 reader/dump_reader.py:170:8: C0103: Variable name "t0" doesn't conform to snake_case naming style (invalid-name)
 ************* Module PyMatterSim.reader.lammps_reader_helper
-reader/lammps_reader_helper.py:1:0: F0002: reader/lammps_reader_helper.py: Fatal error while checking 'reader/lammps_reader_helper.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-39.txt'. (astroid-error)
+reader/lammps_reader_helper.py:1:0: F0002: reader/lammps_reader_helper.py: Fatal error while checking 'reader/lammps_reader_helper.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-24.txt'. (astroid-error)
 ************* Module PyMatterSim.reader.simulation_log
 reader/simulation_log.py:7:0: E0401: Unable to import 'utils.logging' (import-error)
 reader/simulation_log.py:23:50: C0103: Variable name "f" doesn't conform to snake_case naming style (invalid-name)
@@ -27,7 +27,9 @@ reader/simulation_log.py:1:0: R0801: Similar lines in 2 files
             boxbounds=boxbounds,
             realbounds=None,
             hmatrix=hmatrix,
-        ) (duplicate-code)
+        )
+
+    # -------Read Triclinic Boxes--------- (duplicate-code)
 
 ------------------------------------------------------------------
 Your code has been rated at 0.00/10 (previous run: 0.00/10, +0.00)
@@ -61,7 +63,7 @@ Your code has been rated at 1.43/10 (previous run: 1.43/10, +0.00)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
 ************* Module PyMatterSim.neighbors.read_neighbors
-neighbors/read_neighbors.py:1:0: F0002: neighbors/read_neighbors.py: Fatal error while checking 'neighbors/read_neighbors.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-45.txt'. (astroid-error)
+neighbors/read_neighbors.py:1:0: F0002: neighbors/read_neighbors.py: Fatal error while checking 'neighbors/read_neighbors.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-30.txt'. (astroid-error)
 ************* Module PyMatterSim.neighbors.freud_neighbors
 neighbors/freud_neighbors.py:127:1: W0511: TODO @Yibang please benchmark with (fixme)
 neighbors/freud_neighbors.py:7:0: E0401: Unable to import 'freud' (import-error)
@@ -80,7 +82,7 @@ neighbors/freud_neighbors.py:200:17: E1101: Module 'numpy.linalg' has no 'inv' m
 ************* Module PyMatterSim.neighbors.voropp_neighbors
 neighbors/voropp_neighbors.py:11:0: E0401: Unable to import 'reader.reader_utils' (import-error)
 neighbors/voropp_neighbors.py:12:0: E0401: Unable to import 'utils.logging' (import-error)
-neighbors/voropp_neighbors.py:1:0: F0002: neighbors/voropp_neighbors.py: Fatal error while checking 'neighbors/voropp_neighbors.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-47.txt'. (astroid-error)
+neighbors/voropp_neighbors.py:1:0: F0002: neighbors/voropp_neighbors.py: Fatal error while checking 'neighbors/voropp_neighbors.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-33.txt'. (astroid-error)
 ************* Module PyMatterSim.neighbors.calculate_neighbors
 neighbors/calculate_neighbors.py:5:0: C0413: Import "import re" should be placed at the top of the module (wrong-import-position)
 neighbors/calculate_neighbors.py:6:0: C0413: Import "import numpy as np" should be placed at the top of the module (wrong-import-position)
@@ -108,13 +110,12 @@ neighbors/calculate_neighbors.py:9:0: C0412: Imports from package utils are not 
 neighbors/calculate_neighbors.py:1:0: R0801: Similar lines in 2 files
 ==PyMatterSim.neighbors.calculate_neighbors:[73:80]
 ==PyMatterSim.neighbors.voropp_neighbors:[202:208]
-        fneighbor.write(
-            re.sub(
-                r'[\[\]]',
-                ' ',
-                np.array2string(neighbor) +
-                '\n'))
- (duplicate-code)
+            fneighbor.write(
+                re.sub(
+                    r'[\[\]]',
+                    ' ',
+                    np.array2string(neighbor) +
+                    '\n')) (duplicate-code)
 
 ------------------------------------------------------------------
 Your code has been rated at 0.00/10 (previous run: 0.00/10, +0.00)
@@ -124,9 +125,9 @@ Your code has been rated at 0.00/10 (previous run: 0.00/10, +0.00)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-string' (unknown-option-value)
 .pylintrc:1:0: W0012: Unknown option value for '--disable', expected a valid pylint message and got 'use-implicit-booleaness-not-comparison-to-zero' (unknown-option-value)
 ************* Module PyMatterSim.static.hessians
-static/hessians.py:1:0: F0002: static/hessians.py: Fatal error while checking 'static/hessians.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-51.txt'. (astroid-error)
+static/hessians.py:1:0: F0002: static/hessians.py: Fatal error while checking 'static/hessians.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-36.txt'. (astroid-error)
 ************* Module PyMatterSim.static.vector
-static/vector.py:1:0: F0002: static/vector.py: Fatal error while checking 'static/vector.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-51.txt'. (astroid-error)
+static/vector.py:1:0: F0002: static/vector.py: Fatal error while checking 'static/vector.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-37.txt'. (astroid-error)
 ************* Module PyMatterSim.static.geometric
 static/geometric.py:8:0: E0401: Unable to import 'reader.reader_utils' (import-error)
 static/geometric.py:9:0: E0401: Unable to import 'neighbors.read_neighbors' (import-error)
@@ -158,13 +159,13 @@ static/pairentropy.py:50:4: R0913: Too many arguments (6/5) (too-many-arguments)
 static/pairentropy.py:136:27: E1101: Module 'numpy.linalg' has no 'norm' member (no-member)
 ************* Module PyMatterSim.static.sq
 static/sq.py:98:5: W0511: TODO @Yibang please test the new float df_qvector in sqresults (fixme)
-static/sq.py:1:0: F0002: static/sq.py: Fatal error while checking 'static/sq.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-53.txt'. (astroid-error)
+static/sq.py:1:0: F0002: static/sq.py: Fatal error while checking 'static/sq.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-38.txt'. (astroid-error)
 ************* Module PyMatterSim.static.boo
-static/boo.py:1:0: F0002: static/boo.py: Fatal error while checking 'static/boo.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-53.txt'. (astroid-error)
+static/boo.py:1:0: F0002: static/boo.py: Fatal error while checking 'static/boo.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-38.txt'. (astroid-error)
 ************* Module PyMatterSim.static.gr
-static/gr.py:1:0: F0002: static/gr.py: Fatal error while checking 'static/gr.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-53.txt'. (astroid-error)
+static/gr.py:1:0: F0002: static/gr.py: Fatal error while checking 'static/gr.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-38.txt'. (astroid-error)
 ************* Module PyMatterSim.static.shape
-static/shape.py:1:0: F0002: static/shape.py: Fatal error while checking 'static/shape.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-15-23-38-53.txt'. (astroid-error)
+static/shape.py:1:0: F0002: static/shape.py: Fatal error while checking 'static/shape.py'. Please open an issue in our bug tracker so we address this. There is a pre-filled template that you can use in '/Users/ychu/Library/Caches/pylint/pylint-crash-2024-11-16-00-14-38.txt'. (astroid-error)
 static/shape.py:1:0: R0801: Similar lines in 2 files
 ==PyMatterSim.static.gr:[228:240]
 ==PyMatterSim.static.sq:[176:188]
