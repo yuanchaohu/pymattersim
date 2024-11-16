@@ -35,8 +35,7 @@ class TestBOO(unittest.TestCase):
         cal_neighbors(readdump.snapshots, outputfile='test')
 
         logger.info(
-            f"Starting test boo_2d without weight using {
-                self.test_file_2D}...")
+            f"Starting test boo_2d without weight using {self.test_file_2D}...")
         boo2d = boo_2d(
             readdump.snapshots,
             l=6,
@@ -78,8 +77,7 @@ class TestBOO(unittest.TestCase):
                                         0.14603285],
                                        time_corr_results["time_corr"].values)
         logger.info(
-            f"Finishing test boo_2d without weight using {
-                self.test_file_2D}...")
+            f"Finishing test boo_2d without weight using {self.test_file_2D}...")
 
         logger.info(
             f"Starting test boo_2d with weight using {self.test_file_2D}...")
@@ -138,8 +136,7 @@ class TestBOO(unittest.TestCase):
         cal_neighbors(readdump.snapshots, outputfile='test')
 
         logger.info(
-            f"Starting test boo_3d without weight and cg using {
-                self.test_file_3D}...")
+            f"Starting test boo_3d without weight and cg using {self.test_file_3D}...")
         boo3d = boo_3d(
             readdump.snapshots,
             l=6,
@@ -209,12 +206,10 @@ class TestBOO(unittest.TestCase):
         np.testing.assert_almost_equal(
             [1., 0.16006052], time_corr["time_corr"].values)
         logger.info(
-            f"Finishing test boo_3d without weight and cg using {
-                self.test_file_3D}...")
+            f"Finishing test boo_3d without weight and cg using {self.test_file_3D}...")
 
         logger.info(
-            f"Starting test boo_3d with weight and cg using {
-                self.test_file_3D}...")
+            f"Starting test boo_3d with weight and cg using {self.test_file_3D}...")
         boo3d = boo_3d(
             readdump.snapshots,
             l=6,
@@ -277,8 +272,7 @@ class TestBOO(unittest.TestCase):
         np.testing.assert_almost_equal(
             [1., 0.1612271], time_corr["time_corr"].values)
         logger.info(
-            f"Finishing test boo_3d with weight and cg using {
-                self.test_file_3D}...")
+            f"Finishing test boo_3d with weight and cg using {self.test_file_3D}...")
 
         os.remove('test.edgelength.dat')
         os.remove('test.facearea.dat')

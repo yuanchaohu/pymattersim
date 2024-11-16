@@ -5,8 +5,8 @@
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-from dynamic.time_corr import time_correlation
 
+from ..dynamic.time_corr import time_correlation
 from ..reader.reader_utils import Snapshots
 from ..static.gr import conditional_gr
 from ..utils.funcs import grid_gaussian
@@ -87,8 +87,7 @@ class S2:
                    ) == 1, "Simulation Box Length Changes during simulation"
         self.typenumber, self.typecount = np.unique(
             self.snapshots.snapshots[0].particle_type, return_counts=True)
-        logger.info(f'System composition: {":".join(
-            [str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
+        logger.info(f'System composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
         assert np.sum(self.typecount) == self.nparticle, \
             "Sum of Indivdual Types is Not the Total Amount"
 
@@ -180,8 +179,7 @@ class S2:
             calculated Gl(r) based on S2 (pd.DataFrame)
         """
         logger.info(
-            f'Start calculating spatial correlation of S2 in d={
-                self.ndim} system')
+            f'Start calculating spatial correlation of S2 in d={self.ndim} system')
         glresults = 0
 
         for n, snapshot in enumerate(self.snapshots.snapshots):
@@ -200,9 +198,7 @@ class S2:
         if outputfile:
             glresults.to_csv(outputfile, float_format="%.8f", index=False)
 
-        logger.info(
-            f'Finish calculating spatial correlation of S2 in d={
-                self.ndim} system')
+        logger.info(f'Finish calculating spatial correlation of S2 in d={self.ndim} system')
         return glresults
 
     def time_corr(
@@ -221,8 +217,7 @@ class S2:
             time correlation of S2 (pd.DataFrame)
         """
         logger.info(
-            f'Start calculating time correlation of S2 in d={
-                self.ndim} system')
+            f'Start calculating time correlation of S2 in d={self.ndim} system')
 
         gl_time = time_correlation(
             snapshots=self.snapshots,
@@ -236,6 +231,5 @@ class S2:
             gl_time.to_csv(outputfile, float_format="%.6f", index=False)
 
         logger.info(
-            f'Finish calculating time correlation of S2 in d={
-                self.ndim} system')
+            f'Finish calculating time correlation of S2 in d={self.ndim} system')
         return gl_time

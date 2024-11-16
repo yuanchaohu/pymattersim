@@ -13,8 +13,8 @@ from typing import Tuple
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-from dynamic.time_corr import time_correlation
 
+from ..dynamic.time_corr import time_correlation
 from ..neighbors.read_neighbors import read_neighbors
 from ..reader.reader_utils import Snapshots
 from ..static.gr import conditional_gr
@@ -168,8 +168,7 @@ class boo_3d:
             fweights.close()
 
         logger.info(
-            f"Spherical harmonics for l={
-                self.l} is ready for further calculations")
+            f"Spherical harmonics for l={self.l} is ready for further calculations")
 
         return np.array(smallqlm), np.array(largeQlm)
 
@@ -196,8 +195,7 @@ class boo_3d:
         else:
             cal_qlmQlm = self.smallqlm
             logger.info(
-                f'Start calculating local rotational invariants for l={
-                    self.l}')
+                f'Start calculating local rotational invariants for l={self.l}')
 
         ql_Ql = np.sqrt(4 * np.pi / (2 * self.l + 1) *
                         np.square(np.abs(cal_qlmQlm)).sum(axis=2))
@@ -214,8 +212,7 @@ class boo_3d:
                 logger.info(
                     'The default format of outputfile is binary npy with extension "npy". If extension with "dat" or "txt", text file is also saved')
         logger.info(
-            f'Finish calculating rotational invariants ql or Ql for l={
-                self.l}')
+            f'Finish calculating rotational invariants ql or Ql for l={self.l}')
         return ql_Ql
 
     def sij_ql_Ql(
@@ -262,8 +259,7 @@ class boo_3d:
 
             if (Neighborlist[:, 0] > self.Nmax).any():
                 raise ValueError(
-                    f'increase Nmax to include all neighbors, current is {
-                        self.Nmax}')
+                    f'increase Nmax to include all neighbors, current is {self.Nmax}')
 
             for i in range(snapshot.nparticle):
                 cnlist = Neighborlist[i, 1:Neighborlist[i, 0] + 1]
@@ -543,8 +539,7 @@ class boo_2d:
                 weightslist = read_neighbors(
                     fweights, snapshot.nparticle, self.Nmax)
                 if (weightslist < 0).any():
-                    logger.info(f"Negative weights for {
-                        n} - snapshot, normalization by sum of absolutes")
+                    logger.info(f"Negative weights for {n} - snapshot, normalization by sum of absolutes")
                 for i in range(snapshot.nparticle):
                     cnlist = Neighborlist[i, 1:(Neighborlist[i, 0] + 1)]
                     RIJ = snapshot.positions[cnlist] - \

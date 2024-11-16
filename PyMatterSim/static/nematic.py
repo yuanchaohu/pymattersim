@@ -5,8 +5,8 @@
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-from dynamic.time_corr import time_correlation
 
+from ..dynamic.time_corr import time_correlation
 from ..reader.reader_utils import Snapshots
 from ..static.gr import conditional_gr
 from ..utils.coarse_graining import spatial_average
@@ -77,11 +77,9 @@ class NematicOrder():
             shape as [num_of_snapshots, num_of_particles]
         """
         if neighborfile:
-            logger.info(f"Calcualte coarse - grained nematic order for {
-                self.orientations.nsnapshots} configurations")
+            logger.info(f"Calcualte coarse - grained nematic order for {self.orientations.nsnapshots} configurations")
         else:
-            logger.info(f"Calcualte original nematic order for {
-                self.orientations.nsnapshots} configurations")
+            logger.info(f"Calcualte original nematic order for {self.orientations.nsnapshots} configurations")
         # TODO add a function for three dimensioanl systems
         assert ndim == 2, "please set the correction dimensionality"
 

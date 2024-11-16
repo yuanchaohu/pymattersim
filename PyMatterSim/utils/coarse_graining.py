@@ -156,8 +156,7 @@ def gaussian_blurring(
     new_shape[1] = np.prod(ngrids)
     grid_property = np.zeros(tuple(new_shape))
 
-    logger.info(f"Performing Gaussian Blurring of {
-        cal_type} field for a {ndim} - dimensional system")
+    logger.info(f"Performing Gaussian Blurring of {cal_type} field for a {ndim} - dimensional system")
     for n, snapshot in enumerate(snapshots.snapshots):
         bxobounds = snapshot.boxbounds
         X = np.linspace(bxobounds[0, 0], bxobounds[0, 1], ngrids[0])

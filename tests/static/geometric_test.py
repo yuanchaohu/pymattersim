@@ -71,8 +71,7 @@ class TestTetrahedral(unittest.TestCase):
 
     def setUp(self) -> None:
         super().setUp()
-        self.test_file_3D = f"{
-            READ_TEST_FILE_PATH} / test_additional_columns.dump"
+        self.test_file_3D = f"{READ_TEST_FILE_PATH}/test_additional_columns.dump"
 
     def test_tetrahedral(self) -> None:
         """

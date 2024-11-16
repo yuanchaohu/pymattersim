@@ -5,8 +5,8 @@ from typing import Optional, Tuple
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-from dynamic.time_corr import time_correlation
 
+from ..dynamic.time_corr import time_correlation
 from ..neighbors.read_neighbors import read_neighbors
 from ..reader.reader_utils import SingleSnapshot, Snapshots
 from ..static.sq import conditional_sq
