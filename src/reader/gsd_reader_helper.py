@@ -5,11 +5,8 @@
 import os
 from typing import Any
 
-import gsd
-import gsd.hoomd
 import numpy as np
 
-from mdtraj.formats import DCDTrajectoryFile
 from utils.logging import get_logger_handle
 from reader.reader_utils import SingleSnapshot, Snapshots
 
@@ -29,6 +26,11 @@ def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
         list of single snapshot information
     """
     logger.info('---------Start reading GSD file reading -----------')
+    try:
+        import gsd
+    except ImportError:
+        logger.info("***Please install the GSD library***")
+
     f = gsd.hoomd.open(file_name, mode='r')
     snapshots = read_gsd(f, ndim)
     logger.info('---------GSD file reading completed -----------')
@@ -52,6 +54,16 @@ def read_gsd_dcd_wrapper(file_name: str, ndim: int) -> Snapshots:
     gsd_filepath = os.path.dirname(gsd_filename)
     dcd_filename = gsd_filepath + '/' + \
         os.path.basename(gsd_filename)[:-3] + 'dcd'
+
+    try:
+        import gsd
+    except ImportError:
+        logger.info("***Please install the GSD library***")
+
+    try:
+        from mdtraj.formats import DCDTrajectoryFile
+    except ImportError:
+        logger.info("***Please install the mdtraj library***")
 
     f_gsd = gsd.hoomd.open(gsd_filename, mode='r')
     f_dcd = DCDTrajectoryFile(dcd_filename, 'r')
