@@ -37,4 +37,12 @@ Some examples are provided from the unittest modules (`tests/`)
 
 
 ## UnitTest
-Please run the bash scripts available from `shell/` for unittests.
+Please run the bash scripts available from `shell/` for unittests. As follows are test statistics:
+| Test              | # Tests and Runtime | Status |
+| :---------------- | :-------------------------  | :----- |
+| test_dynamics     |  Ran 15 tests in 10.303s    | OK     |
+| test_neighbors    |  Ran 11 tests in 91.711s    | OK     |
+| test_reader       |  Ran 11 tests in 0.270s     | OK     |
+| test_static       |  Ran 28 tests in 298.248s   | OK     |
+| test_utils        |  Ran 30 tests in 4.997s     | OK     |
+| test_writer       |  Ran 3 tests in 0.005s      | OK     |
