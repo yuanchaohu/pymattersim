@@ -93,7 +93,10 @@ def cal_voro(
         if n == 0:
             logger.info(
                 f"Start calculating Voronoi for PBC by voro++, command: {cmdline}")
-        subprocess.run(cmdline, shell=True, check=False)
+        try:
+            subprocess.run(cmdline, shell=True, check=False)
+        except ImportError:
+            logger.info("***Please install VORO++***")
 
         fneighbor.write('id   cn   neighborlist\n')
         ffacearea.write('id   cn   facearealist\n')
