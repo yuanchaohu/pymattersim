@@ -7,8 +7,8 @@ from typing import Any
 
 import numpy as np
 
-from utils.logging import get_logger_handle
-from reader.reader_utils import SingleSnapshot, Snapshots
+from ..utils.logging import get_logger_handle
+from ..reader.reader_utils import SingleSnapshot, Snapshots
 
 logger = get_logger_handle(__name__)
 
@@ -28,8 +28,8 @@ def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
     logger.info('---------Start reading GSD file reading -----------')
     try:
         import gsd
-    except ImportError:
-        logger.info("***Please install the GSD library***")
+    except:
+        raise ImportError("***Please install the GSD library***")
 
     f = gsd.hoomd.open(file_name, mode='r')
     snapshots = read_gsd(f, ndim)
@@ -57,13 +57,13 @@ def read_gsd_dcd_wrapper(file_name: str, ndim: int) -> Snapshots:
 
     try:
         import gsd
-    except ImportError:
-        logger.info("***Please install the GSD library***")
+    except :
+        raise ImportError("***Please install the GSD library***")
 
     try:
         from mdtraj.formats import DCDTrajectoryFile
-    except ImportError:
-        logger.info("***Please install the mdtraj library***")
+    except:
+        raise ImportError("***Please install the mdtraj library***")
 
     f_gsd = gsd.hoomd.open(gsd_filename, mode='r')
     f_dcd = DCDTrajectoryFile(dcd_filename, 'r')
