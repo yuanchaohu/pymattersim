@@ -1,5 +1,6 @@
 # coding = utf-8
 
+import os
 import unittest
 
 import numpy as np
@@ -40,6 +41,7 @@ class Test_Coarse_Graining(unittest.TestCase):
         Nnearests(readdump.snapshots, N=6, ppp=np.array([1, 1]), fnfile="neighborlist.dat")
         neighborfile = "neighborlist.dat"
         sa = spatial_average(self.condition, neighborfile)
+        os.remove(neighborfile)
 
         np.testing.assert_almost_equal(
             np.array(
