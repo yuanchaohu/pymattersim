@@ -27,7 +27,7 @@ def read_gsd_wrapper(file_name: str, ndim: int) -> Snapshots:
     """
     logger.info("---------Start reading GSD file reading -----------")
     try:
-        import gsd
+        import gsd, gsd.hoomd
     except BaseException:
         raise ImportError("***Please install the GSD library***")
 
@@ -55,7 +55,7 @@ def read_gsd_dcd_wrapper(file_name: str, ndim: int) -> Snapshots:
     dcd_filename = gsd_filepath + "/" + os.path.basename(gsd_filename)[:-3] + "dcd"
 
     try:
-        import gsd
+        import gsd, gsd.hoomd
     except BaseException:
         raise ImportError("***Please install the GSD library***")
 
