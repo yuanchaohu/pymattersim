@@ -7,8 +7,8 @@ see documentation @ ../../docs/utils.md
 
 import numpy as np
 import numpy.typing as npt
-from utils.pbc import remove_pbc
-from utils.logging import get_logger_handle
+from ..utils.pbc import remove_pbc
+from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

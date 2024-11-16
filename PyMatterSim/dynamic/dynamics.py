@@ -5,13 +5,13 @@
 import numpy.typing as npt
 import numpy as np
 import pandas as pd
-from reader.reader_utils import Snapshots
-from neighbors.read_neighbors import read_neighbors
-from static.sq import conditional_sq
-from utils.pbc import remove_pbc
-from utils.funcs import alpha2factor
-from utils.logging import get_logger_handle
-from utils.wavevector import choosewavevector
+from ..reader.reader_utils import Snapshots
+from ..neighbors.read_neighbors import read_neighbors
+from ..static.sq import conditional_sq
+from ..utils.pbc import remove_pbc
+from ..utils.funcs import alpha2factor
+from ..utils.logging import get_logger_handle
+from ..utils.wavevector import choosewavevector
 
 logger = get_logger_handle(__name__)
 

@@ -8,8 +8,8 @@ import re
 import numpy as np
 import pandas as pd
 
-from reader.reader_utils import Snapshots
-from utils.logging import get_logger_handle
+from ..reader.reader_utils import Snapshots
+from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

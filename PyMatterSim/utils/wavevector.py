@@ -7,7 +7,7 @@ like static/dynamic structure factor
 from math import sqrt, modf
 import numpy as np
 import numpy.typing as npt
-from utils.logging import get_logger_handle
+from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

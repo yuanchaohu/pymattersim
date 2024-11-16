@@ -6,8 +6,8 @@ import numpy as np
 import numpy.typing as npt
 import pandas as pd
 
-from utils.logging import get_logger_handle
-from reader.reader_utils import SingleSnapshot, Snapshots
+from ..utils.logging import get_logger_handle
+from ..reader.reader_utils import SingleSnapshot, Snapshots
 
 logger = get_logger_handle(__name__)
 

@@ -5,11 +5,11 @@
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-from reader.reader_utils import Snapshots
-from utils.pbc import remove_pbc
-from utils.funcs import grid_gaussian
-from utils.logging import get_logger_handle
-from static.gr import conditional_gr
+from ..reader.reader_utils import Snapshots
+from ..utils.pbc import remove_pbc
+from ..utils.funcs import grid_gaussian
+from ..utils.logging import get_logger_handle
+from ..static.gr import conditional_gr
 from dynamic.time_corr import time_correlation
 
 logger = get_logger_handle(__name__)

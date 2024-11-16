@@ -10,10 +10,10 @@ import numpy.typing as npt
 import numpy as np
 import pandas as pd
 
-from reader.reader_utils import SingleSnapshot
-from static.vector import participation_ratio
-from utils.logging import get_logger_handle
-from utils.pbc import remove_pbc
+from ..reader.reader_utils import SingleSnapshot
+from ..static.vector import participation_ratio
+from ..utils.logging import get_logger_handle
+from ..utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name

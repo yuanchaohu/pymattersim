@@ -6,10 +6,10 @@ from typing import Optional, Callable
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-from reader.reader_utils import SingleSnapshot, Snapshots
-from utils.pbc import remove_pbc
-from utils.funcs import nidealfac
-from utils.logging import get_logger_handle
+from ..reader.reader_utils import SingleSnapshot, Snapshots
+from ..utils.pbc import remove_pbc
+from ..utils.funcs import nidealfac
+from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 

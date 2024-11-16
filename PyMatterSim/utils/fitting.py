@@ -4,7 +4,7 @@ from typing import Any, List, Tuple
 import numpy as np
 import numpy.typing as npt
 from scipy.optimize import curve_fit
-from utils.logging import get_logger_handle
+from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name

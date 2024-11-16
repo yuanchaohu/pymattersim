@@ -7,11 +7,11 @@ see documentation @ ../../docs/utils.md
 from typing import Tuple
 import numpy as np
 import numpy.typing as npt
-from reader.reader_utils import Snapshots
-from neighbors.read_neighbors import read_neighbors
-from utils.logging import get_logger_handle
-from utils.funcs import grid_gaussian
-from utils.pbc import remove_pbc
+from ..reader.reader_utils import Snapshots
+from ..neighbors.read_neighbors import read_neighbors
+from ..utils.logging import get_logger_handle
+from ..utils.funcs import grid_gaussian
+from ..utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name

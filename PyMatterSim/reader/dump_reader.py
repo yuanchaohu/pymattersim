@@ -3,11 +3,11 @@
 """see documentation @ ../../docs/reader.md"""
 
 from time import time
-from utils.logging import get_logger_handle
-from reader.reader_utils import DumpFileType, Snapshots
-from reader.lammps_reader_helper import read_lammps_wrapper, read_lammps_centertype_wrapper
-from reader.lammps_reader_helper import read_lammps_vector_wrapper
-from reader.gsd_reader_helper import read_gsd_wrapper, read_gsd_dcd_wrapper
+from ..utils.logging import get_logger_handle
+from ..reader.reader_utils import DumpFileType, Snapshots
+from ..reader.lammps_reader_helper import read_lammps_wrapper, read_lammps_centertype_wrapper
+from ..reader.lammps_reader_helper import read_lammps_vector_wrapper
+from ..reader.gsd_reader_helper import read_gsd_wrapper, read_gsd_dcd_wrapper
 
 logger = get_logger_handle(__name__)
 
@@ -51,13 +51,13 @@ class DumpReader:
         reader.lammps_reader_helper.read_lammps_vector_wrapper
 
     Example:
-        from reader.dump_reader import DumpReader
-        from reader.reader_utils import DumpFileType
+        from ..reader.dump_reader import DumpReader
+        from ..reader.reader_utils import DumpFileType
         readdump=DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS)
         readdump.read_onefile()
 
         you can also directly call wrapper function, such as,
-        from reader.lammps_reader_helper import read_lammps_wrapper
+        from ..reader.lammps_reader_helper import read_lammps_wrapper
         snapshots = read_lammps_wrapper(filename, ndim=3)
 
     Important Notes:

@@ -7,11 +7,11 @@ import numpy.typing as npt
 import pandas as pd
 
 from dynamic.time_corr import time_correlation
-from neighbors.read_neighbors import read_neighbors
-from reader.reader_utils import SingleSnapshot, Snapshots
-from static.sq import conditional_sq
-from utils.logging import get_logger_handle
-from utils.pbc import remove_pbc
+from ..neighbors.read_neighbors import read_neighbors
+from ..reader.reader_utils import SingleSnapshot, Snapshots
+from ..static.sq import conditional_sq
+from ..utils.logging import get_logger_handle
+from ..utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name

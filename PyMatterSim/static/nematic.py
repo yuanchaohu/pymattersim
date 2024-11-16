@@ -5,12 +5,12 @@
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-from reader.reader_utils import Snapshots
-from static.gr import conditional_gr
+from ..reader.reader_utils import Snapshots
+from ..static.gr import conditional_gr
 from dynamic.time_corr import time_correlation
-from utils.funcs import kronecker
-from utils.coarse_graining import spatial_average
-from utils.logging import get_logger_handle
+from ..utils.funcs import kronecker
+from ..utils.coarse_graining import spatial_average
+from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name

@@ -5,11 +5,11 @@
 from itertools import combinations
 import numpy as np
 import numpy.typing as npt
-from reader.reader_utils import Snapshots
-from neighbors.read_neighbors import read_neighbors
-from utils.geometry import triangle_angle
-from utils.pbc import remove_pbc
-from utils.logging import get_logger_handle
+from ..reader.reader_utils import Snapshots
+from ..neighbors.read_neighbors import read_neighbors
+from ..utils.geometry import triangle_angle
+from ..utils.pbc import remove_pbc
+from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 # pylint: disable=invalid-name

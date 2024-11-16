@@ -12,14 +12,14 @@ from typing import Tuple
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-from reader.reader_utils import Snapshots
-from neighbors.read_neighbors import read_neighbors
-from static.gr import conditional_gr
-from utils.spherical_harmonics import sph_harm_l
-from utils.pbc import remove_pbc
-from utils.logging import get_logger_handle
-from utils.funcs import Wignerindex
-from utils.coarse_graining import time_average as utils_time_average
+from ..reader.reader_utils import Snapshots
+from ..neighbors.read_neighbors import read_neighbors
+from ..static.gr import conditional_gr
+from ..utils.spherical_harmonics import sph_harm_l
+from ..utils.pbc import remove_pbc
+from ..utils.logging import get_logger_handle
+from ..utils.funcs import Wignerindex
+from ..utils.coarse_graining import time_average as utils_time_average
 from dynamic.time_corr import time_correlation
 
 logger = get_logger_handle(__name__)
