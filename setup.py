@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="PyMatterSim",  # Replace with your project name
-    version="0.1.0",
+    version="0.0.1",
     author="Yuan-Chao Hu",
     author_email="ychu0213@gmail.com",
     description="A python data analysis library for computer simulations",
@@ -13,7 +13,7 @@ setup(
     install_requires=[
         "numpy==1.26.0",
         "pandas==2.1.1",
-        "freud-analysis==2.12.1",
+        "freud-analysis==3.1.0",
         "scipy=1.11.4",
         "sympy",
     ],

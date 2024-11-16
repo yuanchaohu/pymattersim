@@ -1,8 +1,26 @@
 # pymattersim
 
-molecular dynamics simulations analysis
+## Summary
+Physics-driven data analyis of computer simulations for materials science, chemistry, physics, and beyond.
 
-Simulators:
+## Installation
+
+## Requirements
+- python 3.6 or higher
+- numpy
+- pandas
+- freud-analysis
+- scipy
+- sympy
+- gsd (optional)
+- mdtraj (optional)
+- voro++ (optional, standalone binary)
+
+## Usage
+Please refer to the `/docs/` for documentation and examples.
+Some examples are provided from the unittest modules (`tests/`)
+
+## Types of computer simulations
 1. LAMMPS
    1. atom type & molecular type such as patchy particle, rigid body, molecules et al.
    2. x, xs, xu type particle positions
@@ -12,4 +30,11 @@ Simulators:
    2. GSD + DCD for dynamics analysis (need `gsd==3.2.0` and `mdtraj==1.9.9`)
 3. VASP (to be added)
 4. Any type of simulators as long as the input were formatted well, modifying the `reader` module to use the computational modules.
-5. Voro++ is recommend to install separately for some specific analysis (optional)
+
+
+## Notes
+[Voro++](https://math.lbl.gov/voro++/) is recommend to install separately for specific Voronoi analysis. Some of the analysis from the original voro++ is maintained from the [freud-analysis package](https://freud.readthedocs.io/en/stable/gettingstarted/installation.html) developed by the Glozter group.
+
+
+## UnitTest
+Please run the bash scripts available from `shell/` for unittests.
