@@ -1,6 +1,6 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/gr.md"""
+"""see documentation @ ../../docs/gr.md"""
 
 from typing import Optional, Callable
 import numpy as np

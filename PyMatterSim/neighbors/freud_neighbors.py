@@ -1,6 +1,6 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/neighbors.md"""
+"""see documentation @ ../../docs/neighbors.md"""
 
 import numpy.typing as npt
 import numpy as np

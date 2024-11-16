@@ -1,4 +1,4 @@
-"""see documentation @ ../docs/vectors.md"""
+"""see documentation @ ../../docs/vectors.md"""
 
 from typing import Optional, Tuple
 

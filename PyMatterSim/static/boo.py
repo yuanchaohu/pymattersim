@@ -4,8 +4,8 @@
 This module calculates bond orientational order parameters
 in two-dimensions and three-dimensions
 
-see documentation @ ../docs/boo_3d.md &
-see documentation @ ../docs/boo_2d.md
+see documentation @ ../../docs/boo_3d.md &
+see documentation @ ../../docs/boo_2d.md
 """
 
 from typing import Tuple

@@ -1,6 +1,6 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/orderings.md"""
+"""see documentation @ ../../docs/orderings.md"""
 
 from itertools import combinations
 import numpy as np

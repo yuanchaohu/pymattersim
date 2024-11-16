@@ -1,7 +1,7 @@
 # coding = utf-8
 
 """
-see documentation @ ../docs/utils.md
+see documentation @ ../../docs/utils.md
 """
 
 from typing import Tuple

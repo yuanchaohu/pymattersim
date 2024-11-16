@@ -1,6 +1,6 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/dynamics.md"""
+"""see documentation @ ../../docs/dynamics.md"""
 
 import numpy.typing as npt
 import numpy as np

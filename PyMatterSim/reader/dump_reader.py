@@ -1,6 +1,6 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/reader.md"""
+"""see documentation @ ../../docs/reader.md"""
 
 from time import time
 from utils.logging import get_logger_handle

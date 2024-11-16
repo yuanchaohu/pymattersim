@@ -1,6 +1,6 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/sq.md"""
+"""see documentation @ ../../docs/sq.md"""
 
 from typing import Optional, Callable, Tuple
 from math import sqrt

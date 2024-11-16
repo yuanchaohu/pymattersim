@@ -1,7 +1,7 @@
 # coding = utf-8
 
 """
-see documentation @../docs/utils.md
+see documentation @../../docs/utils.md
 
 Calculate spherical harmonics of given (theta,phi) from (l = 0) to (l = 10)
 From SphHarm0() to SphHarm10() a list of [-l, l] values will be returned

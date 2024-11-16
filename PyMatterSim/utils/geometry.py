@@ -2,7 +2,7 @@
 
 """
 math geometrical functions to assist other analysis
-see documentation @ ../docs/utils.md
+see documentation @ ../../docs/utils.md
 """
 
 import numpy as np

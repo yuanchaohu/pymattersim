@@ -1,6 +1,6 @@
 # coding = utf-8
 
-"""see documentation @ ../docs/hessians.md"""
+"""see documentation @ ../../docs/hessians.md"""
 
 from dataclasses import dataclass
 from enum import Enum

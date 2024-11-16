@@ -1,5 +1,5 @@
 
-"""see documentation @ ../docs/orderings.md"""
+"""see documentation @ ../../docs/orderings.md"""
 
 from typing import List, Any
 import numpy as np

@@ -1,6 +1,6 @@
 # coding=utf-8
 
-"""see documentation @ ../docs/neighbors.md"""
+"""see documentation @ ../../docs/neighbors.md"""
 
 from typing import TextIO
 import numpy as np
