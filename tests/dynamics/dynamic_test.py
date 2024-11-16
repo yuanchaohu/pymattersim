@@ -72,8 +72,7 @@ class TestDynamics(unittest.TestCase):
         self.dump_2d_log_x = DumpReader(self.test_file_2d_log_x, ndim=2)
         self.dump_2d_log_x.read_onefile()
 
-        self.test_file_2d_log_xu = f"{
-            READ_TEST_FILE_PATH}/2d/2ddump.log.u.atom"
+        self.test_file_2d_log_xu = f"{READ_TEST_FILE_PATH}/2d/2ddump.log.u.atom"
         self.dump_2d_log_xu = DumpReader(self.test_file_2d_log_xu, ndim=2)
         self.dump_2d_log_xu.read_onefile()
 
@@ -86,13 +85,11 @@ class TestDynamics(unittest.TestCase):
         self.dump_3d_xu = DumpReader(self.test_file_3d_xu, ndim=3)
         self.dump_3d_xu.read_onefile()
 
-        self.test_file_3d_log_x = f"{
-            READ_TEST_FILE_PATH}/3d/3dkaljdump.log.s.atom"
+        self.test_file_3d_log_x = f"{READ_TEST_FILE_PATH}/3d/3dkaljdump.log.s.atom"
         self.dump_3d_log_x = DumpReader(self.test_file_3d_log_x, ndim=3)
         self.dump_3d_log_x.read_onefile()
 
-        self.test_file_3d_log_xu = f"{
-            READ_TEST_FILE_PATH}/3d/3dkaljdump.log.u.atom"
+        self.test_file_3d_log_xu = f"{READ_TEST_FILE_PATH}/3d/3dkaljdump.log.u.atom"
         self.dump_3d_log_xu = DumpReader(self.test_file_3d_log_xu, ndim=3)
         self.dump_3d_log_xu.read_onefile()
 

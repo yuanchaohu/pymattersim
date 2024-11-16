@@ -21,8 +21,7 @@ class TestBOO(unittest.TestCase):
     def setUp(self) -> None:
         super().setUp()
         self.test_file_2D = f"{READ_TEST_FILE_PATH}/2d/2ddump.s.atom"
-        self.test_file_3D = f"{
-            READ_TEST_FILE_PATH}/test_additional_columns.dump"
+        self.test_file_3D = f"{READ_TEST_FILE_PATH}/test_additional_columns.dump"
 
     def test_boo_2d(self) -> None:
         """

@@ -21,8 +21,7 @@ class TestVoronoi(unittest.TestCase):
     def setUp(self) -> None:
         super().setUp()
         self.test_file_3d = f"{READ_TEST_FILE_PATH}/dump_3D.atom"
-        self.test_file_3d_wrapped = f"{
-            READ_TEST_FILE_PATH}/dump_3D_wrapped.atom"
+        self.test_file_3d_wrapped = f"{READ_TEST_FILE_PATH}/dump_3D_wrapped.atom"
 
     def test_CalVoro_3d(self) -> None:
         """

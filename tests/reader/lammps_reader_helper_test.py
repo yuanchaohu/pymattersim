@@ -20,8 +20,7 @@ class TestLammpsReaderHelper(unittest.TestCase):
         self.test_file_3d = f"{READ_TEST_FILE_PATH}/dump_3D.atom"
         self.test_file_triclinic = f"{READ_TEST_FILE_PATH}/2d_triclinic.atom"
         self.test_file_xu = f"{READ_TEST_FILE_PATH}/test_xu.dump"
-        self.test_file_additions = f"{
-            READ_TEST_FILE_PATH}/test_additional_columns.dump"
+        self.test_file_additions = f"{READ_TEST_FILE_PATH}/test_additional_columns.dump"
 
     def test_read_lammps_wrapper_2d(self) -> None:
         """
