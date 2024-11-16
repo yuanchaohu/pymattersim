@@ -1,9 +1,11 @@
 
 """see documentation @ ../../docs/orderings.md"""
 
-from typing import List, Any
+from typing import Any, List
+
 import numpy as np
 import numpy.typing as npt
+
 from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -38,7 +40,7 @@ def gyration_tensor(pos_group: npt.NDArray) -> List[Any]:
 
     (num_particles, ndim) = pos_group.shape
     logger.info(f"Calculating gyration tensor of {
-        num_particles} atoms in {ndim}-dimension")
+        num_particles} atoms in {ndim} - dimension")
 
     # shift the original coordinates to be centered at (0,0,0)
     center_of_mass = pos_group.mean(axis=0)[np.newaxis, :]

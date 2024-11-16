@@ -2,14 +2,16 @@
 
 """see documentation @ ../../docs/sq.md"""
 
-from typing import Optional, Callable, Tuple
 from math import sqrt
+from typing import Callable, Optional, Tuple
+
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
+
 from ..reader.reader_utils import SingleSnapshot, Snapshots
-from ..utils.wavevector import choosewavevector
 from ..utils.logging import get_logger_handle
+from ..utils.wavevector import choosewavevector
 
 logger = get_logger_handle(__name__)
 
@@ -151,8 +153,7 @@ class sq:
             self.snapshots.snapshots[0].particle_type, return_counts=True)
         assert np.sum(self.typecount) == self.nparticle, \
             "Sum of Indivdual types is Not the Total Amount"
-        logger.info(f'System Composition: {":".join(
-            [str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
+        logger.info(f'System Composition: {":".join([str(i) for i in np.round(self.typecount / self.nparticle, 3)])}')
 
         ndim = snapshots.snapshots[0].positions.shape[1]
         twopidl = 2 * np.pi / self.snapshots.snapshots[0].boxlength

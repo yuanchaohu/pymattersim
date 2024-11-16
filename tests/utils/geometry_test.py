@@ -1,10 +1,11 @@
 # coding = utf-8
 
 import unittest
-import numpy as np
-from PyMatterSim.utils import geometry
-from PyMatterSim.reader.dump_reader import DumpReader
 
+import numpy as np
+
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.utils import geometry
 from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -25,13 +26,14 @@ class TestGeometry(unittest.TestCase):
         """
         Test triangle_area works properly for 2D lammps
         """
-        logger.info(
-            f"Starting test triangle_area using {self.test_file_2d}...")
+        logger.info(f"Starting test triangle_area using {self.test_file_2d}...")
         readdump = DumpReader(self.test_file_2d, ndim=2)
         readdump.read_onefile()
-        result = geometry.triangle_area(positions=readdump.snapshots.snapshots[0].positions[:3],
-                                        hmatrix=readdump.snapshots.snapshots[0].hmatrix,
-                                        ppp=[1, 1])
+        result = geometry.triangle_area(
+            positions=readdump.snapshots.snapshots[0].positions[:3],
+            hmatrix=readdump.snapshots.snapshots[0].hmatrix,
+            ppp=[1, 1],
+        )
         np.testing.assert_almost_equal(591.3143460374572, result)
 
     def test_triangle_angle(self) -> None:
@@ -47,10 +49,12 @@ class TestGeometry(unittest.TestCase):
         Test lines_intersection works properly for 2D lammps
         """
         logger.info("Starting test lines_intersection...")
-        result = geometry.lines_intersection(P1=np.array([0, 0]),
-                                             P2=np.array([1, 1]),
-                                             P3=np.array([1, 0]),
-                                             P4=np.array([0, 1]))
+        result = geometry.lines_intersection(
+            P1=np.array([0, 0]),
+            P2=np.array([1, 1]),
+            P3=np.array([1, 0]),
+            P4=np.array([0, 1]),
+        )
         np.testing.assert_almost_equal(np.array([0.5, 0.5]), result)
 
     def test_LineWithinSquare(self) -> None:
@@ -58,10 +62,12 @@ class TestGeometry(unittest.TestCase):
         Test LineWithinSquare works properly for 2D lammps
         """
         logger.info("Starting test LineWithinSquare...")
-        result = geometry.LineWithinSquare(P1=np.array([0, 0]),
-                                           P2=np.array([1, 0]),
-                                           P3=np.array([1, 1]),
-                                           P4=np.array([0, 1]),
-                                           R0=np.array([0.5, 0.5]),
-                                           vector=np.array([-1.0, 0.0]))
-        np.testing.assert_almost_equal(np.array([1., 0.5]), result)
+        result = geometry.LineWithinSquare(
+            P1=np.array([0, 0]),
+            P2=np.array([1, 0]),
+            P3=np.array([1, 1]),
+            P4=np.array([0, 1]),
+            R0=np.array([0.5, 0.5]),
+            vector=np.array([-1.0, 0.0]),
+        )
+        np.testing.assert_almost_equal(np.array([1.0, 0.5]), result)

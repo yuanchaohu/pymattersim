@@ -1,9 +1,12 @@
 # coding = utf-8
 
 import unittest
+
 import numpy as np
-from PyMatterSim.utils.funcs import kronecker, nidealfac, areafac, alpha2factor
-from PyMatterSim.utils.funcs import Wignerindex, grid_gaussian, Legendre_polynomials
+
+from PyMatterSim.utils.funcs import (Legendre_polynomials, Wignerindex,
+                                     alpha2factor, areafac, grid_gaussian,
+                                     kronecker, nidealfac)
 from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -70,12 +73,20 @@ class Test_funcs(unittest.TestCase):
         w = Wignerindex(6)
         np.testing.assert_almost_equal(
             w[:, 3][:10],
-            np.array([
-                0.0511827251162099, -0.0957541107531435, 0.129114816600119,
-                -0.141438195120055, 0.129114816600119, -0.0957541107531435,
-                0.0511827251162099, -0.0957541107531435, 0.127956812790525,
-                -0.106078646340041
-            ])
+            np.array(
+                [
+                    0.0511827251162099,
+                    -0.0957541107531435,
+                    0.129114816600119,
+                    -0.141438195120055,
+                    0.129114816600119,
+                    -0.0957541107531435,
+                    0.0511827251162099,
+                    -0.0957541107531435,
+                    0.127956812790525,
+                    -0.106078646340041,
+                ]
+            ),
         )
 
     def test_grid_gaussian(self) -> None:
@@ -85,8 +96,7 @@ class Test_funcs(unittest.TestCase):
         sigma = 2.0
         bins = np.arange(5)
         expected = grid_gaussian(bins, sigma)
-        output = 1 / (sigma * np.sqrt(2 * np.pi)) * \
-            np.exp(-bins**2 / (2 * sigma**2))
+        output = 1 / (sigma * np.sqrt(2 * np.pi)) * np.exp(-(bins**2) / (2 * sigma**2))
         np.testing.assert_almost_equal(expected, output)
 
     def test_Legendre_polynomials(self) -> None:

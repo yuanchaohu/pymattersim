@@ -3,11 +3,13 @@
 """see documentation @ ../../docs/reader.md"""
 
 from time import time
-from ..utils.logging import get_logger_handle
+
+from ..reader.gsd_reader_helper import read_gsd_dcd_wrapper, read_gsd_wrapper
+from ..reader.lammps_reader_helper import (read_lammps_centertype_wrapper,
+                                           read_lammps_vector_wrapper,
+                                           read_lammps_wrapper)
 from ..reader.reader_utils import DumpFileType, Snapshots
-from ..reader.lammps_reader_helper import read_lammps_wrapper, read_lammps_centertype_wrapper
-from ..reader.lammps_reader_helper import read_lammps_vector_wrapper
-from ..reader.gsd_reader_helper import read_gsd_wrapper, read_gsd_dcd_wrapper
+from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
@@ -89,12 +91,13 @@ class DumpReader:
     """
 
     def __init__(
-            self,
-            filename: str,
-            ndim: int,
-            filetype: DumpFileType = DumpFileType.LAMMPS,
-            moltypes: dict = None,
-            columnsids: list = None) -> None:
+        self,
+        filename: str,
+        ndim: int,
+        filetype: DumpFileType = DumpFileType.LAMMPS,
+        moltypes: dict = None,
+        columnsids: list = None,
+    ) -> None:
         """
         Inputs:
             1. filename (str): the name of dump file
@@ -153,13 +156,9 @@ class DumpReader:
         Particle-level information is referred by particle ID.
         """
 
-        logger.info(
-            f"Start reading file {self.filename} of type {self.filetype}")
+        logger.info(f"Start reading file {self.filename} of type {self.filetype}")
 
-        reader_inputs = {
-            "file_name": self.filename,
-            "ndim": self.ndim
-        }
+        reader_inputs = {"file_name": self.filename, "ndim": self.ndim}
 
         if self.filetype == DumpFileType.LAMMPSCENTER:
             reader_inputs["moltypes"] = self.moltypes
@@ -170,5 +169,4 @@ class DumpReader:
         t0 = time()
         self.snapshots = FILE_TYPE_MAP_READER[self.filetype](**reader_inputs)
 
-        logger.info(
-            f"Finish reading file {self.filename} in {time() - t0} seconds")
+        logger.info(f"Finish reading file {self.filename} in {time() - t0} seconds")

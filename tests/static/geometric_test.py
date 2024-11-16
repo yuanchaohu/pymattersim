@@ -2,11 +2,12 @@
 
 import os
 import unittest
+
 import numpy as np
-from PyMatterSim.reader.dump_reader import DumpReader
-from PyMatterSim.static.geometric import packing_capability_2d
-from PyMatterSim.static.geometric import q8_tetrahedral
+
 from PyMatterSim.neighbors.freud_neighbors import cal_neighbors
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.geometric import packing_capability_2d, q8_tetrahedral
 from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -71,7 +72,7 @@ class TestTetrahedral(unittest.TestCase):
     def setUp(self) -> None:
         super().setUp()
         self.test_file_3D = f"{
-            READ_TEST_FILE_PATH}/test_additional_columns.dump"
+            READ_TEST_FILE_PATH} / test_additional_columns.dump"
 
     def test_tetrahedral(self) -> None:
         """

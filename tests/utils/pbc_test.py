@@ -1,11 +1,12 @@
 # coding = utf-8
 
 import unittest
-import numpy as np
-from PyMatterSim.utils.pbc import remove_pbc
-from PyMatterSim.reader.dump_reader import DumpReader
 
+import numpy as np
+
+from PyMatterSim.reader.dump_reader import DumpReader
 from PyMatterSim.utils.logging import get_logger_handle
+from PyMatterSim.utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
 
@@ -34,10 +35,8 @@ class TestPBC(unittest.TestCase):
         RIJ = positions[1:] - positions[0]
         RIJ_removed = remove_pbc(RIJ=RIJ, hmatrix=hmatrix, ppp=[1, 1])
 
-        np.testing.assert_almost_equal(
-            np.array([-41.7933, -14.9538]), RIJ_removed[10])
-        np.testing.assert_almost_equal(
-            np.array([10.3199, 21.3197]), RIJ_removed[100])
+        np.testing.assert_almost_equal(np.array([-41.7933, -14.9538]), RIJ_removed[10])
+        np.testing.assert_almost_equal(np.array([10.3199, 21.3197]), RIJ_removed[100])
 
     def test_pbc_3d(self) -> None:
         """
@@ -51,7 +50,5 @@ class TestPBC(unittest.TestCase):
         RIJ = positions[1:] - positions[0]
         RIJ_removed = remove_pbc(RIJ=RIJ, hmatrix=hmatrix, ppp=[1, 1, 1])
 
-        np.testing.assert_almost_equal(
-            np.array([-4.2156, 4.564109, -0.03429]), RIJ_removed[10])
-        np.testing.assert_almost_equal(
-            np.array([-10.7619, -5.11166, -1.70274]), RIJ_removed[100])
+        np.testing.assert_almost_equal(np.array([-4.2156, 4.564109, -0.03429]), RIJ_removed[10])
+        np.testing.assert_almost_equal(np.array([-10.7619, -5.11166, -1.70274]), RIJ_removed[100])

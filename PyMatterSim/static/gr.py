@@ -2,14 +2,16 @@
 
 """see documentation @ ../../docs/gr.md"""
 
-from typing import Optional, Callable
+from typing import Callable, Optional
+
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
+
 from ..reader.reader_utils import SingleSnapshot, Snapshots
-from ..utils.pbc import remove_pbc
 from ..utils.funcs import nidealfac
 from ..utils.logging import get_logger_handle
+from ..utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
 
@@ -139,7 +141,8 @@ def conditional_gr(
             grresults["gA"] += countvalue
     else:
         raise ValueError(f"input conditiontype {
-            conditiontype} is not correct; please choose from None/'vector'/'tensor'")
+            conditiontype} is not correct
+            please choose from None / 'vector' / 'tensor'")
 
     binleft = binedge[:-1]
     binright = binedge[1:]

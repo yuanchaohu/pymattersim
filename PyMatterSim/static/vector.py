@@ -5,8 +5,8 @@ from typing import Optional, Tuple
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-
 from dynamic.time_corr import time_correlation
+
 from ..neighbors.read_neighbors import read_neighbors
 from ..reader.reader_utils import SingleSnapshot, Snapshots
 from ..static.sq import conditional_sq
@@ -36,16 +36,13 @@ def participation_ratio(vector: npt.NDArray) -> float:
     """
 
     num_of_particles = vector.shape[0]
-    value_PR = 1.0 / \
-        (np.sum(np.square((vector * vector).sum(axis=1))) * num_of_particles)
+    value_PR = 1.0 / (np.sum(np.square((vector * vector).sum(axis=1))) * num_of_particles)
     value_PR *= np.square((vector * vector).sum())
 
     return value_PR
 
 
-def local_vector_alignment(
-        vector: npt.NDArray,
-        neighborfile: str) -> npt.NDArray:
+def local_vector_alignment(vector: npt.NDArray, neighborfile: str) -> npt.NDArray:
     """
     Calculate the local orientational order of a vector field
     Maximum 200 neighbors are considered
@@ -64,8 +61,7 @@ def local_vector_alignment(
 
     results = np.zeros(num_of_particles)
     for i in range(num_of_particles):
-        medium = (
-            vector[i] * vector[cnlist[i, 1:1 + cnlist[i, 0]]]).sum(axis=1)
+        medium = (vector[i] * vector[cnlist[i, 1 : 1 + cnlist[i, 0]]]).sum(axis=1)
         results[i] = medium.mean()
     return results
 
@@ -89,19 +85,13 @@ def phase_quotient(vector: npt.NDArray, neighborfile: str) -> float:
 
     sum_0, sum_1 = 0, 0
     for i in range(num_of_particles):
-        medium = (
-            vector[i] * vector[cnlist[i, 1:1 + cnlist[i, 0]]]).sum(axis=1)
+        medium = (vector[i] * vector[cnlist[i, 1 : 1 + cnlist[i, 0]]]).sum(axis=1)
         sum_0 += medium.sum()
         sum_1 += np.abs(medium).sum()
     return sum_0 / sum_1
 
 
-def divergence_curl(
-    snapshot: SingleSnapshot,
-    vector: npt.NDArray,
-    ppp: npt.NDArray,
-    neighborfile: str
-) -> Tuple[npt.NDArray, Optional[npt.NDArray]]:
+def divergence_curl(snapshot: SingleSnapshot, vector: npt.NDArray, ppp: npt.NDArray, neighborfile: str) -> Tuple[npt.NDArray, Optional[npt.NDArray]]:
     """
     Calculate the divergence and curl of a vector field at 2D and 3D
     Divergence is scalar over all dimensions
@@ -131,7 +121,7 @@ def divergence_curl(
         curl = np.zeros((num_of_particles, ndim))
 
     for i in range(num_of_particles):
-        i_cnlist = cnlist[i, 1:cnlist[i, 0] + 1]
+        i_cnlist = cnlist[i, 1 : cnlist[i, 0] + 1]
         RIJ = snapshot.positions[i_cnlist] - snapshot.positions[i]
         RIJ = remove_pbc(RIJ, snapshot.hmatrix, ppp)
 
@@ -223,8 +213,7 @@ def vector_decomposition_sq(
     vector_fft["Sq_L"] = (vector_L * np.conj(vector_L)).sum(axis=1).real
 
     vector_fft = vector_fft.round(8)
-    ave_sqresults = vector_fft[["Sq", "Sq_T", "Sq_L"]].groupby(
-        vector_fft["q"]).mean().reset_index()
+    ave_sqresults = vector_fft[["Sq", "Sq_T", "Sq_L"]].groupby(vector_fft["q"]).mean().reset_index()
     if outputfile:
         if not outputfile.endswith(".csv"):
             outputfile += ".csv"
@@ -262,19 +251,11 @@ def vector_fft_corr(
     spectra = 0
     vectors_fft = []
     for n, snapshot in enumerate(snapshots.snapshots):
-        vector_fft, ave_sqresults = vector_decomposition_sq(
-            snapshot=snapshot,
-            qvector=qvector,
-            vector=vectors[n]
-        )
+        vector_fft, ave_sqresults = vector_decomposition_sq(snapshot=snapshot, qvector=qvector, vector=vectors[n])
         spectra += ave_sqresults
         vectors_fft.append(vector_fft)
     spectra /= snapshots.nsnapshots
-    spectra.to_csv(
-        outputfile +
-        ".spectra.csv",
-        float_format="%.8f",
-        index=False)
+    spectra.to_csv(outputfile + ".spectra.csv", float_format="%.8f", index=False)
 
     logger.info(f"Calculate time correlations of decomposed modes at d={ndim}")
     alldata = {}
@@ -283,7 +264,7 @@ def vector_fft_corr(
         cal_data = pd.DataFrame(
             0,
             columns=np.arange(qvector.shape[0]),
-            index=np.arange(snapshots.nsnapshots)
+            index=np.arange(snapshots.nsnapshots),
         )
         column_name = [f"{header}{i}" for i in range(ndim)]
         for n in range(qvector.shape[0]):
@@ -296,12 +277,8 @@ def vector_fft_corr(
             cal_data[n] = medium["time_corr"].values
         cal_data.index = medium["t"].values
         # columns: [q0, q1, q2, q, t1, t2, t3....]
-        final_data = pd.concat([
-            vectors_fft[0][[f"q{i}" for i in range(ndim)] + ["q"]],
-            cal_data.T
-        ], axis=1).round(8)
+        final_data = pd.concat([vectors_fft[0][[f"q{i}" for i in range(ndim)] + ["q"]], cal_data.T], axis=1).round(8)
         np.save(outputfile + "." + header + ".npy", final_data.values)
         alldata[header] = final_data
-    logger.info(
-        f"Calculate time correlations of decomposed modes at d={ndim} Done")
+    logger.info(f"Calculate time correlations of decomposed modes at d={ndim} Done")
     return alldata

@@ -1,11 +1,12 @@
 # coding = utf-8
 
 import unittest
+
 import numpy as np
-from PyMatterSim.writer.lammps_writer import write_dump_header
-from PyMatterSim.writer.lammps_writer import write_data_header
 
 from PyMatterSim.utils.logging import get_logger_handle
+from PyMatterSim.writer.lammps_writer import (write_data_header,
+                                              write_dump_header)
 
 logger = get_logger_handle(__name__)
 
@@ -27,14 +28,15 @@ class TestDumpWriter(unittest.TestCase):
         Test dump writer works properly for 2D lammps
         """
         logger.info(f"Starting test using {self.test_file_2d}...")
-        header_writer = write_dump_header(timestep=26000,
-                                          nparticle=10000,
-                                          boxbounds=np.array([[0.0, 100.0], [0.0, 100.0]]),
-                                          addson=''
-                                          )
-        with open(self.test_file_2d, 'r') as file:
+        header_writer = write_dump_header(
+            timestep=26000,
+            nparticle=10000,
+            boxbounds=np.array([[0.0, 100.0], [0.0, 100.0]]),
+            addson="",
+        )
+        with open(self.test_file_2d, "r") as file:
             header_dump = file.readlines()[:9]
-        header_dump = ''.join(header_dump)
+        header_dump = "".join(header_dump)
 
         self.assertEqual(header_dump, header_writer)
 
@@ -43,16 +45,15 @@ class TestDumpWriter(unittest.TestCase):
         Test dump writer works properly for 3D lammps
         """
         logger.info(f"Starting test using {self.test_file_3d}...")
-        header_writer = write_dump_header(timestep=5451182,
-                                          nparticle=6400,
-                                          boxbounds=np.array([[0.000000, 67.304182],
-                                                              [0.000000, 10.768669],
-                                                              [0.000000, 10.768669]]),
-                                          addson=''
-                                          )
-        with open(self.test_file_3d, 'r') as file:
+        header_writer = write_dump_header(
+            timestep=5451182,
+            nparticle=6400,
+            boxbounds=np.array([[0.000000, 67.304182], [0.000000, 10.768669], [0.000000, 10.768669]]),
+            addson="",
+        )
+        with open(self.test_file_3d, "r") as file:
             header_dump = file.readlines()[:9]
-        header_dump = ''.join(header_dump)
+        header_dump = "".join(header_dump)
 
         self.assertEqual(header_dump, header_writer)
 
@@ -71,14 +72,17 @@ class TestDataWriter(unittest.TestCase):
         Test data writer works properly for 3D lammps
         """
         logger.info(f"Starting test using {self.test_file_data}...")
-        header_writer = write_data_header(nparticle=8100,
-                                          nparticle_type=2,
-                                          boxbounds=[[-17.598971, 35.584472],
-                                                     [-17.598971, 35.584472],
-                                                     [-17.598971, 35.584472]],
-                                          )
-        with open(self.test_file_data, 'r') as file:
+        header_writer = write_data_header(
+            nparticle=8100,
+            nparticle_type=2,
+            boxbounds=[
+                [-17.598971, 35.584472],
+                [-17.598971, 35.584472],
+                [-17.598971, 35.584472],
+            ],
+        )
+        with open(self.test_file_data, "r") as file:
             header_dump = file.readlines()[:11]
-        header_dump = ''.join(header_dump)
+        header_dump = "".join(header_dump)
 
         self.assertEqual(header_dump, header_writer)

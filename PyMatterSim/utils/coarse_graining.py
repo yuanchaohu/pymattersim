@@ -5,12 +5,14 @@ see documentation @ ../../docs/utils.md
 """
 
 from typing import Tuple
+
 import numpy as np
 import numpy.typing as npt
-from ..reader.reader_utils import Snapshots
+
 from ..neighbors.read_neighbors import read_neighbors
-from ..utils.logging import get_logger_handle
+from ..reader.reader_utils import Snapshots
 from ..utils.funcs import grid_gaussian
+from ..utils.logging import get_logger_handle
 from ..utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
@@ -155,7 +157,7 @@ def gaussian_blurring(
     grid_property = np.zeros(tuple(new_shape))
 
     logger.info(f"Performing Gaussian Blurring of {
-        cal_type} field for a {ndim}-dimensional system")
+        cal_type} field for a {ndim} - dimensional system")
     for n, snapshot in enumerate(snapshots.snapshots):
         bxobounds = snapshot.boxbounds
         X = np.linspace(bxobounds[0, 0], bxobounds[0, 1], ngrids[0])

@@ -3,11 +3,13 @@
 """see documentation @ ../../docs/neighbors.md"""
 
 import re
+
 import numpy as np
 import numpy.typing as npt
+
 from ..reader.reader_utils import Snapshots
-from ..utils.pbc import remove_pbc
 from ..utils.logging import get_logger_handle
+from ..utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
 
@@ -46,8 +48,7 @@ def Nnearests(
     Return:
         None [output neighbor list to a document]
     """
-    logger.info(
-        f"Calculate {N} nearest neighbors for a {len(ppp)}-dimensional system")
+    logger.info(f"Calculate {N} nearest neighbors for a {len(ppp)}-dimensional system")
 
     fneighbor = open(fnfile, 'w', encoding="utf-8")
     for snapshot in snapshots.snapshots:
@@ -108,9 +109,7 @@ def cutoffneighbors(
         None [saved to fnfile]
     """
 
-    logger.info(
-        f"Calculate neighbors within {r_cut} for a {
-            len(ppp)}-dimensional system")
+    logger.info( f"Calculate neighbors within {r_cut} for a {len(ppp)} - dimensional system")
     fneighbor = open(fnfile, 'w', encoding="utf-8")
     for snapshot in snapshots.snapshots:
         hmatrix = snapshot.hmatrix

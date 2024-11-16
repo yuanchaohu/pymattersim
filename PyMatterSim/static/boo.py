@@ -9,18 +9,20 @@ see documentation @ ../../docs/boo_2d.md
 """
 
 from typing import Tuple
+
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
-from ..reader.reader_utils import Snapshots
-from ..neighbors.read_neighbors import read_neighbors
-from ..static.gr import conditional_gr
-from ..utils.spherical_harmonics import sph_harm_l
-from ..utils.pbc import remove_pbc
-from ..utils.logging import get_logger_handle
-from ..utils.funcs import Wignerindex
-from ..utils.coarse_graining import time_average as utils_time_average
 from dynamic.time_corr import time_correlation
+
+from ..neighbors.read_neighbors import read_neighbors
+from ..reader.reader_utils import Snapshots
+from ..static.gr import conditional_gr
+from ..utils.coarse_graining import time_average as utils_time_average
+from ..utils.funcs import Wignerindex
+from ..utils.logging import get_logger_handle
+from ..utils.pbc import remove_pbc
+from ..utils.spherical_harmonics import sph_harm_l
 
 logger = get_logger_handle(__name__)
 
@@ -542,7 +544,7 @@ class boo_2d:
                     fweights, snapshot.nparticle, self.Nmax)
                 if (weightslist < 0).any():
                     logger.info(f"Negative weights for {
-                        n}-snapshot, normalization by sum of absolutes")
+                        n} - snapshot, normalization by sum of absolutes")
                 for i in range(snapshot.nparticle):
                     cnlist = Neighborlist[i, 1:(Neighborlist[i, 0] + 1)]
                     RIJ = snapshot.positions[cnlist] - \

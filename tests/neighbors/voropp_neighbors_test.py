@@ -2,10 +2,10 @@
 
 import os
 import unittest
+
+from PyMatterSim.neighbors.voropp_neighbors import (cal_voro, indicehis,
+                                                    voronowalls)
 from PyMatterSim.reader.dump_reader import DumpReader
-
-from PyMatterSim.neighbors.voropp_neighbors import cal_voro, voronowalls, indicehis
-
 from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -106,7 +106,7 @@ class TestVoronoi(unittest.TestCase):
         """
         logger.info(
             f"Starting voronowalls test using {
-                self.test_file_3d_wrapped} under non-PBC...")
+                self.test_file_3d_wrapped} under non - PBC...")
         readdump = DumpReader(self.test_file_3d_wrapped, ndim=3)
         readdump.read_onefile()
         voronowalls(readdump.snapshots, ppp='', outputfile='dump')
@@ -165,4 +165,4 @@ class TestVoronoi(unittest.TestCase):
         os.remove('dump.overall.dat')
 
         logger.info(f"Finishing voronowalls test using {
-            self.test_file_3d_wrapped} under non-PBC")
+            self.test_file_3d_wrapped} under non - PBC")

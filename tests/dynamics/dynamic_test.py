@@ -1,13 +1,14 @@
 # coding = utf-8
 import os
 import unittest
+
 import numpy as np
 import pandas as pd
-from PyMatterSim.reader.dump_reader import DumpReader
-from PyMatterSim.dynamic.dynamics import Dynamics, LogDynamics
 
-from PyMatterSim.utils.logging import get_logger_handle
+from PyMatterSim.dynamic.dynamics import Dynamics, LogDynamics
 from PyMatterSim.neighbors.calculate_neighbors import Nnearests
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 READ_TEST_FILE_PATH = "tests/sample_test_data"
@@ -94,10 +95,7 @@ class TestDynamics(unittest.TestCase):
         self.dump_3d_log_xu.read_onefile()
 
     def test_Dynamics_2d_x_xu(self) -> None:
-        logger.info(
-            f"Starting test using {
-                self.test_file_2d_x,
-                self.test_file_2d_xu}...")
+        logger.info(f"Starting test using {self.test_file_2d_x, self.test_file_2d_xu}...")
         xu_snapshots = self.dump_2d_xu.snapshots
         x_snapshots = self.dump_2d_x.snapshots
         ppp = np.array([0, 0])
@@ -792,10 +790,7 @@ class TestDynamics(unittest.TestCase):
                                        decimal=5)
 
         os.remove("neighborlist.dat")
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_2d_xu,
-                self.test_file_2d_x}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_2d_xu, self.test_file_2d_x}...")
 
     def test_Dynamics_2d_x(self) -> None:
         logger.info(f"Starting test using {self.test_file_2d_x, }...")
@@ -1503,9 +1498,7 @@ class TestDynamics(unittest.TestCase):
                                        result_4[:10].values)
 
         os.remove(neighborfile)
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_2d_x}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_2d_x}...")
 
     def test_Dynamics_2d_xu(self) -> None:
         logger.info(f"Starting test using {self.test_file_2d_xu}...")
@@ -2220,15 +2213,10 @@ class TestDynamics(unittest.TestCase):
                                        decimal=5)
 
         os.remove(neighborfile)
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_2d_xu}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_2d_xu}...")
 
     def test_Dynamics_3d_x_xu(self) -> None:
-        logger.info(
-            f"Starting test using {
-                self.test_file_3d_x,
-                self.test_file_3d_xu}...")
+        logger.info(f"Starting test using {self.test_file_3d_x, self.test_file_3d_xu}...")
         xu_snapshots = self.dump_3d_xu.snapshots
         x_snapshots = self.dump_3d_x.snapshots
         ppp = np.array([0, 0, 0])
@@ -2580,10 +2568,7 @@ class TestDynamics(unittest.TestCase):
                                        result_4[:10].values,
                                        decimal=5)
 
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_3d_x,
-                self.test_file_3d_xu}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_3d_x,self.test_file_3d_xu}...")
 
     def test_Dynamics_3d_x(self) -> None:
         logger.info(f"Starting test using {self.test_file_3d_x}...")
@@ -2933,9 +2918,7 @@ class TestDynamics(unittest.TestCase):
                                                 [6.67688091, 1.12292559]]),
                                        result_4[:10].values)
 
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_3d_x}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_3d_x}...")
 
     def test_Dynamics_3d_xu(self) -> None:
         logger.info(f"Starting test using {self.test_file_3d_xu}...")
@@ -3291,15 +3274,10 @@ class TestDynamics(unittest.TestCase):
                                        result_4[:10].values,
                                        decimal=5)
 
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_3d_xu}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_3d_xu}...")
 
     def test_LogDynamics_2d_x_xu(self) -> None:
-        logger.info(
-            f"Starting test using {
-                self.test_file_2d_log_x,
-                self.test_file_2d_log_xu}...")
+        logger.info(f"Starting test using {self.test_file_2d_log_x, self.test_file_2d_log_xu}...")
         xu_snapshots = self.dump_2d_log_xu.snapshots
         x_snapshots = self.dump_2d_log_x.snapshots
         ppp = np.array([0, 0])
@@ -3588,10 +3566,7 @@ class TestDynamics(unittest.TestCase):
         # np.testing.assert_almost_equal([],result_2[:10].values)
 
         os.remove(neighborfile)
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_2d_log_x,
-                self.test_file_2d_log_xu}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_2d_log_x,self.test_file_2d_log_xu}...")
 
     def test_LogDynamics_2d_x(self) -> None:
         logger.info(f"Starting test using {self.test_file_2d_log_x}...")
@@ -3986,15 +3961,10 @@ class TestDynamics(unittest.TestCase):
                                        decimal=5)
         # np.testing.assert_almost_equal([],result_2[:10].values,decimal=5)
         os.remove(neighborfile)
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_2d_log_x}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_2d_log_x}...")
 
     def test_LogDynamics_2d_xu(self) -> None:
-        logger.info(
-            f"Starting test using {
-                self.test_file_2d_log_x,
-                self.test_file_2d_log_xu}...")
+        logger.info(f"Starting test using {self.test_file_2d_log_x, self.test_file_2d_log_xu}...")
         xu_snapshots = self.dump_2d_log_xu.snapshots
         x_snapshots = None
         ppp = np.array([0, 0])
@@ -4282,15 +4252,10 @@ class TestDynamics(unittest.TestCase):
         # np.testing.assert_almost_equal([],result_2[:10].values)
 
         os.remove(neighborfile)
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_2d_log_xu}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_2d_log_xu}...")
 
     def test_LogDynamics_3d_x_xu(self) -> None:
-        logger.info(
-            f"Starting test using {
-                self.test_file_3d_log_x,
-                self.test_file_3d_log_xu}...")
+        logger.info(f"Starting test using {self.test_file_3d_log_x, self.test_file_3d_log_xu}...")
         xu_snapshots = self.dump_3d_log_xu.snapshots
         x_snapshots = self.dump_3d_log_x.snapshots
         condition = (xu_snapshots.snapshots[0].particle_type == 1)
@@ -4594,10 +4559,7 @@ class TestDynamics(unittest.TestCase):
                                          2.83847908e-01]],
                                        result_2[:10].values)
 
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_3d_log_xu,
-                self.test_file_3d_log_x}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_3d_log_xu,self.test_file_3d_log_x}...")
 
     def test_LogDynamics_3d_x(self) -> None:
         logger.info(f"Starting test using {self.test_file_3d_log_x}...")
@@ -4907,9 +4869,7 @@ class TestDynamics(unittest.TestCase):
                                          2.18582771e+01]],
                                        result_2[:10].values,
                                        decimal=5)
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_3d_log_x}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_3d_log_x}...")
 
     def test_LogDynamics_3d_xu(self) -> None:
         logger.info(f"Starting test using {self.test_file_3d_log_xu}...")
@@ -5216,6 +5176,4 @@ class TestDynamics(unittest.TestCase):
                                          2.83847908e-01]],
                                        result_2[:10].values)
 
-        logger.info(
-            f"Finishing test Dynamic.relaxation using {
-                self.test_file_3d_log_xu}...")
+        logger.info(f"Finishing test Dynamic.relaxation using {self.test_file_3d_log_xu}...")

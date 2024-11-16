@@ -4,9 +4,11 @@ This module is used to generate wave-vector for calculations
 like static/dynamic structure factor
 """
 
-from math import sqrt, modf
+from math import modf, sqrt
+
 import numpy as np
 import numpy.typing as npt
+
 from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -61,10 +63,7 @@ def wavevector2d(numofq: int = 500) -> npt.NDArray:
     return np.array(wavevector)
 
 
-def choosewavevector(
-        ndim: int,
-        numofq: int,
-        onlypositive: bool = False) -> npt.NDArray:
+def choosewavevector(ndim: int, numofq: int, onlypositive: bool = False) -> npt.NDArray:
     """
     define wave vector for [nx, ny, nz] as long as they are integers
     considering qvector values from [-N/2, N/2] or from [0, N/2] (onlypositive=True)
@@ -91,11 +90,11 @@ def choosewavevector(
                     qvectors[index] = [i, j]
                     index += 1
         # choose wavevector along a specific dimension 'x', 'y', or 'z'
-        if onlypositive == 'x':
+        if onlypositive == "x":
             # [x, 0]
             condition = (qvectors[:, 0] > 0) * (qvectors[:, 1] == 0)
             qvectors = qvectors[condition]
-        elif onlypositive == 'y':
+        elif onlypositive == "y":
             # [0, y]
             condition = (qvectors[:, 0] == 0) * (qvectors[:, 1] > 0)
             qvectors = qvectors[condition]
@@ -109,20 +108,17 @@ def choosewavevector(
                         qvectors[index] = [i, j, k]
                         index += 1
         # choose wavevector along a specific dimension 'x', 'y', or 'z'
-        if onlypositive == 'x':
+        if onlypositive == "x":
             # [x, 0, 0]
-            condition = (qvectors[:, 0] > 0) * \
-                (qvectors[:, 1] == 0) * (qvectors[:, 2] == 0)
+            condition = (qvectors[:, 0] > 0) * (qvectors[:, 1] == 0) * (qvectors[:, 2] == 0)
             qvectors = qvectors[condition]
-        elif onlypositive == 'y':
+        elif onlypositive == "y":
             # [0, y, 0]
-            condition = (qvectors[:, 0] == 0) * \
-                (qvectors[:, 1] > 0) * (qvectors[:, 2] == 0)
+            condition = (qvectors[:, 0] == 0) * (qvectors[:, 1] > 0) * (qvectors[:, 2] == 0)
             qvectors = qvectors[condition]
-        elif onlypositive == 'z':
+        elif onlypositive == "z":
             # [0, 0, z]
-            condition = (qvectors[:, 0] == 0) * \
-                (qvectors[:, 1] == 0) * (qvectors[:, 2] > 0)
+            condition = (qvectors[:, 0] == 0) * (qvectors[:, 1] == 0) * (qvectors[:, 2] > 0)
             qvectors = qvectors[condition]
 
     condition = (qvectors == 0).all(axis=1)
@@ -136,10 +132,7 @@ def choosewavevector(
     return qvectors
 
 
-def continuousvector(
-        ndim: int,
-        numofq: int = 100,
-        onlypositive: bool = False) -> npt.NDArray:
+def continuousvector(ndim: int, numofq: int = 100, onlypositive: bool = False) -> npt.NDArray:
     """
     define wave vector for [nx, ny, nz] as long as they are integers
     considering qvector values from [-N/2, N/2]

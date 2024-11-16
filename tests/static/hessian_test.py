@@ -2,11 +2,13 @@
 
 import os
 import unittest
+
 import numpy as np
 import pandas as pd
+
 from PyMatterSim.reader.dump_reader import DumpReader
-from PyMatterSim.static.hessians import ModelName, InteractionParams
-from PyMatterSim.static.hessians import HessianMatrix, PairInteractions
+from PyMatterSim.static.hessians import (HessianMatrix, InteractionParams,
+                                         ModelName, PairInteractions)
 from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)

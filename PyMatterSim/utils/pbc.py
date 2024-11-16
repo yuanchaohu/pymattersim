@@ -6,8 +6,7 @@ import numpy as np
 import numpy.typing as npt
 
 
-def remove_pbc(RIJ: np.array, hmatrix: np.array,
-               ppp: npt.NDArray = np.array([1, 1, 1])) -> npt.NDArray:
+def remove_pbc(RIJ: np.array, hmatrix: np.array, ppp: npt.NDArray = np.array([1, 1, 1])) -> npt.NDArray:
     """
     remove periodic boundary conditions.
     This module is usually embedded in other analysis modules.

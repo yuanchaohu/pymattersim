@@ -2,9 +2,9 @@
 
 """see documentation @ ../../docs/neighbors.md"""
 
-import numpy.typing as npt
-import numpy as np
 import freud
+import numpy as np
+import numpy.typing as npt
 
 from ..reader.reader_utils import Snapshots
 from ..utils.logging import get_logger_handle
@@ -70,27 +70,23 @@ def cal_neighbors(snapshots: Snapshots, outputfile: str = None) -> None:
 
     list_box, list_points = convert_configuration(snapshots)
 
-    foverall = open(outputfile + '.overall.dat', 'w', encoding="utf-8")
-    foverall.write('id cn area_or_volume\n')
-    fneighbors = open(outputfile + '.neighbor.dat', 'w', encoding="utf-8")
+    foverall = open(outputfile + ".overall.dat", "w", encoding="utf-8")
+    foverall.write("id cn area_or_volume\n")
+    fneighbors = open(outputfile + ".neighbor.dat", "w", encoding="utf-8")
 
     ndim = snapshots.snapshots[0].positions.shape[1]
     if ndim == 2:
-        fbondinfos = open(
-            outputfile +
-            '.edgelength.dat',
-            'w',
-            encoding="utf-8")
+        fbondinfos = open(outputfile + ".edgelength.dat", "w", encoding="utf-8")
     else:
-        fbondinfos = open(outputfile + '.facearea.dat', 'w', encoding="utf-8")
+        fbondinfos = open(outputfile + ".facearea.dat", "w", encoding="utf-8")
 
     for n in range(snapshots.nsnapshots):
         # write header for each configuration
-        fneighbors.write('id   cn   neighborlist\n')
+        fneighbors.write("id   cn   neighborlist\n")
         if ndim == 2:
-            fbondinfos.write('id   cn   edgelengthlist\n')
+            fbondinfos.write("id   cn   edgelengthlist\n")
         else:
-            fbondinfos.write('id   cn   facearealist\n')
+            fbondinfos.write("id   cn   facearealist\n")
 
         # calculation
         box, points = list_box[n], list_points[n]
@@ -107,22 +103,23 @@ def cal_neighbors(snapshots: Snapshots, outputfile: str = None) -> None:
         for i in range(unique.shape[0]):
             atomid = unique[i]
             if (atomid != nlist[nn, 0]) or (i + 1 != atomid):
-                raise ValueError('neighbor list not sorted')
+                raise ValueError("neighbor list not sorted")
             i_cn = counts[i]
-            fneighbors.write('%d %d ' % (atomid, i_cn))
-            fbondinfos.write('%d %d ' % (atomid, i_cn))
-            foverall.write('%d %d %.6f\n' % (atomid, i_cn, volumes[i]))
+            fneighbors.write("%d %d " % (atomid, i_cn))
+            fbondinfos.write("%d %d " % (atomid, i_cn))
+            foverall.write("%d %d %.6f\n" % (atomid, i_cn, volumes[i]))
             for _ in range(i_cn):
-                fneighbors.write('%d ' % nlist[nn, 1])
-                fbondinfos.write('%.6f ' % weights[nn])
+                fneighbors.write("%d " % nlist[nn, 1])
+                fbondinfos.write("%.6f " % weights[nn])
                 nn += 1
-            fneighbors.write('\n')
-            fbondinfos.write('\n')
+            fneighbors.write("\n")
+            fbondinfos.write("\n")
     fneighbors.close()
     fbondinfos.close()
     foverall.close()
 
     logger.info("Finish calculating neighbors by freud")
+
 
 # TODO @Yibang please benchmark with
 # https://github.com/yuanchaohu/MyCodes/blob/master/CalfromFreud.py#L122
@@ -154,8 +151,7 @@ def VolumeMatrix(
         local volume matrix or transformed matrix in numpy ndarray
     """
     list_box, list_points = convert_configuration(snapshots)
-    logger.info(
-        f"Calculate the Voronoi volume matrix for configuration No.{nconfig}")
+    logger.info(f"Calculate the Voronoi volume matrix for configuration No.{nconfig}")
     box = list_box[nconfig]
     points = list_points[nconfig]
     num_particles = points.shape[nconfig]
@@ -189,7 +185,7 @@ def VolumeMatrix(
     # for pair i-i
     for i in range(num_particles):
         medium = matrixA[i].reshape(num_particles, ndim)
-        matrixA[i, ndim * i: ndim * i + ndim] = -medium.sum(axis=0)
+        matrixA[i, ndim * i : ndim * i + ndim] = -medium.sum(axis=0)
 
     # local volume matrix
     matrixA /= original[:, np.newaxis]

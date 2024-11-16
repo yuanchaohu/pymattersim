@@ -1,13 +1,14 @@
 # coding = utf-8
 """This module provide helper functions to read lammps files"""
 
-from typing import Dict, Any, List
+from typing import Any, Dict, List
+
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
 
-from ..utils.logging import get_logger_handle
 from ..reader.reader_utils import SingleSnapshot, Snapshots
+from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
 
@@ -103,9 +104,7 @@ def read_lammps_vector_wrapper(
     if len(columnsids) == 1:
         logger.info("LAMMPS additional information read is a scalar")
     elif len(columnsids) > 1:
-        logger.info(
-            f"LAMMPS additional information read is a vector of length {
-                len(columnsids)}")
+        logger.info(f"LAMMPS additional information read is a vector of length {len(columnsids)}")
     else:
         raise ValueError("Empty input variable columnsids")
 

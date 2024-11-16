@@ -5,6 +5,7 @@
 import numpy as np
 import numpy.typing as npt
 from sympy.physics.wigner import wigner_3j
+
 from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -71,11 +72,7 @@ def alpha2factor(ndim: int = 3) -> float:
         raise ValueError("Wrong input dimensionality")
 
 
-def moment_of_inertia(
-    positions: npt.NDArray,
-    m: int = 1,
-    matrix: bool = False
-) -> npt.NDArray:
+def moment_of_inertia(positions: npt.NDArray, m: int = 1, matrix: bool = False) -> npt.NDArray:
     """
     moment of inertia for a rigid body made of n points / particles
 
@@ -92,15 +89,13 @@ def moment_of_inertia(
     distance2 = np.square(positions).sum(axis=1)
     for i in range(3):
         for j in range(3):
-            Iij[i, j] = m * (distance2 * kronecker(i, j) -
-                             positions[:, i] * positions[:, j]).sum()
+            Iij[i, j] = m * (distance2 * kronecker(i, j) - positions[:, i] * positions[:, j]).sum()
 
     Iij /= positions.shape[0]
     if matrix:
         return Iij
     else:
-        return np.array([Iij[0, 0], Iij[1, 1], Iij[2, 2],
-                        Iij[0, 1], Iij[0, 2], Iij[1, 2]])
+        return np.array([Iij[0, 0], Iij[1, 1], Iij[2, 2], Iij[0, 1], Iij[0, 2], Iij[1, 2]])
 
 
 def Wignerindex(l: int) -> npt.NDArray:

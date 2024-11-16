@@ -3,8 +3,10 @@
 """see documentation @ ../../docs/neighbors.md"""
 
 from typing import TextIO
+
 import numpy as np
 import numpy.typing as npt
+
 from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -47,40 +49,36 @@ def read_neighbors(f: TextIO, nparticle: int, Nmax: int = 200) -> npt.NDArray:
         item = f.readline().split()
         atom_index = int(item[0]) - 1
 
-        if 'neighborlist' in header:
+        if "neighborlist" in header:
             if int(item[1]) <= Nmax:
                 neighborprop[atom_index, 0] = float(item[1])
                 # Be attention to the '-1' after '=', all particle id has been
                 # reduced by 1
-                neighborprop[atom_index, 1:(int(item[1]) + 1)] = \
-                    [float(j) - 1 for j in item[2:(int(item[1]) + 2)]]
+                neighborprop[atom_index, 1 : (int(item[1]) + 1)] = [float(j) - 1 for j in item[2 : (int(item[1]) + 2)]]
             else:
                 neighborprop[atom_index, 0] = Nmax
-                neighborprop[atom_index, 1:Nmax +
-                             1] = [float(j) - 1 for j in item[2:Nmax + 2]]
+                neighborprop[atom_index, 1 : Nmax + 1] = [float(j) - 1 for j in item[2 : Nmax + 2]]
                 if i == 0:
                     logger.info(f"Too Many neighbors {Nmax}")
                     logger.info("Warning: not for unsorted neighbor list")
         else:
             if int(item[1]) <= Nmax:
                 neighborprop[atom_index, 0] = float(item[1])
-                neighborprop[atom_index, 1:(int(item[1]) + 1)] = \
-                    [float(j) for j in item[2:(int(item[1]) + 2)]]
+                neighborprop[atom_index, 1 : (int(item[1]) + 1)] = [float(j) for j in item[2 : (int(item[1]) + 2)]]
             else:
                 neighborprop[atom_index, 0] = Nmax
-                neighborprop[atom_index, 1:Nmax +
-                             1] = [float(j) for j in item[2:Nmax + 2]]
+                neighborprop[atom_index, 1 : Nmax + 1] = [float(j) for j in item[2 : Nmax + 2]]
                 if i == 0:
                     logger.info(f"Too Many neighbors {Nmax}")
                     logger.info("Warning: not for unsorted neighbor list")
 
     max_cn = int(neighborprop[:, 0].max())
     if max_cn < Nmax:
-        neighborprop = neighborprop[:, :max_cn + 1]  # save storage
+        neighborprop = neighborprop[:, : max_cn + 1]  # save storage
     else:
         logger.info("Warning: increase 'Nmax' to include all the neighbors")
 
-    if 'neighborlist' in header:  # neighbor list should be integer
+    if "neighborlist" in header:  # neighbor list should be integer
         neighborprop = neighborprop.astype(np.int32)
 
     return neighborprop

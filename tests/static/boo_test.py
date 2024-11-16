@@ -2,9 +2,11 @@
 
 import os
 import unittest
+
 import numpy as np
-from PyMatterSim.reader.dump_reader import DumpReader
+
 from PyMatterSim.neighbors.freud_neighbors import cal_neighbors
+from PyMatterSim.reader.dump_reader import DumpReader
 from PyMatterSim.static.boo import boo_2d, boo_3d
 from PyMatterSim.utils.logging import get_logger_handle
 

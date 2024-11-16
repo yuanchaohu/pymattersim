@@ -5,9 +5,9 @@
 from dataclasses import dataclass
 from enum import Enum
 from typing import Dict, List, Tuple
-import numpy.typing as npt
 
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
 
 from ..reader.reader_utils import SingleSnapshot

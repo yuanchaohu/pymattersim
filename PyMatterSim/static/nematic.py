@@ -5,11 +5,12 @@
 import numpy as np
 import numpy.typing as npt
 import pandas as pd
+from dynamic.time_corr import time_correlation
+
 from ..reader.reader_utils import Snapshots
 from ..static.gr import conditional_gr
-from dynamic.time_corr import time_correlation
-from ..utils.funcs import kronecker
 from ..utils.coarse_graining import spatial_average
+from ..utils.funcs import kronecker
 from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -76,7 +77,7 @@ class NematicOrder():
             shape as [num_of_snapshots, num_of_particles]
         """
         if neighborfile:
-            logger.info(f"Calcualte coarse-grained nematic order for {
+            logger.info(f"Calcualte coarse - grained nematic order for {
                 self.orientations.nsnapshots} configurations")
         else:
             logger.info(f"Calcualte original nematic order for {

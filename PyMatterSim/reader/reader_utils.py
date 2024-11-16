@@ -1,11 +1,13 @@
 """This module defines immutable data structure for saving snapshots."""
 
-from typing import List
 from dataclasses import dataclass
 from enum import Enum
+from typing import List
+
 import numpy.typing as npt
 
 from ..utils.logging import get_logger_handle
+
 logger = get_logger_handle(__name__)
 
 
@@ -24,6 +26,7 @@ class DumpFileType(Enum):
         5. LAMMPSVECTOR: additional column(s) from lammps configurations,
             for example, "vx vy" from "id type x y vx vy"
     """
+
     LAMMPS = 1
     LAMMPSCENTER = 2
     GSD = 3
@@ -46,6 +49,7 @@ class SingleSnapshot:
         realbounds:       real box bounds of a triclinic box
         hmatrix:          h-matrix of the cells in each snapshot
     """
+
     # pylint: disable=too-many-instance-attributes
     timestep: int
     nparticle: int
@@ -72,5 +76,6 @@ class Snapshots:
         snapshots[n].hmatrix:          h-matrix of the cells in each snapshot
     The information is stored in list whose elements are mainly numpy arraies.
     """
+
     nsnapshots: int
     snapshots: List[SingleSnapshot]

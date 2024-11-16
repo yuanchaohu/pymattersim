@@ -7,8 +7,9 @@ see documentation @ ../../docs/utils.md
 
 import numpy as np
 import numpy.typing as npt
-from ..utils.pbc import remove_pbc
+
 from ..utils.logging import get_logger_handle
+from ..utils.pbc import remove_pbc
 
 logger = get_logger_handle(__name__)
 
@@ -16,11 +17,7 @@ logger = get_logger_handle(__name__)
 # pylint: disable=dangerous-default-value
 
 
-def triangle_area(
-    positions: npt.NDArray,
-    hmatrix: npt.NDArray,
-    ppp: npt.NDArray = np.array([1, 1])
-) -> float:
+def triangle_area(positions: npt.NDArray, hmatrix: npt.NDArray, ppp: npt.NDArray = np.array([1, 1])) -> float:
     """
     claculate the area of a triangle using Heron's equation
 
@@ -68,12 +65,7 @@ def triangle_angle(a: float, b: float, c: float) -> float:
     return np.arccos(cos_theta)
 
 
-def lines_intersection(
-    P1: npt.NDArray,
-    P2: npt.NDArray,
-    P3: npt.NDArray,
-    P4: npt.NDArray
-) -> npt.NDArray:
+def lines_intersection(P1: npt.NDArray, P2: npt.NDArray, P3: npt.NDArray, P4: npt.NDArray) -> npt.NDArray:
     """
     extract the line-line intersection for two lines [P1, P2] and [P3, P4]
     in two dimensions
@@ -108,7 +100,7 @@ def LineWithinSquare(
     P3: npt.NDArray,
     P4: npt.NDArray,
     R0: npt.NDArray,
-    vector: npt.NDArray
+    vector: npt.NDArray,
 ) -> npt.NDArray:
     """
     calculate the line segment within a square defined by [P1, P2, P3, P4]

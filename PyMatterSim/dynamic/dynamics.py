@@ -2,15 +2,16 @@
 
 """see documentation @ ../../docs/dynamics.md"""
 
-import numpy.typing as npt
 import numpy as np
+import numpy.typing as npt
 import pandas as pd
-from ..reader.reader_utils import Snapshots
+
 from ..neighbors.read_neighbors import read_neighbors
+from ..reader.reader_utils import Snapshots
 from ..static.sq import conditional_sq
-from ..utils.pbc import remove_pbc
 from ..utils.funcs import alpha2factor
 from ..utils.logging import get_logger_handle
+from ..utils.pbc import remove_pbc
 from ..utils.wavevector import choosewavevector
 
 logger = get_logger_handle(__name__)
@@ -111,9 +112,7 @@ class Dynamics:
         self.ppp = ppp
         self.ndim = len(ppp)
         self.cal_type = cal_type
-        logger.info(
-            f"Calculate {cal_type} dynamics [Linear] for a {
-                self.ndim}-dimensional system")
+        logger.info(f"Calculate {cal_type} dynamics[Linear] for a {self.ndim} - dimensional system")
 
         if x_snapshots and xu_snapshots:
             logger.info(
@@ -276,9 +275,7 @@ class Dynamics:
         Return:
             calculated dynamical structure factor as pandas dataframe
         """
-        logger.info(
-            f"Calculate S4(q) of {
-                self.cal_type} particles at the time interval {t}")
+        logger.info(f"Calculate S4(q) of {self.cal_type} particles at the time interval {t}")
         if self.x_snapshots is None:
             logger.info(
                 "Use xu coordinates for dynamics and x/xs coordinates for Sq4")
@@ -398,13 +395,10 @@ class LogDynamics:
         self.ppp = ppp
         self.ndim = len(ppp)
         self.cal_type = cal_type
-        logger.info(
-            f"Calculate {cal_type} dynamics [Log] for a {
-                self.ndim}-dimensional system")
+        logger.info(f"Calculate {cal_type} dynamics[Log] for a {self.ndim} - dimensional system")
 
         if x_snapshots and xu_snapshots:
-            logger.info(
-                'Use xu coordinates to calculate dynamics and x/xs for dynamical Sq')
+            logger.info('Use xu coordinates to calculate dynamics and x/xs for dynamical Sq')
             self.snapshots = xu_snapshots
             self.x_snapshots = x_snapshots
             self.PBC = False

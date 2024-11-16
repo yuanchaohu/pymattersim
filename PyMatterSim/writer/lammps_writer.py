@@ -5,11 +5,7 @@
 import numpy.typing as npt
 
 
-def write_dump_header(
-        timestep: int,
-        nparticle: int,
-        boxbounds: npt.NDArray,
-        addson: str = None) -> str:
+def write_dump_header(timestep: int, nparticle: int, boxbounds: npt.NDArray, addson: str = None) -> str:
     """
     write the headers of lammps dump file
 
@@ -27,27 +23,26 @@ def write_dump_header(
                 header of lammps dump file (str)
     """
 
-    header = 'ITEM: TIMESTEP\n'
-    header += str(timestep) + '\n'
+    header = "ITEM: TIMESTEP\n"
+    header += str(timestep) + "\n"
 
-    header += 'ITEM: NUMBER OF ATOMS\n'
-    header += str(nparticle) + '\n'
+    header += "ITEM: NUMBER OF ATOMS\n"
+    header += str(nparticle) + "\n"
 
-    header += 'ITEM: BOX BOUNDS pp pp pp\n'
-    header += f'{boxbounds[0][0]:.6f} {boxbounds[0][1]:.6f}\n'
-    header += f'{boxbounds[1][0]:.6f} {boxbounds[1][1]:.6f}\n'
+    header += "ITEM: BOX BOUNDS pp pp pp\n"
+    header += f"{boxbounds[0][0]:.6f} {boxbounds[0][1]:.6f}\n"
+    header += f"{boxbounds[1][0]:.6f} {boxbounds[1][1]:.6f}\n"
     if len(boxbounds) == 3:
-        header += f'{boxbounds[2][0]:.6f} {boxbounds[2][1]:.6f}\n'
-        header += f'ITEM: ATOMS id type x y z {addson}\n'
+        header += f"{boxbounds[2][0]:.6f} {boxbounds[2][1]:.6f}\n"
+        header += f"ITEM: ATOMS id type x y z {addson}\n"
     else:
-        header += f'{-0.5:.6f} {0.5:.6f}\n'
-        header += f'ITEM: ATOMS id type x y {addson}\n'
+        header += f"{-0.5:.6f} {0.5:.6f}\n"
+        header += f"ITEM: ATOMS id type x y {addson}\n"
 
     return header
 
 
-def write_data_header(
-        nparticle: int, nparticle_type: int, boxbounds: npt.NDArray) -> str:
+def write_data_header(nparticle: int, nparticle_type: int, boxbounds: npt.NDArray) -> str:
     """
     write the headers of lammps data file
 
@@ -64,15 +59,15 @@ def write_data_header(
         header of lammps data file (str)
     """
 
-    header = 'LAMMPS data file\n\n'
-    header += f'{nparticle} atoms\n'
-    header += f'{nparticle_type} atom types\n\n'
-    header += f'{boxbounds[0][0]:.6f} {boxbounds[0][1]:.6f} xlo xhi\n'
-    header += f'{boxbounds[1][0]:.6f} {boxbounds[1][1]:.6f} ylo yhi\n'
+    header = "LAMMPS data file\n\n"
+    header += f"{nparticle} atoms\n"
+    header += f"{nparticle_type} atom types\n\n"
+    header += f"{boxbounds[0][0]:.6f} {boxbounds[0][1]:.6f} xlo xhi\n"
+    header += f"{boxbounds[1][0]:.6f} {boxbounds[1][1]:.6f} ylo yhi\n"
     if len(boxbounds) == 3:
-        header += f'{boxbounds[2][0]:.6f} {boxbounds[2][1]:.6f} zlo zhi\n'
+        header += f"{boxbounds[2][0]:.6f} {boxbounds[2][1]:.6f} zlo zhi\n"
     else:
-        header += '-0.5 0.5 zlo zhi\n'
-    header += '\nAtoms #atomic\n\n'
+        header += "-0.5 0.5 zlo zhi\n"
+    header += "\nAtoms #atomic\n\n"
 
     return header

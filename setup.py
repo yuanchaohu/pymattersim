@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 setup(
     name="PyMatterSim",  # Replace with your project name
@@ -15,12 +15,12 @@ setup(
         "pandas==2.1.1",
         "freud-analysis==2.12.1",
         "scipy=1.11.4",
-        "sympy"
+        "sympy",
     ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires=">=3.6",
 )

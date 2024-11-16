@@ -1,7 +1,8 @@
 import unittest
-import numpy as np
-from PyMatterSim.reader.gsd_reader_helper import read_gsd_wrapper
 
+import numpy as np
+
+from PyMatterSim.reader.gsd_reader_helper import read_gsd_wrapper
 from PyMatterSim.utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -28,7 +29,4 @@ class TestGsdReaderHelper(unittest.TestCase):
 
         snapshot = snapshots.snapshots[0]
 
-        np.testing.assert_almost_equal(
-            snapshot.positions[2],
-            np.array([0.313574, 0.1959437, 0.5766102])
-        )
+        np.testing.assert_almost_equal(snapshot.positions[2], np.array([0.313574, 0.1959437, 0.5766102]))

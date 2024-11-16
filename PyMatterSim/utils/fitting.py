@@ -1,9 +1,11 @@
 """see documentation @ ../../docs/utils.md"""
 
 from typing import Any, List, Tuple
+
 import numpy as np
 import numpy.typing as npt
 from scipy.optimize import curve_fit
+
 from ..utils.logging import get_logger_handle
 
 logger = get_logger_handle(__name__)
@@ -26,7 +28,7 @@ def fits(
     p0: List[float] = [],
     bounds: Tuple[List[float]] = (),
     max_iterations: int = 5000000,
-    style='linear'
+    style="linear",
 ) -> List[Any]:
     """
     This function is used to fit existing data in numpy array
@@ -54,35 +56,30 @@ def fits(
         yfit: fitting result of y
     """
     if len(p0) >= 1 and len(bounds) >= 1:
-        popt, pcov = curve_fit(fit_func, xdata, ydata,
-                               maxfev=max_iterations, p0=p0, bounds=bounds)
+        popt, pcov = curve_fit(fit_func, xdata, ydata, maxfev=max_iterations, p0=p0, bounds=bounds)
     elif len(p0) >= 1 and len(bounds) == 0:
-        popt, pcov = curve_fit(
-            fit_func, xdata, ydata, maxfev=max_iterations, p0=p0)
+        popt, pcov = curve_fit(fit_func, xdata, ydata, maxfev=max_iterations, p0=p0)
     elif len(p0) == 0 and len(bounds) >= 1:
-        popt, pcov = curve_fit(
-            fit_func, xdata, ydata, maxfev=max_iterations, bounds=bounds)
+        popt, pcov = curve_fit(fit_func, xdata, ydata, maxfev=max_iterations, bounds=bounds)
     else:
         popt, pcov = curve_fit(fit_func, xdata, ydata, maxfev=5000000)
 
     perr = np.sqrt(np.diag(pcov))
     residuals = ydata - fit_func(xdata, *popt)
-    ss_res = np.sum(residuals ** 2)
+    ss_res = np.sum(residuals**2)
     ss_tot = np.square(ydata - ydata.mean()).sum()
     R2 = 1 - (ss_res / ss_tot)
-    logger.info('fitting R^2 = %.6f' % R2)
-    logger.info('fitting parameters values: ' +
-                ' '.join(map('{:.6f}'.format, popt)))
-    logger.info('fitting parameters errors: ' +
-                ' '.join(map('{:.6f}'.format, perr)))
+    logger.info("fitting R^2 = %.6f" % R2)
+    logger.info("fitting parameters values: " + " ".join(map("{:.6f}".format, popt)))
+    logger.info("fitting parameters errors: " + " ".join(map("{:.6f}".format, perr)))
 
     if rangeb == 0:
-        if style == 'log':
+        if style == "log":
             xfit = np.geomspace(xdata.min(), xdata.max(), 10000)
         else:
             xfit = np.linspace(xdata.min(), xdata.max(), 10000)
     else:
-        if style == 'log':
+        if style == "log":
             xfit = np.geomspace(rangea, rangeb, 10000)
         else:
             xfit = np.linspace(rangea, rangeb, 10000)
