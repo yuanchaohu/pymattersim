@@ -1,0 +1,299 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Reading Computer Simulations Snapshots &#8212; py_Matters_Simulations  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Write LAMMPS dump/data format header" href="writer.html" />
+    <link rel="prev" title="Welcome to py_Matters_Simulations’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="reading-computer-simulations-snapshots">
+<h1>Reading Computer Simulations Snapshots<a class="headerlink" href="#reading-computer-simulations-snapshots" title="Permalink to this heading">¶</a></h1>
+<p>This module read-in the static or time evolution of the particle positions (snapshots or trajectories) encapsulated in a simulation box from various simulators for materials science, chemistry, and physics etc. The popular ones includes but not limit yo LAMMPS and Hoomd-blue. This module is very flexible for future extension, just by adding suitable format reading of the simulation outputs. For example, the atomic/molecular configurations from <em>ab-initio</em> calculations (DFT) and Gromacs, and any others. This module is the base of all of the other physical calculations. As long as the simulation box information were read properly, they can be used for additional calculations. That means, we are trying to “forget about” the specific simulation box, but transform it to a specific data structures.</p>
+<p>The main functions are captured by the module <code class="docutils literal notranslate"><span class="pre">reader</span></code>, in which there are several reading methods, listed currently as:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dump_reader</span></code> [main function to call other methods]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GSD_reader_helper</span></code> [specific for Hoomd-blue]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lammps_reader_helper</span></code> [specific for LAMMPS]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">reader_utils</span></code> [define output data structures]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">simulation_log</span></code> [simulation log reading, now only for LAMMPS]</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">dump_reader</span></code> is a main stream to include all other methods, which is useful for general purpose. The other helper functions are designed for specific purpose if any.</p>
+<p>The typical features of <code class="docutils literal notranslate"><span class="pre">reader</span></code> are:</p>
+<ol class="arabic">
+<li><p>There are now four types of input snapshots format supported, which is specified by the <code class="docutils literal notranslate"><span class="pre">filetype</span></code> argument when initializing <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code>. Internally, this class calls the other specific methods:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">filetype=DumpFileType.LAMMPS</span></code>: Atomistic system in LAMMPS, by calling <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> or <code class="docutils literal notranslate"><span class="pre">reader.lammps_reader_helper.read_lammps_wrapper</span> </code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filetype=DumpFileType.LAMMPSCENTER</span></code>: Molecular system in LAMMPS, by calling <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> or <code class="docutils literal notranslate"><span class="pre">reader.lammps_reader_helper.read_lammps_centertype_wrapper</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filetype=DumpFileType.GSD</span></code>: Static properties in Hoomd-blue, GSD file, by calling <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> or <code class="docutils literal notranslate"><span class="pre">reader.GSD_reader_helper.read_GSD_wrapper</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filetype=DumpFileType.GSD_DCD</span></code>: Dynamic properties in Hoomd-blue, both GSD and DCD files, by calling <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> or <code class="docutils literal notranslate"><span class="pre">reader.GSD_reader_helper.read_GSD_DCD_wrapper</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filetype=DumpFileType.LAMMPSVECTOR</span></code>: additional columns other than the positions in the dump file. For example, the dump is “id type x y vx vy”, this module is working to read “vx, vy” by giving <code class="docutils literal notranslate"><span class="pre">columnsids=[4,</span> <span class="pre">5]</span></code>. This can be arbitray dimensions for the additional columns. This information is stored by the <code class="docutils literal notranslate"><span class="pre">positions</span></code> attribute.</p></li>
+</ul>
+</li>
+<li><p>Supports any dimensionality. General cases include the two-dimensional (LAMMPS dump file format <em><strong>id type x y</strong></em>) and three-dimensional snapshots (LAMMPS dump file format <em><strong>id type x y z</strong></em>). As long as the input format includes <em><strong>id type</strong></em>, only dimensional positions will be read-in and the other columns will be neglected. For example, for a two-dimensional system, the input format can be <em><strong>id type x y z xx yy zz nn…</strong></em>, the positions <em><strong>(x y)</strong></em> can be read properly. To read additional columns, use <code class="docutils literal notranslate"><span class="pre">DumpFileType.LAMMPSVECTOR</span></code> instead.</p></li>
+<li><p>Supports both orthogonal and triclinic cells with the use of H-matrix to deal with the periodic boundary conditions. As long as the simulator supports these two types cell, the module can process it properly. For a triclinic box, it converts the bounding box back into the trilinic box parameters by refering to ‘https://docs.lammps.org/Howto_triclinic.html’:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">xlo</span> <span class="o">=</span> <span class="n">xlo_bound</span> <span class="o">-</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="n">xy</span><span class="p">,</span><span class="n">xz</span><span class="p">,</span><span class="n">xy</span><span class="o">+</span><span class="n">xz</span><span class="p">)</span>
+<span class="n">xhi</span> <span class="o">=</span> <span class="n">xhi_bound</span> <span class="o">-</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="n">xy</span><span class="p">,</span><span class="n">xz</span><span class="p">,</span><span class="n">xy</span><span class="o">+</span><span class="n">xz</span><span class="p">)</span>
+<span class="n">ylo</span> <span class="o">=</span> <span class="n">ylo_bound</span> <span class="o">-</span> <span class="n">MIN</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="n">yz</span><span class="p">)</span>
+<span class="n">yhi</span> <span class="o">=</span> <span class="n">yhi_bound</span> <span class="o">-</span> <span class="n">MAX</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span><span class="n">yz</span><span class="p">)</span>
+<span class="n">zlo</span> <span class="o">=</span> <span class="n">zlo_bound</span>
+<span class="n">zhi</span> <span class="o">=</span> <span class="n">zhi_bound</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<section id="input-arguments">
+<h2>Input Arguments<a class="headerlink" href="#input-arguments" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">filename</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the name of dump file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ndim</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): dimensionality</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">filetype</span></code> (<code class="docutils literal notranslate"><span class="pre">DumpFileType</span></code>): input dump format, defined in <code class="docutils literal notranslate"><span class="pre">reader.reader_utils</span></code>, including the following format:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">DumpFileType.LAMMPS</span></code> (<code class="docutils literal notranslate"><span class="pre">default</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DumpFileType.LAMMPSCENTER</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DumpFileType.GSD</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DumpFileType.GSD_DCD</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">DumpFileType.LAMMPSVECTOR</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">moltypes</span></code> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>, optional): only used for molecular system in LAMMPS so far, default is <code class="docutils literal notranslate"><span class="pre">None</span></code>. To specify, for example, if the system has 5 types of atoms in which 1-3 is one type of molecules and 4-5 is the other, and type 3 and 5 are the center of mass. Then <code class="docutils literal notranslate"><span class="pre">moltypes</span></code> should be <code class="docutils literal notranslate"><span class="pre">{3:1,</span> <span class="pre">5:2}</span></code>. The keys <code class="docutils literal notranslate"><span class="pre">[3,</span> <span class="pre">5]</span></code> of  <code class="docutils literal notranslate"><span class="pre">moltypes</span></code> are used to select specific atoms to present the corresponding molecules. The values <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2]</span></code> is used to record the type of molecules.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">columnsids</span></code> (<code class="docutils literal notranslate"><span class="pre">list</span></code>): only used to read addtional columns in LAMMPS dump, default <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+</ol>
+</section>
+<section id="return">
+<h2>Return<a class="headerlink" href="#return" title="Permalink to this heading">¶</a></h2>
+<p>The input simulation box will be transformed to a list of ‘digital’ snapshot, by returning <code class="docutils literal notranslate"><span class="pre">snapshots</span></code> object. It is a list of <code class="docutils literal notranslate"><span class="pre">snapshot</span></code> that has all of the configuration information. <code class="docutils literal notranslate"><span class="pre">snapshots</span></code> and <code class="docutils literal notranslate"><span class="pre">snapshot</span></code> are two data class defined in <code class="docutils literal notranslate"><span class="pre">reader.reader_utils</span></code>.  <code class="docutils literal notranslate"><span class="pre">snapshot</span></code> consists:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots[n].timestep</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): simulation timestep at each snapshot</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots[n].nparticle</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): particle number from each snapshot</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots[n].particle_type</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle type in array in each snapshot. Additional columns information for <code class="docutils literal notranslate"><span class="pre">DumpFileType.LAMMPSVECTOR</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots[n].positions</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle coordinates in array in each snapshot</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots[n].boxlength</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): box length in array in each snapshot</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots[n].boxbounds</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): box boundaries in array in each snapshot</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots[n].realbounds</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): real box bounds of a triclinic box (optional)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots[n].hmatrix</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): h-matrix of the cells in each snapshot</p></li>
+</ul>
+<p>The information is stored in a list of which the elements are mainly numpy arrays. Particle-level information is referred by particle ID.</p>
+</section>
+<section id="important-notes">
+<h2>Important Notes<a class="headerlink" href="#important-notes" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>In LAMMPS, <em><strong>x</strong></em>, <em><strong>xs</strong></em>, and <em><strong>xu</strong></em> format coordinates are acceptable. Such as with format The reduced <em><strong>xs</strong></em> will be rescaled to the absolute coordinates <em><strong>x</strong></em>.</p></li>
+<li><p>For the <em><strong>xs</strong></em> and <em><strong>x</strong></em> types in orthogonal cells with periodic boundary conditions, particle coordinates are <strong>NOT</strong> warpped to the inside of the box by default, which could be changed by hand when necessary. In non-periodic boundary conditions, there should be no particles at the outside of the cell.</p></li>
+<li><p>Snapshots should be stored in one file at this stage.</p></li>
+<li><p>In Hoomd-blue, GSD and DCD files are acceptable. GSD file has all the information with periodic boundary conditions, while DCD has the unwarpped coordinates. GSD file has all the information with periodic boundary conditions, while DCD only has the particle positions. Normally only GSD file is needed . But if one wants to analyze the dynamical properties, the DCD file should be dumped accompanying the GSD file to get the unwarp coordinates. More specifically, all the information about the trajectory will be obtained from the GSD file except the particle positions which will be obtained from the DCD file. Therefore, the DCD and GSD files shall be dumped with the same period or concurrently. Another important point in this case is the file name of GSD and DCD. They should share the same name with the only difference of the last three string, ie. ‘GSD ’or ‘DCD’. For example, if the file name of GSD is <em><strong>dumpfile.GSD</strong></em> then the DCD file name must be <em><strong>dumpfile.DCD</strong></em>. To read the Hoomd-blue outputs, two new modules should be installed first: i) GSD; ii) mdtraj. These modules are available by conda.</p></li>
+<li><p>The addtional columns are now readable from <code class="docutils literal notranslate"><span class="pre">DumpFileType.LAMMPSVECTOR</span></code> by specifying the column ids.</p></li>
+</ol>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
+<p>Some dump files are provided in <code class="docutils literal notranslate"><span class="pre">tests/sample_test_data</span></code>.</p>
+<ul>
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">dump_reader</span></code> and specify <code class="docutils literal notranslate"><span class="pre">filetype</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
+
+<span class="n">readdump</span><span class="o">=</span><span class="n">DumpReader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="n">DumpFileType</span><span class="o">.</span><span class="n">LAMMPS</span><span class="p">)</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
+
+<span class="c1"># return the number of snapshots</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">nsnapshots</span>
+
+<span class="c1"># return the timestep of the first snapshot</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">timestep</span>
+
+<span class="c1"># return the particle number of the first snapshot</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">nparticle</span>
+
+<span class="c1"># return the particle type of the first snapshot</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">particle_type</span>
+
+<span class="c1"># return the particle positions of the first snapshot</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span>
+
+<span class="c1"># return the boxlength of the first snapshot</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">boxlength</span>
+
+<span class="c1"># return the boxbounds of the first snapshot</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">boxbounds</span>
+
+<span class="c1"># return the realbounds of the first snapshot, for triclinic box</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">realbounds</span>
+
+<span class="c1"># return the hmatrix of the first snapshot</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hmatrix</span>
+
+<span class="c1"># get all the timesteps</span>
+<span class="p">[</span><span class="n">snapshot</span><span class="o">.</span><span class="n">timestep</span> <span class="k">for</span> <span class="n">snapshot</span> <span class="ow">in</span> <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">]</span>
+</pre></div>
+</div>
+</li>
+<li><p>The user can also directly call the wrapper functions, such as,</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.lammps_reader_helper</span> <span class="kn">import</span> <span class="n">read_lammps_wrapper</span>
+
+<span class="n">snapshots</span> <span class="o">=</span> <span class="n">read_lammps_wrapper</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># return number of snapshots</span>
+<span class="n">snapshots</span><span class="o">.</span><span class="n">nsnapshots</span>
+
+<span class="c1"># return the particle positions of the first snapshot</span>
+<span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span>
+</pre></div>
+</div>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">reader.lammps_reader_helper.read_additions</span></code> can read additional columns in the lammps dump file. <code class="docutils literal notranslate"><span class="pre">ncol</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): specifying the column number starting from 0 (zero-based). <code class="docutils literal notranslate"><span class="pre">read_additions</span></code> returns a numpy array as shape [nsnapshots, nparticle] in float. For example, read <em><strong>order</strong></em> from <em><strong>id type x y z order</strong></em>. This is used to read only one column at a time from a dump file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.lammps_reader_helper</span> <span class="kn">import</span> <span class="n">read_additions</span>
+
+<span class="c1"># ncol starts in python style, i.e. from 0</span>
+<span class="n">dumpfile</span> <span class="o">=</span><span class="s1">&#39;./tests/sample_test_data/test_additional_columns.dump&#39;</span>
+<span class="n">read_additions</span><span class="p">(</span><span class="n">dumpfile</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">reader.simulation_log.read_lammpslog</span></code> can extract the thermodynamic quantities from lammps log file, input with <code class="docutils literal notranslate"><span class="pre">filename</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) lammps log file name, and return list of pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> for each logging section:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.simulation_log</span> <span class="kn">import</span> <span class="n">read_lammpslog</span>
+
+<span class="n">read_lammpslog</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">py_Matters_Simulations</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Reading Computer Simulations Snapshots</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#input-arguments">Input Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#return">Return</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#important-notes">Important Notes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="writer.html">Write LAMMPS dump/data format header</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">static orderings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id7">III. geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id17">IV. wavevector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id30">V. Fast Fourier Transformation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id34">VI. Spherical Harmonics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id38">VII. Coarse Graining</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to py_Matters_Simulations’s documentation!</a></li>
+      <li>Next: <a href="writer.html" title="next chapter">Write LAMMPS dump/data format header</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Yuan-Chao Hu.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 6.2.1</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/reader.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

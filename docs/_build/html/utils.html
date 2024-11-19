@@ -1,0 +1,660 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>util functions &#8212; py_Matters_Simulations  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="vector analysis" href="vectors.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="util-functions">
+<h1>util functions<a class="headerlink" href="#util-functions" title="Permalink to this heading">¶</a></h1>
+<section id="i-math-functions">
+<h2><a class="reference internal" href="#i-funcs"><span class="xref myst">I. math functions</span></a><a class="headerlink" href="#i-math-functions" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="ii-remove-periodic-boundary-conditions">
+<h2><a class="reference internal" href="#ii-remove-pbc"><span class="xref myst">II. remove periodic boundary conditions</span></a><a class="headerlink" href="#ii-remove-periodic-boundary-conditions" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="iii-geometry">
+<h2><a class="reference internal" href="#iii-geometry-1"><span class="xref myst">III. geometry</span></a><a class="headerlink" href="#iii-geometry" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="iv-wavevector">
+<h2><a class="reference internal" href="#iv-wavevector-1"><span class="xref myst">IV. wavevector</span></a><a class="headerlink" href="#iv-wavevector" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="v-fast-fourier-transformation">
+<h2><a class="reference internal" href="#v-fast-fourier-transformation-1"><span class="xref myst">V. Fast Fourier Transformation</span></a><a class="headerlink" href="#v-fast-fourier-transformation" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="vi-spherical-harmonics">
+<h2><a class="reference internal" href="#vi-spherical-harmonics-1"><span class="xref myst">VI. spherical harmonics</span></a><a class="headerlink" href="#vi-spherical-harmonics" title="Permalink to this heading">¶</a></h2>
+</section>
+<section id="vii-coarse-graining">
+<h2><a class="reference internal" href="#vii-coarse-graining-1"><span class="xref myst">VII. coarse graining</span></a><a class="headerlink" href="#vii-coarse-graining" title="Permalink to this heading">¶</a></h2>
+</section>
+</section>
+<hr class="docutils" />
+<section class="tex2jax_ignore mathjax_ignore" id="i-funcs">
+<h1>I. funcs<a class="headerlink" href="#i-funcs" title="Permalink to this heading">¶</a></h1>
+<p>mathmatical functions for feasible computations</p>
+<section id="nidealfac">
+<h2><code class="docutils literal notranslate"><span class="pre">1.</span> <span class="pre">nidealfac()</span></code><a class="headerlink" href="#nidealfac" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">nidealfac()</span></code> is used to choose pre-factor of <code class="docutils literal notranslate"><span class="pre">Nideal</span></code> in g(r) calculation.</p>
+<section id="input-arguments">
+<h3>Input Arguments<a class="headerlink" href="#input-arguments" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ndim</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): system dimensionality, default 3</p></li>
+</ul>
+</section>
+<section id="return">
+<h3>Return<a class="headerlink" href="#return" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Nideal (<code class="docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">funcs</span>
+
+<span class="n">funcs</span><span class="o">.</span><span class="n">nidealfac</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="moment-of-inertia">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">moment_of_inertia()</span></code><a class="headerlink" href="#moment-of-inertia" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">moment_of_inertia()</span></code> calculates moment of inertia for a rigid body made of n points/particles.</p>
+<section id="id1">
+<h3>Input Arguments<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">positions</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): positions of the point particles as [numofatoms, 3]</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">m</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): assuming each point mass is 1.0/numofatoms, default 1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">matrix</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): to return the results as a matrix of [ixx iyy izz ixy ixz iyz], default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Return<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>moment of inertia (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Example<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">funcs</span>
+<span class="n">funcs</span><span class="o">.</span><span class="n">moment_of_inertia</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="ii-remove-pbc">
+<h1>II. Remove PBC<a class="headerlink" href="#ii-remove-pbc" title="Permalink to this heading">¶</a></h1>
+<p>The module <code class="docutils literal notranslate"><span class="pre">utils.pbc()</span></code> removes periodic boundary conditions (PBC).</p>
+<section id="id4">
+<h2>Input Arguments<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RIJ</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): position difference between particle pairs <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hmatrix</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): h-matrix of the box</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ppp</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the periodic boundary conditions, setting 1 for yes and 0 for no. Default <code class="docutils literal notranslate"><span class="pre">np.array([1,</span> <span class="pre">1,</span> <span class="pre">1])</span></code>, that is, PBC is applied in all three dimensions for 3D box</p></li>
+</ul>
+</section>
+<section id="id5">
+<h2>Return<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>A <code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> for the position difference between particle pairs <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> after removing PBC</p></li>
+</ul>
+</section>
+<section id="id6">
+<h2>Example<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils.pbc</span> <span class="kn">import</span> <span class="n">remove_pbc</span>
+
+<span class="n">remove_pbc</span><span class="p">(</span><span class="n">RIJ</span><span class="p">,</span> <span class="n">hmatrix</span><span class="p">,</span> <span class="n">ppp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id7">
+<h1>III. geometry<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">utils.geometry()</span></code> includes math geometrical functions to assist other analysis</p>
+<section id="triangle-area">
+<h2>1. <code class="docutils literal notranslate"><span class="pre">triangle_area()</span></code><a class="headerlink" href="#triangle-area" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">triangle_area()</span></code> function calculates the area of a triangle using Heron’s equation</p>
+<section id="id8">
+<h3>Input Arguments<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">positions</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): numpy array of particle positions, <code class="docutils literal notranslate"><span class="pre">shape=(3,</span> <span class="pre">2)</span></code> for 2D, <code class="docutils literal notranslate"><span class="pre">shape=(3,</span> <span class="pre">3)</span></code> for 3D</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hmatrix</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): h-matrix of the box</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ppp</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the periodic boundary conditions, setting 1 for yes and 0 for no. default <code class="docutils literal notranslate"><span class="pre">np.array([1,</span> <span class="pre">1])</span></code>, that is, PBC is applied in all two dimensions</p></li>
+</ul>
+</section>
+<section id="id9">
+<h3>Return<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>area of triangle (float)</p></li>
+</ul>
+</section>
+<section id="id10">
+<h3>Example<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">geometry</span>
+
+<span class="n">geometry</span><span class="o">.</span><span class="n">triangle_area</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">hmatrix</span><span class="p">,</span> <span class="n">ppp</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="triangle-angle">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">triangle_angle()</span></code><a class="headerlink" href="#triangle-angle" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">triangle_angle()</span></code> function calculates the angle of a triangle based on side lengths</p>
+<section id="id11">
+<h3>Input Arguments<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code>, <code class="docutils literal notranslate"><span class="pre">b</span></code>, <code class="docutils literal notranslate"><span class="pre">c</span></code> (float): side length</p></li>
+</ul>
+</section>
+<section id="id12">
+<h3>Return<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>corresponding angles <code class="docutils literal notranslate"><span class="pre">C</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
+</ul>
+</section>
+<section id="id13">
+<h3>Example<a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">geometry</span>
+
+<span class="n">geometry</span><span class="o">.</span><span class="n">triangle_angle</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="lines-intersection">
+<h2>3. <code class="docutils literal notranslate"><span class="pre">lines_intersection()</span></code><a class="headerlink" href="#lines-intersection" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">lines_intersection()</span></code> function extracts the line-line intersection for two lines <code class="docutils literal notranslate"><span class="pre">[P1,</span> <span class="pre">P2]</span></code> and <code class="docutils literal notranslate"><span class="pre">[P3,</span> <span class="pre">P4]</span></code> in two dimensions</p>
+<section id="id14">
+<h3>Input Arguments<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">P1</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): one point on line 1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P2</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): another point on line 1</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P3</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): one point on line 2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P4</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): another point on line 2</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P3</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): third point within a square</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">P4</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): fourth point within a square</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">R0</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): point within the sqaure</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): pointing to R0 from R1 outside the square</p></li>
+</ul>
+</section>
+<section id="id15">
+<h3>Return<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>intersection of two lines (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
+</ul>
+</section>
+<section id="id16">
+<h3>Example<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">geometry</span>
+
+<span class="n">geometry</span><span class="o">.</span><span class="n">lines_intersection</span><span class="p">(</span><span class="n">P1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+                            <span class="n">P2</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
+                            <span class="n">P3</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
+                            <span class="n">P4</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id17">
+<h1>IV. wavevector<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">utils.wavevector</span></code> module generates wave-vector for calculations like static/dynamic structure factor.</p>
+<section id="wavevector3d">
+<h2>1. <code class="docutils literal notranslate"><span class="pre">wavevector3d()</span></code><a class="headerlink" href="#wavevector3d" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">wavevector3d()</span></code> is used to define wave vectors for three dimensional systems.</p>
+<section id="id18">
+<h3>Input Arguments<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">numofq</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): number of q</p></li>
+</ul>
+</section>
+<section id="id19">
+<h3>Return<a class="headerlink" href="#id19" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>wavevector (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
+</ul>
+</section>
+<section id="id20">
+<h3>Example<a class="headerlink" href="#id20" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
+<span class="n">wavevector</span><span class="o">.</span><span class="n">wavevector3d</span><span class="p">(</span><span class="n">numofq</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="wavevector2d">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">wavevector2d()</span></code><a class="headerlink" href="#wavevector2d" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">wavevector2d()</span></code> is used to define wave vectors for two dimensional systems.</p>
+<section id="id21">
+<h3>Input Arguments<a class="headerlink" href="#id21" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">numofq</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): number of q</p></li>
+</ul>
+</section>
+<section id="id22">
+<h3>Return<a class="headerlink" href="#id22" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>wavevector (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
+</ul>
+</section>
+<section id="id23">
+<h3>Example<a class="headerlink" href="#id23" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
+<span class="n">wavevector</span><span class="o">.</span><span class="n">wavevector2d</span><span class="p">(</span><span class="n">numofq</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="choosewavevector">
+<h2>3. <code class="docutils literal notranslate"><span class="pre">choosewavevector()</span></code><a class="headerlink" href="#choosewavevector" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">choosewavevector()</span></code> is used to define wave vector for
+$<span class="math notranslate nohighlight">\(
+[n_x, n_y, n_z]
+\)</span><span class="math notranslate nohighlight">\( 
+as long as they are integers. Considering wave vector values from \)</span>[-N/2, N/2]<span class="math notranslate nohighlight">\( or from \)</span>[0, N/2]$ (<code class="docutils literal notranslate"><span class="pre">onlypositive=True</span></code>). Only get the sqrt-able wave vector.</p>
+<section id="id24">
+<h3>Input Arguments<a class="headerlink" href="#id24" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ndim</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): dimensionality</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numofq</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): number of wave vectors</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">onlypositive</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether only consider positive wave vectors, , default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+</ul>
+</section>
+<section id="id25">
+<h3>Example<a class="headerlink" href="#id25" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
+<span class="n">wavevector</span><span class="o">.</span><span class="n">choosewavevector</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">numofq</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">onlypositive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="id26">
+<h3>Return<a class="headerlink" href="#id26" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>qvectors (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
+</ul>
+</section>
+</section>
+<section id="continuousvector">
+<h2>4. <code class="docutils literal notranslate"><span class="pre">continuousvector()</span></code><a class="headerlink" href="#continuousvector" title="Permalink to this heading">¶</a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">continuousvector()</span></code> is used to define wave vector for
+$<span class="math notranslate nohighlight">\(
+[n_x, n_y, n_z]
+\)</span><span class="math notranslate nohighlight">\( 
+as long as they are integers. Considering wave vector values from \)</span>[-N/2, N/2]<span class="math notranslate nohighlight">\( or from \)</span>[0, N/2]$ (<code class="docutils literal notranslate"><span class="pre">onlypositive=True</span></code>).</p>
+<section id="id27">
+<h3>Input Arguments<a class="headerlink" href="#id27" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ndim</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): dimensionality</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numofq</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): number of wave vectors, default 100</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">onlypositive</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether only consider positive wave vectors, default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
+</ul>
+</section>
+<section id="id28">
+<h3>Return<a class="headerlink" href="#id28" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>qvectors (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
+</ul>
+</section>
+<section id="id29">
+<h3>Example<a class="headerlink" href="#id29" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
+<span class="n">wavevector</span><span class="o">.</span><span class="n">continuousvector</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">numofq</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">onlypositive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id30">
+<h1>V. Fast Fourier Transformation<a class="headerlink" href="#id30" title="Permalink to this heading">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">utils.fft</span></code> calculates the Fourier transformation of an autocorrelation function by Filon’s integration method</p>
+<section id="id31">
+<h2>Input Arguments<a class="headerlink" href="#id31" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">C</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the auto-correlation function</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">t</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the time corresponding to C</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): the frequency interval, default 0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): filename to save the calculated results, default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</section>
+<section id="id32">
+<h2>Return<a class="headerlink" href="#id32" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>FFT results (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>)</p></li>
+</ul>
+</section>
+<section id="id33">
+<h2>Example<a class="headerlink" href="#id33" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">fft</span>
+<span class="n">fft</span><span class="o">.</span><span class="n">Filon_COS</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">outputfile</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id34">
+<h1>VI. Spherical Harmonics<a class="headerlink" href="#id34" title="Permalink to this heading">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">utils.spherical_harmonics</span></code> calculates spherical harmonics of given (<span class="math notranslate nohighlight">\(\theta\)</span>, <span class="math notranslate nohighlight">\(\phi\)</span>) from (<span class="math notranslate nohighlight">\(l\)</span> = 0) to (<span class="math notranslate nohighlight">\(l\)</span> = 10). From <code class="docutils literal notranslate"><span class="pre">SphHarm0()</span></code> to <code class="docutils literal notranslate"><span class="pre">SphHarm10()</span></code> a list of [<span class="math notranslate nohighlight">\(-l\)</span>, <span class="math notranslate nohighlight">\(l\)</span>] values will be returned, if <span class="math notranslate nohighlight">\(l\)</span>&gt;10 use scipy.special.sph_harm (this may be slower).</p>
+<section id="id35">
+<h2>Input Arguments<a class="headerlink" href="#id35" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>For degree of harmonics <span class="math notranslate nohighlight">\(l\)</span>=0, the input is <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p>For <span class="math notranslate nohighlight">\(1&lt;l\leq10\)</span>, the input is:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">theta</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): Azimuthal (longitudinal) coordinate; must be in <span class="math notranslate nohighlight">\([0, 2\pi]\)</span></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">phi</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): Polar (colatitudinal) coordinate; must be in <span class="math notranslate nohighlight">\([0, \pi]\)</span></p></li>
+</ul>
+</li>
+<li><p>For <span class="math notranslate nohighlight">\(l&gt;10\)</span>, beside <code class="docutils literal notranslate"><span class="pre">theta</span></code> and <code class="docutils literal notranslate"><span class="pre">phi</span></code>, <code class="docutils literal notranslate"><span class="pre">l</span></code> should also be taken as input.</p></li>
+</ul>
+</section>
+<section id="id36">
+<h2>Return<a class="headerlink" href="#id36" title="Permalink to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>spherical harmonics (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
+</ul>
+</section>
+<section id="id37">
+<h2>Example<a class="headerlink" href="#id37" title="Permalink to this heading">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">spherical_harmonics</span>
+
+<span class="n">spherical_harmonics</span><span class="o">.</span><span class="n">SphHarm4</span><span class="p">(</span><span class="n">theta</span><span class="o">=</span><span class="mi">60</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">30</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+
+<span class="n">spherical_harmonics</span><span class="o">.</span><span class="n">SphHarm6</span><span class="p">(</span><span class="n">theta</span><span class="o">=</span><span class="mi">60</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">30</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+
+<span class="n">spherical_harmonics</span><span class="o">.</span><span class="n">SphHarm_above</span><span class="p">(</span><span class="n">l</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="mi">60</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">30</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id38">
+<h1>VII. Coarse Graining<a class="headerlink" href="#id38" title="Permalink to this heading">¶</a></h1>
+<p><code class="docutils literal notranslate"><span class="pre">utils.coarse_graining</span></code> calculates the time average, spatial average, gaussian blurring, and atomic position average of input property.</p>
+<section id="time-average">
+<h2>1. <code class="docutils literal notranslate"><span class="pre">time_average()</span></code><a class="headerlink" href="#time-average" title="Permalink to this heading">¶</a></h2>
+<p>Calculate time average of the input property over a certain time window</p>
+<section id="id39">
+<h3>Input Arguments<a class="headerlink" href="#id39" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory
+(returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">input_property</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the input particle-level property, in <code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots,</span> <span class="pre">nparticle]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">time_period</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): time used to average, default 0.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): timestep used in user simulations, default 0.002</p></li>
+</ul>
+</section>
+<section id="id40">
+<h3>Return<a class="headerlink" href="#id40" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">results</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): Calculated time averaged input results with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots_updated,</span> <span class="pre">nparticles]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">results_middle_snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): Corresponding snapshot id of the middle snapshot of each time period with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots_updated]</span></code></p></li>
+</ul>
+</section>
+<section id="id41">
+<h3>Example<a class="headerlink" href="#id41" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils.coarse_graining</span> <span class="kn">import</span> <span class="n">time_average</span>
+
+<span class="n">time_average</span><span class="p">(</span><span class="n">snapshots</span><span class="p">,</span> <span class="n">input_property</span><span class="p">,</span> <span class="n">time_period</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="spatial-average">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">spatial_average()</span></code><a class="headerlink" href="#spatial-average" title="Permalink to this heading">¶</a></h2>
+<p>Calculate spatial average of the input property over a certain distance, which is demonstrated by the neighbor definition.</p>
+<section id="id42">
+<h3>Input Arguments<a class="headerlink" href="#id42" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">input_property</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): input property to be coarse-grained, should be in the shape [num_of_snapshots, num_of_particles, xxx]. The input property can be scalar or vector or tensor</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name of pre-defined neighbor list</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Namx</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): maximum number of particle neighbors</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name of coarse-grained variable</p></li>
+</ul>
+</section>
+<section id="id43">
+<h3>Return<a class="headerlink" href="#id43" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cg_input_property</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): coarse-grained input property in numpy ndarray</p></li>
+</ul>
+</section>
+<section id="id44">
+<h3>Example<a class="headerlink" href="#id44" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span> <span class="nn">utils.coarse_graining</span> <span class="kn">import</span> <span class="n">spatial_average</span> 
+
+<span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
+<span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
+<span class="n">input_property</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">([</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">nsnapshots</span><span class="p">,</span> <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">nparticle</span><span class="p">])</span>
+<span class="n">Nnearests</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">ppp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span> <span class="n">fnfile</span><span class="o">=</span><span class="s1">&#39;neighborlist.dat&#39;</span><span class="p">)</span>
+<span class="n">neighborfile</span><span class="o">=</span><span class="s1">&#39;neighborlist.dat&#39;</span>
+<span class="n">sa</span> <span class="o">=</span> <span class="n">spatial_average</span><span class="p">(</span><span class="n">input_property</span><span class="p">,</span><span class="n">neighborfile</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="gaussian-blurring">
+<h2>3. <code class="docutils literal notranslate"><span class="pre">gaussian_blurring()</span></code><a class="headerlink" href="#gaussian-blurring" title="Permalink to this heading">¶</a></h2>
+<p>Project input properties into a grid made from the simulation box. Basically, the calculation is to define a grid based on the simulation box, and then project the particle-level property to the grids based on the gaussian distribution function:
+$<span class="math notranslate nohighlight">\(
+p(\vec{r_j}) = \sum_i \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left(-\frac{(\vec{r_j}-\vec{r}_i)^2}{2\sigma^2}\right) p_i,
+\)</span><span class="math notranslate nohighlight">\(
+in which \)</span>\vec{r_j}<span class="math notranslate nohighlight">\( is the position of the \)</span>j_{th}<span class="math notranslate nohighlight">\( grid, and \)</span>\vec{r_i}<span class="math notranslate nohighlight">\( is the position of the \)</span>i_{th}<span class="math notranslate nohighlight">\( particle. \)</span>p_i<span class="math notranslate nohighlight">\( is the particle-level property of the \)</span>i_{th}$ particle, which can be a scalar, vector or tensor.</p>
+<section id="id45">
+<h3>Input Arguments<a class="headerlink" href="#id45" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">read.reader_utils.snapshots)</span></code>: multiple trajectories dumped linearly or in logscale</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">condition</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level condition / property, type should be float, shape: [num_of_snapshots, num_of_particles, xxx], The input property can be scalar or vector or tensor, based on the shape of condition, mapping as {“scalar”: 3, “vector”: 4, “tensor”: 5}</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ngrids</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code>): predefined grid number in the simulation box, shape as the dimension, for example, [25, 25] for 2D systems</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sigma</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): standard deviation of the gaussian distribution function, default 2.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ppp</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the periodic boundary conditions (PBCs), setting 1 for yes and 0 for no, default <code class="docutils literal notranslate"><span class="pre">np.array([1,1,1]</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">gaussian_cut</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): the longest distance to consider the gaussian probability or the contribution from the simulation particles. default 6.0.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name to save the grid positions and the corresponding properties</p></li>
+</ul>
+</section>
+<section id="id46">
+<h3>Return<a class="headerlink" href="#id46" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">grid_positions</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): Positions of the grids of each snapshot</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">grid_property</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): properties of each grid of each snapshot</p></li>
+</ul>
+</section>
+<section id="id47">
+<h3>Example<a class="headerlink" href="#id47" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span> <span class="nn">utils.coarse_graining</span> <span class="kn">import</span> <span class="n">gaussian_blurring</span>
+
+<span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
+<span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
+<span class="n">ppp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ngrids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">20</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>
+<span class="n">input_property</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">([</span>
+  <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">nsnapshots</span><span class="p">,</span>
+  <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">nparticle</span>
+<span class="p">])</span>
+
+<span class="n">gb_position</span><span class="p">,</span> <span class="n">gb_property</span> <span class="o">=</span> <span class="n">gaussian_blurring</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span><span class="n">input_property</span><span class="p">,</span><span class="n">ngrids</span><span class="p">,</span><span class="mf">2.0</span><span class="p">,</span><span class="n">ppp</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">py_Matters_Simulations</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reading Computer Simulations Snapshots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writer.html">Write LAMMPS dump/data format header</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">static orderings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">util functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#i-math-functions"><span class="xref myst">I. math functions</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ii-remove-periodic-boundary-conditions"><span class="xref myst">II. remove periodic boundary conditions</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iii-geometry"><span class="xref myst">III. geometry</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#iv-wavevector"><span class="xref myst">IV. wavevector</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v-fast-fourier-transformation"><span class="xref myst">V. Fast Fourier Transformation</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vi-spherical-harmonics"><span class="xref myst">VI. spherical harmonics</span></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#vii-coarse-graining"><span class="xref myst">VII. coarse graining</span></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#i-funcs">I. funcs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#nidealfac"><code class="docutils literal notranslate"><span class="pre">1.</span> <span class="pre">nidealfac()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#moment-of-inertia">2. <code class="docutils literal notranslate"><span class="pre">moment_of_inertia()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#ii-remove-pbc">II. Remove PBC</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id4">Input Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">Return</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id7">III. geometry</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#triangle-area">1. <code class="docutils literal notranslate"><span class="pre">triangle_area()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#triangle-angle">2. <code class="docutils literal notranslate"><span class="pre">triangle_angle()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lines-intersection">3. <code class="docutils literal notranslate"><span class="pre">lines_intersection()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id17">IV. wavevector</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#wavevector3d">1. <code class="docutils literal notranslate"><span class="pre">wavevector3d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wavevector2d">2. <code class="docutils literal notranslate"><span class="pre">wavevector2d()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#choosewavevector">3. <code class="docutils literal notranslate"><span class="pre">choosewavevector()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#continuousvector">4. <code class="docutils literal notranslate"><span class="pre">continuousvector()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id30">V. Fast Fourier Transformation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id31">Input Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id32">Return</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id33">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id34">VI. Spherical Harmonics</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#id35">Input Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id36">Return</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id37">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="#id38">VII. Coarse Graining</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#time-average">1. <code class="docutils literal notranslate"><span class="pre">time_average()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spatial-average">2. <code class="docutils literal notranslate"><span class="pre">spatial_average()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gaussian-blurring">3. <code class="docutils literal notranslate"><span class="pre">gaussian_blurring()</span></code></a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="vectors.html" title="previous chapter">vector analysis</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Yuan-Chao Hu.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 6.2.1</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/utils.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
