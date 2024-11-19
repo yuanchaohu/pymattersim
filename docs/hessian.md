@@ -1,8 +1,10 @@
 # Hessian matrix calculation and diagonalization
 
-# [1. Pair interactions](#1-pair-interactions)
-# [2. Hessian matrix](#2-hessian-matrix)
+# [1. Pair interactions](#i-pair-interactions)
+# [2. Hessian matrix](#ii-hessian-matrix)
 ---
+
+## I. Pair interactions
 
 This module calculates the hessian matrix of a simulation configuration with a pair potential. Currently, there are three types of pair potentials at 2D and 3D are supported, i.e. lennard-jones, inverse-power law, and harmonic or hertz potentials. They are defined as
 
@@ -140,8 +142,8 @@ harmonic or hertz potential
 pair_interaction.harmonic_hertz(alpha=2.0)
 ```
 
-
-# 2. `HessianMatrix` class
+# II. Hessian matrix
+### 2. `HessianMatrix` class
 This class calculates the hessian matrix of the simulation configuration and diagonalize it with numpy. The eigenvalues and eigenvectors are given for further analysis, such as the frequency and participation ratio of each eigenvector.
 
 ### Input Arguments
