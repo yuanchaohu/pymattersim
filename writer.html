@@ -1,0 +1,192 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Write LAMMPS dump/data format header &#8212; py_Matters_Simulations  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Neighbors" href="neighbors.html" />
+    <link rel="prev" title="Reading Computer Simulations Snapshots" href="reader.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="write-lammps-dump-data-format-header">
+<h1>Write LAMMPS dump/data format header<a class="headerlink" href="#write-lammps-dump-data-format-header" title="Permalink to this heading">¶</a></h1>
+<p>This module is used to write the header of lammps dump and data files for conveniently rewriting snapshots.</p>
+<section id="input-arguments">
+<h2>Input Arguments<a class="headerlink" href="#input-arguments" title="Permalink to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">writer.lammps_writer.write_dump_header</span></code> writes the header of lammps dump file:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">timestep</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>):  timestep for the current snapshot</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nparticle</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): number of particle</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boxbounds</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the bounds of the simulation box. For two-dimensional box, <code class="docutils literal notranslate"><span class="pre">[[xlo,</span> <span class="pre">xhi],</span> <span class="pre">[ylo,</span> <span class="pre">yhi]]</span></code>. For three-dimensional box, <code class="docutils literal notranslate"><span class="pre">[[xlo,</span> <span class="pre">xhi],</span> <span class="pre">[ylo,</span> <span class="pre">yhi],</span> <span class="pre">[zlo,</span> <span class="pre">zhi]]</span></code>. <code class="docutils literal notranslate"><span class="pre">xho</span></code> and <code class="docutils literal notranslate"><span class="pre">xhi</span></code> represent minimum and maximum coordinate values in the x-direction, respectively, same as <code class="docutils literal notranslate"><span class="pre">[ylo,</span> <span class="pre">yhi]</span></code> and <code class="docutils literal notranslate"><span class="pre">[zlo,</span> <span class="pre">zhi]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">addson</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the name of additional columns, such as “order Q6”, default <code class="docutils literal notranslate"><span class="pre">addson</span> <span class="pre">=</span> <span class="pre">''</span></code></p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">writer.lammps_writer.write_data_header</span></code> writes the header of lammps data file:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">nparticle</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): number of particle</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nparticle_type</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): number of particle type</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">boxbounds</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): same as the definition in <code class="docutils literal notranslate"><span class="pre">write_dump_header</span></code></p></li>
+</ul>
+</li>
+</ol>
+</section>
+<section id="return">
+<h2>Return<a class="headerlink" href="#return" title="Permalink to this heading">¶</a></h2>
+<p>A string for the header will be returned.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h2>
+<ul>
+<li><p>Write the header of lammps dump file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">writer.lammps_writer</span> <span class="kn">import</span> <span class="n">write_dump_header</span>
+
+<span class="n">write_dump_header</span><span class="p">(</span><span class="n">timestep</span><span class="p">,</span> <span class="n">nparticle</span><span class="p">,</span> <span class="n">boxbounds</span><span class="p">,</span> <span class="n">addson</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p>Write the header of lammps data file:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">writer.lammps_writer</span> <span class="kn">import</span> <span class="n">write_data_header</span>
+
+<span class="n">write_data_header</span><span class="p">(</span><span class="n">nparticle</span><span class="p">,</span> <span class="n">nparticle_type</span><span class="p">,</span> <span class="n">boxbounds</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">py_Matters_Simulations</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reading Computer Simulations Snapshots</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Write LAMMPS dump/data format header</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#input-arguments">Input Arguments</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#return">Return</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">static orderings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id7">III. geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id17">IV. wavevector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id30">V. Fast Fourier Transformation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id34">VI. Spherical Harmonics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id38">VII. Coarse Graining</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="reader.html" title="previous chapter">Reading Computer Simulations Snapshots</a></li>
+      <li>Next: <a href="neighbors.html" title="next chapter">Neighbors</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Yuan-Chao Hu.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 6.2.1</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/writer.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

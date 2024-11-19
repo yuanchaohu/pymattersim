@@ -1,0 +1,334 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Bond Orientational Order Parameters at 2D &#8212; py_Matters_Simulations  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Bond Orientational Order Parameters at 3D" href="boo_3d.html" />
+    <link rel="prev" title="Structure Factor" href="sq.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="bond-orientational-order-parameters-at-2d">
+<h1>Bond Orientational Order Parameters at 2D<a class="headerlink" href="#bond-orientational-order-parameters-at-2d" title="Permalink to this heading">¶</a></h1>
+<p>The class <code class="docutils literal notranslate"><span class="pre">static.boo.boo_2d()</span></code> calculates the bond orientational order (BOO) parameters in two dimensions. All calculations start from measuring the <span class="math notranslate nohighlight">\(l\)</span>-th order as a complex number <span class="math notranslate nohighlight">\(\varphi_l(j)\)</span> for particle <span class="math notranslate nohighlight">\(j\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+\varphi_l(j)=\frac{1}{N_j}\sum_{m=1}^{N_j}e^{i l \theta_m} \tag{1},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(N_j\)</span> is the number of bonds of particles <span class="math notranslate nohighlight">\(j\)</span> in consideration. This is the original one with all (<span class="math notranslate nohighlight">\(N_j\)</span>) neighboring particles treated as the same. However, in some cases, we need to treat these neighboring particles differently based on their properties with respect to the center particle <span class="math notranslate nohighlight">\(j\)</span>. Then we can obtain the weighted complex number <span class="math notranslate nohighlight">\(\varphi_l(j)\)</span> as:</p>
+<div class="math notranslate nohighlight">
+\[
+\varphi_l(j)=\sum_{m=1}^{N_j}\frac{A_{jm}}{\sum |A_{jm}|}e^{i l \theta_m} \tag{2},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(A_{jm}\)</span> is the property of the <span class="math notranslate nohighlight">\((j-m)\)</span> bond. Therefore, the normalized weights <span class="math notranslate nohighlight">\(\frac{A_{jm}}{\sum |A_{jm}|}\)</span> are used in the calculation. Note that in the normalization we take the absolute values of <span class="math notranslate nohighlight">\(A_{jm}\)</span>
+We can treat all <span class="math notranslate nohighlight">\(A_{jm}=1\)</span> for the case shown in equation (1). The weights are provided in the same way as for the neighbors.</p>
+<p>Based on the orientational order parameter <span class="math notranslate nohighlight">\(\varphi_l(j)\)</span> in complex number, both the modulus and phase (or argument) are calculated by numpy functions.</p>
+<p>In some cases, to remove thermal fluctuations, time average over a time period of <span class="math notranslate nohighlight">\(\tau\)</span> can be performed in two ways:</p>
+<ol class="arabic simple">
+<li><p>time average of scalar modulus and phase</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\psi_l(j)=\frac{1}{\tau} \int_{t-\tau/2}^{t+\tau/2} |\varphi_l(j)| dt (\tag 3)
+\]</div>
+<ol class="arabic simple" start="2">
+<li><p>time average of complex number <span class="math notranslate nohighlight">\(\varphi_l(j)\)</span> and then get the scalar modulus and phase</p></li>
+</ol>
+<div class="math notranslate nohighlight">
+\[
+\psi_l(j)=\frac{1}{\tau} \int_{t-\tau/2}^{t+\tau/2} \varphi_l(j) dt (\tag 4)
+\]</div>
+<p>By using the complex number <span class="math notranslate nohighlight">\(\varphi_l(j)\)</span>, both spatial correlation and time correlation can be calculated by:</p>
+<ul class="simple">
+<li><p>spatial correlation of the complex number</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+  g_l(r)=\frac{L^2}{2\pi r \Delta r N(N-1)} \left&lt; \sum_{j \neq k} \delta(\vec r - |\vec r_{jk}|) \varphi_l(j) \varphi_l^*(k) \right&gt; \tag{5}
+\]</div>
+<ul class="simple">
+<li><p>time correlation of the complex number</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+  C_l(t)=\frac{\langle \sum_n \varphi_l^n(t) \varphi_l^{n*}(0) \rangle}{\langle \sum_n |\varphi_l^n(0)|^2 \rangle} \tag{6}
+\]</div>
+<section id="boo-2d-class">
+<h2>1. <code class="docutils literal notranslate"><span class="pre">boo_2d</span></code> class<a class="headerlink" href="#boo-2d-class" title="Permalink to this heading">¶</a></h2>
+<section id="input-arguments">
+<h3>Input Arguments<a class="headerlink" href="#input-arguments" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">l</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): degree of orientational order, like l=6 for hexatic order</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name of particle neighbors (see module <code class="docutils literal notranslate"><span class="pre">neighbors</span></code>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">weightsfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name of particle-neighbor weights (see module <code class="docutils literal notranslate"><span class="pre">neighbors</span></code>), one typical example is Voronoi cell edge length of the polygon; this file should be consistent with neighborfile, default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ppp</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the periodic boundary conditions, setting <code class="docutils literal notranslate"><span class="pre">1</span></code> for yes and <code class="docutils literal notranslate"><span class="pre">0</span></code> for no, default <code class="docutils literal notranslate"><span class="pre">np.array([1,1])</span></code>,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Nmax</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): maximum number for neighbors, default 10</p></li>
+</ul>
+</section>
+<section id="return">
+<h3>Return:<a class="headerlink" href="#return" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>None</p></li>
+</ul>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
+<span class="kn">from</span> <span class="nn">neighbors.freud_neighbors</span> <span class="kn">import</span> <span class="n">cal_neighbors</span>
+<span class="kn">from</span> <span class="nn">static.boo</span> <span class="kn">import</span> <span class="n">boo_2d</span>
+
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;dump.atom&#39;</span>
+<span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="n">DumpFileType</span><span class="o">.</span><span class="n">LAMMPS</span><span class="p">,</span> <span class="n">moltypes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
+
+<span class="n">cal_neighbors</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
+<span class="n">boo</span> <span class="o">=</span> <span class="n">boo_2d</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span>
+             <span class="n">l</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+             <span class="n">neighborfile</span><span class="o">=</span><span class="s1">&#39;test.neighbor.dat&#39;</span>
+             <span class="n">weightsfile</span><span class="o">=</span><span class="s1">&#39;test.edgelength.dat&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="lthorder">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">lthorder()</span></code><a class="headerlink" href="#lthorder" title="Permalink to this heading">¶</a></h2>
+<p>Calculate <span class="math notranslate nohighlight">\(l\)</span>-th orientational order in 2D, such as hexatic order</p>
+<section id="id1">
+<h3>Input Arguments<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>None</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Return<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Calculated <span class="math notranslate nohighlight">\(l\)</span>-th order in complex number (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>) with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots,</span> <span class="pre">nparticle]</span></code></p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Example<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">lthorder_results</span> <span class="o">=</span> <span class="n">boo2d</span><span class="o">.</span><span class="n">lthorder</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="time-average">
+<h2>3. <code class="docutils literal notranslate"><span class="pre">time_average()</span></code><a class="headerlink" href="#time-average" title="Permalink to this heading">¶</a></h2>
+<p>Calculate the time averaged <span class="math notranslate nohighlight">\(\varphi_l(j)\)</span>. There are two cases considered in this function:</p>
+<ul class="simple">
+<li><p>return the original complex order parameter (<code class="docutils literal notranslate"><span class="pre">time_period=None</span></code> or as default)</p></li>
+<li><p>return time averaged complex order parameter (<code class="docutils literal notranslate"><span class="pre">time_period</span></code> not <code class="docutils literal notranslate"><span class="pre">None</span></code>) by averaging complex number directly (<code class="docutils literal notranslate"><span class="pre">average_complex=True</span></code>, <code class="docutils literal notranslate"><span class="pre">default</span></code>) or by averaging mudulus and phase of the complex number first and then calculate complex order parameter (<code class="docutils literal notranslate"><span class="pre">average_complex=False</span></code>).</p></li>
+</ul>
+<p>As equation (3) and (4) shows, one snapshot is intended to be averaged from <span class="math notranslate nohighlight">\(-\tau/2\)</span> to <span class="math notranslate nohighlight">\(\tau/2\)</span>, so the middle snapshot number (<code class="docutils literal notranslate"><span class="pre">average_snapshot_id</span></code>) is also returned for reference.</p>
+<section id="id4">
+<h3>Input Arguments<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">time_period</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): time average period, default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): simulation snapshots time step, default 0.002</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">average_complex</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether averaging the complex order parameter or not, default <code class="docutils literal notranslate"><span class="pre">True</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): file name of the output modulus and phase, default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</section>
+<section id="id5">
+<h3>Return<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ParticlePhi</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the original complex order parameter if <code class="docutils literal notranslate"><span class="pre">time_period=None</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">average_quantity</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): time averaged <span class="math notranslate nohighlight">\(\varphi_l(j)\)</span> results if <code class="docutils literal notranslate"><span class="pre">time_period</span></code> not <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">average_snapshot_id</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): middle snapshot number between time periods if <code class="docutils literal notranslate"><span class="pre">time_period</span></code> not <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</section>
+<section id="id6">
+<h3>Example<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">modulus</span><span class="p">,</span> <span class="n">phase</span> <span class="o">=</span> <span class="n">boo2d</span><span class="o">.</span><span class="n">modulus_phase</span><span class="p">(</span><span class="n">time_period</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> <span class="n">average_complex</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="spatial-corr">
+<h2>4. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code><a class="headerlink" href="#spatial-corr" title="Permalink to this heading">¶</a></h2>
+<p>Calculate spatial correlation of the orientational order parameter</p>
+<section id="id7">
+<h3>Input Arguments<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">rdelta</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): bin size in calculating g(r) and Gl(r), default 0.01</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): csv file name for gl(r), default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</section>
+<section id="id8">
+<h3>Return<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>calculated gl(r) based on phi (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>)</p></li>
+</ul>
+</section>
+<section id="id9">
+<h3>Example<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">spatial_corr_results</span> <span class="o">=</span> <span class="n">boo2d</span><span class="o">.</span><span class="n">spatial_corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="time-corr">
+<h2>5. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code><a class="headerlink" href="#time-corr" title="Permalink to this heading">¶</a></h2>
+<p>Calculate time correlation of the orientational order parameter</p>
+<section id="id10">
+<h3>Input Arguments<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): timestep used in user simulations, default 0.002</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): csv file name for time correlation results, default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>Return<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>time correlation quantity (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>)</p></li>
+</ul>
+</section>
+<section id="id12">
+<h3>Example<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">time_corr_results</span> <span class="o">=</span> <span class="n">boo2d</span><span class="o">.</span><span class="n">time_corr</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">py_Matters_Simulations</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reading Computer Simulations Snapshots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writer.html">Write LAMMPS dump/data format header</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Bond Orientational Order Parameters at 2D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#boo-2d-class">1. <code class="docutils literal notranslate"><span class="pre">boo_2d</span></code> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#lthorder">2. <code class="docutils literal notranslate"><span class="pre">lthorder()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#time-average">3. <code class="docutils literal notranslate"><span class="pre">time_average()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#spatial-corr">4. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#time-corr">5. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">static orderings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id7">III. geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id17">IV. wavevector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id30">V. Fast Fourier Transformation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id34">VI. Spherical Harmonics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id38">VII. Coarse Graining</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="sq.html" title="previous chapter">Structure Factor</a></li>
+      <li>Next: <a href="boo_3d.html" title="next chapter">Bond Orientational Order Parameters at 3D</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Yuan-Chao Hu.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 6.2.1</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/boo_2d.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

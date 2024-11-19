@@ -1,0 +1,495 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.19: https://docutils.sourceforge.io/" />
+
+    <title>Dynamical properties at two &amp; three dimensions &#8212; py_Matters_Simulations  documentation</title>
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/alabaster.css" />
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx_highlight.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Hessian matrix calculation and diagonalization" href="hessian.html" />
+    <link rel="prev" title="static orderings" href="orderings.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <section class="tex2jax_ignore mathjax_ignore" id="dynamical-properties-at-two-three-dimensions">
+<h1>Dynamical properties at two &amp; three dimensions<a class="headerlink" href="#dynamical-properties-at-two-three-dimensions" title="Permalink to this heading">¶</a></h1>
+<p>This module calculates the dynamical properties at different dimensions. It contains two different calculation classes:</p>
+<ul class="simple">
+<li><p>linear dynamics (<code class="docutils literal notranslate"><span class="pre">Dynamics()</span></code>) [snapshots are dumped in a linear manner]</p></li>
+<li><p>log dynamics (<code class="docutils literal notranslate"><span class="pre">LogDynamics()</span></code>) [snapshots are dumped in a log scale]</p></li>
+</ul>
+<p>To calculate the atomic-scale dynamics, the absolute coordinates, for example, the ‘xu,yu,zu’ type in LAMMPS, are preferred, without dealing with the periodic boundary conditions. This is done by providing the trajectories through the variable <code class="docutils literal notranslate"><span class="pre">xudump</span></code>. Nevertheless, the other coordinates are acceptable. There cases are included:</p>
+<ol class="arabic simple">
+<li><p>Providing ‘xu’ type trajectory to <code class="docutils literal notranslate"><span class="pre">xudump</span></code> and ‘x’ or ‘xs’ type trajectory to <code class="docutils literal notranslate"><span class="pre">xdump</span></code>; the absolute coordinates from <code class="docutils literal notranslate"><span class="pre">xudump</span></code> will be used to calculate the dynamical quantities like displacement vector while the wrapped positions from <code class="docutils literal notranslate"><span class="pre">xdump</span></code> will be used only for calculating the dynamical structure factor <code class="docutils literal notranslate"><span class="pre">Sq4()</span></code>.</p></li>
+<li><p>Providing only ‘xu’ type trajectory to <code class="docutils literal notranslate"><span class="pre">xudump</span></code> and set <code class="docutils literal notranslate"><span class="pre">None</span></code> to <code class="docutils literal notranslate"><span class="pre">xdump</span></code>; the absolute positions from <code class="docutils literal notranslate"><span class="pre">xudump</span></code> will be used to calculate all the quantities.</p></li>
+<li><p>Providing only ‘x’ or ‘xs’ type trajectory to <code class="docutils literal notranslate"><span class="pre">xdump</span></code> and set <code class="docutils literal notranslate"><span class="pre">None</span></code> to <code class="docutils literal notranslate"><span class="pre">xudump</span></code>; the wrapped positions from <code class="docutils literal notranslate"><span class="pre">xdump</span></code> will be used to calculate all the quantities, by considering periodic boundary conditions (setting the correct <code class="docutils literal notranslate"><span class="pre">ppp</span></code> argument). This is not recommended and should be avoided for calculating mean-square displacements related quantities at long time scales.</p></li>
+</ol>
+<section id="cage-relative">
+<h2><code class="docutils literal notranslate"><span class="pre">cage_relative()</span></code><a class="headerlink" href="#cage-relative" title="Permalink to this heading">¶</a></h2>
+<p>Getting the cage-relative or coarse-grained displacement vectors of the center particle with respect to the neighbors in a certain range for single configuration.
+The coarse-graining is done based on the given the neighboring particles, which are accessible by the <code class="docutils literal notranslate"><span class="pre">neighbors</span></code> module. Specifically,
+$<span class="math notranslate nohighlight">\(
+\Delta {\vec r_j} = \left[{\vec r_j} (t) - {\vec r_j}(0) \right] - \frac{1}{N_j}\sum_{i}^{N_j} \left[ {\vec r_i}(t) - {\vec r_i}(0) \right],
+\)</span><span class="math notranslate nohighlight">\(
+in which \)</span>j<span class="math notranslate nohighlight">\( is the center particle and \)</span>i$ is its neighbor.</p>
+<section id="input-arguments">
+<h3>Input Arguments:<a class="headerlink" href="#input-arguments" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RII</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): original (absolute) displacement matrix with shape <code class="docutils literal notranslate"><span class="pre">[num_of_particles,</span> <span class="pre">ndim]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cnlist</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): neighbor list of the initial or reference configuration with shape <code class="docutils literal notranslate"><span class="pre">[num_of_particles,</span> <span class="pre">num_of_neighbors]</span></code>. This gives the particle identifiers (<span class="math notranslate nohighlight">\(i\)</span>) for each center (<span class="math notranslate nohighlight">\(j\)</span>). It available from the ‘neighbors’ module.</p></li>
+</ul>
+</section>
+<section id="return">
+<h3>Return:<a class="headerlink" href="#return" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">RII_relative</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): cage-relative displacement matrix with shape <code class="docutils literal notranslate"><span class="pre">[num_of_particles,</span> <span class="pre">ndim]</span></code> (the same as the input <code class="docutils literal notranslate"><span class="pre">RII</span></code>)</p></li>
+</ul>
+</section>
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dynamic.dynamics</span> <span class="kn">import</span> <span class="n">cage_relative</span>
+<span class="kn">from</span> <span class="nn">neighbors.read_neighbors</span> <span class="kn">import</span> <span class="n">read_neighbors</span>
+<span class="kn">from</span> <span class="nn">neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
+<span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1">#here is a example of how it works, it used within Dynamics and LogDynamics class</span>
+<span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;dump.atom&#39;</span>
+<span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
+<span class="n">neighborfile</span><span class="o">=</span><span class="s1">&#39;neighborlist.dat&#39;</span>
+<span class="n">ppp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">snapshots</span> <span class="o">=</span> <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span>
+<span class="n">Nnearests</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">ppp</span><span class="o">=</span><span class="n">ppp</span><span class="p">,</span>  <span class="n">fnfile</span><span class="o">=</span><span class="n">neighborfile</span><span class="p">)</span>
+
+<span class="n">neighborlists</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">if</span> <span class="n">neighborfile</span><span class="p">:</span>
+    <span class="n">fneighbor</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">neighborfile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">snapshots</span><span class="o">.</span><span class="n">nsnapshots</span><span class="p">):</span>
+        <span class="n">medium</span> <span class="o">=</span> <span class="n">read_neighbors</span><span class="p">(</span>
+            <span class="n">f</span><span class="o">=</span><span class="n">fneighbor</span><span class="p">,</span>
+            <span class="n">nparticle</span><span class="o">=</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="n">n</span><span class="p">]</span><span class="o">.</span><span class="n">nparticle</span><span class="p">,</span>
+            <span class="n">Nmax</span><span class="o">=</span><span class="mi">30</span>
+        <span class="p">)</span>
+        <span class="n">neighborlists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">medium</span><span class="p">)</span>
+    <span class="n">fneighbor</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    
+<span class="n">pos_init</span> <span class="o">=</span> <span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">10</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span>
+<span class="n">pos_end</span> <span class="o">=</span> <span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span>
+<span class="n">RII</span> <span class="o">=</span> <span class="n">pos_end</span> <span class="o">-</span> <span class="n">pos_init</span>
+<span class="n">cage_relative</span><span class="p">(</span><span class="n">RII</span><span class="p">,</span><span class="n">neighborlists</span><span class="p">[</span><span class="mi">10</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="dynamics-class">
+<h2>1. <code class="docutils literal notranslate"><span class="pre">Dynamics()</span></code> class<a class="headerlink" href="#dynamics-class" title="Permalink to this heading">¶</a></h2>
+<p>This module calculates particle-level dynamical quantities with absolute or wrapped coordinates. It considers both two-dimensional systems and three-dimensional system, and for both absolute and cage-relative dynamics.</p>
+<p>This module recommends to use absolute coordinates (like ‘xu’ in LAMMPS) to calculate particle-level displacement vectors, such as mean-squared displacements, while PBC is taken care of others as well.
+The functions are listed below.</p>
+<section id="id1">
+<h3>Input Arguments:<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xu_snapshots</span></code>(<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x_snapshots</span></code>(<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code>(<code class="docutils literal notranslate"><span class="pre">float</span></code>): timestep used in user simulations, default 0.002</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ppp</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the periodic boundary conditions, setting <code class="docutils literal notranslate"><span class="pre">1</span></code> for yes and <code class="docutils literal notranslate"><span class="pre">0</span></code> for no, default <code class="docutils literal notranslate"><span class="pre">np.array([0,0,0])</span></code> for 3D. It requires to be precisely given to determine the model dimensionality.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diameters</span></code> (<code class="docutils literal notranslate"><span class="pre">dict[int,</span> <span class="pre">float]</span></code>): map particle types to particle diameters, for example, <code class="docutils literal notranslate"><span class="pre">{1:</span> <span class="pre">1.0,</span> <span class="pre">2:1.5}</span></code> for binary systems.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code>(<code class="docutils literal notranslate"><span class="pre">float</span></code>): mobility cutoff scaling factor, used together with <code class="docutils literal notranslate"><span class="pre">diameters</span></code> to determine the cutoff for each particle type, default 0.3.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cal_type</span></code>(<code class="docutils literal notranslate"><span class="pre">str</span></code>): calculation type for the dynamical structure factor, can be either <code class="docutils literal notranslate"><span class="pre">slow</span></code>(default) or <code class="docutils literal notranslate"><span class="pre">fast</span></code>, accounting for the slow and fast dynamics.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code>(<code class="docutils literal notranslate"><span class="pre">str</span></code>): neighbor list filename for coarse-graining, only provided when calculating (cage-)relative displacements.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_neighbors</span></code>(<code class="docutils literal notranslate"><span class="pre">int</span></code>): maximum of particle neighbors considered, default 30.</p></li>
+</ul>
+</section>
+<section id="id2">
+<h3>Return:<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>None</p></li>
+</ul>
+</section>
+<section id="id3">
+<h3>Example:<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dynamic.dynamics</span> <span class="kn">import</span> <span class="n">Dynamics</span>
+<span class="kn">from</span> <span class="nn">neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
+<span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+
+<span class="c1"># example for 2d dump</span>
+<span class="c1"># read the dump file</span>
+<span class="n">file_2d_x</span> <span class="o">=</span> <span class="s2">&quot;2ddump.s.atom&quot;</span>
+<span class="n">input_x</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">file_2d_x</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">input_x</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
+<span class="n">file_2d_xu</span> <span class="o">=</span> <span class="s2">&quot;2ddump.u.atom&quot;</span>
+<span class="n">input_xu</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">file_2d_xu</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">input_xu</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
+
+<span class="c1">#calculate the neighbor, neighborlist can also be None</span>
+<span class="n">ppp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">Nnearests</span><span class="p">(</span><span class="n">input_x</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">ppp</span> <span class="o">=</span> <span class="n">ppp</span><span class="p">,</span>  <span class="n">fnfile</span> <span class="o">=</span> <span class="s1">&#39;neighborlist.dat&#39;</span><span class="p">)</span>
+<span class="n">neighborfile</span><span class="o">=</span><span class="s1">&#39;neighborlist.dat&#39;</span> <span class="c1">#or None</span>
+
+<span class="n">dynamic</span> <span class="o">=</span> <span class="n">Dynamics</span><span class="p">(</span><span class="n">xu_snapshots</span><span class="o">=</span><span class="n">input_xu</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span>
+                   <span class="n">x_snapshots</span><span class="o">=</span><span class="n">input_x</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span>
+                   <span class="n">dt</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> 
+                   <span class="n">ppp</span><span class="o">=</span><span class="n">ppp</span><span class="p">,</span>
+                   <span class="n">diameters</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mf">1.0</span><span class="p">},</span>
+                   <span class="n">a</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                   <span class="n">cal_type</span> <span class="o">=</span> <span class="s2">&quot;slow&quot;</span><span class="p">,</span>
+                   <span class="n">neighborfile</span><span class="o">=</span><span class="n">neighborfile</span><span class="p">,</span>
+                   <span class="n">max_neighbors</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="relaxation">
+<h3>1.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code><a class="headerlink" href="#relaxation" title="Permalink to this heading">¶</a></h3>
+<p>Compute self-intermediate scattering functions ISF,</p>
+<div class="math notranslate nohighlight">
+\[
+F_s(q,t) = \frac{1}{N} \bigg\langle \sum_{j=1}^{N}\exp\lbrack iq \cdot ({\bf r}_j(t)-{\bf r}_j(0))\rbrack\bigg\rangle \tag{1}.
+\]</div>
+<p>Overlap function <span class="math notranslate nohighlight">\(Q(t)\)</span>:</p>
+<div class="math notranslate nohighlight">
+\[
+Q(t) = \frac{1}{N} \bigg\langle \sum_{j = 1}^{N}\omega\left( \left| \mathbf{r}_j\left( t \right) - \mathbf{r}_j\left( 0 \right) \right| \right) \bigg\rangle \tag{2},
+\]</div>
+<p>in which <span class="math notranslate nohighlight">\(\omega(x)=1\)</span> if <span class="math notranslate nohighlight">\(x&lt;cuoff\)</span> for slow dynamics or <span class="math notranslate nohighlight">\(x&gt;cutoff\)</span> for fast dynamics, else <span class="math notranslate nohighlight">\(\omega(x)=0\)</span>. This is related to the input argument <code class="docutils literal notranslate"><span class="pre">cal_type</span></code>. Its corresponding dynamic susceptibility <span class="math notranslate nohighlight">\(X_4(t)\)</span> is defined as:</p>
+<div class="math notranslate nohighlight">
+\[
+\chi_{4}\left( t \right) = N^{- 1}\left\lbrack \left\langle {Q\left( t \right)}^{2} \right\rangle - \left\langle Q\left( t \right) \right\rangle^{2} \right\rbrack
+\tag{3},
+\]</div>
+<p>in which the quantity <span class="math notranslate nohighlight">\(Q(t)\)</span> should be non-averaged value.</p>
+<p>The mean-squared displacement is defined by</p>
+<div class="math notranslate nohighlight">
+\[
+\langle \Delta {r^2}(t)\rangle = \frac{1}{N} \bigg \langle \sum_{j=1}^{N} \lbrack {\bf r}_j(t)-{\bf r}_j(0) \rbrack ^2 \bigg \rangle
+\tag{4},
+\]</div>
+<p>in which the prefered coordiantes are the absolute one, given by ‘xudump’.</p>
+<p>The non-Gaussion parameter <span class="math notranslate nohighlight">\(\alpha_2(t)\)</span> is defined as</p>
+<div class="math notranslate nohighlight">
+\[
+\alpha_{2}\left( t \right) = \frac{3\left\langle \Delta r^{4}\left( t \right) \right\rangle}{5\left\langle \Delta r^{2}\left( t \right) \right\rangle^{2}} - 1\left( 3D \right); 
+\qquad
+\alpha_{2}\left( t \right) = \frac{\left\langle \Delta r^{4}\left( t \right) \right\rangle}{2\left\langle \Delta r^{2}\left( t \right) \right\rangle^{2}} - 1\left( 2D \right)
+\tag{5},
+\]</div>
+<p>which is usually used to measure the degree of dynamical heterogeneity in the disordered states revealed by the particle-level mobility.</p>
+<section id="id4">
+<h4>Input Arguments:<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">qconst</span></code>(<code class="docutils literal notranslate"><span class="pre">float</span></code>): the wavenumber factor for calculating self-intermediate scattering function. default <span class="math notranslate nohighlight">\(2\pi\)</span>, used internally as <code class="docutils literal notranslate"><span class="pre">qconst/diameters</span></code> to define the wavenumber for each particle. For example, if input <code class="docutils literal notranslate"><span class="pre">qconst=2PI</span></code> and <code class="docutils literal notranslate"><span class="pre">diamter=1.0</span></code> then the used wavenumber is <code class="docutils literal notranslate"><span class="pre">2PI/1.0</span></code>. This setting provides flexibility for polydisperse systems or considering dynamics differently for different particle types.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">condition</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level selection with the shape <code class="docutils literal notranslate"><span class="pre">[num_of_snapshots,</span> <span class="pre">num_of_particles]</span></code> , preferring the <code class="docutils literal notranslate"><span class="pre">bool</span></code> type. Default <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code>(<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name to save the calculated dynamics results</p></li>
+</ul>
+</section>
+<section id="id5">
+<h4>Return:<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">results</span></code>(<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>): Calculated dynamics results</p></li>
+</ul>
+</section>
+<section id="id6">
+<h4>Example<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#calculate the particle-level condition, can alos be None</span>
+<span class="n">condition</span><span class="o">=</span><span class="p">[]</span>
+<span class="k">for</span> <span class="n">snapshot</span> <span class="ow">in</span> <span class="n">input_x</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">:</span>
+    <span class="n">condition</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">snapshot</span><span class="o">.</span><span class="n">particle_type</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">condition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">condition</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">dynamic</span><span class="o">.</span><span class="n">relaxation</span><span class="p">(</span><span class="n">qconst</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sq4">
+<h3>1.2 <code class="docutils literal notranslate"><span class="pre">sq4()</span></code><a class="headerlink" href="#sq4" title="Permalink to this heading">¶</a></h3>
+<p>Compute four-point dynamical structure factor of specific atoms at a characteristic timescale. The atoms can exhibit fast or slow dynamics, given by the input argument <code class="docutils literal notranslate"><span class="pre">cal_type</span></code>. It is defined in the same spirit as the static structure factor as below:
+$<span class="math notranslate nohighlight">\(
+S_4\left( q,t \right) = N^{- 1}\left\langle W\left( \mathbf{q},t \right)W\left( - \mathbf{q},t \right) \right\rangle, 
+\)</span><span class="math notranslate nohighlight">\(
+in which 
+\)</span><span class="math notranslate nohighlight">\(
+  W\left( \mathbf{q},t \right) = \sum_{j = 1}^{N}{\exp\left\lbrack i\mathbf{q} \cdot \mathbf{r}_{j}\left( 0 \right) \right\rbrack\omega\left( \left| \mathbf{r}_j\left( t \right) - \mathbf{r}_j\left( 0 \right) \right| \right)}, 
+\)</span><span class="math notranslate nohighlight">\(
+which is essentially the same as the quantity \)</span>Q(t)$ as above, accounting for the slow or fast dynamics at the particle level. The calculation is done in the same way as above.</p>
+<section id="id7">
+<h4>Input Arguments:<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">t</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): characteristic time, typically peak time of <span class="math notranslate nohighlight">\(\chi_4(t)\)</span>, see self.relaxation()</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">qrange</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): the wave number range to be calculated, default 10.0. It determines how many wavevector is involved in the computation.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">condition</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level condition / property, shape <code class="docutils literal notranslate"><span class="pre">[num_of_snapshots,</span> <span class="pre">num_of_particles]</span></code>. This supplements the fast or slow dynamics, for example, to calculate the slow dynamics of particles with type=1 will require this <code class="docutils literal notranslate"><span class="pre">condition</span></code> to be a <code class="docutils literal notranslate"><span class="pre">bool</span></code> type with <code class="docutils literal notranslate"><span class="pre">True</span></code> only for particle type of 1.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): output filename for the calculated dynamical structure factor</p></li>
+</ul>
+</section>
+<section id="id8">
+<h4>Return:<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">results</span></code>(<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>): calculated dynamical structure factor</p></li>
+</ul>
+</section>
+<section id="id9">
+<h4>Example:<a class="headerlink" href="#id9" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dynamic</span><span class="o">.</span><span class="n">sq4</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">qrange</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="logdynamics-class">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">LogDynamics()</span></code> class<a class="headerlink" href="#logdynamics-class" title="Permalink to this heading">¶</a></h2>
+<p>This module is designed to calculate the dynamical properties of a trajectory as above but dumped in a log scale. It uses the ‘log’ style to output the atomic trajectory. Therefore, no ensemble-average is performed. The first configuration is the only one used to consider the particle neighbors and as the reference for calculating the dynamics.</p>
+<p>Ensemble average is absent compared to the above <code class="docutils literal notranslate"><span class="pre">Dynamics()</span></code> class!</p>
+<section id="id10">
+<h3>Input Arguments:<a class="headerlink" href="#id10" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">xu_snapshots</span></code>(<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x_snapshots</span></code>(<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code>(<code class="docutils literal notranslate"><span class="pre">float</span></code>): timestep used in user simulations, default 0.002</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ppp</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the periodic boundary conditions, setting <code class="docutils literal notranslate"><span class="pre">1</span></code> for yes and <code class="docutils literal notranslate"><span class="pre">0</span></code> for no, default <code class="docutils literal notranslate"><span class="pre">np.array([0,0,0])</span></code> for 3D. It requires to be precisely given to determine the model dimensionality.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">diameters</span></code> (<code class="docutils literal notranslate"><span class="pre">dict[int,</span> <span class="pre">float]</span></code>): map particle types to particle diameters, for example, <code class="docutils literal notranslate"><span class="pre">{1:</span> <span class="pre">1.0,</span> <span class="pre">2:1.5}</span></code> for binary systems.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">a</span></code>(<code class="docutils literal notranslate"><span class="pre">float</span></code>): mobility cutoff scaling factor, used together with <code class="docutils literal notranslate"><span class="pre">diameters</span></code> to determine the cutoff for each particle type, default 0.3.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cal_type</span></code>(<code class="docutils literal notranslate"><span class="pre">str</span></code>): calculation type for the dynamical structure factor, can be either <code class="docutils literal notranslate"><span class="pre">slow</span></code>(default) or <code class="docutils literal notranslate"><span class="pre">fast</span></code>, accounting for the slow and fast dynamics.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code>(<code class="docutils literal notranslate"><span class="pre">str</span></code>): neighbor list filename for coarse-graining, only provided when calculating (cage-)relative displacements.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">max_neighbors</span></code>(<code class="docutils literal notranslate"><span class="pre">int</span></code>): maximum of particle neighbors considered, default 30.</p></li>
+</ul>
+</section>
+<section id="id11">
+<h3>Return:<a class="headerlink" href="#id11" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>None</p></li>
+</ul>
+</section>
+<section id="id12">
+<h3>Example:<a class="headerlink" href="#id12" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dynamic.dynamics</span> <span class="kn">import</span> <span class="n">LogDynamics</span>
+<span class="kn">from</span> <span class="nn">neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
+<span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+
+<span class="c1"># example for 2d dump</span>
+<span class="c1"># read the dump file</span>
+<span class="n">file_2d_x</span> <span class="o">=</span> <span class="s2">&quot;2ddump.log.s.atom&quot;</span>
+<span class="n">input_x</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">file_2d_x</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">input_x</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
+<span class="n">file_2d_xu</span> <span class="o">=</span> <span class="s2">&quot;2ddump.log.u.atom&quot;</span>
+<span class="n">input_xu</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">file_2d_xu</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">input_xu</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
+
+<span class="c1">#calculate the neighbor, neighborlist can also be None</span>
+<span class="n">ppp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">Nnearests</span><span class="p">(</span><span class="n">input_x</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span> <span class="n">N</span> <span class="o">=</span> <span class="mi">6</span><span class="p">,</span> <span class="n">ppp</span> <span class="o">=</span> <span class="n">ppp</span><span class="p">,</span>  <span class="n">fnfile</span> <span class="o">=</span> <span class="s1">&#39;neighborlist.dat&#39;</span><span class="p">)</span>
+<span class="n">neighborfile</span><span class="o">=</span><span class="s1">&#39;neighborlist.dat&#39;</span>
+
+<span class="n">log_dynamic</span> <span class="o">=</span> <span class="n">LogDynamics</span><span class="p">(</span><span class="n">xu_snapshots</span><span class="o">=</span><span class="n">input_xu</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span>
+                   <span class="n">x_snapshots</span><span class="o">=</span><span class="n">input_x</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span>
+                   <span class="n">dt</span><span class="o">=</span><span class="mf">0.002</span><span class="p">,</span> 
+                   <span class="n">ppp</span><span class="o">=</span><span class="n">ppp</span><span class="p">,</span>
+                   <span class="n">diameters</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mf">1.0</span><span class="p">},</span>
+                   <span class="n">a</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                   <span class="n">cal_type</span> <span class="o">=</span> <span class="s2">&quot;slow&quot;</span><span class="p">,</span>
+                   <span class="n">neighborfile</span><span class="o">=</span><span class="n">neighborfile</span><span class="p">,</span>
+                   <span class="n">max_neighbors</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>   
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>2.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code><a class="headerlink" href="#id13" title="Permalink to this heading">¶</a></h3>
+<p>Compute the self-intermediate scattering functions ISF, overlap function Qt and set its corresponding dynamical susceptibility X4_Qt (<span class="math notranslate nohighlight">\(\chi_4(t)\)</span>) as 0, mean-square displacements msd, and non-Gaussion parameter <span class="math notranslate nohighlight">\(\alpha_2(t)\)</span></p>
+<section id="id14">
+<h4>Input Arguments:<a class="headerlink" href="#id14" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">qconst</span></code>(<code class="docutils literal notranslate"><span class="pre">float</span></code>): the wavenumber factor for calculating self-intermediate scattering function. default <span class="math notranslate nohighlight">\(2\pi\)</span>, used internally as <code class="docutils literal notranslate"><span class="pre">qconst/diameters</span></code> to define the wavenumber for each particle. For example, if input <code class="docutils literal notranslate"><span class="pre">qconst=2PI</span></code> and <code class="docutils literal notranslate"><span class="pre">diamter=1.0</span></code> then the used wavenumber is <code class="docutils literal notranslate"><span class="pre">2PI/1.0</span></code>. This setting provides flexibility for polydisperse systems or considering dynamics differently for different particle types.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">condition</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level selection with the shape <code class="docutils literal notranslate"><span class="pre">[num_of_snapshots,</span> <span class="pre">num_of_particles]</span></code> , preferring the <code class="docutils literal notranslate"><span class="pre">bool</span></code> type. Default <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code>(<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name to save the calculated dynamics results</p></li>
+</ul>
+</section>
+<section id="id15">
+<h4>Return:<a class="headerlink" href="#id15" title="Permalink to this heading">¶</a></h4>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">results</span></code>(<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>): Calculated dynamics results</p></li>
+</ul>
+</section>
+<section id="id16">
+<h4>Example:<a class="headerlink" href="#id16" title="Permalink to this heading">¶</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#calculate the particle-level condition, can alos be None</span>
+<span class="n">condition</span><span class="o">=</span><span class="p">[]</span>
+<span class="n">condition</span><span class="o">=</span><span class="p">(</span><span class="n">input_xu</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">particle_type</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">dynamic</span><span class="o">.</span><span class="n">relaxation</span><span class="p">(</span><span class="n">qconst</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="time-correlation">
+<h2>3. <code class="docutils literal notranslate"><span class="pre">time_correlation()</span></code><a class="headerlink" href="#time-correlation" title="Permalink to this heading">¶</a></h2>
+<p>Calculate the time correlation of the input property given by condition</p>
+<p>There are three cases considered, given by the shape of condition:</p>
+<ol class="arabic simple">
+<li><p>condition is float scalar type, for example, density</p></li>
+<li><p>condition is float vector type, for example, velocity</p></li>
+<li><p>condition is float tensor type, for example, nematic order</p></li>
+</ol>
+<section id="input">
+<h3>Input:<a class="headerlink" href="#input" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">read.reader_utils.snapshots</span></code>): multiple trajectories dumped linearly or in logscale</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">condition</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level condition / property, type should be float
+shape: <code class="docutils literal notranslate"><span class="pre">[num_of_snapshots,</span> <span class="pre">num_of_particles,</span> <span class="pre">xxx]</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): time step of input snapshots, default 0.002</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): output file name, default “” (None)</p></li>
+</ul>
+</section>
+<section id="id17">
+<h3>Return:<a class="headerlink" href="#id17" title="Permalink to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>calculated time-correlation information in pandas dataframe</p></li>
+</ul>
+</section>
+<section id="id18">
+<h3>Example:<a class="headerlink" href="#id18" title="Permalink to this heading">¶</a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">#example for random scalar condition</span>
+<span class="kn">from</span> <span class="nn">dynamic.time_corr</span> <span class="kn">import</span> <span class="n">time_correlation</span>
+<span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">readdump</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
+<span class="n">condition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">nsnapshots</span><span class="p">,</span> <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>
+<span class="n">tc</span> <span class="o">=</span> <span class="n">time_correlation</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span><span class="n">condition</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">py_Matters_Simulations</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reading Computer Simulations Snapshots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writer.html">Write LAMMPS dump/data format header</a></li>
+<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Function</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">static orderings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Dynamical properties at two &amp; three dimensions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#cage-relative"><code class="docutils literal notranslate"><span class="pre">cage_relative()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dynamics-class">1. <code class="docutils literal notranslate"><span class="pre">Dynamics()</span></code> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logdynamics-class">2. <code class="docutils literal notranslate"><span class="pre">LogDynamics()</span></code> class</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#time-correlation">3. <code class="docutils literal notranslate"><span class="pre">time_correlation()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id7">III. geometry</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id17">IV. wavevector</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id30">V. Fast Fourier Transformation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id34">VI. Spherical Harmonics</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#id38">VII. Coarse Graining</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="orderings.html" title="previous chapter">static orderings</a></li>
+      <li>Next: <a href="hessian.html" title="next chapter">Hessian matrix calculation and diagonalization</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>document.getElementById('searchbox').style.display = "block"</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2024, Yuan-Chao Hu.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 6.2.1</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 0.7.16</a>
+      
+      |
+      <a href="_sources/dynamics.md.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
