@@ -237,12 +237,12 @@
 <p>The module <code class="docutils literal notranslate"><span class="pre">static.gr.gr</span></code> calculates the overall and partial pair correlation functions (PCF) <span class="math notranslate nohighlight">\(g(r)\)</span> in orthogonal and triclinic cells at various dimensional systems. This module is suitable for multi-component systems, from unary to quinary.  The overall <span class="math notranslate nohighlight">\(g(r)\)</span> is defined as:</p>
 <div class="math notranslate nohighlight">
 \[
-g(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|) \rangle
+g(r) = \frac{1}{N \rho} \left&lt;le \sum_{i \neq j} \delta (r - |\vec r_{ij}|) \right&gt;le
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(N\)</span> is particle number, <span class="math notranslate nohighlight">\(\rho\)</span> is number density (<span class="math notranslate nohighlight">\(\rho=N/V\)</span>, where <span class="math notranslate nohighlight">\(V\)</span> is cell volume), and <span class="math notranslate nohighlight">\(|\vec r_{ij}|\)</span> is the distance between centered particle <span class="math notranslate nohighlight">\(i\)</span> and particle <span class="math notranslate nohighlight">\(j\)</span>. The partial PCF <span class="math notranslate nohighlight">\(g_{\alpha \beta}(r)\)</span>, in which <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> representing two particle types, is defined as</p>
 <div class="math notranslate nohighlight">
 \[
-g_{\alpha \beta}(r) = \frac{V}{N_{\alpha} N_{\beta}} \langle \sum_{i \neq j; i \in \alpha; j \in \beta} \delta (r - |\vec r_{ij}|) \rangle
+g_{\alpha \beta}(r) = \frac{V}{N_{\alpha} N_{\beta}} \left&lt;le \sum_{i \neq j; i \in \alpha; j \in \beta} \delta (r - |\vec r_{ij}|) \right&gt;le
 \]</div>
 <p>The function <code class="docutils literal notranslate"><span class="pre">static.gr.conditional_gr</span></code> calculates <span class="math notranslate nohighlight">\(g(r)\)</span> of a single configuration for particles with conditional properties. It is also useful to calculate the spatial correlation of a particle-level physical quantity <span class="math notranslate nohighlight">\(A_i\)</span>. There are five conditions considered for <span class="math notranslate nohighlight">\(A_i\)</span>:</p>
 <ul class="simple">
@@ -255,7 +255,7 @@ g_{\alpha \beta}(r) = \frac{V}{N_{\alpha} N_{\beta}} \langle \sum_{i \neq j; i \
 <p><span class="math notranslate nohighlight">\(A_i=1\)</span> reverts to the overall <span class="math notranslate nohighlight">\(g(r)\)</span>, representing all particle are selected. Bool type <span class="math notranslate nohighlight">\(A_i\)</span> makes the calculation for only selected particles with <span class="math notranslate nohighlight">\(A_i=True\)</span>. For example, for <span class="math notranslate nohighlight">\(g_{\alpha\alpha}(r)\)</span> and <span class="math notranslate nohighlight">\(g_{\beta\beta}(r)\)</span>, but not for <span class="math notranslate nohighlight">\(g_{\alpha\beta}(r)\)</span>. The conditional <span class="math notranslate nohighlight">\(g(r)\)</span> for <span class="math notranslate nohighlight">\(A_i\)</span> is defined as</p>
 <div class="math notranslate nohighlight">
 \[
-g_A(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i A_j \rangle = \langle A(r) A(0) \rangle
+g_A(r) = \frac{1}{N \rho} \left&lt;le \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i A_j \right&gt;le = \left&lt;le A(r) A(0) \right&gt;le
 \]</div>
 <p>The spatial correlation function of particle-level quantity <span class="math notranslate nohighlight">\(A_i\)</span> is <span class="math notranslate nohighlight">\(g_A(r) / g(r)\)</span>.</p>
 <section id="gr-class">
@@ -315,7 +315,7 @@ g_A(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i 
 </ul>
 <p>Note that this calculation is for only one snapshot. For the float-type conditions, such as the structural ordering per particle, a normalization is performed for <code class="docutils literal notranslate"><span class="pre">gA</span></code> by doing
 $<span class="math notranslate nohighlight">\(
-g_A^{\rm norm} = \frac{g_A - \lang A \rang^2}{\lang A^2 \rang - \lang A \rang^2}
+g_A^{\rm norm} = \frac{g_A - \left&lt; A \right&gt;^2}{\left&lt; A^2 \right&gt; - \left&lt; A \right&gt;^2}
 \)</span>$</p>
 <p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">static.gr</span> <span class="kn">import</span> <span class="n">conditional_gr</span>

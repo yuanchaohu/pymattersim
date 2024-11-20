@@ -70,7 +70,7 @@ $$
 +  time correlation of the complex vectors by `boo_3d.time_corr()`
 
 $$
-C_l(t)=\frac{4\pi}{2l+1} \frac {\langle \sum_i^N \sum_{m=-l}^l Q_{lm}(i, t) Q_{lm}^*(i, 0) \rangle} {\langle \sum_i^N \sum_{m=-l}^l \left| Q_{lm}(i, 0) \right|^2 \rangle} \tag{9}
+C_l(t)=\frac{4\pi}{2l+1} \frac {\left<le \sum_i^N \sum_{m=-l}^l Q_{lm}(i, t) Q_{lm}^*(i, 0) \right>le} {\left<le \sum_i^N \sum_{m=-l}^l \left| Q_{lm}(i, 0) \right|^2 \right>le} \tag{9}
 $$
 
 In equations (4)-(9), one can replace $q_{lm}$ by $Q_{lm}$ to calculate the corresponding coarse-grained values, or vice versa.

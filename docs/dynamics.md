@@ -121,19 +121,19 @@ dynamic = Dynamics(xu_snapshots=input_xu.snapshots,
 Compute self-intermediate scattering functions ISF,
 
 $$
-F_s(q,t) = \frac{1}{N} \bigg\langle \sum_{j=1}^{N}\exp\lbrack iq \cdot ({\bf r}_j(t)-{\bf r}_j(0))\rbrack\bigg\rangle \tag{1}.
+F_s(q,t) = \frac{1}{N} \bigg\left<le \sum_{j=1}^{N}\exp\lbrack iq \cdot ({\bf r}_j(t)-{\bf r}_j(0))\rbrack\bigg\right>le \tag{1}.
 $$
 
 
 Overlap function $Q(t)$:
 
 $$
-Q(t) = \frac{1}{N} \bigg\langle \sum_{j = 1}^{N}\omega\left( \left| \mathbf{r}_j\left( t \right) - \mathbf{r}_j\left( 0 \right) \right| \right) \bigg\rangle \tag{2},
+Q(t) = \frac{1}{N} \bigg\left<le \sum_{j = 1}^{N}\omega\left( \left| \mathbf{r}_j\left( t \right) - \mathbf{r}_j\left( 0 \right) \right| \right) \bigg\right>le \tag{2},
 $$
 in which $\omega(x)=1$ if $x<cuoff$ for slow dynamics or $x>cutoff$ for fast dynamics, else $\omega(x)=0$. This is related to the input argument `cal_type`. Its corresponding dynamic susceptibility $X_4(t)$ is defined as:
 
 $$
-\chi_{4}\left( t \right) = N^{- 1}\left\lbrack \left\langle {Q\left( t \right)}^{2} \right\rangle - \left\langle Q\left( t \right) \right\rangle^{2} \right\rbrack
+\chi_{4}\left( t \right) = N^{- 1}\left\lbrack \left\left<le {Q\left( t \right)}^{2} \right\right>le - \left\left<le Q\left( t \right) \right\right>le^{2} \right\rbrack
 \tag{3},
 $$
 in which the quantity $Q(t)$ should be non-averaged value.
@@ -141,7 +141,7 @@ in which the quantity $Q(t)$ should be non-averaged value.
 The mean-squared displacement is defined by
 
 $$
-\langle \Delta {r^2}(t)\rangle = \frac{1}{N} \bigg \langle \sum_{j=1}^{N} \lbrack {\bf r}_j(t)-{\bf r}_j(0) \rbrack ^2 \bigg \rangle
+\left<le \Delta {r^2}(t)\right>le = \frac{1}{N} \bigg \left<le \sum_{j=1}^{N} \lbrack {\bf r}_j(t)-{\bf r}_j(0) \rbrack ^2 \bigg \right>le
 \tag{4},
 $$
 in which the prefered coordiantes are the absolute one, given by 'xudump'.
@@ -149,9 +149,9 @@ in which the prefered coordiantes are the absolute one, given by 'xudump'.
 The non-Gaussion parameter $\alpha_2(t)$ is defined as
 
 $$
-\alpha_{2}\left( t \right) = \frac{3\left\langle \Delta r^{4}\left( t \right) \right\rangle}{5\left\langle \Delta r^{2}\left( t \right) \right\rangle^{2}} - 1\left( 3D \right); 
+\alpha_{2}\left( t \right) = \frac{3\left\left<le \Delta r^{4}\left( t \right) \right\right>le}{5\left\left<le \Delta r^{2}\left( t \right) \right\right>le^{2}} - 1\left( 3D \right); 
 \qquad
-\alpha_{2}\left( t \right) = \frac{\left\langle \Delta r^{4}\left( t \right) \right\rangle}{2\left\langle \Delta r^{2}\left( t \right) \right\rangle^{2}} - 1\left( 2D \right)
+\alpha_{2}\left( t \right) = \frac{\left\left<le \Delta r^{4}\left( t \right) \right\right>le}{2\left\left<le \Delta r^{2}\left( t \right) \right\right>le^{2}} - 1\left( 2D \right)
 \tag{5},
 $$
 which is usually used to measure the degree of dynamical heterogeneity in the disordered states revealed by the particle-level mobility.
@@ -178,7 +178,7 @@ result = dynamic.relaxation(qconst=2*np.pi, condition=condition, outputfile="")
 ##### 1.2 `sq4()`
 Compute four-point dynamical structure factor of specific atoms at a characteristic timescale. The atoms can exhibit fast or slow dynamics, given by the input argument `cal_type`. It is defined in the same spirit as the static structure factor as below:
 $$
-S_4\left( q,t \right) = N^{- 1}\left\langle W\left( \mathbf{q},t \right)W\left( - \mathbf{q},t \right) \right\rangle, 
+S_4\left( q,t \right) = N^{- 1}\left\left<le W\left( \mathbf{q},t \right)W\left( - \mathbf{q},t \right) \right\right>le, 
 $$
 in which 
 $$

@@ -3,13 +3,13 @@
 The module `static.gr.gr` calculates the overall and partial pair correlation functions (PCF) $g(r)$ in orthogonal and triclinic cells at various dimensional systems. This module is suitable for multi-component systems, from unary to quinary.  The overall $g(r)$ is defined as:
 
 $$
-g(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|) \rangle
+g(r) = \frac{1}{N \rho} \left<le \sum_{i \neq j} \delta (r - |\vec r_{ij}|) \right>le
 $$
 
 where $N$ is particle number, $\rho$ is number density ($\rho=N/V$, where $V$ is cell volume), and $|\vec r_{ij}|$ is the distance between centered particle $i$ and particle $j$. The partial PCF $g_{\alpha \beta}(r)$, in which $\alpha$ and $\beta$ representing two particle types, is defined as
 
 $$
-g_{\alpha \beta}(r) = \frac{V}{N_{\alpha} N_{\beta}} \langle \sum_{i \neq j; i \in \alpha; j \in \beta} \delta (r - |\vec r_{ij}|) \rangle
+g_{\alpha \beta}(r) = \frac{V}{N_{\alpha} N_{\beta}} \left<le \sum_{i \neq j; i \in \alpha; j \in \beta} \delta (r - |\vec r_{ij}|) \right>le
 $$
 
 The function `static.gr.conditional_gr` calculates $g(r)$ of a single configuration for particles with conditional properties. It is also useful to calculate the spatial correlation of a particle-level physical quantity $A_i$. There are five conditions considered for $A_i$:
@@ -22,7 +22,7 @@ The function `static.gr.conditional_gr` calculates $g(r)$ of a single configurat
 $A_i=1$ reverts to the overall $g(r)$, representing all particle are selected. Bool type $A_i$ makes the calculation for only selected particles with $A_i=True$. For example, for $g_{\alpha\alpha}(r)$ and $g_{\beta\beta}(r)$, but not for $g_{\alpha\beta}(r)$. The conditional $g(r)$ for $A_i$ is defined as
 
 $$
-g_A(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i A_j \rangle = \langle A(r) A(0) \rangle
+g_A(r) = \frac{1}{N \rho} \left<le \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i A_j \right>le = \left<le A(r) A(0) \right>le
 $$
 
 The spatial correlation function of particle-level quantity $A_i$ is $g_A(r) / g(r)$.
@@ -83,7 +83,7 @@ The calculated $g(r)$ is storted in the `outputfile`. Taken ternary sytem as an 
 
 Note that this calculation is for only one snapshot. For the float-type conditions, such as the structural ordering per particle, a normalization is performed for `gA` by doing
 $$
-g_A^{\rm norm} = \frac{g_A - \lang A \rang^2}{\lang A^2 \rang - \lang A \rang^2}
+g_A^{\rm norm} = \frac{g_A - \left< A \right>^2}{\left< A^2 \right> - \left< A \right>^2}
 $$
 
 **Example**
