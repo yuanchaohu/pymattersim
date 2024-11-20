@@ -37,15 +37,6 @@ html_theme = "furo"
 # html_theme = "sphinx_material"
 html_static_path = ['_static']
 
-if html_theme == "furo":
-    html_css_files = [
-        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/fontawesome.min.css",
-        "furo.css",
-    ]
-    html_theme_options = {
-        "sidebar_hide_name": True,
-    }
-
 # sphinx_rtd_theme
 """
 html_theme_options = {
