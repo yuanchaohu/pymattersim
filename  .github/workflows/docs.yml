@@ -31,4 +31,5 @@ jobs:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: docs/_build/html
         publish_branch: gh-pages
+        keep_files: true
         # cname: docs.pymattersim.com
