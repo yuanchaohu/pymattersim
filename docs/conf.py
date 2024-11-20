@@ -16,6 +16,7 @@ author = 'Yuan-Chao Hu'
 extensions = [
     "myst_parser", # enable markdown support
     "sphinx_rtd_theme",
+    "sphinx.ext.githubpages"
 ]
 
 myst_enable_extensions = [
