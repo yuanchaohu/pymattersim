@@ -53,7 +53,6 @@ m_{1} & m_{2} & m_{3} \
 \end{matrix}
 \right)
 q_{lm_{1}}q_{lm_{2}}q_{lm_{3}} 
-\tag{6}
 $$
 
 $$
