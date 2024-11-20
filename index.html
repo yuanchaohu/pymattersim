@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Welcome to Python for Matters Simulations documentation! &mdash; PyMatterSim  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
@@ -44,10 +44,11 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reader.html">Reading Computer Simulations Snapshots</a></li>
 <li class="toctree-l1"><a class="reference internal" href="writer.html">Write LAMMPS dump/data format header</a></li>
-<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors Definition</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#i-reading-neighbors">I. Reading Neighbors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#ii-calculating-neighbors">II. Calculating Neighbors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#nnearests">1. Nnearests()</a></li>
@@ -63,13 +64,13 @@
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#indicehis">4. <code class="docutils literal notranslate"><span class="pre">indicehis()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Function</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="gr.html#gr-class">1. <code class="docutils literal notranslate"><span class="pre">gr</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gr.html#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="gr.html#conditional-gr">2. <code class="docutils literal notranslate"><span class="pre">conditional_gr()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factors</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#sq-class">1. <code class="docutils literal notranslate"><span class="pre">sq</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#conditional-sq">2. <code class="docutils literal notranslate"><span class="pre">conditional_sq()</span></code></a></li>
@@ -155,7 +156,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">Vector Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="vectors.html#input-argument">Input Argument</a></li>
 </ul>
@@ -174,7 +175,7 @@
 <li class="toctree-l2"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Util Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utils.html#nidealfac"><code class="docutils literal notranslate"><span class="pre">1.</span> <span class="pre">nidealfac()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html#moment-of-inertia">2. <code class="docutils literal notranslate"><span class="pre">moment_of_inertia()</span></code></a></li>
@@ -234,101 +235,61 @@
 <h1>Welcome to Python for Matters Simulations documentation!<a class="headerlink" href="#welcome-to-python-for-matters-simulations-documentation" title="Link to this heading"></a></h1>
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reader.html">Reading Computer Simulations Snapshots</a></li>
 <li class="toctree-l1"><a class="reference internal" href="writer.html">Write LAMMPS dump/data format header</a></li>
-<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#i-reading-neighbors">I. Reading Neighbors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#ii-calculating-neighbors">II. Calculating Neighbors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#nnearests">1. Nnearests()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#cutoffneighbors">2. cutoffneighbors()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#cutoffneighbors-particletype">3. cutoffneighbors_particletype()</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#iii-freud-neighbors">III. Freud Neighbors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#convert-configuration">1. convert_configuration</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#cal-neighbors">2. cal_neighbors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#iv-voro-direct-neighbors">IV. Voro++ direct neighbors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#get-input">1. <code class="docutils literal notranslate"><span class="pre">get_input()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#cal-voro">2. <code class="docutils literal notranslate"><span class="pre">cal_voro()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#voronowalls">3. <code class="docutils literal notranslate"><span class="pre">voronowalls()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#indicehis">4. <code class="docutils literal notranslate"><span class="pre">indicehis()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Function</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="gr.html#gr-class">1. <code class="docutils literal notranslate"><span class="pre">gr</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gr.html#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="gr.html#conditional-gr">2. <code class="docutils literal notranslate"><span class="pre">conditional_gr()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="sq.html#sq-class">1. <code class="docutils literal notranslate"><span class="pre">sq</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sq.html#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="sq.html#conditional-sq">2. <code class="docutils literal notranslate"><span class="pre">conditional_sq()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#boo-2d-class">1. <code class="docutils literal notranslate"><span class="pre">boo_2d</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#lthorder">2. <code class="docutils literal notranslate"><span class="pre">lthorder()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#time-average">3. <code class="docutils literal notranslate"><span class="pre">time_average()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#spatial-corr">4. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#time-corr">5. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#boo-3d-class">1. <code class="docutils literal notranslate"><span class="pre">boo_3d</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#qlm-qlm">2. <code class="docutils literal notranslate"><span class="pre">qlm_Qlm()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#ql-ql">3. <code class="docutils literal notranslate"><span class="pre">ql_Ql()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#sij-ql-ql">4. <code class="docutils literal notranslate"><span class="pre">sij_ql_Ql()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#w-w-cap">5. <code class="docutils literal notranslate"><span class="pre">w_W_cap()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#spatial-corr">6. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#time-corr">7. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
-<li class="toctree-l2"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
-<li class="toctree-l2"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="dynamics.html#cage-relative"><code class="docutils literal notranslate"><span class="pre">cage_relative()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="dynamics.html#dynamics-class">1. <code class="docutils literal notranslate"><span class="pre">Dynamics()</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dynamics.html#relaxation">1.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="dynamics.html#sq4">1.2 <code class="docutils literal notranslate"><span class="pre">sq4()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="dynamics.html#logdynamics-class">2. <code class="docutils literal notranslate"><span class="pre">LogDynamics()</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="dynamics.html#id1">2.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="dynamics.html#time-correlation">3. <code class="docutils literal notranslate"><span class="pre">time_correlation()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="hessian.html#i-pair-interactions">I. Pair interactions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#iii-geometry">III. geometry</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#iv-wavevector">IV. wavevector</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#v-fast-fourier-transformation">V. Fast Fourier Transformation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#vi-spherical-harmonics">VI. Spherical Harmonics</a></li>
-<li class="toctree-l2"><a class="reference internal" href="utils.html#vii-coarse-graining">VII. Coarse Graining</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors Definition</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factors</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">Vector Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Util Functions</a></li>
 </ul>
 </div>
+<section id="getting-started">
+<h2>Getting started<a class="headerlink" href="#getting-started" title="Link to this heading"></a></h2>
+<p>This toolkit is a Physics-driven data analyis of computer simulations
+for materials science, chemistry, physics, and beyond. Currently, the
+library is mainly designed for computer simulations of amorphous materials
+and supercooled liquids from the open source simulator LAMMPS. But the
+analyis is in principle useful for any simulations, and it is straightforward
+to make extensions.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>PyMatterSim
+</pre></div>
+</div>
+<p>The source code is available from this <a class="reference external" href="https://github.com/yuanchaohu/pymattersim">github project</a>,
+and the package is deployed at <a class="reference external" href="https://pypi.org/project/PyMatterSim/">this PYPI page</a>.</p>
+</section>
+<section id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading"></a></h2>
+<p>This section is still a work in progress.</p>
+</section>
+<section id="unit-tests">
+<h2>Unit Tests<a class="headerlink" href="#unit-tests" title="Link to this heading"></a></h2>
+<p>The unit tests for <strong>PyMatterSim</strong> are included in the github repository
+and are configured to be run using the python <code class="xref py py-mod docutils literal notranslate"><span class="pre">UnitTest</span></code> library:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># auto-run tests with shell scripts</span>
+<span class="nb">cd</span><span class="w"> </span>shell
+bash<span class="w"> </span>*sh
+
+<span class="c1"># run individual tests</span>
+<span class="nb">cd</span><span class="w"> </span>tests/yourdir/
+python<span class="w"> </span>*py
+</pre></div>
+</div>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Link to this heading"></a></h2>
+<p>The documentation for <strong>PyMatterSim</strong> is <a class="reference external" href="https://yuanchaohu.github.io/pymattersim/">hosted online</a></p>
+</section>
 </section>
 <section id="indices-and-tables">
 <h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>

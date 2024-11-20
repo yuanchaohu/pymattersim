@@ -6,8 +6,8 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>vector analysis &mdash; PyMatterSim  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <title>Vector Analysis &mdash; PyMatterSim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
@@ -21,7 +21,7 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="util functions" href="utils.html" />
+    <link rel="next" title="Util Functions" href="utils.html" />
     <link rel="prev" title="Hessian matrix calculation and diagonalization" href="hessian.html" /> 
 </head>
 
@@ -46,9 +46,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reader.html">Reading Computer Simulations Snapshots</a></li>
 <li class="toctree-l1"><a class="reference internal" href="writer.html">Write LAMMPS dump/data format header</a></li>
-<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors Definition</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#i-reading-neighbors">I. Reading Neighbors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#ii-calculating-neighbors">II. Calculating Neighbors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#nnearests">1. Nnearests()</a></li>
@@ -64,13 +65,13 @@
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#indicehis">4. <code class="docutils literal notranslate"><span class="pre">indicehis()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Function</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="gr.html#gr-class">1. <code class="docutils literal notranslate"><span class="pre">gr</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gr.html#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="gr.html#conditional-gr">2. <code class="docutils literal notranslate"><span class="pre">conditional_gr()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factors</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#sq-class">1. <code class="docutils literal notranslate"><span class="pre">sq</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#conditional-sq">2. <code class="docutils literal notranslate"><span class="pre">conditional_sq()</span></code></a></li>
@@ -156,7 +157,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">vector analysis</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Vector Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#participation-ratio">1. participation ratio</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#input-argument">Input Argument</a></li>
 </ul>
@@ -175,7 +176,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Util Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utils.html#nidealfac"><code class="docutils literal notranslate"><span class="pre">1.</span> <span class="pre">nidealfac()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html#moment-of-inertia">2. <code class="docutils literal notranslate"><span class="pre">moment_of_inertia()</span></code></a></li>
@@ -221,7 +222,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">vector analysis</li>
+      <li class="breadcrumb-item active">Vector Analysis</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/vectors.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -232,7 +233,7 @@
            <div itemprop="articleBody">
              
   <section id="vector-analysis">
-<h1>vector analysis<a class="headerlink" href="#vector-analysis" title="Link to this heading"></a></h1>
+<h1>Vector Analysis<a class="headerlink" href="#vector-analysis" title="Link to this heading"></a></h1>
 <hr class="docutils" />
 <section id="participation-ratio">
 <h2>1. participation ratio<a class="headerlink" href="#participation-ratio" title="Link to this heading"></a></h2>
@@ -566,7 +567,7 @@ C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\a
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
         <a href="hessian.html" class="btn btn-neutral float-left" title="Hessian matrix calculation and diagonalization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="utils.html" class="btn btn-neutral float-right" title="util functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="utils.html" class="btn btn-neutral float-right" title="Util Functions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

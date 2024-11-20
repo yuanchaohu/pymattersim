@@ -1,4 +1,4 @@
-### Structure Factor
+### Structure Factors
 
 The class `static.sq.sq` calculates the overall, partial or conditional structure factor $S(q)$ in orthogonal cells at various dimensional systems directly. This module is suitable for multi-component systems, from unary to quinary. In principal, $S(q)$ is defined as:
 
