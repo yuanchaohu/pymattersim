@@ -193,7 +193,7 @@ W, W_cap = boo.w_W_cap(coarse_graining=True,
 ##### 6. `spatial_corr()`
 `spatial_corr()` method calculates spatial correlation function of $q_{lm}$ or $Q_{lm}$
 
-##### Inputs
+**Input Arguments**
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
 - `rdelta` (`float`): bin size in calculating g(r) and Gl(r), default 0.01
 - `outputfile` (`str`): csv file name for $g_l$, default `None`
@@ -206,7 +206,7 @@ Gl_Q = boo.spatial_corr(coarse_graining=True, outputfile='Gl_Q.csv')
 ##### 7. `time_corr()`
 `time_corr()` method calculates time correlation of $q_{lm}$ or $Q_{lm}$
 
-##### Inputs
+**Input Arguments**
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
 - `dt` (`float`): timestep used in user simulations, default 0.002
 - `outputfile` (`str`): csv file name for time correlation results, default `None`
