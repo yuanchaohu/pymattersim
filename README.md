@@ -6,6 +6,8 @@ Physics-driven data analyis of computer simulations for materials science, chemi
 ## Installation
 `pip install PyMatterSim==0.0.1`
 
+`pip install git@github.com:yuanchaohu/pymattersim.git`
+
 ## Requirements
 - python 3.6 or higher
 - numpy
