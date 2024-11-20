@@ -82,8 +82,9 @@ The calculated $g(r)$ is storted in the `outputfile`. Taken ternary sytem as an 
 - calculated conditional $g(r)$, `gA` (`pd.DataFrame`). For float-scalar physical quantity, `gA_norm` with normalization will be returned.
 
 Note that this calculation is for only one snapshot. For the float-type conditions, such as the structural ordering per particle, a normalization is performed for `gA` by doing
+
 $$
-g_A^{\rm norm} = \frac{g_A - \left< A \right>^2}{\left< A^2 \right> - \left< A \right>^2}
+g_A^{\rm norm} = \frac{g_A - \left< A \right>^2}{\left< A^2 \right> - \left< A \right>^2}.
 $$
 
 **Example**

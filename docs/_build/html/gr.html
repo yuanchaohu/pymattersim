@@ -313,10 +313,11 @@ g_A(r) = \frac{1}{N \rho} \left&lt;le \sum_{i \neq j} \delta (r - |\vec r_{ij}|)
 <ul class="simple">
 <li><p>calculated conditional <span class="math notranslate nohighlight">\(g(r)\)</span>, <code class="docutils literal notranslate"><span class="pre">gA</span></code> (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>). For float-scalar physical quantity, <code class="docutils literal notranslate"><span class="pre">gA_norm</span></code> with normalization will be returned.</p></li>
 </ul>
-<p>Note that this calculation is for only one snapshot. For the float-type conditions, such as the structural ordering per particle, a normalization is performed for <code class="docutils literal notranslate"><span class="pre">gA</span></code> by doing
-$<span class="math notranslate nohighlight">\(
-g_A^{\rm norm} = \frac{g_A - \left&lt; A \right&gt;^2}{\left&lt; A^2 \right&gt; - \left&lt; A \right&gt;^2}
-\)</span>$</p>
+<p>Note that this calculation is for only one snapshot. For the float-type conditions, such as the structural ordering per particle, a normalization is performed for <code class="docutils literal notranslate"><span class="pre">gA</span></code> by doing</p>
+<div class="math notranslate nohighlight">
+\[
+g_A^{\rm norm} = \frac{g_A - \left&lt; A \right&gt;^2}{\left&lt; A^2 \right&gt; - \left&lt; A \right&gt;^2}.
+\]</div>
 <p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">static.gr</span> <span class="kn">import</span> <span class="n">conditional_gr</span>
 
