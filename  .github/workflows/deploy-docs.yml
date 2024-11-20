@@ -15,7 +15,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v3
       with:
-        python-version: '3.12'
+        python-version: '3.x'
 
     - name: Install dependencies
       run: |
@@ -29,6 +29,6 @@ jobs:
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: docs/_build/html
-        publish_branch: gh-pages
+        destination_branch: gh-pages
         keep_files: true
         # cname: docs.pymattersim.com
