@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Hessian matrix calculation and diagonalization" href="hessian.html" /><link rel="prev" title="Static orderings" href="orderings.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>Dynamical properties at two &amp; three dimensions - py_Matters_Simulations documentation</title>
+        <title>Dynamical properties at two &amp; three dimensions - PyMatterSim documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">py_Matters_Simulations  documentation</div></a>
+      <a href="index.html"><div class="brand">PyMatterSim  documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">py_Matters_Simulations  documentation</span>
+  <span class="sidebar-brand-text">PyMatterSim  documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -214,13 +214,10 @@
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#vii-coarse-graining">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -282,16 +279,16 @@ $<span class="math notranslate nohighlight">\(
 \Delta {\vec r_j} = \left[{\vec r_j} (t) - {\vec r_j}(0) \right] - \frac{1}{N_j}\sum_{i}^{N_j} \left[ {\vec r_i}(t) - {\vec r_i}(0) \right],
 \)</span><span class="math notranslate nohighlight">\(
 in which \)</span>j<span class="math notranslate nohighlight">\( is the center particle and \)</span>i$ is its neighbor.</p>
-<p>######## Input Arguments:</p>
+<p><strong>Input Arguments</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">RII</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): original (absolute) displacement matrix with shape <code class="docutils literal notranslate"><span class="pre">[num_of_particles,</span> <span class="pre">ndim]</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">cnlist</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): neighbor list of the initial or reference configuration with shape <code class="docutils literal notranslate"><span class="pre">[num_of_particles,</span> <span class="pre">num_of_neighbors]</span></code>. This gives the particle identifiers (<span class="math notranslate nohighlight">\(i\)</span>) for each center (<span class="math notranslate nohighlight">\(j\)</span>). It available from the ‘neighbors’ module.</p></li>
 </ul>
-<p>######## Return:</p>
+<p><strong>Return</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">RII_relative</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): cage-relative displacement matrix with shape <code class="docutils literal notranslate"><span class="pre">[num_of_particles,</span> <span class="pre">ndim]</span></code> (the same as the input <code class="docutils literal notranslate"><span class="pre">RII</span></code>)</p></li>
 </ul>
-<p>######## Example</p>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dynamic.dynamics</span> <span class="kn">import</span> <span class="n">cage_relative</span>
 <span class="kn">from</span> <span class="nn">neighbors.read_neighbors</span> <span class="kn">import</span> <span class="n">read_neighbors</span>
 <span class="kn">from</span> <span class="nn">neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
@@ -331,7 +328,7 @@ in which \)</span>j<span class="math notranslate nohighlight">\( is the center p
 <p>This module calculates particle-level dynamical quantities with absolute or wrapped coordinates. It considers both two-dimensional systems and three-dimensional system, and for both absolute and cage-relative dynamics.</p>
 <p>This module recommends to use absolute coordinates (like ‘xu’ in LAMMPS) to calculate particle-level displacement vectors, such as mean-squared displacements, while PBC is taken care of others as well.
 The functions are listed below.</p>
-<p>######## Input Arguments:</p>
+<p><strong>Input Arguments</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">xu_snapshots</span></code>(<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">x_snapshots</span></code>(<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)</p></li>
@@ -343,11 +340,11 @@ The functions are listed below.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code>(<code class="docutils literal notranslate"><span class="pre">str</span></code>): neighbor list filename for coarse-graining, only provided when calculating (cage-)relative displacements.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">max_neighbors</span></code>(<code class="docutils literal notranslate"><span class="pre">int</span></code>): maximum of particle neighbors considered, default 30.</p></li>
 </ul>
-<p>######## Return:</p>
+<p><strong>Return</strong>:</p>
 <ul class="simple">
 <li><p>None</p></li>
 </ul>
-<p>######## Example:</p>
+<p><strong>Example</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dynamic.dynamics</span> <span class="kn">import</span> <span class="n">Dynamics</span>
 <span class="kn">from</span> <span class="nn">neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
@@ -423,17 +420,17 @@ Q(t) = \frac{1}{N} \bigg\langle \sum_{j = 1}^{N}\omega\left( \left| \mathbf{r}_j
 \]</div>
 </div>
 <p>which is usually used to measure the degree of dynamical heterogeneity in the disordered states revealed by the particle-level mobility.</p>
-<p>######## Input Arguments:</p>
+<p><strong>Input Arguments</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">qconst</span></code>(<code class="docutils literal notranslate"><span class="pre">float</span></code>): the wavenumber factor for calculating self-intermediate scattering function. default <span class="math notranslate nohighlight">\(2\pi\)</span>, used internally as <code class="docutils literal notranslate"><span class="pre">qconst/diameters</span></code> to define the wavenumber for each particle. For example, if input <code class="docutils literal notranslate"><span class="pre">qconst=2PI</span></code> and <code class="docutils literal notranslate"><span class="pre">diamter=1.0</span></code> then the used wavenumber is <code class="docutils literal notranslate"><span class="pre">2PI/1.0</span></code>. This setting provides flexibility for polydisperse systems or considering dynamics differently for different particle types.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">condition</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level selection with the shape <code class="docutils literal notranslate"><span class="pre">[num_of_snapshots,</span> <span class="pre">num_of_particles]</span></code> , preferring the <code class="docutils literal notranslate"><span class="pre">bool</span></code> type. Default <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code>(<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name to save the calculated dynamics results</p></li>
 </ul>
-<p>######## Return:</p>
+<p><strong>Return</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">results</span></code>(<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>): Calculated dynamics results</p></li>
 </ul>
-<p>######## Example</p>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">###calculate the particle-level condition, can alos be None</span>
 <span class="n">condition</span><span class="o">=</span><span class="p">[]</span>
 <span class="k">for</span> <span class="n">snapshot</span> <span class="ow">in</span> <span class="n">input_x</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">:</span>
@@ -455,26 +452,27 @@ in which
   W\left( \mathbf{q},t \right) = \sum_{j = 1}^{N}{\exp\left\lbrack i\mathbf{q} \cdot \mathbf{r}_{j}\left( 0 \right) \right\rbrack\omega\left( \left| \mathbf{r}_j\left( t \right) - \mathbf{r}_j\left( 0 \right) \right| \right)}, 
 \)</span><span class="math notranslate nohighlight">\(
 which is essentially the same as the quantity \)</span>Q(t)$ as above, accounting for the slow or fast dynamics at the particle level. The calculation is done in the same way as above.</p>
-<p>######## Input Arguments:</p>
+<p><strong>Input Arguments</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">t</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): characteristic time, typically peak time of <span class="math notranslate nohighlight">\(\chi_4(t)\)</span>, see self.relaxation()</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">qrange</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): the wave number range to be calculated, default 10.0. It determines how many wavevector is involved in the computation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">condition</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level condition / property, shape <code class="docutils literal notranslate"><span class="pre">[num_of_snapshots,</span> <span class="pre">num_of_particles]</span></code>. This supplements the fast or slow dynamics, for example, to calculate the slow dynamics of particles with type=1 will require this <code class="docutils literal notranslate"><span class="pre">condition</span></code> to be a <code class="docutils literal notranslate"><span class="pre">bool</span></code> type with <code class="docutils literal notranslate"><span class="pre">True</span></code> only for particle type of 1.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): output filename for the calculated dynamical structure factor</p></li>
 </ul>
-<p>######## Return:</p>
+<p><strong>Return</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">results</span></code>(<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>): calculated dynamical structure factor</p></li>
 </ul>
-<p>######## Example:</p>
+<p><strong>Example</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dynamic</span><span class="o">.</span><span class="n">sq4</span><span class="p">(</span><span class="n">t</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">qrange</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span><span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
 <section id="logdynamics-class">
-<h3>2. <code class="docutils literal notranslate"><span class="pre">LogDynamics()</span></code> class<a class="headerlink" href="#logdynamics-class" title="Link to this heading">¶</a></h3>
+<h2>2. <code class="docutils literal notranslate"><span class="pre">LogDynamics()</span></code> class<a class="headerlink" href="#logdynamics-class" title="Link to this heading">¶</a></h2>
 <p>This module is designed to calculate the dynamical properties of a trajectory as above but dumped in a log scale. It uses the ‘log’ style to output the atomic trajectory. Therefore, no ensemble-average is performed. The first configuration is the only one used to consider the particle neighbors and as the reference for calculating the dynamics.</p>
 <p>Ensemble average is absent compared to the above <code class="docutils literal notranslate"><span class="pre">Dynamics()</span></code> class!</p>
-<p>######## Input Arguments:</p>
+<p><strong>Input Arguments</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">xu_snapshots</span></code>(<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">x_snapshots</span></code>(<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)</p></li>
@@ -486,11 +484,11 @@ which is essentially the same as the quantity \)</span>Q(t)$ as above, accountin
 <li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code>(<code class="docutils literal notranslate"><span class="pre">str</span></code>): neighbor list filename for coarse-graining, only provided when calculating (cage-)relative displacements.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">max_neighbors</span></code>(<code class="docutils literal notranslate"><span class="pre">int</span></code>): maximum of particle neighbors considered, default 30.</p></li>
 </ul>
-<p>######## Return:</p>
+<p><strong>Return</strong>:</p>
 <ul class="simple">
 <li><p>None</p></li>
 </ul>
-<p>######## Example:</p>
+<p><strong>Example</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">dynamic.dynamics</span> <span class="kn">import</span> <span class="n">LogDynamics</span>
 <span class="kn">from</span> <span class="nn">neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
@@ -521,21 +519,20 @@ which is essentially the same as the quantity \)</span>Q(t)$ as above, accountin
 </pre></div>
 </div>
 </section>
-</section>
 <section id="id1">
 <h2>2.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code><a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
 <p>Compute the self-intermediate scattering functions ISF, overlap function Qt and set its corresponding dynamical susceptibility X4_Qt (<span class="math notranslate nohighlight">\(\chi_4(t)\)</span>) as 0, mean-square displacements msd, and non-Gaussion parameter <span class="math notranslate nohighlight">\(\alpha_2(t)\)</span></p>
-<p>######## Input Arguments:</p>
+<p><strong>Input Arguments</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">qconst</span></code>(<code class="docutils literal notranslate"><span class="pre">float</span></code>): the wavenumber factor for calculating self-intermediate scattering function. default <span class="math notranslate nohighlight">\(2\pi\)</span>, used internally as <code class="docutils literal notranslate"><span class="pre">qconst/diameters</span></code> to define the wavenumber for each particle. For example, if input <code class="docutils literal notranslate"><span class="pre">qconst=2PI</span></code> and <code class="docutils literal notranslate"><span class="pre">diamter=1.0</span></code> then the used wavenumber is <code class="docutils literal notranslate"><span class="pre">2PI/1.0</span></code>. This setting provides flexibility for polydisperse systems or considering dynamics differently for different particle types.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">condition</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level selection with the shape <code class="docutils literal notranslate"><span class="pre">[num_of_snapshots,</span> <span class="pre">num_of_particles]</span></code> , preferring the <code class="docutils literal notranslate"><span class="pre">bool</span></code> type. Default <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code>(<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name to save the calculated dynamics results</p></li>
 </ul>
-<p>######## Return:</p>
+<p><strong>Return</strong>:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">results</span></code>(<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>): Calculated dynamics results</p></li>
 </ul>
-<p>######## Example:</p>
+<p><strong>Example</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">###calculate the particle-level condition, can alos be None</span>
 <span class="n">condition</span><span class="o">=</span><span class="p">[]</span>
 <span class="n">condition</span><span class="o">=</span><span class="p">(</span><span class="n">input_xu</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">particle_type</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
@@ -543,8 +540,9 @@ which is essentially the same as the quantity \)</span>Q(t)$ as above, accountin
 <span class="n">result</span> <span class="o">=</span> <span class="n">dynamic</span><span class="o">.</span><span class="n">relaxation</span><span class="p">(</span><span class="n">qconst</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">condition</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
 <section id="time-correlation">
-<h3>3. <code class="docutils literal notranslate"><span class="pre">time_correlation()</span></code><a class="headerlink" href="#time-correlation" title="Link to this heading">¶</a></h3>
+<h2>3. <code class="docutils literal notranslate"><span class="pre">time_correlation()</span></code><a class="headerlink" href="#time-correlation" title="Link to this heading">¶</a></h2>
 <p>Calculate the time correlation of the input property given by condition</p>
 <p>There are three cases considered, given by the shape of condition:</p>
 <ol class="arabic simple">
@@ -552,7 +550,9 @@ which is essentially the same as the quantity \)</span>Q(t)$ as above, accountin
 <li><p>condition is float vector type, for example, velocity</p></li>
 <li><p>condition is float tensor type, for example, nematic order</p></li>
 </ol>
-<p>######## Input:</p>
+</section>
+<section id="input">
+<h2>Input:<a class="headerlink" href="#input" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">read.reader_utils.snapshots</span></code>): multiple trajectories dumped linearly or in logscale</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">condition</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level condition / property, type should be float
@@ -560,11 +560,11 @@ shape: <code class="docutils literal notranslate"><span class="pre">[num_of_snap
 <li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): time step of input snapshots, default 0.002</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): output file name, default “” (None)</p></li>
 </ul>
-<p>######## Return:</p>
+<p><strong>Return</strong>:</p>
 <ul class="simple">
 <li><p>calculated time-correlation information in pandas dataframe</p></li>
 </ul>
-<p>######## Example:</p>
+<p><strong>Example</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">###example for random scalar condition</span>
 <span class="kn">from</span> <span class="nn">dynamic.time_corr</span> <span class="kn">import</span> <span class="n">time_correlation</span>
 <span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -573,7 +573,6 @@ shape: <code class="docutils literal notranslate"><span class="pre">[num_of_snap
 <span class="n">tc</span> <span class="o">=</span> <span class="n">time_correlation</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span><span class="n">condition</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
 </section>
 </section>
 
@@ -636,14 +635,11 @@ shape: <code class="docutils literal notranslate"><span class="pre">[num_of_snap
 <li><a class="reference internal" href="#cage-relative"><code class="docutils literal notranslate"><span class="pre">cage_relative()</span></code></a></li>
 <li><a class="reference internal" href="#dynamics-class">1. <code class="docutils literal notranslate"><span class="pre">Dynamics()</span></code> class</a></li>
 <li><a class="reference internal" href="#relaxation">1.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code></a></li>
-<li><a class="reference internal" href="#sq4">1.2 <code class="docutils literal notranslate"><span class="pre">sq4()</span></code></a><ul>
+<li><a class="reference internal" href="#sq4">1.2 <code class="docutils literal notranslate"><span class="pre">sq4()</span></code></a></li>
 <li><a class="reference internal" href="#logdynamics-class">2. <code class="docutils literal notranslate"><span class="pre">LogDynamics()</span></code> class</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#id1">2.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code></a><ul>
+<li><a class="reference internal" href="#id1">2.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code></a></li>
 <li><a class="reference internal" href="#time-correlation">3. <code class="docutils literal notranslate"><span class="pre">time_correlation()</span></code></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#input">Input:</a></li>
 </ul>
 </li>
 </ul>

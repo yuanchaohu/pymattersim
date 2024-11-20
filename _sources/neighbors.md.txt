@@ -8,24 +8,24 @@ This module [reads the neighbor list](###Reading_Neighbors) from the saved file.
 
 This module is also heavily used to calculate the neighboring particles of a particle, or the properties about the neighboring list, which are the base for many different analyzing methods. There are many ways to recognize the neighbors, for example, by a [certain number](###1-nnearests), by a [certain cutoff](###2-cutoffneighbors), by [particle-type specific cutoffs](###3-cutoffneighbors_particletype), by Voronoi tessellation ([freud](https://freud.readthedocs.io/en/latest/index.html) or [Voro++](https://math.lbl.gov/voro++/) directly) etc. This module covers the above calculation methods and can be easily extended by individual purpose. Neighbor list of different snapshots is continuous without any gap and all start with the header ***id cn neighborlist***. This formatting is made to be consistent with reading neighbor lists for different analyzing methods.
 
-###### I. Reading Neighbors
+##### I. Reading Neighbors
 
 `neighbors.read_neighbors.read_neighbors()` is used to read the property of neighboring particles from a saved file, as long as the format of file is compatible, as like ***neighborlist.dat*** (see below). Note that this module reads one snapshot a time to save computer memory. If you have multiple snapshots, you can import this module in a loop (see example).
 
-##### Input Arguments
+**Input Arguments**
 
 - `f` (`TextIO`): opened file object which save the property of neighboring particles, `f = open(filename, 'r', encoding='utf-8')`. Opening the file outside of the function ensures that when reading a file containing multiple snapshots, the file pointer can move to the next snapshot.
 - `Nmax` (`int`): the maximum number of neighboring particles to consider. Setting `Nmax` to a sufficiently large value is ideal, with the default being 200. `Nmax` is defined to address the varying number of neighboring particles among different particles. In this way, we can create a regular two-dimensional NumPy array to save the property of neighboring particles.
 
-##### Return
+**Return**
 
 two-dimensional numpy array, with shape (`nparticle`, `1+Nmax_fact`). `Nmax_fact` means the maximum coordination number for one particle in the system. The first column is the coordination number (***cn***). For particles with coordination number less than `Nmax_fact` (which is generally the case), the unoccupied positions in `neighborprop` (see source code) are padded with `0`.
 
-##### Important Notes
+**Important Notes**
 
 In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in this read module, the returned neighborlist is counted from 0. This is to facilitate subsequent indexing operations in python.
 
-##### Example
+**Example**
 
 - Read neighbor list:
 
@@ -59,13 +59,13 @@ In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in
   f.close()
   ```
 
-###### II. Calculating Neighbors
+##### II. Calculating Neighbors
 
 ##### 1. Nnearests()
 
  `neighbors.calculate_neighbors.Nnearests()` gets the `N` nearest neighbors around a particle. In this case, the coordination number is `N` for each particle.
 
-######## Input Arguments
+**Input Arguments**
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `N` (`int`): the specified number of nearest neighbors, default 12
@@ -74,7 +74,7 @@ In the saved ***neighborlist.dat***, the particle ID is counted from 1. While in
   default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for two-dimensional system.
 - `fnfile` (`str`): the name of output file that stores the neighbor list, default `neighborlist.dat`
 
-######## Example
+**Example**
 
 ```python
 from reader.dump_reader import DumpReader
@@ -92,7 +92,7 @@ Nnearests(readdump.snapshots, N=12, ppp=np.array([1,1,1]), fnfile='neighborlist.
 
 `neighbors.calculate_neighbors.cutoffneighbors()` gets the nearest neighbors around a particle by setting a global cutoff distance `r_cut`.  Usually, the cutoff distance can be determined as the position of the first deep well in total pair correlation function.
 
-######## Input Arguments
+**Input Arguments**
 
 - `snapshots` (`reader.reader_utils.Snapshots`):`Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `r_cut` (`float`): the global cutoff distance to screen the nearest neighbors
@@ -101,7 +101,7 @@ Nnearests(readdump.snapshots, N=12, ppp=np.array([1,1,1]), fnfile='neighborlist.
   default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for two-dimensional system.
 - `fnfile` (`str`): the name of output file that stores the neighbor list, default `neighborlist.dat`
 
-######## Example
+**Example**
 
 ```python
 from reader.dump_reader import DumpReader
@@ -128,7 +128,7 @@ $$
 
 Usually, these cutoff distances can be determined as the position of the individual first deep well in partial pair correlation function of each particle pair.
 
-######## Input Arguments
+**Input Arguments**
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `r_cut` (`npt.NDArray`): the cutoff distances of each particle pair
@@ -137,7 +137,7 @@ Usually, these cutoff distances can be determined as the position of the individ
   default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for a two-dimensional system
 - `fnfile` (`str`): the name of output file that stores the neighbor list, default `neighborlist.dat`
 
-######## Example
+**Example**
 
 ```python
 import numpy as np
@@ -162,18 +162,18 @@ cutoffneighbors_particletype(readdump.snapshots, r_cut=r_cut, ppp=np.array([1,1,
 
 `freud` is a trajectory analysis package developed by [Glotzer&###39;s group](https://freud.readthedocs.io/en/stable/index.html). To use `freud` easily, a function `neighbors.freud_neighbors.convert_configuration` is used to convert the dump file from our `reader` module to `freud` style. Correspondingly the list of box information and the list of the particle coordinates are returned for further analysis.
 
-######## 1. convert_configuration
+##### 1. convert_configuration
 
-########### Input Arguments
+**Input Arguments**
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 
-########### Return
+**Return**
 
 - `list_box` (`list`): the list of box information for `freud` analysis
 - `list_points` (`list`): the list of particle positions for `freud` analysis
 
-########### Example
+**Example**
 
 ```python
 from reader.dump_reader import DumpReader
@@ -187,7 +187,7 @@ readdump.read_onefile()
 list_box, list_points = convert_configuration(readdump.snapshots)
 ```
 
-######## 2. cal_neighbors
+##### 2. cal_neighbors
 
 Calling `neighbors.freud_neighbors.Voro_neighbors()` first and then performing Voronoi analysis with ***[voro++](https://math.lbl.gov/voro++/)*** package to calculate neighbors for both 2D and 3D systems. Three classes of information will be output:
 
@@ -195,16 +195,16 @@ Calling `neighbors.freud_neighbors.Voro_neighbors()` first and then performing V
 - Voronoi face area (3D) or edge length (2D) list: between the center and each of its neighbors
 - overall information: coordination number, Voronoi volume or area of each atom
 
-########### Input Arguments
+**Input Arguments**
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `outputfile` (`str`): filename of neighbor list and bond info, such as edge length (2D) or facearea(3D), default `None`
 
-########### Return
+**Return**
 
 None (result is saved to file). For neighbor list, file with name outputfile+'.neighbor.dat'. For edgelength list (2D box), file with name outputfile+'.edgelength.dat'. For facearea list (3D box), file with name outputfile+'.facearea.dat'
 
-########### Example
+**Example**
 
 ```python
 from reader.lammps_reader_helper import read_lammps_wrapper
@@ -223,23 +223,23 @@ The voro++ package considers non-periodic boundary conditions by default, so the
 1. `neighbors.voronoi_neighbors.voronowalls()`: used for any non-periodic boundary condition(s)
 2. `neighbors.voronoi_neighbors.cal_voro()`: used for all periodic boundary conditions
 
-######## 1. `get_input()`
+##### 1. `get_input()`
 
 `neighbors.voronoi_neighbors.get_input()` is used to design input file for Voro++ by considering particle radii.
 
-########### Input Arguments
+**Input Arguments**
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `radii` (`dict`): radii of particles, must be a dict like `{1 : 1.28, 2 : 1.60} `
 
   if you do not want to consider radii, set the radii the same, default `{1:0.5, 2:0.5} `
 
-########### Return
+**Return**
 
 - `position` (`list`): input file for Voro++ with the format:
 - `bounds` (`list`): box bounds for snapshots
 
-########### Example
+**Example**
 
 ```python
 from reader.dump_reader import DumpReader
@@ -253,11 +253,11 @@ readdump.read_onefile()
 get_input(readdump.snapshots, radii={1:1.0, 2:1.0})
 ```
 
-######## 2. `cal_voro()`
+##### 2. `cal_voro()`
 
 `voronoi.voropp.cal_voro()` is used to perform radical Voronoi tessellation if radii are given using voro++ for periodic boundary conditions.
 
-########### Input Arguments
+**Input Arguments**
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `ppp` (`str`): Make the container periodic in all three directions, default `ppp='-p'`
@@ -266,7 +266,7 @@ get_input(readdump.snapshots, radii={1:1.0, 2:1.0})
   if you do not want to consider radii, set the radii the same, default `{1:0.5, 2:0.5} `
 - `outputfile` (`str`): filename of output, including *neighborlist*, *facearealist*, *voronoi index*, *overall* (facearea and volume of particle).
 
-########### Return
+**Return**
 
 - `None` [saved to file]
 - for neighbor list, file with name `outputfile.neighbor.dat'`
@@ -276,7 +276,7 @@ get_input(readdump.snapshots, radii={1:1.0, 2:1.0})
 
 Output files from ***voroindex*** and ***overall*** include a header for all snapshots. ***neighborlist*** and ***facearealist*** output files are in align with the format needed in the module `neighbors` and have headers for each individual snapshot.
 
-########### Example
+**Example**
 
 ```python
 from reader.lammps_reader_helper import read_lammps_wrapper
@@ -288,11 +288,11 @@ snapshots = read_lammps_wrapper(test_file_3d, 3)
 cal_voro(snapshots, outputfile='dump')
 ```
 
-######## 3. `voronowalls()`
+##### 3. `voronowalls()`
 
 `voronoi.voropp.voronowalls()` is used to perform radical Voronoi tessellation using voro++ for periodic boundary conditions.
 
-########### Input Arguments
+**Input Arguments**
 
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `ppp` (`str`): Make the container periodic in a desired direction
@@ -303,7 +303,7 @@ cal_voro(snapshots, outputfile='dump')
   if you do not want to consider radii, set the radii the same, default `{1:0.5, 2:0.5} `
 - `outputfile` (`str`): filename of output, including *neighborlist*, *facearealist*, *voronoi index*, *overall* (facearea and volume of particle).
 
-########### Return
+**Return**
 
 - `None` [saved to file]
 - for neighbor list, file with name `outputfile.neighbor.dat'`
@@ -313,20 +313,20 @@ cal_voro(snapshots, outputfile='dump')
 
 Output files from ***voroindex*** and ***overall*** include a header for all snapshots. ***neighborlist*** and ***facearealist*** output files are in align with the format needed in the module `neighbors` and have headers for each individual snapshot.
 
-######## 4. `indicehis()`
+##### 4. `indicehis()`
 
 Statistics the frequency of voronoi index from the output of voronoi analysis. Only the top 50 voronoi index will be output along with their fractions.
 
-########### Input Arguments
+**Input Arguments**
 
 - `inputfile` (`str`): the filename of saved Voronoi index
 - `outputfile` (`str`): the output filename of the frequency of voronoi index, default `None`
 
-########### Return
+**Return**
 
 - None [saved to file], frequency of Voronoi Indices
 
-########### Example
+**Example**
 
 ```python
 from neighbors.voronoi_neighbors import indicehis

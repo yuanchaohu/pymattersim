@@ -12,7 +12,7 @@ $$
 
 In this calculation, only **4** nearest neighbors are taken into consideration. The algorithm of selecting nearest distances is from `numpy.argpartition` for fast computation. In this method, only the nearest neighbors are selected but not in a sorted order. $j$, $k$ run over these neighbors. 
 
-###### 1.1 Input Arguments
+##### 1.1 Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory
 (returned by `reader.dump_reader.DumpReader`)
 - `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1,1])`
@@ -20,11 +20,11 @@ In this calculation, only **4** nearest neighbors are taken into consideration. 
                         To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
                         If the file extension is ".dat" or ".txt", also saved a text file.
 
-###### 1.2 Return
+##### 1.2 Return
 - calculated local tetrahedral order in `npt.NDArray` with shape `[nsnapshots, nparticle]`
 
 
-###### 1.3 Example
+##### 1.3 Example
 ```python
 from reader.dump_reader import DumpReader
 from static.tetrahedral import q_tetra
@@ -42,7 +42,7 @@ $$
 $$
 where $N_o$ is the unique nearest pair number around the center, which equals to the coordination number.
 
-###### 2.1 Input Arguments
+##### 2.1 Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory
 (returned by `reader.dump_reader.DumpReader`)
 - `sigmas` (`npt.NDArray`): particle sizes for each pair type (ascending order) in numpy array, can refer to  first peak position of partial g(r), shape as `[particle_type, particle_type]`
@@ -52,10 +52,10 @@ where $N_o$ is the unique nearest pair number around the center, which equals to
                         To reduce storage size and ensure loading speed, save npy file as default with extension ".npy".
                         If the file extension is ".dat" or ".txt", also saved as a text file.
 
-###### 2.2 Return
+##### 2.2 Return
 - calculated packing capability of a 2D system in `npt.NDArray` with shape `[nsnapshots, nparticle]`
 
-###### 2.3 Example
+##### 2.3 Example
 ```python
 from reader.dump_reader import DumpReader
 from static.packing_capability import theta_2D
@@ -87,75 +87,75 @@ $$
 where $j$ are the neighbors of atom $i$, $r_{ij}$ is the pair distance, and $\sigma$ is a broadening parameter. 
 The integration in Eq. (1) is calculated numerically using the trapezoid rule.
 
-###### `S2` class
+##### `S2` class
 
-##### Input Arguments
+**Input Arguments**
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`)
 - `sigmas` (`npt.NDArray`): gaussian standard deviation for each pair particle type, can be set based on particle size. It must be a two-dimensional numpy array to cover all particle type pairs
 - `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `npt.NDArray=np.array([1,1,1])`, set `npt.NDArray=np.array([1,1])` for two-dimensional systems
 - `rdelta` (`float`): bin size calculating g(r), the default value is `0.02`
 - `ndelta` (`int`): number of bins for g(r) calculation, `ndelta*rdelta` determines the range
 
-##### Return:
+**Return**:
 - None
 
-##### Example
+**Example**
 ```python
 from static.pairentropy import S2
 s2 = S2(readdump.snapshots,
         sigmas=np.array([[0.3, 0.2], [0.2, 0.4]]))
 ```
 
-###### `particle_S2()`
+##### `particle_S2()`
 The function calculates the particle-level $g_m^i(r)$ by Gaussian smoothing and then calculate the particle-level $S_2^i$.
 
-##### Input Arguments
+**Input Arguments**
 - `savegr` (`bool`): whether to save particle $g_m^i(r)$, default `False`
 - `outputfile` (`str`): the name of csv file to save the calculated $S_2^i$
 
-##### Return:
+**Return**:
 - `s2_results`: particle level $S_2^i$ in shape `[nsnapshots, nparticle]`
 - particle level $g_m^i$ if `savegr=True` in shape `[nsnapshots, nparticle, ndelta]`
 
-##### Example
+**Example**
 ```python
 s2.particle_s2(savegr=True)
 ```
 
-###### `spatial_corr()`
+##### `spatial_corr()`
 `spatial_corr()` method calculates spatial correlation function of (normalized) $S_2^i$:
 $$
 g_s(r) = <S_2(0)S_2(r)>
 $$
 
-##### Input Arguments
+**Input Arguments**
 - `mean_norm` (`bool`): whether use mean normalized $S_2^i$
 - `outputfile` (`str`): csv file name for $g_l$ of $S_2^i$, default `None`
 
-##### Return
+**Return**
 - calculated spatial correlation results of $S_2^i$ (`pd.DataFrame`)
 
-##### Example
+**Example**
 ```python
 glresults = s2.spatial_corr()
 
 glresults_normalized = s2.spatial_corr(mean_norm=True)
 ```
 
-###### `time_corr()`
+##### `time_corr()`
 `time_corr()` method calculates time correlation of $S_2^i$
 $$
 g_s(t) = <S_2(0)S_2(t)>
 $$
 
-##### Input Arguments
+**Input Arguments**
 - `mean_norm` (`bool`): whether use mean normalized $S_2^i$
 - `outputfile` (`str`): csv file name for $g_l$ of $S_2^i$, default `None`
 
-##### Return
+**Return**
 - calculated time correlation results of $S_2^i$ (`pd.DataFrame`)
 
-##### Example
+**Example**
 ```python
 s2.time_corr()
 ```
@@ -164,15 +164,15 @@ s2.time_corr()
 #### 4. Gyration tensor of a group
 This module calculates calculate gyration tensor of a cluster of atoms. This module calculates gyration tensor which is a tensor that describes the second moments of posiiton of a collection of particles gyration tensor is a symmetric matrix of shape (ndim, ndim). ref: https://en.wikipedia.org/wiki/Gyration_tensor. A group of atoms should be first defined. groupofatoms are the original coordinates of the selected group of a single configuration, the atom coordinates of the cluster should be removed from PBC which can be realized by ovito 'cluster analysis' method by choosing 'unwrap particle coordinates'.
 
-##### Input Arguments
+**Input Arguments**
 - `pos_group` (`npt.NDArray`): unwrapped particle positions of a group of atoms, shape as [num_of_particles, dimensionality]
 
-##### Return
+**Return**
 `3D`: `radius_of_gyration`, `asphericity`, `acylindricity`, `shape_anisotropy`, `fractal_dimension` 
 
 `2D`: `radius_of_gyration`, `acylindricity`, `fractal_dimension`
 
-##### Example
+**Example**
 ``` python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -204,16 +204,16 @@ The time correlation and spatial correlation of $Q^i$ or $Q^i_{\rm CG}$ are also
 
 Currently, the module only supports the calcualtion of two-dimensional systems.
 
-###### 5.1 `NematicOrder()` class
+##### 5.1 `NematicOrder()` class
 
-##### Input Arguments
+**Input Arguments**
 - `snapshots_orientation` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`) (`DumpFileType`=`LAMMPSVECTOR`)
 - `snapshots_position` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`) (`DumpFileType`=`LAMMPS` or `LAMMPSCENTER`) or any other to provide atom positions. Only required for spatial correlation calculation
 
-##### Return
+**Return**
 - `None`  
 
-##### Example
+**Example**
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -228,46 +228,46 @@ input_or.read_onefile()
 Nematic = NematicOrder(input_or.snapshots,input_x.snapshots)
 ```
 
-###### 5.2 `tensor()`
-##### Input Arguments
+##### 5.2 `tensor()`
+**Input Arguments**
 - `ndim` (`int`): dimensionality of the input configurations
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
 - `Nmax` (`int`): maximum number for neighbors, default 30
 - `eigvals` (`bool`): whether calculate eigenvalue of the Qtensor or not, default False
 - `outputfile` (`str`): file name of the calculation output
 
-##### Return
+**Return**
 - Q-tensor or eigenvalue scalar nematic order parameter in numpy ndarray format shape as [num_of_snapshots, num_of_particles]
 
-##### Example
+**Example**
 ```python
 t = Nematic.tensor(outputfile='test')
 ```
 
-###### 5.3 `spatial_corr()`
-##### Input Arguments
+##### 5.3 `spatial_corr()`
+**Input Arguments**
 - `rdelta` (`float`): bin size in calculating `g(r)` and `G_Q(r)`, default 0.01
 - `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1]` for two-dimensional systems
 - `outputfile` (`str`): csv file name for `G_Q(r)`, default `None`
 
-##### Return
+**Return**
 - `gQresults`: calculated `g_Q(r)` based on QIJ tensor
 
-##### Example
+**Example**
 ```python
 ppp = np.array([1,1])
 sc = Nematic.spatial_corr(rdelta=0.01,ppp=ppp)
 ```
 
-###### 5.4 `time_corr()`
-##### Input Arguments
+##### 5.4 `time_corr()`
+**Input Arguments**
 - `dt` (`float`): timestep used in user simulations, default 0.002
 - `outputfile` (`str`): csv file name for time correlation results, default `None`
 
-##### Return
+**Return**
 - `gQ_time`: time correlation quantity (`pd.DataFrame`)
 
-##### Example
+**Example**
 ```python
 tc = Nematic.time_corr(dt=0.002)
 ```

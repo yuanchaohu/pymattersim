@@ -14,10 +14,10 @@ where $e_{i,n}$ is the eigenvector of particle $i$ in mode $n$. $N$ is the parti
 ##### Input Argument
 - `vector` (`npt.NDArray`): input vector field, shape as [num_of_particles, ndim]
 
-##### Return
+**Return**
 - participation ratio of the vector field (float)
 
-##### Example
+**Example**
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -42,10 +42,10 @@ where ${\vec e_i}$ is the eigenvector of particle $i$ and ${CN_i}$ is the number
 - `vector` (`npt.NDArray`): input vector field, shape as [num_of_particles, ndim]
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
 
-##### Return
+**Return**
 - phase quotient measured as a `float`
 
-##### Example
+**Example**
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -80,10 +80,10 @@ where $i$ and $j$ are atom indices, $N$ is the total atom number, ${CN_i}$ is th
 - `vector` (`npt.NDArray`): input vector field, shape as [num_of_particles, ndim]
 - `neighborfile` (`str`): file name of particle neighbors (see module neighbors)
 
-##### Return
+**Return**
 - phase quotient measured as a float
 
-##### Example
+**Example**
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -113,16 +113,16 @@ Both divergence and curl can be defined anywhere in space within the vector fiel
   
 in which $\vec R_i$ is the position vector of atom $i$, $\vec u_i$ is the vector field (e.g. eigenvector) at atom $i$, $N_i$ is the number of nearest neighbors of atom $i$.
 
-##### Input Arguments
+**Input Arguments**
 - `snapshots` (`reader.reader_utils.SingleSnapshot`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`)
 - `vector` (`npt.NDArray`): vector field shape as [num_of_partices, ndim], it determines the dimensionality of the calculation.
 - `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1,1])`, set `np.array([1,1])` for two-dimensional systems
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
 
-##### Return
+**Return**
 - divergence and curl (only 3D) in numpy array of the input vector
 
-##### Example
+**Example**
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -151,14 +151,14 @@ $$
 
 where $\omega_l^2$ is the eigenvalue of the lth mode, while ${\vec e}_{l, i}$ is the corresponding eigenvector for particle $i$. Larger $\Psi$ indicates more susceptible to excitation and hence more disorder.
 
-##### Input Arguments
+**Input Arguments**
 - `eigenfrequencies` (`npt.NDArray`): eigen frequencies generally from Hessian diagonalization, shape as [num_of_modes,]
 - `eigenvectors` (`npt.NDArray`): eigen vectors associated with eigenfrequencies, each column represents an eigen mode as from `np.linalg.eig` method
 
-##### Return
+**Return**
 - particle-level vibrability in a numpy array
 
-##### Example
+**Example**
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -224,17 +224,17 @@ $$
 
 This new method is utilized in the calculation. Basically, the vector field is first Fourier transformed and then decomposed into transverse and longitudinal components. The corresponding structure factor is then calculated.
 
-##### Input Arguments
+**Input Arguments**
 - `snapshot` (`reader.reader_utils.SingleSnapshot`): single snapshot object of input trajectory
 - `qvector` (`npt.NDArray` of `int`): designed wavevectors in two-dimensional `np.array` (see `utils.wavevector`)
 - `vector` (`npt.NDArray`): particle-level vector, shape as [num_of_particles, ndim], for example, eigenvector field and velocity field
 - `outputfile` (`str`): filename.csv to save the calculated `S(q)`, default `None`
 
-##### Return
+**Return**
 - `vector_fft`: calculated transverse and longitudinal `S(q)` for each input wavevector (`pd.DataFrame`), FFT in complex number is also returned for reference
 - `ave_sqresults`: the ensemble averaged `S(q)` over the same wavenumber (`pd.DataFrame`)
 
-##### Example
+**Example**
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -284,18 +284,18 @@ $$
 
 where $\alpha$ represents longitudinal ($L$) or transverse ($T$) current.
 
-##### Input Arguments
+**Input Arguments**
 - `snapshots` (`read.reader_utils.snapshots`): multiple trajectories dumped linearly or in logscale
 - `qvector` (`npt.NDArray` of `int`): designed wavevectors in two-dimensional `np.array` (see `utils.wavevector`)
 - `vectors` (`npt.NDArray`): particle-level vector, shape as [num_of_snapshots, num_of_particles, ndim], for example, eigenvector field and velocity field
 - `dt` (`float`): time step of input snapshots, default 0.002
 - `outputfile` (`str`): filename.csv to save the calculated `S(q)`, default `None`
 
-##### Return
+**Return**
 - the averaged spectra of full, transverse, and longitudinal mode, saved into a csv dataset
 - time correlation of FFT of vectors in full, transverse, and longitudinal mode. Dict as `{"FFT": pd.DataFrame, "T_FFT": pd.DataFrame, "L_FFT": pd.DataFrame}`
 
-##### Example
+**Example**
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader

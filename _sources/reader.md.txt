@@ -33,7 +33,7 @@ The typical features of `reader` are:
    zhi = zhi_bound
    ```
 
-###### Input Arguments
+**Input Arguments**
 
 1. `filename` (`str`): the name of dump file
 2. `ndim` (`int`): dimensionality
@@ -47,7 +47,7 @@ The typical features of `reader` are:
 4. `moltypes` (`dict`, optional): only used for molecular system in LAMMPS so far, default is `None`. To specify, for example, if the system has 5 types of atoms in which 1-3 is one type of molecules and 4-5 is the other, and type 3 and 5 are the center of mass. Then `moltypes` should be `{3:1, 5:2}`. The keys `[3, 5]` of  `moltypes` are used to select specific atoms to present the corresponding molecules. The values `[1, 2]` is used to record the type of molecules.
 5. `columnsids` (`list`): only used to read addtional columns in LAMMPS dump, default `None`.
 
-###### Return
+**Return**
 
 The input simulation box will be transformed to a list of 'digital' snapshot, by returning `snapshots` object. It is a list of `snapshot` that has all of the configuration information. `snapshots` and `snapshot` are two data class defined in `reader.reader_utils`.  `snapshot` consists:
 
@@ -62,7 +62,7 @@ The input simulation box will be transformed to a list of 'digital' snapshot, by
 
 The information is stored in a list of which the elements are mainly numpy arrays. Particle-level information is referred by particle ID.
 
-###### Important Notes
+**Important Notes**
 
 1. In LAMMPS, ***x***, ***xs***, and ***xu*** format coordinates are acceptable. Such as with format The reduced ***xs*** will be rescaled to the absolute coordinates ***x***.
 2. For the ***xs*** and ***x*** types in orthogonal cells with periodic boundary conditions, particle coordinates are **NOT** warpped to the inside of the box by default, which could be changed by hand when necessary. In non-periodic boundary conditions, there should be no particles at the outside of the cell.
@@ -70,7 +70,7 @@ The information is stored in a list of which the elements are mainly numpy array
 4. In Hoomd-blue, GSD and DCD files are acceptable. GSD file has all the information with periodic boundary conditions, while DCD has the unwarpped coordinates. GSD file has all the information with periodic boundary conditions, while DCD only has the particle positions. Normally only GSD file is needed . But if one wants to analyze the dynamical properties, the DCD file should be dumped accompanying the GSD file to get the unwarp coordinates. More specifically, all the information about the trajectory will be obtained from the GSD file except the particle positions which will be obtained from the DCD file. Therefore, the DCD and GSD files shall be dumped with the same period or concurrently. Another important point in this case is the file name of GSD and DCD. They should share the same name with the only difference of the last three string, ie. ‘GSD ’or ‘DCD’. For example, if the file name of GSD is ***dumpfile.GSD*** then the DCD file name must be ***dumpfile.DCD***. To read the Hoomd-blue outputs, two new modules should be installed first: i) GSD; ii) mdtraj. These modules are available by conda. 
 5. The addtional columns are now readable from `DumpFileType.LAMMPSVECTOR` by specifying the column ids.
 
-###### Example
+**Example**
 
 Some dump files are provided in `tests/sample_test_data`.
 

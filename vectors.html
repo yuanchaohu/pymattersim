@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="util functions" href="utils.html" /><link rel="prev" title="Hessian matrix calculation and diagonalization" href="hessian.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>vector analysis - py_Matters_Simulations documentation</title>
+        <title>vector analysis - PyMatterSim documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">py_Matters_Simulations  documentation</div></a>
+      <a href="index.html"><div class="brand">PyMatterSim  documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">py_Matters_Simulations  documentation</span>
+  <span class="sidebar-brand-text">PyMatterSim  documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -214,13 +214,10 @@
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">vector analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#vii-coarse-graining">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -277,15 +274,11 @@ where \)</span>e_{i,n}<span class="math notranslate nohighlight">\( is the eigen
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): input vector field, shape as [num_of_particles, ndim]</p></li>
 </ul>
-</section>
-<section id="return">
-<h3>Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h3>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p>participation ratio of the vector field (float)</p></li>
 </ul>
-</section>
-<section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
@@ -313,15 +306,11 @@ where \)</span>{\vec e_i}<span class="math notranslate nohighlight">\( is the ei
 <li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): input vector field, shape as [num_of_particles, ndim]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name of particle neighbors (see module <code class="docutils literal notranslate"><span class="pre">neighbors</span></code>)</p></li>
 </ul>
-</section>
-<section id="id2">
-<h3>Return<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p>phase quotient measured as a <code class="docutils literal notranslate"><span class="pre">float</span></code></p></li>
 </ul>
-</section>
-<section id="id3">
-<h3>Example<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
@@ -352,21 +341,17 @@ $<span class="math notranslate nohighlight">\(
 PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\sum_i^{N} \sum_j^{CN_i} |{\vec e_{i, n}} \cdot {\vec e_{j, n}}|}.
 \)</span>$</p>
 <p>where <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are atom indices, <span class="math notranslate nohighlight">\(N\)</span> is the total atom number, <span class="math notranslate nohighlight">\({CN_i}\)</span> is the coordination number of atom <span class="math notranslate nohighlight">\(i\)</span>, n is the mode number, <span class="math notranslate nohighlight">\(\vec e_{i, n}\)</span> is the eigenvector of atom <span class="math notranslate nohighlight">\(i\)</span> in mode <span class="math notranslate nohighlight">\(n\)</span>. The upper bound <span class="math notranslate nohighlight">\(PQ_n=1\)</span> means acoustic nature of the mode (an atom has the same direction as the neighbors), while the lower bound of -1 means optical nature of the mode (an atom has the opposite direction as the neighbors). If <span class="math notranslate nohighlight">\(PQ_n \gt 0\)</span>, the mode is acoustic-like otherwise is optical-like mode.</p>
-<section id="id4">
-<h3>Input Argument<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<section id="id2">
+<h3>Input Argument<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): input vector field, shape as [num_of_particles, ndim]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name of particle neighbors (see module neighbors)</p></li>
 </ul>
-</section>
-<section id="id5">
-<h3>Return<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p>phase quotient measured as a float</p></li>
 </ul>
-</section>
-<section id="id6">
-<h3>Example<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.vector</span> <span class="kn">import</span> <span class="n">phase_quotient</span>
@@ -397,23 +382,18 @@ PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\su
 <li><p><span class="math notranslate nohighlight">\({\rm curl\ (vector):\quad} curl\ {\vec u_i} = \nabla \times {\vec u} = \frac{1}{N_i} \sum_j^{N_i} (\vec R_j - \vec R_i) \times (\vec u_j - \vec u_i)\)</span></p></li>
 </ul>
 <p>in which <span class="math notranslate nohighlight">\(\vec R_i\)</span> is the position vector of atom <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(\vec u_i\)</span> is the vector field (e.g. eigenvector) at atom <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(N_i\)</span> is the number of nearest neighbors of atom <span class="math notranslate nohighlight">\(i\)</span>.</p>
-<section id="input-arguments">
-<h3>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h3>
+<p><strong>Input Arguments</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.SingleSnapshot</span></code>): snapshot object of input trajectory (returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): vector field shape as [num_of_partices, ndim], it determines the dimensionality of the calculation.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ppp</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the periodic boundary conditions, setting 1 for yes and 0 for no, default <code class="docutils literal notranslate"><span class="pre">np.array([1,1,1])</span></code>, set <code class="docutils literal notranslate"><span class="pre">np.array([1,1])</span></code> for two-dimensional systems</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name of particle neighbors (see module <code class="docutils literal notranslate"><span class="pre">neighbors</span></code>)</p></li>
 </ul>
-</section>
-<section id="id7">
-<h3>Return<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p>divergence and curl (only 3D) in numpy array of the input vector</p></li>
 </ul>
-</section>
-<section id="id8">
-<h3>Example<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.vector</span> <span class="kn">import</span> <span class="n">divergence_curl</span>
@@ -434,7 +414,6 @@ PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\su
 </pre></div>
 </div>
 </section>
-</section>
 <section id="vibrability">
 <h2>5. vibrability<a class="headerlink" href="#vibrability" title="Link to this heading">¶</a></h2>
 <p>This calculates the susceptibility of particle motion to infinitesimal thermal excitation in the zero temperature limit, defined as:
@@ -442,21 +421,16 @@ $<span class="math notranslate nohighlight">\(
 \Psi_i = \sum_{l=1}^{dN-d} \frac{1}{\omega_l^2} |{\vec e}_{l, i}|^2,
 \)</span>$</p>
 <p>where <span class="math notranslate nohighlight">\(\omega_l^2\)</span> is the eigenvalue of the lth mode, while <span class="math notranslate nohighlight">\({\vec e}_{l, i}\)</span> is the corresponding eigenvector for particle <span class="math notranslate nohighlight">\(i\)</span>. Larger <span class="math notranslate nohighlight">\(\Psi\)</span> indicates more susceptible to excitation and hence more disorder.</p>
-<section id="id9">
-<h3>Input Arguments<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<p><strong>Input Arguments</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">eigenfrequencies</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): eigen frequencies generally from Hessian diagonalization, shape as [num_of_modes,]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">eigenvectors</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): eigen vectors associated with eigenfrequencies, each column represents an eigen mode as from <code class="docutils literal notranslate"><span class="pre">np.linalg.eig</span></code> method</p></li>
 </ul>
-</section>
-<section id="id10">
-<h3>Return<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p>particle-level vibrability in a numpy array</p></li>
 </ul>
-</section>
-<section id="id11">
-<h3>Example<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.vector</span> <span class="kn">import</span> <span class="n">vibrability</span>
@@ -480,7 +454,6 @@ $<span class="math notranslate nohighlight">\(
 <span class="n">vb</span> <span class="o">=</span> <span class="n">vibrability</span><span class="p">(</span><span class="n">eigenfrequencies</span><span class="p">,</span><span class="n">eigenvectors</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
 </section>
 <section id="vector-decompostion-structure-factor">
 <h2>6. vector decompostion structure factor<a class="headerlink" href="#vector-decompostion-structure-factor" title="Link to this heading">¶</a></h2>
@@ -531,24 +504,19 @@ E_{\lambda, T} (\bf{q}) = \frac{1}{N} \left| \hat{\bf{q}} \times \tilde e \right
 \]</div>
 </div>
 <p>This new method is utilized in the calculation. Basically, the vector field is first Fourier transformed and then decomposed into transverse and longitudinal components. The corresponding structure factor is then calculated.</p>
-<section id="id12">
-<h3>Input Arguments<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
+<p><strong>Input Arguments</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshot</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.SingleSnapshot</span></code>): single snapshot object of input trajectory</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">qvector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code>): designed wavevectors in two-dimensional <code class="docutils literal notranslate"><span class="pre">np.array</span></code> (see <code class="docutils literal notranslate"><span class="pre">utils.wavevector</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level vector, shape as [num_of_particles, ndim], for example, eigenvector field and velocity field</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): filename.csv to save the calculated <code class="docutils literal notranslate"><span class="pre">S(q)</span></code>, default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
-</section>
-<section id="id13">
-<h3>Return<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">vector_fft</span></code>: calculated transverse and longitudinal <code class="docutils literal notranslate"><span class="pre">S(q)</span></code> for each input wavevector (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>), FFT in complex number is also returned for reference</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ave_sqresults</span></code>: the ensemble averaged <code class="docutils literal notranslate"><span class="pre">S(q)</span></code> over the same wavenumber (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>)</p></li>
 </ul>
-</section>
-<section id="id14">
-<h3>Example<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.vector</span> <span class="kn">import</span> <span class="n">vector_decomposition_sq</span>
@@ -567,7 +535,6 @@ E_{\lambda, T} (\bf{q}) = \frac{1}{N} \left| \hat{\bf{q}} \times \tilde e \right
 <span class="n">vector_fft</span><span class="p">,</span> <span class="n">ave_sqresults</span><span class="o">=</span><span class="n">vector_decomposition_sq</span><span class="p">(</span><span class="n">input_vp</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">qvector</span><span class="p">,</span><span class="n">v</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
 </section>
 <section id="vectors-fourier-transformaiton-and-their-time-correlations">
 <h2>7. vectors Fourier transformaiton and their time correlations<a class="headerlink" href="#vectors-fourier-transformaiton-and-their-time-correlations" title="Link to this heading">¶</a></h2>
@@ -596,8 +563,7 @@ $<span class="math notranslate nohighlight">\(
 C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\alpha(-{\vec q}, 0) \right&gt;
 \)</span>$</p>
 <p>where <span class="math notranslate nohighlight">\(\alpha\)</span> represents longitudinal (<span class="math notranslate nohighlight">\(L\)</span>) or transverse (<span class="math notranslate nohighlight">\(T\)</span>) current.</p>
-<section id="id15">
-<h3>Input Arguments<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
+<p><strong>Input Arguments</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">read.reader_utils.snapshots</span></code>): multiple trajectories dumped linearly or in logscale</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">qvector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code>): designed wavevectors in two-dimensional <code class="docutils literal notranslate"><span class="pre">np.array</span></code> (see <code class="docutils literal notranslate"><span class="pre">utils.wavevector</span></code>)</p></li>
@@ -605,16 +571,12 @@ C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\a
 <li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): time step of input snapshots, default 0.002</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): filename.csv to save the calculated <code class="docutils literal notranslate"><span class="pre">S(q)</span></code>, default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
-</section>
-<section id="id16">
-<h3>Return<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p>the averaged spectra of full, transverse, and longitudinal mode, saved into a csv dataset</p></li>
 <li><p>time correlation of FFT of vectors in full, transverse, and longitudinal mode. Dict as <code class="docutils literal notranslate"><span class="pre">{&quot;FFT&quot;:</span> <span class="pre">pd.DataFrame,</span> <span class="pre">&quot;T_FFT&quot;:</span> <span class="pre">pd.DataFrame,</span> <span class="pre">&quot;L_FFT&quot;:</span> <span class="pre">pd.DataFrame}</span></code></p></li>
 </ul>
-</section>
-<section id="id17">
-<h3>Example<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.vector</span> <span class="kn">import</span> <span class="n">vector_fft_corr</span>
@@ -637,7 +599,6 @@ C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\a
 <span class="n">alldata</span> <span class="o">=</span> <span class="n">vector_fft_corr</span><span class="p">(</span><span class="n">input_vp</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span><span class="n">qvector</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">outputfile</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
 </section>
 </section>
 
@@ -699,46 +660,20 @@ C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\a
 <li><a class="reference internal" href="#">vector analysis</a><ul>
 <li><a class="reference internal" href="#participation-ratio">1. participation ratio</a><ul>
 <li><a class="reference internal" href="#input-argument">Input Argument</a></li>
-<li><a class="reference internal" href="#return">Return</a></li>
-<li><a class="reference internal" href="#example">Example</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#local-vector-alignment">2. local vector alignment</a><ul>
 <li><a class="reference internal" href="#id1">Input Argument</a></li>
-<li><a class="reference internal" href="#id2">Return</a></li>
-<li><a class="reference internal" href="#id3">Example</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#phase-quotient">3. phase quotient</a><ul>
-<li><a class="reference internal" href="#id4">Input Argument</a></li>
-<li><a class="reference internal" href="#id5">Return</a></li>
-<li><a class="reference internal" href="#id6">Example</a></li>
+<li><a class="reference internal" href="#id2">Input Argument</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#divergence-and-curl">4. divergence and curl</a><ul>
-<li><a class="reference internal" href="#input-arguments">Input Arguments</a></li>
-<li><a class="reference internal" href="#id7">Return</a></li>
-<li><a class="reference internal" href="#id8">Example</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#vibrability">5. vibrability</a><ul>
-<li><a class="reference internal" href="#id9">Input Arguments</a></li>
-<li><a class="reference internal" href="#id10">Return</a></li>
-<li><a class="reference internal" href="#id11">Example</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#vector-decompostion-structure-factor">6. vector decompostion structure factor</a><ul>
-<li><a class="reference internal" href="#id12">Input Arguments</a></li>
-<li><a class="reference internal" href="#id13">Return</a></li>
-<li><a class="reference internal" href="#id14">Example</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a><ul>
-<li><a class="reference internal" href="#id15">Input Arguments</a></li>
-<li><a class="reference internal" href="#id16">Return</a></li>
-<li><a class="reference internal" href="#id17">Example</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#divergence-and-curl">4. divergence and curl</a></li>
+<li><a class="reference internal" href="#vibrability">5. vibrability</a></li>
+<li><a class="reference internal" href="#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
+<li><a class="reference internal" href="#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
 </ul>
 </li>
 </ul>

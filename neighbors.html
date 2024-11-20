@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Pair Correlation Function" href="gr.html" /><link rel="prev" title="Write LAMMPS dump/data format header" href="writer.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>Neighbors - py_Matters_Simulations documentation</title>
+        <title>Neighbors - PyMatterSim documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">py_Matters_Simulations  documentation</div></a>
+      <a href="index.html"><div class="brand">PyMatterSim  documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">py_Matters_Simulations  documentation</span>
+  <span class="sidebar-brand-text">PyMatterSim  documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -214,13 +214,10 @@
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#vii-coarse-graining">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -269,24 +266,16 @@
 <section id="i-reading-neighbors">
 <h2>I. Reading Neighbors<a class="headerlink" href="#i-reading-neighbors" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">neighbors.read_neighbors.read_neighbors()</span></code> is used to read the property of neighboring particles from a saved file, as long as the format of file is compatible, as like <em><strong>neighborlist.dat</strong></em> (see below). Note that this module reads one snapshot a time to save computer memory. If you have multiple snapshots, you can import this module in a loop (see example).</p>
-</section>
-<section id="input-arguments">
-<h2>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h2>
+<p><strong>Input Arguments</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">f</span></code> (<code class="docutils literal notranslate"><span class="pre">TextIO</span></code>): opened file object which save the property of neighboring particles, <code class="docutils literal notranslate"><span class="pre">f</span> <span class="pre">=</span> <span class="pre">open(filename,</span> <span class="pre">'r',</span> <span class="pre">encoding='utf-8')</span></code>. Opening the file outside of the function ensures that when reading a file containing multiple snapshots, the file pointer can move to the next snapshot.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Nmax</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): the maximum number of neighboring particles to consider. Setting <code class="docutils literal notranslate"><span class="pre">Nmax</span></code> to a sufficiently large value is ideal, with the default being 200. <code class="docutils literal notranslate"><span class="pre">Nmax</span></code> is defined to address the varying number of neighboring particles among different particles. In this way, we can create a regular two-dimensional NumPy array to save the property of neighboring particles.</p></li>
 </ul>
-</section>
-<section id="return">
-<h2>Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h2>
+<p><strong>Return</strong></p>
 <p>two-dimensional numpy array, with shape (<code class="docutils literal notranslate"><span class="pre">nparticle</span></code>, <code class="docutils literal notranslate"><span class="pre">1+Nmax_fact</span></code>). <code class="docutils literal notranslate"><span class="pre">Nmax_fact</span></code> means the maximum coordination number for one particle in the system. The first column is the coordination number (<em><strong>cn</strong></em>). For particles with coordination number less than <code class="docutils literal notranslate"><span class="pre">Nmax_fact</span></code> (which is generally the case), the unoccupied positions in <code class="docutils literal notranslate"><span class="pre">neighborprop</span></code> (see source code) are padded with <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p>
-</section>
-<section id="important-notes">
-<h2>Important Notes<a class="headerlink" href="#important-notes" title="Link to this heading">¶</a></h2>
+<p><strong>Important Notes</strong></p>
 <p>In the saved <em><strong>neighborlist.dat</strong></em>, the particle ID is counted from 1. While in this read module, the returned neighborlist is counted from 0. This is to facilitate subsequent indexing operations in python.</p>
-</section>
-<section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<p><strong>Example</strong></p>
 <ul>
 <li><p>Read neighbor list:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neighbors.read_neighbors</span> <span class="kn">import</span> <span class="n">read_neighbors</span>
@@ -320,14 +309,14 @@
 </div>
 </li>
 </ul>
-<section id="ii-calculating-neighbors">
-<h3>II. Calculating Neighbors<a class="headerlink" href="#ii-calculating-neighbors" title="Link to this heading">¶</a></h3>
 </section>
+<section id="ii-calculating-neighbors">
+<h2>II. Calculating Neighbors<a class="headerlink" href="#ii-calculating-neighbors" title="Link to this heading">¶</a></h2>
 </section>
 <section id="nnearests">
 <h2>1. Nnearests()<a class="headerlink" href="#nnearests" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">neighbors.calculate_neighbors.Nnearests()</span></code> gets the <code class="docutils literal notranslate"><span class="pre">N</span></code> nearest neighbors around a particle. In this case, the coordination number is <code class="docutils literal notranslate"><span class="pre">N</span></code> for each particle.</p>
-<p>######## Input Arguments</p>
+<p><strong>Input Arguments</strong></p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): <code class="docutils literal notranslate"><span class="pre">Snapshots</span></code> data class returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> from input configuration file</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">N</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): the specified number of nearest neighbors, default 12</p></li>
@@ -336,7 +325,7 @@
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">fnfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the name of output file that stores the neighbor list, default <code class="docutils literal notranslate"><span class="pre">neighborlist.dat</span></code></p></li>
 </ul>
-<p>######## Example</p>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
 <span class="kn">from</span> <span class="nn">neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
@@ -352,7 +341,7 @@
 <section id="cutoffneighbors">
 <h2>2. cutoffneighbors()<a class="headerlink" href="#cutoffneighbors" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">neighbors.calculate_neighbors.cutoffneighbors()</span></code> gets the nearest neighbors around a particle by setting a global cutoff distance <code class="docutils literal notranslate"><span class="pre">r_cut</span></code>.  Usually, the cutoff distance can be determined as the position of the first deep well in total pair correlation function.</p>
-<p>######## Input Arguments</p>
+<p><strong>Input Arguments</strong></p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>):<code class="docutils literal notranslate"><span class="pre">Snapshots</span></code> data class returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> from input configuration file</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">r_cut</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): the global cutoff distance to screen the nearest neighbors</p></li>
@@ -361,7 +350,7 @@
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">fnfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the name of output file that stores the neighbor list, default <code class="docutils literal notranslate"><span class="pre">neighborlist.dat</span></code></p></li>
 </ul>
-<p>######## Example</p>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
 <span class="kn">from</span> <span class="nn">neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">cutoffneighbors</span>
@@ -387,7 +376,7 @@
 \end{split}\]</div>
 </div>
 <p>Usually, these cutoff distances can be determined as the position of the individual first deep well in partial pair correlation function of each particle pair.</p>
-<p>######## Input Arguments</p>
+<p><strong>Input Arguments</strong></p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): <code class="docutils literal notranslate"><span class="pre">Snapshots</span></code> data class returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> from input configuration file</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">r_cut</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the cutoff distances of each particle pair</p></li>
@@ -396,7 +385,7 @@
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">fnfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the name of output file that stores the neighbor list, default <code class="docutils literal notranslate"><span class="pre">neighborlist.dat</span></code></p></li>
 </ul>
-<p>######## Example</p>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
@@ -419,17 +408,19 @@
 <section id="iii-freud-neighbors">
 <h2>III. Freud Neighbors<a class="headerlink" href="#iii-freud-neighbors" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">freud</span></code> is a trajectory analysis package developed by <a class="reference external" href="https://freud.readthedocs.io/en/stable/index.html">Glotzer&amp;###39;s group</a>. To use <code class="docutils literal notranslate"><span class="pre">freud</span></code> easily, a function <code class="docutils literal notranslate"><span class="pre">neighbors.freud_neighbors.convert_configuration</span></code> is used to convert the dump file from our <code class="docutils literal notranslate"><span class="pre">reader</span></code> module to <code class="docutils literal notranslate"><span class="pre">freud</span></code> style. Correspondingly the list of box information and the list of the particle coordinates are returned for further analysis.</p>
-<p>######## 1. convert_configuration</p>
-<p>########### Input Arguments</p>
+</section>
+<section id="convert-configuration">
+<h2>1. convert_configuration<a class="headerlink" href="#convert-configuration" title="Link to this heading">¶</a></h2>
+<p><strong>Input Arguments</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): <code class="docutils literal notranslate"><span class="pre">Snapshots</span></code> data class returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> from input configuration file</p></li>
 </ul>
-<p>########### Return</p>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">list_box</span></code> (<code class="docutils literal notranslate"><span class="pre">list</span></code>): the list of box information for <code class="docutils literal notranslate"><span class="pre">freud</span></code> analysis</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">list_points</span></code> (<code class="docutils literal notranslate"><span class="pre">list</span></code>): the list of particle positions for <code class="docutils literal notranslate"><span class="pre">freud</span></code> analysis</p></li>
 </ul>
-<p>########### Example</p>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
 <span class="kn">from</span> <span class="nn">neighbors.freud_neighbors</span> <span class="kn">import</span> <span class="n">convert_configuration</span>
@@ -441,21 +432,23 @@
 <span class="n">list_box</span><span class="p">,</span> <span class="n">list_points</span> <span class="o">=</span> <span class="n">convert_configuration</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>######## 2. cal_neighbors</p>
+</section>
+<section id="cal-neighbors">
+<h2>2. cal_neighbors<a class="headerlink" href="#cal-neighbors" title="Link to this heading">¶</a></h2>
 <p>Calling <code class="docutils literal notranslate"><span class="pre">neighbors.freud_neighbors.Voro_neighbors()</span></code> first and then performing Voronoi analysis with <em><strong><a class="reference external" href="https://math.lbl.gov/voro++/">voro++</a></strong></em> package to calculate neighbors for both 2D and 3D systems. Three classes of information will be output:</p>
 <ul class="simple">
 <li><p>neighbor list: atom coordination and ids of each atom</p></li>
 <li><p>Voronoi face area (3D) or edge length (2D) list: between the center and each of its neighbors</p></li>
 <li><p>overall information: coordination number, Voronoi volume or area of each atom</p></li>
 </ul>
-<p>########### Input Arguments</p>
+<p><strong>Input Arguments</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): <code class="docutils literal notranslate"><span class="pre">Snapshots</span></code> data class returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> from input configuration file</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): filename of neighbor list and bond info, such as edge length (2D) or facearea(3D), default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
-<p>########### Return</p>
+<p><strong>Return</strong></p>
 <p>None (result is saved to file). For neighbor list, file with name outputfile+’.neighbor.dat’. For edgelength list (2D box), file with name outputfile+’.edgelength.dat’. For facearea list (3D box), file with name outputfile+’.facearea.dat’</p>
-<p>########### Example</p>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.lammps_reader_helper</span> <span class="kn">import</span> <span class="n">read_lammps_wrapper</span>
 <span class="kn">from</span> <span class="nn">neighbors.freud_neighbors</span> <span class="kn">import</span> <span class="n">cal_neighbors</span>
 
@@ -473,21 +466,23 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">neighbors.voronoi_neighbors.voronowalls()</span></code>: used for any non-periodic boundary condition(s)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">neighbors.voronoi_neighbors.cal_voro()</span></code>: used for all periodic boundary conditions</p></li>
 </ol>
-<p>######## 1. <code class="docutils literal notranslate"><span class="pre">get_input()</span></code></p>
+</section>
+<section id="get-input">
+<h2>1. <code class="docutils literal notranslate"><span class="pre">get_input()</span></code><a class="headerlink" href="#get-input" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">neighbors.voronoi_neighbors.get_input()</span></code> is used to design input file for Voro++ by considering particle radii.</p>
-<p>########### Input Arguments</p>
+<p><strong>Input Arguments</strong></p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): <code class="docutils literal notranslate"><span class="pre">Snapshots</span></code> data class returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> from input configuration file</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">radii</span></code> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>): radii of particles, must be a dict like <code class="docutils literal notranslate"><span class="pre">{1</span> <span class="pre">:</span> <span class="pre">1.28,</span> <span class="pre">2</span> <span class="pre">:</span> <span class="pre">1.60}</span> </code></p>
 <p>if you do not want to consider radii, set the radii the same, default <code class="docutils literal notranslate"><span class="pre">{1:0.5,</span> <span class="pre">2:0.5}</span> </code></p>
 </li>
 </ul>
-<p>########### Return</p>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">position</span></code> (<code class="docutils literal notranslate"><span class="pre">list</span></code>): input file for Voro++ with the format:</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">bounds</span></code> (<code class="docutils literal notranslate"><span class="pre">list</span></code>): box bounds for snapshots</p></li>
 </ul>
-<p>########### Example</p>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
 <span class="kn">from</span> <span class="nn">neighbors.voronoi_neighbors</span> <span class="kn">import</span> <span class="n">get_input</span>
@@ -499,9 +494,11 @@
 <span class="n">get_input</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span> <span class="n">radii</span><span class="o">=</span><span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mf">1.0</span><span class="p">})</span>
 </pre></div>
 </div>
-<p>######## 2. <code class="docutils literal notranslate"><span class="pre">cal_voro()</span></code></p>
+</section>
+<section id="cal-voro">
+<h2>2. <code class="docutils literal notranslate"><span class="pre">cal_voro()</span></code><a class="headerlink" href="#cal-voro" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">voronoi.voropp.cal_voro()</span></code> is used to perform radical Voronoi tessellation if radii are given using voro++ for periodic boundary conditions.</p>
-<p>########### Input Arguments</p>
+<p><strong>Input Arguments</strong></p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): <code class="docutils literal notranslate"><span class="pre">Snapshots</span></code> data class returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> from input configuration file</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ppp</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): Make the container periodic in all three directions, default <code class="docutils literal notranslate"><span class="pre">ppp='-p'</span></code></p></li>
@@ -510,7 +507,7 @@
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): filename of output, including <em>neighborlist</em>, <em>facearealist</em>, <em>voronoi index</em>, <em>overall</em> (facearea and volume of particle).</p></li>
 </ul>
-<p>########### Return</p>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> [saved to file]</p></li>
 <li><p>for neighbor list, file with name <code class="docutils literal notranslate"><span class="pre">outputfile.neighbor.dat'</span></code></p></li>
@@ -519,7 +516,7 @@
 <li><p>for overall, file with name <code class="docutils literal notranslate"><span class="pre">outputfile.overall.dat'</span></code></p></li>
 </ul>
 <p>Output files from <em><strong>voroindex</strong></em> and <em><strong>overall</strong></em> include a header for all snapshots. <em><strong>neighborlist</strong></em> and <em><strong>facearealist</strong></em> output files are in align with the format needed in the module <code class="docutils literal notranslate"><span class="pre">neighbors</span></code> and have headers for each individual snapshot.</p>
-<p>########### Example</p>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.lammps_reader_helper</span> <span class="kn">import</span> <span class="n">read_lammps_wrapper</span>
 <span class="kn">from</span> <span class="nn">neighbors.voronoi_neighbors</span> <span class="kn">import</span> <span class="n">cal_voro</span>
 
@@ -529,9 +526,11 @@
 <span class="n">cal_voro</span><span class="p">(</span><span class="n">snapshots</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s1">&#39;dump&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>######## 3. <code class="docutils literal notranslate"><span class="pre">voronowalls()</span></code></p>
+</section>
+<section id="voronowalls">
+<h2>3. <code class="docutils literal notranslate"><span class="pre">voronowalls()</span></code><a class="headerlink" href="#voronowalls" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">voronoi.voropp.voronowalls()</span></code> is used to perform radical Voronoi tessellation using voro++ for periodic boundary conditions.</p>
-<p>########### Input Arguments</p>
+<p><strong>Input Arguments</strong></p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): <code class="docutils literal notranslate"><span class="pre">Snapshots</span></code> data class returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> from input configuration file</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ppp</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): Make the container periodic in a desired direction</p>
@@ -542,7 +541,7 @@
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): filename of output, including <em>neighborlist</em>, <em>facearealist</em>, <em>voronoi index</em>, <em>overall</em> (facearea and volume of particle).</p></li>
 </ul>
-<p>########### Return</p>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">None</span></code> [saved to file]</p></li>
 <li><p>for neighbor list, file with name <code class="docutils literal notranslate"><span class="pre">outputfile.neighbor.dat'</span></code></p></li>
@@ -551,18 +550,20 @@
 <li><p>for overall, file with name <code class="docutils literal notranslate"><span class="pre">outputfile.overall.dat'</span></code></p></li>
 </ul>
 <p>Output files from <em><strong>voroindex</strong></em> and <em><strong>overall</strong></em> include a header for all snapshots. <em><strong>neighborlist</strong></em> and <em><strong>facearealist</strong></em> output files are in align with the format needed in the module <code class="docutils literal notranslate"><span class="pre">neighbors</span></code> and have headers for each individual snapshot.</p>
-<p>######## 4. <code class="docutils literal notranslate"><span class="pre">indicehis()</span></code></p>
+</section>
+<section id="indicehis">
+<h2>4. <code class="docutils literal notranslate"><span class="pre">indicehis()</span></code><a class="headerlink" href="#indicehis" title="Link to this heading">¶</a></h2>
 <p>Statistics the frequency of voronoi index from the output of voronoi analysis. Only the top 50 voronoi index will be output along with their fractions.</p>
-<p>########### Input Arguments</p>
+<p><strong>Input Arguments</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">inputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the filename of saved Voronoi index</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the output filename of the frequency of voronoi index, default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
-<p>########### Return</p>
+<p><strong>Return</strong></p>
 <ul class="simple">
 <li><p>None [saved to file], frequency of Voronoi Indices</p></li>
 </ul>
-<p>########### Example</p>
+<p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">neighbors.voronoi_neighbors</span> <span class="kn">import</span> <span class="n">indicehis</span>
 
 <span class="n">indicehis</span><span class="p">(</span><span class="s1">&#39;dump.voroindex.dat&#39;</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s1">&#39;voroindex_frction.dat&#39;</span><span class="p">)</span>
@@ -628,18 +629,18 @@
             <ul>
 <li><a class="reference internal" href="#">Neighbors</a><ul>
 <li><a class="reference internal" href="#i-reading-neighbors">I. Reading Neighbors</a></li>
-<li><a class="reference internal" href="#input-arguments">Input Arguments</a></li>
-<li><a class="reference internal" href="#return">Return</a></li>
-<li><a class="reference internal" href="#important-notes">Important Notes</a></li>
-<li><a class="reference internal" href="#example">Example</a><ul>
 <li><a class="reference internal" href="#ii-calculating-neighbors">II. Calculating Neighbors</a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#nnearests">1. Nnearests()</a></li>
 <li><a class="reference internal" href="#cutoffneighbors">2. cutoffneighbors()</a></li>
 <li><a class="reference internal" href="#cutoffneighbors-particletype">3. cutoffneighbors_particletype()</a></li>
 <li><a class="reference internal" href="#iii-freud-neighbors">III. Freud Neighbors</a></li>
+<li><a class="reference internal" href="#convert-configuration">1. convert_configuration</a></li>
+<li><a class="reference internal" href="#cal-neighbors">2. cal_neighbors</a></li>
 <li><a class="reference internal" href="#iv-voro-direct-neighbors">IV. Voro++ direct neighbors</a></li>
+<li><a class="reference internal" href="#get-input">1. <code class="docutils literal notranslate"><span class="pre">get_input()</span></code></a></li>
+<li><a class="reference internal" href="#cal-voro">2. <code class="docutils literal notranslate"><span class="pre">cal_voro()</span></code></a></li>
+<li><a class="reference internal" href="#voronowalls">3. <code class="docutils literal notranslate"><span class="pre">voronowalls()</span></code></a></li>
+<li><a class="reference internal" href="#indicehis">4. <code class="docutils literal notranslate"><span class="pre">indicehis()</span></code></a></li>
 </ul>
 </li>
 </ul>
