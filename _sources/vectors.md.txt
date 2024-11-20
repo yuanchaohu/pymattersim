@@ -1,15 +1,9 @@
-# vector analysis
-## [I. participation ratio](#1-participation-ratio)
-## [II. local vector alignment](#2-local-vector-alignment)
-## [III. phase quotient](#3-phase-quotient)
-## [IV. divergence and curl](#4-divergence-and-curl)
-## [V. vibrability](#5-vibrability)
-## [VI. vector decompostion structure factor](#6-vector-decompostion-structure-factor)
-## [VII. vector decompostion and time correlations](#7-vectors-fourier-transformaiton-and-their-time-correlations)
+### vector analysis
+
 
 ---
 
-# 1. participation ratio
+#### 1. participation ratio
 This module calculates the participation ratio of one vibration mode. It is measured as
 $$
 PR_n = \frac{\left[ \sum_i^N |\vec e_{i,n}|^2 \right]^2}
@@ -17,13 +11,13 @@ PR_n = \frac{\left[ \sum_i^N |\vec e_{i,n}|^2 \right]^2}
 $$
 where $e_{i,n}$ is the eigenvector of particle $i$ in mode $n$. $N$ is the particle number.
 
-### Input Argument
+##### Input Argument
 - `vector` (`npt.NDArray`): input vector field, shape as [num_of_particles, ndim]
 
-### Return
+##### Return
 - participation ratio of the vector field (float)
 
-### Example
+##### Example
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -37,21 +31,21 @@ v = test_file.snapshots.snapshots[0].positions
 pr = participation_ratio(v)
 ```
 
-# 2. local vector alignment
+#### 2. local vector alignment
 This module calculates the orientational ordering of each particle based on the vector alignments. It is measured as
 $$
 \Psi_i = \frac{1}{CN_i} \sum_j^{CN_i} {\vec e_i} \cdot {\vec e_j},
 $$
 where ${\vec e_i}$ is the eigenvector of particle $i$ and ${CN_i}$ is the number of neighbors of particle $i$.
 
-### Input Argument
+##### Input Argument
 - `vector` (`npt.NDArray`): input vector field, shape as [num_of_particles, ndim]
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
 
-### Return
+##### Return
 - phase quotient measured as a `float`
 
-### Example
+##### Example
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -74,7 +68,7 @@ neighborfile='neighborlist.dat'
 pr = local_vector_alignment(v,neighborfile)
 ```
 
-# 3. phase quotient
+#### 3. phase quotient
 This module calculates the phase quotient of a vector field. Maximum 200 neighbors are considered. It is defined as
 $$
 PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\sum_i^{N} \sum_j^{CN_i} |{\vec e_{i, n}} \cdot {\vec e_{j, n}}|}.
@@ -82,14 +76,14 @@ $$
 
 where $i$ and $j$ are atom indices, $N$ is the total atom number, ${CN_i}$ is the coordination number of atom $i$, n is the mode number, $\vec e_{i, n}$ is the eigenvector of atom $i$ in mode $n$. The upper bound $PQ_n=1$ means acoustic nature of the mode (an atom has the same direction as the neighbors), while the lower bound of -1 means optical nature of the mode (an atom has the opposite direction as the neighbors). If $PQ_n \gt 0$, the mode is acoustic-like otherwise is optical-like mode.
 
-### Input Argument
+##### Input Argument
 - `vector` (`npt.NDArray`): input vector field, shape as [num_of_particles, ndim]
 - `neighborfile` (`str`): file name of particle neighbors (see module neighbors)
 
-### Return
+##### Return
 - phase quotient measured as a float
 
-### Example
+##### Example
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -110,7 +104,7 @@ neighborfile='neighborlist.dat'
 pq = phase_quotient(v,neighborfile)
 ```
 
-# 4. divergence and curl
+#### 4. divergence and curl
 This module calculates the divergence and curl of a vector field at 2D and 3D. Divergence is scalar over all dimensions. Curl only exists in 3D as a vector. Maximum 200 neighbors are considered. Differently, **curl** can only be defined 3D as a vector, its direction shows the local rotational direction while its magnitude means the amplitude of such motion.
 
 Both divergence and curl can be defined anywhere in space within the vector field, so i and j in above equations can be any lattice position in space.
@@ -119,16 +113,16 @@ Both divergence and curl can be defined anywhere in space within the vector fiel
   
 in which $\vec R_i$ is the position vector of atom $i$, $\vec u_i$ is the vector field (e.g. eigenvector) at atom $i$, $N_i$ is the number of nearest neighbors of atom $i$.
 
-### Input Arguments
+##### Input Arguments
 - `snapshots` (`reader.reader_utils.SingleSnapshot`): snapshot object of input trajectory (returned by `reader.dump_reader.DumpReader`)
 - `vector` (`npt.NDArray`): vector field shape as [num_of_partices, ndim], it determines the dimensionality of the calculation.
 - `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no, default `np.array([1,1,1])`, set `np.array([1,1])` for two-dimensional systems
 - `neighborfile` (`str`): file name of particle neighbors (see module `neighbors`)
 
-### Return
+##### Return
 - divergence and curl (only 3D) in numpy array of the input vector
 
-### Example
+##### Example
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -149,7 +143,7 @@ v = input_v.snapshots.snapshots[0].positions
 pq = divergence_curl(input_vp.snapshots.snapshots[0],v,ppp,neighborfile)[:10]
 ```
 
-# 5. vibrability
+#### 5. vibrability
 This calculates the susceptibility of particle motion to infinitesimal thermal excitation in the zero temperature limit, defined as:
 $$
 \Psi_i = \sum_{l=1}^{dN-d} \frac{1}{\omega_l^2} |{\vec e}_{l, i}|^2,
@@ -157,20 +151,20 @@ $$
 
 where $\omega_l^2$ is the eigenvalue of the lth mode, while ${\vec e}_{l, i}$ is the corresponding eigenvector for particle $i$. Larger $\Psi$ indicates more susceptible to excitation and hence more disorder.
 
-### Input Arguments
+##### Input Arguments
 - `eigenfrequencies` (`npt.NDArray`): eigen frequencies generally from Hessian diagonalization, shape as [num_of_modes,]
 - `eigenvectors` (`npt.NDArray`): eigen vectors associated with eigenfrequencies, each column represents an eigen mode as from `np.linalg.eig` method
 
-### Return
+##### Return
 - particle-level vibrability in a numpy array
 
-### Example
+##### Example
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
 from static.vector import vibrability
 
-#example for 10x10 matrix
+###example for 10x10 matrix
 a = np.array([[2, 3, 4, 1, 3, 3, 2, 2, 2, 2],
             [3, 2, 2, 2, 3, 3, 3, 2, 3, 3],
             [2, 2, 3, 3, 1, 2, 4, 1, 4, 3],
@@ -189,7 +183,7 @@ eigenvectors = eigenvectors.real
 vb = vibrability(eigenfrequencies,eigenvectors,10)
 ```
 
-# 6. vector decompostion structure factor
+#### 6. vector decompostion structure factor
 Decomposing the vector into transverse and longitudinal components and calculate their corresponding stucture factor.
 
 $$
@@ -230,17 +224,17 @@ $$
 
 This new method is utilized in the calculation. Basically, the vector field is first Fourier transformed and then decomposed into transverse and longitudinal components. The corresponding structure factor is then calculated.
 
-### Input Arguments
+##### Input Arguments
 - `snapshot` (`reader.reader_utils.SingleSnapshot`): single snapshot object of input trajectory
 - `qvector` (`npt.NDArray` of `int`): designed wavevectors in two-dimensional `np.array` (see `utils.wavevector`)
 - `vector` (`npt.NDArray`): particle-level vector, shape as [num_of_particles, ndim], for example, eigenvector field and velocity field
 - `outputfile` (`str`): filename.csv to save the calculated `S(q)`, default `None`
 
-### Return
+##### Return
 - `vector_fft`: calculated transverse and longitudinal `S(q)` for each input wavevector (`pd.DataFrame`), FFT in complex number is also returned for reference
 - `ave_sqresults`: the ensemble averaged `S(q)` over the same wavenumber (`pd.DataFrame`)
 
-### Example
+##### Example
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader
@@ -260,7 +254,7 @@ qvector = choosewavevector(2,10)
 vector_fft, ave_sqresults=vector_decomposition_sq(input_vp.snapshots.snapshots[0],qvector,v)
 ```
 
-# 7. vectors Fourier transformaiton and their time correlations
+#### 7. vectors Fourier transformaiton and their time correlations
 This module calculates spectra and time correlation of the longitudinal and tranverse components of a vector field by fast fourier transformation (FFT). This is usually used to calculate the current-current correlation function and its power spectra. This is also useful to calculate the dynamic structure factor based on the velocity field.
 
 $$
@@ -290,18 +284,18 @@ $$
 
 where $\alpha$ represents longitudinal ($L$) or transverse ($T$) current.
 
-### Input Arguments
+##### Input Arguments
 - `snapshots` (`read.reader_utils.snapshots`): multiple trajectories dumped linearly or in logscale
 - `qvector` (`npt.NDArray` of `int`): designed wavevectors in two-dimensional `np.array` (see `utils.wavevector`)
 - `vectors` (`npt.NDArray`): particle-level vector, shape as [num_of_snapshots, num_of_particles, ndim], for example, eigenvector field and velocity field
 - `dt` (`float`): time step of input snapshots, default 0.002
 - `outputfile` (`str`): filename.csv to save the calculated `S(q)`, default `None`
 
-### Return
+##### Return
 - the averaged spectra of full, transverse, and longitudinal mode, saved into a csv dataset
 - time correlation of FFT of vectors in full, transverse, and longitudinal mode. Dict as `{"FFT": pd.DataFrame, "T_FFT": pd.DataFrame, "L_FFT": pd.DataFrame}`
 
-### Example
+##### Example
 ```python
 import numpy as np
 from reader.dump_reader import DumpReader

@@ -213,34 +213,14 @@
 <li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html">static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">vector analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#participation-ratio">1. participation ratio</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#local-vector-alignment">2. local vector alignment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#phase-quotient">3. phase quotient</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#divergence-and-curl">4. divergence and curl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#vibrability">5. vibrability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id7">III. geometry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id17">IV. wavevector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id30">V. Fast Fourier Transformation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id34">VI. Spherical Harmonics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id38">VII. Coarse Graining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#vii-coarse-graining">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -281,33 +261,11 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section class="tex2jax_ignore mathjax_ignore" id="vector-analysis">
+          <section id="vector-analysis">
 <h1>vector analysis<a class="headerlink" href="#vector-analysis" title="Link to this heading">¶</a></h1>
-<section id="i-participation-ratio">
-<h2><a class="reference internal" href="#1-participation-ratio"><span class="xref myst">I. participation ratio</span></a><a class="headerlink" href="#i-participation-ratio" title="Link to this heading">¶</a></h2>
-</section>
-<section id="ii-local-vector-alignment">
-<h2><a class="reference internal" href="#2-local-vector-alignment"><span class="xref myst">II. local vector alignment</span></a><a class="headerlink" href="#ii-local-vector-alignment" title="Link to this heading">¶</a></h2>
-</section>
-<section id="iii-phase-quotient">
-<h2><a class="reference internal" href="#3-phase-quotient"><span class="xref myst">III. phase quotient</span></a><a class="headerlink" href="#iii-phase-quotient" title="Link to this heading">¶</a></h2>
-</section>
-<section id="iv-divergence-and-curl">
-<h2><a class="reference internal" href="#4-divergence-and-curl"><span class="xref myst">IV. divergence and curl</span></a><a class="headerlink" href="#iv-divergence-and-curl" title="Link to this heading">¶</a></h2>
-</section>
-<section id="v-vibrability">
-<h2><a class="reference internal" href="#5-vibrability"><span class="xref myst">V. vibrability</span></a><a class="headerlink" href="#v-vibrability" title="Link to this heading">¶</a></h2>
-</section>
-<section id="vi-vector-decompostion-structure-factor">
-<h2><a class="reference internal" href="#6-vector-decompostion-structure-factor"><span class="xref myst">VI. vector decompostion structure factor</span></a><a class="headerlink" href="#vi-vector-decompostion-structure-factor" title="Link to this heading">¶</a></h2>
-</section>
-<section id="vii-vector-decompostion-and-time-correlations">
-<h2><a class="reference internal" href="#7-vectors-fourier-transformaiton-and-their-time-correlations"><span class="xref myst">VII. vector decompostion and time correlations</span></a><a class="headerlink" href="#vii-vector-decompostion-and-time-correlations" title="Link to this heading">¶</a></h2>
-</section>
-</section>
 <hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="participation-ratio">
-<h1>1. participation ratio<a class="headerlink" href="#participation-ratio" title="Link to this heading">¶</a></h1>
+<section id="participation-ratio">
+<h2>1. participation ratio<a class="headerlink" href="#participation-ratio" title="Link to this heading">¶</a></h2>
 <p>This module calculates the participation ratio of one vibration mode. It is measured as
 $<span class="math notranslate nohighlight">\(
 PR_n = \frac{\left[ \sum_i^N |\vec e_{i,n}|^2 \right]^2}
@@ -315,19 +273,19 @@ PR_n = \frac{\left[ \sum_i^N |\vec e_{i,n}|^2 \right]^2}
 \)</span><span class="math notranslate nohighlight">\(
 where \)</span>e_{i,n}<span class="math notranslate nohighlight">\( is the eigenvector of particle \)</span>i<span class="math notranslate nohighlight">\( in mode \)</span>n<span class="math notranslate nohighlight">\(. \)</span>N$ is the particle number.</p>
 <section id="input-argument">
-<h2>Input Argument<a class="headerlink" href="#input-argument" title="Link to this heading">¶</a></h2>
+<h3>Input Argument<a class="headerlink" href="#input-argument" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): input vector field, shape as [num_of_particles, ndim]</p></li>
 </ul>
 </section>
 <section id="return">
-<h2>Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h2>
+<h3>Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>participation ratio of the vector field (float)</p></li>
 </ul>
 </section>
 <section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
@@ -342,28 +300,28 @@ where \)</span>e_{i,n}<span class="math notranslate nohighlight">\( is the eigen
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="local-vector-alignment">
-<h1>2. local vector alignment<a class="headerlink" href="#local-vector-alignment" title="Link to this heading">¶</a></h1>
+<section id="local-vector-alignment">
+<h2>2. local vector alignment<a class="headerlink" href="#local-vector-alignment" title="Link to this heading">¶</a></h2>
 <p>This module calculates the orientational ordering of each particle based on the vector alignments. It is measured as
 $<span class="math notranslate nohighlight">\(
 \Psi_i = \frac{1}{CN_i} \sum_j^{CN_i} {\vec e_i} \cdot {\vec e_j},
 \)</span><span class="math notranslate nohighlight">\(
 where \)</span>{\vec e_i}<span class="math notranslate nohighlight">\( is the eigenvector of particle \)</span>i<span class="math notranslate nohighlight">\( and \)</span>{CN_i}<span class="math notranslate nohighlight">\( is the number of neighbors of particle \)</span>i$.</p>
 <section id="id1">
-<h2>Input Argument<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<h3>Input Argument<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): input vector field, shape as [num_of_particles, ndim]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name of particle neighbors (see module <code class="docutils literal notranslate"><span class="pre">neighbors</span></code>)</p></li>
 </ul>
 </section>
 <section id="id2">
-<h2>Return<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<h3>Return<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>phase quotient measured as a <code class="docutils literal notranslate"><span class="pre">float</span></code></p></li>
 </ul>
 </section>
 <section id="id3">
-<h2>Example<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<h3>Example<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
@@ -387,28 +345,28 @@ where \)</span>{\vec e_i}<span class="math notranslate nohighlight">\( is the ei
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="phase-quotient">
-<h1>3. phase quotient<a class="headerlink" href="#phase-quotient" title="Link to this heading">¶</a></h1>
+<section id="phase-quotient">
+<h2>3. phase quotient<a class="headerlink" href="#phase-quotient" title="Link to this heading">¶</a></h2>
 <p>This module calculates the phase quotient of a vector field. Maximum 200 neighbors are considered. It is defined as
 $<span class="math notranslate nohighlight">\(
 PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\sum_i^{N} \sum_j^{CN_i} |{\vec e_{i, n}} \cdot {\vec e_{j, n}}|}.
 \)</span>$</p>
 <p>where <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are atom indices, <span class="math notranslate nohighlight">\(N\)</span> is the total atom number, <span class="math notranslate nohighlight">\({CN_i}\)</span> is the coordination number of atom <span class="math notranslate nohighlight">\(i\)</span>, n is the mode number, <span class="math notranslate nohighlight">\(\vec e_{i, n}\)</span> is the eigenvector of atom <span class="math notranslate nohighlight">\(i\)</span> in mode <span class="math notranslate nohighlight">\(n\)</span>. The upper bound <span class="math notranslate nohighlight">\(PQ_n=1\)</span> means acoustic nature of the mode (an atom has the same direction as the neighbors), while the lower bound of -1 means optical nature of the mode (an atom has the opposite direction as the neighbors). If <span class="math notranslate nohighlight">\(PQ_n \gt 0\)</span>, the mode is acoustic-like otherwise is optical-like mode.</p>
 <section id="id4">
-<h2>Input Argument<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
+<h3>Input Argument<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): input vector field, shape as [num_of_particles, ndim]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">neighborfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name of particle neighbors (see module neighbors)</p></li>
 </ul>
 </section>
 <section id="id5">
-<h2>Return<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
+<h3>Return<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>phase quotient measured as a float</p></li>
 </ul>
 </section>
 <section id="id6">
-<h2>Example<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
+<h3>Example<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.vector</span> <span class="kn">import</span> <span class="n">phase_quotient</span>
@@ -430,8 +388,8 @@ PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\su
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="divergence-and-curl">
-<h1>4. divergence and curl<a class="headerlink" href="#divergence-and-curl" title="Link to this heading">¶</a></h1>
+<section id="divergence-and-curl">
+<h2>4. divergence and curl<a class="headerlink" href="#divergence-and-curl" title="Link to this heading">¶</a></h2>
 <p>This module calculates the divergence and curl of a vector field at 2D and 3D. Divergence is scalar over all dimensions. Curl only exists in 3D as a vector. Maximum 200 neighbors are considered. Differently, <strong>curl</strong> can only be defined 3D as a vector, its direction shows the local rotational direction while its magnitude means the amplitude of such motion.</p>
 <p>Both divergence and curl can be defined anywhere in space within the vector field, so i and j in above equations can be any lattice position in space.</p>
 <ul class="simple">
@@ -440,7 +398,7 @@ PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\su
 </ul>
 <p>in which <span class="math notranslate nohighlight">\(\vec R_i\)</span> is the position vector of atom <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(\vec u_i\)</span> is the vector field (e.g. eigenvector) at atom <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(N_i\)</span> is the number of nearest neighbors of atom <span class="math notranslate nohighlight">\(i\)</span>.</p>
 <section id="input-arguments">
-<h2>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h2>
+<h3>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.SingleSnapshot</span></code>): snapshot object of input trajectory (returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code>)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): vector field shape as [num_of_partices, ndim], it determines the dimensionality of the calculation.</p></li>
@@ -449,13 +407,13 @@ PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\su
 </ul>
 </section>
 <section id="id7">
-<h2>Return<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h2>
+<h3>Return<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>divergence and curl (only 3D) in numpy array of the input vector</p></li>
 </ul>
 </section>
 <section id="id8">
-<h2>Example<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
+<h3>Example<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.vector</span> <span class="kn">import</span> <span class="n">divergence_curl</span>
@@ -477,33 +435,33 @@ PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\su
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="vibrability">
-<h1>5. vibrability<a class="headerlink" href="#vibrability" title="Link to this heading">¶</a></h1>
+<section id="vibrability">
+<h2>5. vibrability<a class="headerlink" href="#vibrability" title="Link to this heading">¶</a></h2>
 <p>This calculates the susceptibility of particle motion to infinitesimal thermal excitation in the zero temperature limit, defined as:
 $<span class="math notranslate nohighlight">\(
 \Psi_i = \sum_{l=1}^{dN-d} \frac{1}{\omega_l^2} |{\vec e}_{l, i}|^2,
 \)</span>$</p>
 <p>where <span class="math notranslate nohighlight">\(\omega_l^2\)</span> is the eigenvalue of the lth mode, while <span class="math notranslate nohighlight">\({\vec e}_{l, i}\)</span> is the corresponding eigenvector for particle <span class="math notranslate nohighlight">\(i\)</span>. Larger <span class="math notranslate nohighlight">\(\Psi\)</span> indicates more susceptible to excitation and hence more disorder.</p>
 <section id="id9">
-<h2>Input Arguments<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
+<h3>Input Arguments<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">eigenfrequencies</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): eigen frequencies generally from Hessian diagonalization, shape as [num_of_modes,]</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">eigenvectors</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): eigen vectors associated with eigenfrequencies, each column represents an eigen mode as from <code class="docutils literal notranslate"><span class="pre">np.linalg.eig</span></code> method</p></li>
 </ul>
 </section>
 <section id="id10">
-<h2>Return<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h2>
+<h3>Return<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>particle-level vibrability in a numpy array</p></li>
 </ul>
 </section>
 <section id="id11">
-<h2>Example<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h2>
+<h3>Example<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.vector</span> <span class="kn">import</span> <span class="n">vibrability</span>
 
-<span class="c1">#example for 10x10 matrix</span>
+<span class="c1">###example for 10x10 matrix</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
             <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
             <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
@@ -524,8 +482,8 @@ $<span class="math notranslate nohighlight">\(
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="vector-decompostion-structure-factor">
-<h1>6. vector decompostion structure factor<a class="headerlink" href="#vector-decompostion-structure-factor" title="Link to this heading">¶</a></h1>
+<section id="vector-decompostion-structure-factor">
+<h2>6. vector decompostion structure factor<a class="headerlink" href="#vector-decompostion-structure-factor" title="Link to this heading">¶</a></h2>
 <p>Decomposing the vector into transverse and longitudinal components and calculate their corresponding stucture factor.</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
@@ -574,7 +532,7 @@ E_{\lambda, T} (\bf{q}) = \frac{1}{N} \left| \hat{\bf{q}} \times \tilde e \right
 </div>
 <p>This new method is utilized in the calculation. Basically, the vector field is first Fourier transformed and then decomposed into transverse and longitudinal components. The corresponding structure factor is then calculated.</p>
 <section id="id12">
-<h2>Input Arguments<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h2>
+<h3>Input Arguments<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshot</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.SingleSnapshot</span></code>): single snapshot object of input trajectory</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">qvector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code>): designed wavevectors in two-dimensional <code class="docutils literal notranslate"><span class="pre">np.array</span></code> (see <code class="docutils literal notranslate"><span class="pre">utils.wavevector</span></code>)</p></li>
@@ -583,14 +541,14 @@ E_{\lambda, T} (\bf{q}) = \frac{1}{N} \left| \hat{\bf{q}} \times \tilde e \right
 </ul>
 </section>
 <section id="id13">
-<h2>Return<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h2>
+<h3>Return<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">vector_fft</span></code>: calculated transverse and longitudinal <code class="docutils literal notranslate"><span class="pre">S(q)</span></code> for each input wavevector (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>), FFT in complex number is also returned for reference</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ave_sqresults</span></code>: the ensemble averaged <code class="docutils literal notranslate"><span class="pre">S(q)</span></code> over the same wavenumber (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>)</p></li>
 </ul>
 </section>
 <section id="id14">
-<h2>Example<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h2>
+<h3>Example<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.vector</span> <span class="kn">import</span> <span class="n">vector_decomposition_sq</span>
@@ -611,8 +569,8 @@ E_{\lambda, T} (\bf{q}) = \frac{1}{N} \left| \hat{\bf{q}} \times \tilde e \right
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="vectors-fourier-transformaiton-and-their-time-correlations">
-<h1>7. vectors Fourier transformaiton and their time correlations<a class="headerlink" href="#vectors-fourier-transformaiton-and-their-time-correlations" title="Link to this heading">¶</a></h1>
+<section id="vectors-fourier-transformaiton-and-their-time-correlations">
+<h2>7. vectors Fourier transformaiton and their time correlations<a class="headerlink" href="#vectors-fourier-transformaiton-and-their-time-correlations" title="Link to this heading">¶</a></h2>
 <p>This module calculates spectra and time correlation of the longitudinal and tranverse components of a vector field by fast fourier transformation (FFT). This is usually used to calculate the current-current correlation function and its power spectra. This is also useful to calculate the dynamic structure factor based on the velocity field.</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
@@ -639,7 +597,7 @@ C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\a
 \)</span>$</p>
 <p>where <span class="math notranslate nohighlight">\(\alpha\)</span> represents longitudinal (<span class="math notranslate nohighlight">\(L\)</span>) or transverse (<span class="math notranslate nohighlight">\(T\)</span>) current.</p>
 <section id="id15">
-<h2>Input Arguments<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h2>
+<h3>Input Arguments<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">read.reader_utils.snapshots</span></code>): multiple trajectories dumped linearly or in logscale</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">qvector</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code>): designed wavevectors in two-dimensional <code class="docutils literal notranslate"><span class="pre">np.array</span></code> (see <code class="docutils literal notranslate"><span class="pre">utils.wavevector</span></code>)</p></li>
@@ -649,14 +607,14 @@ C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\a
 </ul>
 </section>
 <section id="id16">
-<h2>Return<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h2>
+<h3>Return<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>the averaged spectra of full, transverse, and longitudinal mode, saved into a csv dataset</p></li>
 <li><p>time correlation of FFT of vectors in full, transverse, and longitudinal mode. Dict as <code class="docutils literal notranslate"><span class="pre">{&quot;FFT&quot;:</span> <span class="pre">pd.DataFrame,</span> <span class="pre">&quot;T_FFT&quot;:</span> <span class="pre">pd.DataFrame,</span> <span class="pre">&quot;L_FFT&quot;:</span> <span class="pre">pd.DataFrame}</span></code></p></li>
 </ul>
 </section>
 <section id="id17">
-<h2>Example<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h2>
+<h3>Example<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.vector</span> <span class="kn">import</span> <span class="n">vector_fft_corr</span>
@@ -679,6 +637,7 @@ C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\a
 <span class="n">alldata</span> <span class="o">=</span> <span class="n">vector_fft_corr</span><span class="p">(</span><span class="n">input_vp</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span><span class="n">qvector</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">outputfile</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
+</section>
 </section>
 </section>
 
@@ -738,15 +697,6 @@ C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\a
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">vector analysis</a><ul>
-<li><a class="reference internal" href="#i-participation-ratio"><span class="xref myst">I. participation ratio</span></a></li>
-<li><a class="reference internal" href="#ii-local-vector-alignment"><span class="xref myst">II. local vector alignment</span></a></li>
-<li><a class="reference internal" href="#iii-phase-quotient"><span class="xref myst">III. phase quotient</span></a></li>
-<li><a class="reference internal" href="#iv-divergence-and-curl"><span class="xref myst">IV. divergence and curl</span></a></li>
-<li><a class="reference internal" href="#v-vibrability"><span class="xref myst">V. vibrability</span></a></li>
-<li><a class="reference internal" href="#vi-vector-decompostion-structure-factor"><span class="xref myst">VI. vector decompostion structure factor</span></a></li>
-<li><a class="reference internal" href="#vii-vector-decompostion-and-time-correlations"><span class="xref myst">VII. vector decompostion and time correlations</span></a></li>
-</ul>
-</li>
 <li><a class="reference internal" href="#participation-ratio">1. participation ratio</a><ul>
 <li><a class="reference internal" href="#input-argument">Input Argument</a></li>
 <li><a class="reference internal" href="#return">Return</a></li>
@@ -787,6 +737,8 @@ C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\a
 <li><a class="reference internal" href="#id15">Input Arguments</a></li>
 <li><a class="reference internal" href="#id16">Return</a></li>
 <li><a class="reference internal" href="#id17">Example</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

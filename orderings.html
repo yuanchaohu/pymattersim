@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Dynamical properties at two &amp; three dimensions" href="dynamics.html" /><link rel="prev" title="Bond Orientational Order Parameters at 3D" href="boo_3d.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>static orderings - py_Matters_Simulations documentation</title>
+        <title>Static orderings - py_Matters_Simulations documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -213,34 +213,11 @@
 <li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#nematic-order">5. Nematic order</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Static orderings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id7">III. geometry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id17">IV. wavevector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id30">V. Fast Fourier Transformation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id34">VI. Spherical Harmonics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id38">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -281,34 +258,18 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section class="tex2jax_ignore mathjax_ignore" id="static-orderings">
-<h1>static orderings<a class="headerlink" href="#static-orderings" title="Link to this heading">¶</a></h1>
-<section id="i-local-tetrahedral-order">
-<h2><a class="reference internal" href="#1-local-tetrahedral-order"><span class="xref myst">I. local tetrahedral order</span></a><a class="headerlink" href="#i-local-tetrahedral-order" title="Link to this heading">¶</a></h2>
-</section>
-<section id="ii-packing-capability">
-<h2><a class="reference internal" href="#2-packing-capability"><span class="xref myst">II. packing capability</span></a><a class="headerlink" href="#ii-packing-capability" title="Link to this heading">¶</a></h2>
-</section>
-<section id="iii-pair-entropy">
-<h2><a class="reference internal" href="#3-pair-entropy"><span class="xref myst">III. pair entropy</span></a><a class="headerlink" href="#iii-pair-entropy" title="Link to this heading">¶</a></h2>
-</section>
-<section id="iv-gyration-tensor">
-<h2><a class="reference internal" href="#4-gyration-tensor-of-a-group"><span class="xref myst">IV. gyration tensor</span></a><a class="headerlink" href="#iv-gyration-tensor" title="Link to this heading">¶</a></h2>
-</section>
-<section id="v-nematic-order">
-<h2><a class="reference internal" href="#5-nematic-order"><span class="xref myst">V. nematic order</span></a><a class="headerlink" href="#v-nematic-order" title="Link to this heading">¶</a></h2>
-</section>
-</section>
+          <section id="static-orderings">
+<h1>Static orderings<a class="headerlink" href="#static-orderings" title="Link to this heading">¶</a></h1>
 <hr class="docutils" />
-<section class="tex2jax_ignore mathjax_ignore" id="local-tetrahedral-order-q-rm-tetra">
-<h1>1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span><a class="headerlink" href="#local-tetrahedral-order-q-rm-tetra" title="Link to this heading">¶</a></h1>
+<section id="local-tetrahedral-order-q-rm-tetra">
+<h2>1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span><a class="headerlink" href="#local-tetrahedral-order-q-rm-tetra" title="Link to this heading">¶</a></h2>
 <p>The class <code class="docutils literal notranslate"><span class="pre">static.tetrahedral</span></code> calculates the local tetrahedral order of the simulation system in three dimensions, such as for water-type and silicon/silica-type systems. Local tetrahedral order is defined as:
 $<span class="math notranslate nohighlight">\(
 q_{\rm tetra}=1-\frac{3}{8} \sum_{j=1}^3 \sum_{k=j+1}^4 \left(\cos \varphi_{jk}+\frac{1}{3} \right)^2
 \)</span>$</p>
 <p>In this calculation, only <strong>4</strong> nearest neighbors are taken into consideration. The algorithm of selecting nearest distances is from <code class="docutils literal notranslate"><span class="pre">numpy.argpartition</span></code> for fast computation. In this method, only the nearest neighbors are selected but not in a sorted order. <span class="math notranslate nohighlight">\(j\)</span>, <span class="math notranslate nohighlight">\(k\)</span> run over these neighbors.</p>
 <section id="input-arguments">
-<h2>1.1 Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h2>
+<h3>1.1 Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory
 (returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code>)</p></li>
@@ -319,13 +280,13 @@ If the file extension is “.dat” or “.txt”, also saved a text file.</p></
 </ul>
 </section>
 <section id="return">
-<h2>1.2 Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h2>
+<h3>1.2 Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>calculated local tetrahedral order in <code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots,</span> <span class="pre">nparticle]</span></code></p></li>
 </ul>
 </section>
 <section id="example">
-<h2>1.3 Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<h3>1.3 Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.tetrahedral</span> <span class="kn">import</span> <span class="n">q_tetra</span>
 
@@ -337,15 +298,15 @@ If the file extension is “.dat” or “.txt”, also saved a text file.</p></
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="packing-capability-theta-o">
-<h1>2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span><a class="headerlink" href="#packing-capability-theta-o" title="Link to this heading">¶</a></h1>
+<section id="packing-capability-theta-o">
+<h2>2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span><a class="headerlink" href="#packing-capability-theta-o" title="Link to this heading">¶</a></h2>
 <p>The module <code class="docutils literal notranslate"><span class="pre">static.packing_capability.theta_2D</span></code> calculates packing capability of a 2D system by comparing the bond angles in realistic configuration to a reference one (ref. <a class="reference external" href="https://journals.aps.org/prx/abstract/10.1103/PhysRevX.8.011041">Tong &amp; Tanaka PHYS. REV. X 8, 011041 (2018)</a>). <span class="math notranslate nohighlight">\(\Theta_o\)</span> is defined as,
 $<span class="math notranslate nohighlight">\(
 \Theta_o = \frac{1}{N_o} \sum_{&lt;i, j&gt;} \left| \theta_{ij}^1 - \theta_{ij}^2 \right|
 \)</span><span class="math notranslate nohighlight">\(
 where \)</span>N_o$ is the unique nearest pair number around the center, which equals to the coordination number.</p>
 <section id="id1">
-<h2>2.1 Input Arguments<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
+<h3>2.1 Input Arguments<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory
 (returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code>)</p></li>
@@ -358,13 +319,13 @@ If the file extension is “.dat” or “.txt”, also saved as a text file.</p
 </ul>
 </section>
 <section id="id2">
-<h2>2.2 Return<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
+<h3>2.2 Return<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>calculated packing capability of a 2D system in <code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots,</span> <span class="pre">nparticle]</span></code></p></li>
 </ul>
 </section>
 <section id="id3">
-<h2>2.3 Example<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
+<h3>2.3 Example<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.packing_capability</span> <span class="kn">import</span> <span class="n">theta_2D</span>
 <span class="kn">from</span> <span class="nn">neighbors.freud_neighbors</span> <span class="kn">import</span> <span class="n">cal_neighbors</span>
@@ -379,8 +340,8 @@ If the file extension is “.dat” or “.txt”, also saved as a text file.</p
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="pair-entropy-s-2">
-<h1>3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span><a class="headerlink" href="#pair-entropy-s-2" title="Link to this heading">¶</a></h1>
+<section id="pair-entropy-s-2">
+<h2>3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span><a class="headerlink" href="#pair-entropy-s-2" title="Link to this heading">¶</a></h2>
 <p>The module <code class="docutils literal notranslate"><span class="pre">static.pair_entropy</span></code> calculates the particle-level pair entropy <span class="math notranslate nohighlight">\(S_2\)</span>, defined as,
 $<span class="math notranslate nohighlight">\(
 S_2^i = -2 \pi \rho k_B \int_0^{r_m} [g_m^i(r) \ln g_m^i(r) - g_m^i(r)+1] r^2 dr \quad (3D) \\
@@ -398,7 +359,8 @@ g_m^i(r) = \frac{1}{2 \pi \rho r} \sum_j \frac{1}{\sqrt {2 \pi \sigma^2}} e^{-(r
 where \)</span>j<span class="math notranslate nohighlight">\( are the neighbors of atom \)</span>i<span class="math notranslate nohighlight">\(, \)</span>r_{ij}<span class="math notranslate nohighlight">\( is the pair distance, and \)</span>\sigma$ is a broadening parameter.
 The integration in Eq. (1) is calculated numerically using the trapezoid rule.</p>
 <section id="s2-class">
-<h2><code class="docutils literal notranslate"><span class="pre">S2</span></code> class<a class="headerlink" href="#s2-class" title="Link to this heading">¶</a></h2>
+<h3><code class="docutils literal notranslate"><span class="pre">S2</span></code> class<a class="headerlink" href="#s2-class" title="Link to this heading">¶</a></h3>
+</section>
 <section id="id4">
 <h3>Input Arguments<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -422,11 +384,11 @@ The integration in Eq. (1) is calculated numerically using the trapezoid rule.</
         <span class="n">sigmas</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]]))</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="particle-s2">
-<h2><code class="docutils literal notranslate"><span class="pre">particle_S2()</span></code><a class="headerlink" href="#particle-s2" title="Link to this heading">¶</a></h2>
+<h4><code class="docutils literal notranslate"><span class="pre">particle_S2()</span></code><a class="headerlink" href="#particle-s2" title="Link to this heading">¶</a></h4>
 <p>The function calculates the particle-level <span class="math notranslate nohighlight">\(g_m^i(r)\)</span> by Gaussian smoothing and then calculate the particle-level <span class="math notranslate nohighlight">\(S_2^i\)</span>.</p>
+</section>
+</section>
 <section id="id7">
 <h3>Input Arguments<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -446,14 +408,14 @@ The integration in Eq. (1) is calculated numerically using the trapezoid rule.</
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">s2</span><span class="o">.</span><span class="n">particle_s2</span><span class="p">(</span><span class="n">savegr</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="spatial-corr">
-<h2><code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code><a class="headerlink" href="#spatial-corr" title="Link to this heading">¶</a></h2>
+<h4><code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code><a class="headerlink" href="#spatial-corr" title="Link to this heading">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code> method calculates spatial correlation function of (normalized) <span class="math notranslate nohighlight">\(S_2^i\)</span>:
 $<span class="math notranslate nohighlight">\(
 g_s(r) = &lt;S_2(0)S_2(r)&gt;
 \)</span>$</p>
+</section>
+</section>
 <section id="id10">
 <h3>Input Arguments<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -474,14 +436,14 @@ g_s(r) = &lt;S_2(0)S_2(r)&gt;
 <span class="n">glresults_normalized</span> <span class="o">=</span> <span class="n">s2</span><span class="o">.</span><span class="n">spatial_corr</span><span class="p">(</span><span class="n">mean_norm</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="time-corr">
-<h2><code class="docutils literal notranslate"><span class="pre">time_corr()</span></code><a class="headerlink" href="#time-corr" title="Link to this heading">¶</a></h2>
+<h4><code class="docutils literal notranslate"><span class="pre">time_corr()</span></code><a class="headerlink" href="#time-corr" title="Link to this heading">¶</a></h4>
 <p><code class="docutils literal notranslate"><span class="pre">time_corr()</span></code> method calculates time correlation of <span class="math notranslate nohighlight">\(S_2^i\)</span>
 $<span class="math notranslate nohighlight">\(
 g_s(t) = &lt;S_2(0)S_2(t)&gt;
 \)</span>$</p>
+</section>
+</section>
 <section id="id13">
 <h3>Input Arguments<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -502,23 +464,22 @@ g_s(t) = &lt;S_2(0)S_2(t)&gt;
 </div>
 </section>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="gyration-tensor-of-a-group">
-<h1>4. Gyration tensor of a group<a class="headerlink" href="#gyration-tensor-of-a-group" title="Link to this heading">¶</a></h1>
+<section id="gyration-tensor-of-a-group">
+<h2>4. Gyration tensor of a group<a class="headerlink" href="#gyration-tensor-of-a-group" title="Link to this heading">¶</a></h2>
 <p>This module calculates calculate gyration tensor of a cluster of atoms. This module calculates gyration tensor which is a tensor that describes the second moments of posiiton of a collection of particles gyration tensor is a symmetric matrix of shape (ndim, ndim). ref: https://en.wikipedia.org/wiki/Gyration_tensor. A group of atoms should be first defined. groupofatoms are the original coordinates of the selected group of a single configuration, the atom coordinates of the cluster should be removed from PBC which can be realized by ovito ‘cluster analysis’ method by choosing ‘unwrap particle coordinates’.</p>
 <section id="id16">
-<h2>Input Arguments<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h2>
+<h3>Input Arguments<a class="headerlink" href="#id16" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">pos_group</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): unwrapped particle positions of a group of atoms, shape as [num_of_particles, dimensionality]</p></li>
 </ul>
 </section>
 <section id="id17">
-<h2>Return<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h2>
+<h3>Return<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">3D</span></code>: <code class="docutils literal notranslate"><span class="pre">radius_of_gyration</span></code>, <code class="docutils literal notranslate"><span class="pre">asphericity</span></code>, <code class="docutils literal notranslate"><span class="pre">acylindricity</span></code>, <code class="docutils literal notranslate"><span class="pre">shape_anisotropy</span></code>, <code class="docutils literal notranslate"><span class="pre">fractal_dimension</span></code></p>
 <p><code class="docutils literal notranslate"><span class="pre">2D</span></code>: <code class="docutils literal notranslate"><span class="pre">radius_of_gyration</span></code>, <code class="docutils literal notranslate"><span class="pre">acylindricity</span></code>, <code class="docutils literal notranslate"><span class="pre">fractal_dimension</span></code></p>
 </section>
 <section id="id18">
-<h2>Example<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h2>
+<h3>Example<a class="headerlink" href="#id18" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">static.shape</span> <span class="kn">import</span> <span class="n">gyration_tensor</span>
@@ -532,8 +493,8 @@ g_s(t) = &lt;S_2(0)S_2(t)&gt;
 </div>
 </section>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="nematic-order">
-<h1>5. Nematic order<a class="headerlink" href="#nematic-order" title="Link to this heading">¶</a></h1>
+<section id="nematic-order">
+<h2>5. Nematic order<a class="headerlink" href="#nematic-order" title="Link to this heading">¶</a></h2>
 <p>This module calculates the order parameter for nematic phase, such as spin liquids, patchy particles, and liquid crystals. Basically, the requirements are particle positions and orientations. The tensorial order parameter is usually defined as
 $<span class="math notranslate nohighlight">\(
 Q_{\alpha \beta}^i = \frac{d}{2} {\bf u}^i_{\alpha} {\bf u}^i_{\beta} - \delta_{\alpha \beta}/2,
@@ -554,7 +515,8 @@ where \)</span>N_i<span class="math notranslate nohighlight">\( is the number of
 </ul>
 <p>Currently, the module only supports the calcualtion of two-dimensional systems.</p>
 <section id="nematicorder-class">
-<h2>5.1 <code class="docutils literal notranslate"><span class="pre">NematicOrder()</span></code> class<a class="headerlink" href="#nematicorder-class" title="Link to this heading">¶</a></h2>
+<h3>5.1 <code class="docutils literal notranslate"><span class="pre">NematicOrder()</span></code> class<a class="headerlink" href="#nematicorder-class" title="Link to this heading">¶</a></h3>
+</section>
 <section id="id19">
 <h3>Input Arguments<a class="headerlink" href="#id19" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -583,10 +545,10 @@ where \)</span>N_i<span class="math notranslate nohighlight">\( is the number of
 <span class="n">Nematic</span> <span class="o">=</span> <span class="n">NematicOrder</span><span class="p">(</span><span class="n">input_or</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span><span class="n">input_x</span><span class="o">.</span><span class="n">snapshots</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="tensor">
-<h2>5.2 <code class="docutils literal notranslate"><span class="pre">tensor()</span></code><a class="headerlink" href="#tensor" title="Link to this heading">¶</a></h2>
+<h4>5.2 <code class="docutils literal notranslate"><span class="pre">tensor()</span></code><a class="headerlink" href="#tensor" title="Link to this heading">¶</a></h4>
+</section>
+</section>
 <section id="id22">
 <h3>Input Arguments<a class="headerlink" href="#id22" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -608,10 +570,10 @@ where \)</span>N_i<span class="math notranslate nohighlight">\( is the number of
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">t</span> <span class="o">=</span> <span class="n">Nematic</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">outputfile</span><span class="o">=</span><span class="s1">&#39;test&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="id25">
-<h2>5.3 <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code><a class="headerlink" href="#id25" title="Link to this heading">¶</a></h2>
+<h4>5.3 <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code><a class="headerlink" href="#id25" title="Link to this heading">¶</a></h4>
+</section>
+</section>
 <section id="id26">
 <h3>Input Arguments<a class="headerlink" href="#id26" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -632,10 +594,10 @@ where \)</span>N_i<span class="math notranslate nohighlight">\( is the number of
 <span class="n">sc</span> <span class="o">=</span> <span class="n">Nematic</span><span class="o">.</span><span class="n">spatial_corr</span><span class="p">(</span><span class="n">rdelta</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">ppp</span><span class="o">=</span><span class="n">ppp</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="id29">
-<h2>5.4 <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code><a class="headerlink" href="#id29" title="Link to this heading">¶</a></h2>
+<h4>5.4 <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code><a class="headerlink" href="#id29" title="Link to this heading">¶</a></h4>
+</section>
+</section>
 <section id="id30">
 <h3>Input Arguments<a class="headerlink" href="#id30" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -713,14 +675,7 @@ where \)</span>N_i<span class="math notranslate nohighlight">\( is the number of
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">static orderings</a><ul>
-<li><a class="reference internal" href="#i-local-tetrahedral-order"><span class="xref myst">I. local tetrahedral order</span></a></li>
-<li><a class="reference internal" href="#ii-packing-capability"><span class="xref myst">II. packing capability</span></a></li>
-<li><a class="reference internal" href="#iii-pair-entropy"><span class="xref myst">III. pair entropy</span></a></li>
-<li><a class="reference internal" href="#iv-gyration-tensor"><span class="xref myst">IV. gyration tensor</span></a></li>
-<li><a class="reference internal" href="#v-nematic-order"><span class="xref myst">V. nematic order</span></a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#">Static orderings</a><ul>
 <li><a class="reference internal" href="#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a><ul>
 <li><a class="reference internal" href="#input-arguments">1.1 Input Arguments</a></li>
 <li><a class="reference internal" href="#return">1.2 Return</a></li>
@@ -734,30 +689,28 @@ where \)</span>N_i<span class="math notranslate nohighlight">\( is the number of
 </ul>
 </li>
 <li><a class="reference internal" href="#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a><ul>
-<li><a class="reference internal" href="#s2-class"><code class="docutils literal notranslate"><span class="pre">S2</span></code> class</a><ul>
+<li><a class="reference internal" href="#s2-class"><code class="docutils literal notranslate"><span class="pre">S2</span></code> class</a></li>
 <li><a class="reference internal" href="#id4">Input Arguments</a></li>
 <li><a class="reference internal" href="#id5">Return:</a></li>
-<li><a class="reference internal" href="#id6">Example</a></li>
+<li><a class="reference internal" href="#id6">Example</a><ul>
+<li><a class="reference internal" href="#particle-s2"><code class="docutils literal notranslate"><span class="pre">particle_S2()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#particle-s2"><code class="docutils literal notranslate"><span class="pre">particle_S2()</span></code></a><ul>
 <li><a class="reference internal" href="#id7">Input Arguments</a></li>
 <li><a class="reference internal" href="#id8">Return:</a></li>
-<li><a class="reference internal" href="#id9">Example</a></li>
+<li><a class="reference internal" href="#id9">Example</a><ul>
+<li><a class="reference internal" href="#spatial-corr"><code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#spatial-corr"><code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a><ul>
 <li><a class="reference internal" href="#id10">Input Arguments</a></li>
 <li><a class="reference internal" href="#id11">Return</a></li>
-<li><a class="reference internal" href="#id12">Example</a></li>
+<li><a class="reference internal" href="#id12">Example</a><ul>
+<li><a class="reference internal" href="#time-corr"><code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#time-corr"><code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a><ul>
 <li><a class="reference internal" href="#id13">Input Arguments</a></li>
 <li><a class="reference internal" href="#id14">Return</a></li>
 <li><a class="reference internal" href="#id15">Example</a></li>
-</ul>
-</li>
 </ul>
 </li>
 <li><a class="reference internal" href="#gyration-tensor-of-a-group">4. Gyration tensor of a group</a><ul>
@@ -767,25 +720,25 @@ where \)</span>N_i<span class="math notranslate nohighlight">\( is the number of
 </ul>
 </li>
 <li><a class="reference internal" href="#nematic-order">5. Nematic order</a><ul>
-<li><a class="reference internal" href="#nematicorder-class">5.1 <code class="docutils literal notranslate"><span class="pre">NematicOrder()</span></code> class</a><ul>
+<li><a class="reference internal" href="#nematicorder-class">5.1 <code class="docutils literal notranslate"><span class="pre">NematicOrder()</span></code> class</a></li>
 <li><a class="reference internal" href="#id19">Input Arguments</a></li>
 <li><a class="reference internal" href="#id20">Return</a></li>
-<li><a class="reference internal" href="#id21">Example</a></li>
+<li><a class="reference internal" href="#id21">Example</a><ul>
+<li><a class="reference internal" href="#tensor">5.2 <code class="docutils literal notranslate"><span class="pre">tensor()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#tensor">5.2 <code class="docutils literal notranslate"><span class="pre">tensor()</span></code></a><ul>
 <li><a class="reference internal" href="#id22">Input Arguments</a></li>
 <li><a class="reference internal" href="#id23">Return</a></li>
-<li><a class="reference internal" href="#id24">Example</a></li>
+<li><a class="reference internal" href="#id24">Example</a><ul>
+<li><a class="reference internal" href="#id25">5.3 <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id25">5.3 <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a><ul>
 <li><a class="reference internal" href="#id26">Input Arguments</a></li>
 <li><a class="reference internal" href="#id27">Return</a></li>
-<li><a class="reference internal" href="#id28">Example</a></li>
+<li><a class="reference internal" href="#id28">Example</a><ul>
+<li><a class="reference internal" href="#id29">5.4 <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id29">5.4 <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a><ul>
 <li><a class="reference internal" href="#id30">Input Arguments</a></li>
 <li><a class="reference internal" href="#id31">Return</a></li>
 <li><a class="reference internal" href="#id32">Example</a></li>

@@ -1,8 +1,8 @@
-# Write LAMMPS dump/data format header
+### Write LAMMPS dump/data format header
 
 This module is used to write the header of lammps dump and data files for conveniently rewriting snapshots.
 
-## Input Arguments
+###### Input Arguments
 
 1. `writer.lammps_writer.write_dump_header` writes the header of lammps dump file:
 
@@ -19,11 +19,11 @@ This module is used to write the header of lammps dump and data files for conven
 
    - `boxbounds` (`npt.NDArray`): same as the definition in `write_dump_header`
 
-## Return
+###### Return
 
 A string for the header will be returned.
 
-## Example
+###### Example
 
 - Write the header of lammps dump file:
 
