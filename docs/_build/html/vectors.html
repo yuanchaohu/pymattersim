@@ -102,12 +102,6 @@
 <li class="toctree-l3"><a class="reference internal" href="orderings.html#example">1.3 Example</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="orderings.html#id1">2.1 Input Arguments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="orderings.html#id2">2.2 Return</a></li>
-<li class="toctree-l3"><a class="reference internal" href="orderings.html#id3">2.3 Example</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="orderings.html#s2-class"><code class="docutils literal notranslate"><span class="pre">S2</span></code> class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orderings.html#particle-s2"><code class="docutils literal notranslate"><span class="pre">particle_S2()</span></code></a></li>
@@ -119,8 +113,8 @@
 <li class="toctree-l2"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="orderings.html#nematicorder-class">5.1 <code class="docutils literal notranslate"><span class="pre">NematicOrder()</span></code> class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orderings.html#tensor">5.2 <code class="docutils literal notranslate"><span class="pre">tensor()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="orderings.html#id4">5.3 <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="orderings.html#id5">5.4 <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="orderings.html#id1">5.3 <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="orderings.html#id2">5.4 <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -237,12 +231,13 @@
 <hr class="docutils" />
 <section id="participation-ratio">
 <h2>1. participation ratio<a class="headerlink" href="#participation-ratio" title="Link to this heading"></a></h2>
-<p>This module calculates the participation ratio of one vibration mode. It is measured as
-$<span class="math notranslate nohighlight">\(
+<p>This module calculates the participation ratio of one vibration mode. It is measured as</p>
+<div class="math notranslate nohighlight">
+\[
 PR_n = \frac{\left[ \sum_i^N |\vec e_{i,n}|^2 \right]^2}
 {N\sum_i ({\vec e_{i, n}} \cdot {\vec e_{i,n}})^2},
-\)</span><span class="math notranslate nohighlight">\(
-where \)</span>e_{i,n}<span class="math notranslate nohighlight">\( is the eigenvector of particle \)</span>i<span class="math notranslate nohighlight">\( in mode \)</span>n<span class="math notranslate nohighlight">\(. \)</span>N$ is the particle number.</p>
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(e_{i,n}\)</span> is the eigenvector of particle <span class="math notranslate nohighlight">\(i\)</span> in mode <span class="math notranslate nohighlight">\(n\)</span>. <span class="math notranslate nohighlight">\(N\)</span> is the particle number.</p>
 <section id="input-argument">
 <h3>Input Argument<a class="headerlink" href="#input-argument" title="Link to this heading"></a></h3>
 <ul class="simple">
@@ -269,11 +264,12 @@ where \)</span>e_{i,n}<span class="math notranslate nohighlight">\( is the eigen
 </section>
 <section id="local-vector-alignment">
 <h2>2. local vector alignment<a class="headerlink" href="#local-vector-alignment" title="Link to this heading"></a></h2>
-<p>This module calculates the orientational ordering of each particle based on the vector alignments. It is measured as
-$<span class="math notranslate nohighlight">\(
+<p>This module calculates the orientational ordering of each particle based on the vector alignments. It is measured as</p>
+<div class="math notranslate nohighlight">
+\[
 \Psi_i = \frac{1}{CN_i} \sum_j^{CN_i} {\vec e_i} \cdot {\vec e_j},
-\)</span><span class="math notranslate nohighlight">\(
-where \)</span>{\vec e_i}<span class="math notranslate nohighlight">\( is the eigenvector of particle \)</span>i<span class="math notranslate nohighlight">\( and \)</span>{CN_i}<span class="math notranslate nohighlight">\( is the number of neighbors of particle \)</span>i$.</p>
+\]</div>
+<p>where <span class="math notranslate nohighlight">\({\vec e_i}\)</span> is the eigenvector of particle <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\({CN_i}\)</span> is the number of neighbors of particle <span class="math notranslate nohighlight">\(i\)</span>.</p>
 <section id="id1">
 <h3>Input Argument<a class="headerlink" href="#id1" title="Link to this heading"></a></h3>
 <ul class="simple">
@@ -310,10 +306,11 @@ where \)</span>{\vec e_i}<span class="math notranslate nohighlight">\( is the ei
 </section>
 <section id="phase-quotient">
 <h2>3. phase quotient<a class="headerlink" href="#phase-quotient" title="Link to this heading"></a></h2>
-<p>This module calculates the phase quotient of a vector field. Maximum 200 neighbors are considered. It is defined as
-$<span class="math notranslate nohighlight">\(
+<p>This module calculates the phase quotient of a vector field. Maximum 200 neighbors are considered. It is defined as</p>
+<div class="math notranslate nohighlight">
+\[
 PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\sum_i^{N} \sum_j^{CN_i} |{\vec e_{i, n}} \cdot {\vec e_{j, n}}|}.
-\)</span>$</p>
+\]</div>
 <p>where <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> are atom indices, <span class="math notranslate nohighlight">\(N\)</span> is the total atom number, <span class="math notranslate nohighlight">\({CN_i}\)</span> is the coordination number of atom <span class="math notranslate nohighlight">\(i\)</span>, n is the mode number, <span class="math notranslate nohighlight">\(\vec e_{i, n}\)</span> is the eigenvector of atom <span class="math notranslate nohighlight">\(i\)</span> in mode <span class="math notranslate nohighlight">\(n\)</span>. The upper bound <span class="math notranslate nohighlight">\(PQ_n=1\)</span> means acoustic nature of the mode (an atom has the same direction as the neighbors), while the lower bound of -1 means optical nature of the mode (an atom has the opposite direction as the neighbors). If <span class="math notranslate nohighlight">\(PQ_n \gt 0\)</span>, the mode is acoustic-like otherwise is optical-like mode.</p>
 <section id="id2">
 <h3>Input Argument<a class="headerlink" href="#id2" title="Link to this heading"></a></h3>
@@ -390,10 +387,11 @@ PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\su
 </section>
 <section id="vibrability">
 <h2>5. vibrability<a class="headerlink" href="#vibrability" title="Link to this heading"></a></h2>
-<p>This calculates the susceptibility of particle motion to infinitesimal thermal excitation in the zero temperature limit, defined as:
-$<span class="math notranslate nohighlight">\(
+<p>This calculates the susceptibility of particle motion to infinitesimal thermal excitation in the zero temperature limit, defined as:</p>
+<div class="math notranslate nohighlight">
+\[
 \Psi_i = \sum_{l=1}^{dN-d} \frac{1}{\omega_l^2} |{\vec e}_{l, i}|^2,
-\)</span>$</p>
+\]</div>
 <p>where <span class="math notranslate nohighlight">\(\omega_l^2\)</span> is the eigenvalue of the lth mode, while <span class="math notranslate nohighlight">\({\vec e}_{l, i}\)</span> is the corresponding eigenvector for particle <span class="math notranslate nohighlight">\(i\)</span>. Larger <span class="math notranslate nohighlight">\(\Psi\)</span> indicates more susceptible to excitation and hence more disorder.</p>
 <p><strong>Input Arguments</strong></p>
 <ul class="simple">
@@ -453,10 +451,11 @@ E_{\lambda, T} (\bf{q}) = \frac{1}{N} \left| \sum_{i=1}^N \left(\bf{\hat q} \tim
 \]</div>
 <p>in which <span class="math notranslate nohighlight">\(\bf \hat q = \bf q/|\bf q|\)</span>, <span class="math notranslate nohighlight">\(m_i\)</span> and <span class="math notranslate nohighlight">\(\bf{r}_i\)</span> are the mass and positional vector in the inherent structure of particle <span class="math notranslate nohighlight">\(i\)</span>. The average mass is approximated as <span class="math notranslate nohighlight">\(M^{-1} = \sum_l m_l^{-1} /N_l
 \)</span> in which <span class="math notranslate nohighlight">\(l\)</span> runs over all species. The code calculates <span class="math notranslate nohighlight">\(E(q)\)</span>.</p>
-<p>Another faster method is first taking the FFT of the eigenvector and then take dot product for the longitudinal component and cross product for the transverse component, as
-$<span class="math notranslate nohighlight">\(
+<p>Another faster method is first taking the FFT of the eigenvector and then take dot product for the longitudinal component and cross product for the transverse component, as</p>
+<div class="math notranslate nohighlight">
+\[
 \tilde e = \sum_{i=1}^N \frac{\bf{e}_i^{\lambda}}{\sqrt{m_i}} \cdot \exp(i \bf{q} \cdot \bf{r}_i)
-\)</span>$</p>
+\]</div>
 <div class="math notranslate nohighlight">
 \[
 E_{\lambda, L} (\bf{q}) = \frac{1}{N} \left| \hat{\bf{q}} \cdot \tilde e \right|^2
@@ -505,23 +504,30 @@ E_{\lambda, T} (\bf{q}) = \frac{1}{N} \left| \hat{\bf{q}} \times \tilde e \right
 \[
 \vec j (\vec q, t) = \sum_{m=1}^N \vec v_m(t) \exp[i \vec q \cdot \vec r_m(t)],
 \]</div>
-<p>where <span class="math notranslate nohighlight">\(\vec v_m(t)\)</span> is the vector of particle <span class="math notranslate nohighlight">\(m\)</span> at time <span class="math notranslate nohighlight">\(t\)</span>, and <span class="math notranslate nohighlight">\(\vec r_m(t)\)</span> is the particle position.. It is decomposed into transverse and longitudinal components as
-$<span class="math notranslate nohighlight">\(
+<p>where <span class="math notranslate nohighlight">\(\vec v_m(t)\)</span> is the vector of particle <span class="math notranslate nohighlight">\(m\)</span> at time <span class="math notranslate nohighlight">\(t\)</span>, and <span class="math notranslate nohighlight">\(\vec r_m(t)\)</span> is the particle position.. It is decomposed into transverse and longitudinal components as</p>
+<div class="math notranslate nohighlight">
+\[
 \vec j_L (\vec q, t) = (\vec j (\vec q, t) \cdot \mathbf{\hat q}) \cdot \mathbf{\hat q}
-\qquad\qquad
+\]</div>
+<div class="math notranslate nohighlight">
+\[
 \vec j_T (\vec q, t) = \vec j (\vec q, t) - \vec j_L (\vec q, t)
-\)</span>$</p>
+\]</div>
 <p>where <span class="math notranslate nohighlight">\(\mathbf{\hat q}\)</span> is the unit vector <span class="math notranslate nohighlight">\({\bf \hat q}={\vec q}/|{\bf q}|\)</span>.</p>
-<p>The ensemble averaged power spectra is calculated as
-$<span class="math notranslate nohighlight">\(
+<p>The ensemble averaged power spectra is calculated as</p>
+<div class="math notranslate nohighlight">
+\[
 E_L (q) = \left &lt; \frac{1}{N} \left| \vec j_L(\vec q, t) \right|^2 \right&gt;
-\qquad\qquad\qquad
+\]</div>
+<div class="math notranslate nohighlight">
+\[
 E_T (q) = \left &lt; \frac{1}{N} \left| \vec j_T(\vec q, t) \right|^2 \right&gt;
-\)</span>$</p>
-<p>and the time correlation functions are calculated as
-$<span class="math notranslate nohighlight">\(
+\]</div>
+<p>and the time correlation functions are calculated as</p>
+<div class="math notranslate nohighlight">
+\[
 C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\alpha(-{\vec q}, 0) \right&gt;
-\)</span>$</p>
+\]</div>
 <p>where <span class="math notranslate nohighlight">\(\alpha\)</span> represents longitudinal (<span class="math notranslate nohighlight">\(L\)</span>) or transverse (<span class="math notranslate nohighlight">\(T\)</span>) current.</p>
 <p><strong>Input Arguments</strong></p>
 <ul class="simple">

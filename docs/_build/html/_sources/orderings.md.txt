@@ -6,8 +6,9 @@
 #### 1. Local tetrahedral order $q_{\rm tetra}$
 
 The class `static.tetrahedral` calculates the local tetrahedral order of the simulation system in three dimensions, such as for water-type and silicon/silica-type systems. Local tetrahedral order is defined as:
+
 $$
-q_{\rm tetra}=1-\frac{3}{8} \sum_{j=1}^3 \sum_{k=j+1}^4 \left(\cos \varphi_{jk}+\frac{1}{3} \right)^2
+q_{\rm tetra}=1-\frac{3}{8} \sum_{j=1}^3 \sum_{k=j+1}^4 \left(\cos \varphi_{jk}+\frac{1}{3} \right)^2.
 $$
 
 In this calculation, only **4** nearest neighbors are taken into consideration. The algorithm of selecting nearest distances is from `numpy.argpartition` for fast computation. In this method, only the nearest neighbors are selected but not in a sorted order. $j$, $k$ run over these neighbors. 
@@ -35,6 +36,7 @@ readdump.read_onefile()
 tetrahedral = q_tetra(readdump.snapshots)
 ```
 
+<!--
 #### 2. Packing capability $\Theta_o$
 The module `static.packing_capability.theta_2D` calculates packing capability of a 2D system by comparing the bond angles in realistic configuration to a reference one (ref. [Tong & Tanaka PHYS. REV. X 8, 011041 (2018)](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.8.011041)). $\Theta_o$ is defined as,
 $$
@@ -68,22 +70,27 @@ readdump.read_onefile()
 cal_neighbors(snapshots=readdump.snapshots, outputfile='test')
 theta = theta_2D(readdump.snapshots, sigmas=np.array([[1.5,1.5],[1.5,1.5]]), neighborfile='test.neighbor.dat')
 ```
+-->
 
 #### 3. Pair entropy $S_2$
 The module `static.pair_entropy` calculates the particle-level pair entropy $S_2$, defined as,
+
 $$
 S_2^i = -2 \pi \rho k_B \int_0^{r_m} [g_m^i(r) \ln g_m^i(r) - g_m^i(r)+1] r^2 dr \quad (3D) \\
 S_2^i = -\pi \rho k_B \int_0^{r_m} [g_m^i(r) \ln g_m^i(r) - g_m^i(r)+1] r dr \quad (2D)
 \tag{1}
 $$
+
 where $r_m$ is is an upper integration limit that, in principle, should
 be taken to infinity ($g(r_m \to \infty)=1$), and $g_m^i(r)$ is the pair correlation function centered at the $i$ th particle. We use a Gaussian smeared $g_m^i(r)$ to obtain a continuous and differentiable quantity,
+
 $$
 g_m^i(r) = \frac{1}{4 \pi \rho r^2} \sum_j \frac{1}{\sqrt {2 \pi \sigma^2}} e^{-(r-r_{ij})^2/(2 \sigma ^2)} \quad (3D) 
 \\
 g_m^i(r) = \frac{1}{2 \pi \rho r} \sum_j \frac{1}{\sqrt {2 \pi \sigma^2}} e^{-(r-r_{ij})^2/(2 \sigma ^2)} \quad (2D)
 \tag{2}
 $$
+
 where $j$ are the neighbors of atom $i$, $r_{ij}$ is the pair distance, and $\sigma$ is a broadening parameter. 
 The integration in Eq. (1) is calculated numerically using the trapezoid rule.
 
@@ -124,6 +131,7 @@ s2.particle_s2(savegr=True)
 
 ##### `spatial_corr()`
 `spatial_corr()` method calculates spatial correlation function of (normalized) $S_2^i$:
+
 $$
 g_s(r) = <S_2(0)S_2(r)>
 $$
@@ -144,6 +152,7 @@ glresults_normalized = s2.spatial_corr(mean_norm=True)
 
 ##### `time_corr()`
 `time_corr()` method calculates time correlation of $S_2^i$
+
 $$
 g_s(t) = <S_2(0)S_2(t)>
 $$
@@ -187,13 +196,17 @@ gt = gyration_tensor(input_v.snapshots.snapshots[0].positions)
 
 #### 5. Nematic order
 This module calculates the order parameter for nematic phase, such as spin liquids, patchy particles, and liquid crystals. Basically, the requirements are particle positions and orientations. The tensorial order parameter is usually defined as
+
 $$
 Q_{\alpha \beta}^i = \frac{d}{2} {\bf u}^i_{\alpha} {\bf u}^i_{\beta} - \delta_{\alpha \beta}/2,
 $$
+
 where $\delta$ is the Kronecker delta function, $i$ is the particle index, $\alpha$ and $\beta$ are the dimensitionality ($x$ or $y$ or $z$), $d$ is the dimensionality. Similarly, a coarse-grained tensor order parameter is defined as 
+
 $$
 Q_{\rm CG}(i) = \frac{1}{1+N_i} \left( Q_{\alpha \beta}^i + \sum_{j}^{N_i} Q_{\alpha \beta}^j \right),
 $$
+
 where $N_i$ is the number of neighbors of particle $i$. Thus, the particle-level scalar order parameters are calculated as:
 - $S_i$: calculated as the twice of the largest eigenvalue of $Q^i$ or $Q^i_{\rm CG}$. This calculation can be quite slow. An equivalent (equal) parameter Hi can be calculated as $H_i$.
 - $H_i$: $H_i = \sqrt{Tr[Q^i \cdot Q^i] \cdot \frac{d}{d-1}}$ or the coarse-grained version accordingly for $Q^i_{\rm CG}$.

@@ -5,10 +5,12 @@
 
 #### 1. participation ratio
 This module calculates the participation ratio of one vibration mode. It is measured as
+
 $$
 PR_n = \frac{\left[ \sum_i^N |\vec e_{i,n}|^2 \right]^2}
 {N\sum_i ({\vec e_{i, n}} \cdot {\vec e_{i,n}})^2},
 $$
+
 where $e_{i,n}$ is the eigenvector of particle $i$ in mode $n$. $N$ is the particle number.
 
 ##### Input Argument
@@ -33,9 +35,11 @@ pr = participation_ratio(v)
 
 #### 2. local vector alignment
 This module calculates the orientational ordering of each particle based on the vector alignments. It is measured as
+
 $$
 \Psi_i = \frac{1}{CN_i} \sum_j^{CN_i} {\vec e_i} \cdot {\vec e_j},
 $$
+
 where ${\vec e_i}$ is the eigenvector of particle $i$ and ${CN_i}$ is the number of neighbors of particle $i$.
 
 ##### Input Argument
@@ -70,6 +74,7 @@ pr = local_vector_alignment(v,neighborfile)
 
 #### 3. phase quotient
 This module calculates the phase quotient of a vector field. Maximum 200 neighbors are considered. It is defined as
+
 $$
 PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\sum_i^{N} \sum_j^{CN_i} |{\vec e_{i, n}} \cdot {\vec e_{j, n}}|}.
 $$
@@ -145,6 +150,7 @@ pq = divergence_curl(input_vp.snapshots.snapshots[0],v,ppp,neighborfile)[:10]
 
 #### 5. vibrability
 This calculates the susceptibility of particle motion to infinitesimal thermal excitation in the zero temperature limit, defined as:
+
 $$
 \Psi_i = \sum_{l=1}^{dN-d} \frac{1}{\omega_l^2} |{\vec e}_{l, i}|^2,
 $$
@@ -210,6 +216,7 @@ in which $\bf \hat q = \bf q/|\bf q|$, $m_i$ and $\bf{r}_i$ are the mass and pos
 $ in which $l$ runs over all species. The code calculates $E(q)$.
 
 Another faster method is first taking the FFT of the eigenvector and then take dot product for the longitudinal component and cross product for the transverse component, as
+
 $$
 \tilde e = \sum_{i=1}^N \frac{\bf{e}_i^{\lambda}}{\sqrt{m_i}} \cdot \exp(i \bf{q} \cdot \bf{r}_i)
 $$ 
@@ -262,22 +269,29 @@ $$
 $$
 
 where $\vec v_m(t)$ is the vector of particle $m$ at time $t$, and $\vec r_m(t)$ is the particle position.. It is decomposed into transverse and longitudinal components as 
+
 $$
 \vec j_L (\vec q, t) = (\vec j (\vec q, t) \cdot \mathbf{\hat q}) \cdot \mathbf{\hat q}
-\qquad\qquad
+$$
+
+$$
 \vec j_T (\vec q, t) = \vec j (\vec q, t) - \vec j_L (\vec q, t)
 $$
 
 where $\mathbf{\hat q}$ is the unit vector ${\bf \hat q}={\vec q}/|{\bf q}|$.
 
 The ensemble averaged power spectra is calculated as
+
 $$
 E_L (q) = \left < \frac{1}{N} \left| \vec j_L(\vec q, t) \right|^2 \right>
-\qquad\qquad\qquad
+$$
+
+$$
 E_T (q) = \left < \frac{1}{N} \left| \vec j_T(\vec q, t) \right|^2 \right>
 $$
 
 and the time correlation functions are calculated as
+
 $$
 C_\alpha(q, t)= \frac{1}{N} \left< \vec j_\alpha({\vec q}, t) \cdot \vec j_\alpha(-{\vec q}, 0) \right>
 $$
