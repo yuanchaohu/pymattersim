@@ -42,7 +42,7 @@ $$
 + time correlation of the complex number
 
 $$
-  C_l(t)=\frac{\langle \sum_n \varphi_l^n(t) \varphi_l^{n*}(0) \rangle}{\langle \sum_n |\varphi_l^n(0)|^2 \rangle} \tag{6}
+  C_l(t)=\frac{\left<le \sum_n \varphi_l^n(t) \varphi_l^{n*}(0) \right>le}{\left<le \sum_n |\varphi_l^n(0)|^2 \right>le} \tag{6}
 $$
 
 ##### 1. `boo_2d` class
