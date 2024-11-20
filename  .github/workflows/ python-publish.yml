@@ -1,9 +1,6 @@
 name: Publish Python Package
 
-on:
-  push:
-    tags:
-      - "v*"
+on: [push, pull_request]
 
 jobs:
   publish:
