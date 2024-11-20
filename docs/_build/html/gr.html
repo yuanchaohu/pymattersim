@@ -6,8 +6,8 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pair Correlation Function &mdash; PyMatterSim  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+  <title>Pair Correlation Functions &mdash; PyMatterSim  documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
@@ -21,8 +21,8 @@
     <script src="_static/js/theme.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Structure Factor" href="sq.html" />
-    <link rel="prev" title="Neighbors" href="neighbors.html" /> 
+    <link rel="next" title="Structure Factors" href="sq.html" />
+    <link rel="prev" title="Neighbors Definition" href="neighbors.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,9 +46,10 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Getting started</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reader.html">Reading Computer Simulations Snapshots</a></li>
 <li class="toctree-l1"><a class="reference internal" href="writer.html">Write LAMMPS dump/data format header</a></li>
-<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors Definition</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#i-reading-neighbors">I. Reading Neighbors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#ii-calculating-neighbors">II. Calculating Neighbors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#nnearests">1. Nnearests()</a></li>
@@ -64,13 +65,13 @@
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#indicehis">4. <code class="docutils literal notranslate"><span class="pre">indicehis()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Pair Correlation Function</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pair Correlation Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#gr-class">1. <code class="docutils literal notranslate"><span class="pre">gr</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#conditional-gr">2. <code class="docutils literal notranslate"><span class="pre">conditional_gr()</span></code></a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factors</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#sq-class">1. <code class="docutils literal notranslate"><span class="pre">sq</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#conditional-sq">2. <code class="docutils literal notranslate"><span class="pre">conditional_sq()</span></code></a></li>
@@ -156,7 +157,7 @@
 </li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="vectors.html">Vector Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="vectors.html#input-argument">Input Argument</a></li>
 </ul>
@@ -175,7 +176,7 @@
 <li class="toctree-l2"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="utils.html">Util Functions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="utils.html#nidealfac"><code class="docutils literal notranslate"><span class="pre">1.</span> <span class="pre">nidealfac()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="utils.html#moment-of-inertia">2. <code class="docutils literal notranslate"><span class="pre">moment_of_inertia()</span></code></a></li>
@@ -221,7 +222,7 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">Pair Correlation Function</li>
+      <li class="breadcrumb-item active">Pair Correlation Functions</li>
       <li class="wy-breadcrumbs-aside">
             <a href="_sources/gr.md.txt" rel="nofollow"> View page source</a>
       </li>
@@ -231,8 +232,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="pair-correlation-function">
-<h1>Pair Correlation Function<a class="headerlink" href="#pair-correlation-function" title="Link to this heading"></a></h1>
+  <section id="pair-correlation-functions">
+<h1>Pair Correlation Functions<a class="headerlink" href="#pair-correlation-functions" title="Link to this heading"></a></h1>
 <p>The module <code class="docutils literal notranslate"><span class="pre">static.gr.gr</span></code> calculates the overall and partial pair correlation functions (PCF) <span class="math notranslate nohighlight">\(g(r)\)</span> in orthogonal and triclinic cells at various dimensional systems. This module is suitable for multi-component systems, from unary to quinary.  The overall <span class="math notranslate nohighlight">\(g(r)\)</span> is defined as:</p>
 <div class="math notranslate nohighlight">
 \[
@@ -341,8 +342,8 @@ g_A^{\rm norm} = \frac{g_A - \lang A \rang^2}{\lang A^2 \rang - \lang A \rang^2}
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="neighbors.html" class="btn btn-neutral float-left" title="Neighbors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="sq.html" class="btn btn-neutral float-right" title="Structure Factor" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="neighbors.html" class="btn btn-neutral float-left" title="Neighbors Definition" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sq.html" class="btn btn-neutral float-right" title="Structure Factors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

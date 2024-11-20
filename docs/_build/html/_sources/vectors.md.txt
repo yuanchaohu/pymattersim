@@ -1,4 +1,4 @@
-### vector analysis
+### Vector Analysis
 
 
 ---

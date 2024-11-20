@@ -1,4 +1,4 @@
-### Pair Correlation Function
+### Pair Correlation Functions
 
 The module `static.gr.gr` calculates the overall and partial pair correlation functions (PCF) $g(r)$ in orthogonal and triclinic cells at various dimensional systems. This module is suitable for multi-component systems, from unary to quinary.  The overall $g(r)$ is defined as:
 

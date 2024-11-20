@@ -16,7 +16,8 @@ author = 'Yuan-Chao Hu'
 extensions = [
     "myst_parser", # enable markdown support
     "sphinx_rtd_theme",
-    "sphinx.ext.githubpages"
+    "sphinx.ext.githubpages",
+    'sphinx.ext.autosectionlabel',
 ]
 
 myst_enable_extensions = [
@@ -27,6 +28,7 @@ myst_enable_extensions = [
 
 templates_path = ['_templates']
 exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+pygments_style = 'sphinx'
 
 
 

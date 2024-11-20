@@ -39,7 +39,7 @@ Some examples are provided from the unittest modules (`tests/`)
 [Voro++](https://math.lbl.gov/voro++/) is recommend to install separately for specific Voronoi analysis. Some of the analysis from the original voro++ is maintained from the [freud-analysis package](https://freud.readthedocs.io/en/stable/gettingstarted/installation.html) developed by the Glozter group.
 
 ## Citation
-
+Working in progress
 
 ## UnitTest
 Please run the bash scripts available from `shell/` for unittests. As follows are test statistics:
