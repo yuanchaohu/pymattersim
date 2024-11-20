@@ -18,7 +18,3 @@ setup(
     ],
     python_requires=">=3.6",
 )
-
-# upgrade
-# python setup.py sdist bdist_wheel
-# twine upload dist/*
