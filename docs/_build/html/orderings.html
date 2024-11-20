@@ -449,11 +449,7 @@ Q_{\rm CG}(i) = \frac{1}{1+N_i} \left( Q_{\alpha \beta}^i + \sum_{j}^{N_i} Q_{\a
 where \)</span>N_i<span class="math notranslate nohighlight">\( is the number of neighbors of particle \)</span>i$. Thus, the particle-level scalar order parameters are calculated as:</p>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(S_i\)</span>: calculated as the twice of the largest eigenvalue of <span class="math notranslate nohighlight">\(Q^i\)</span> or <span class="math notranslate nohighlight">\(Q^i_{\rm CG}\)</span>. This calculation can be quite slow. An equivalent (equal) parameter Hi can be calculated as <span class="math notranslate nohighlight">\(H_i\)</span>.</p></li>
-<li><p><span class="math notranslate nohighlight">\(H_i\)</span>:
-$<span class="math notranslate nohighlight">\(
-H_i = \sqrt{{\rm Tr}[Q^i \cdot Q^i] \cdot \frac{d}{d-1}}
-\)</span><span class="math notranslate nohighlight">\(
-or the coarse-grained version accordingly for \)</span>Q^i_{\rm CG}$.</p></li>
+<li><p><span class="math notranslate nohighlight">\(H_i\)</span>: <span class="math notranslate nohighlight">\(H_i = \sqrt{Tr[Q^i \cdot Q^i] \cdot \frac{d}{d-1}}\)</span> or the coarse-grained version accordingly for <span class="math notranslate nohighlight">\(Q^i_{\rm CG}\)</span>.</p></li>
 </ul>
 <p>The time correlation and spatial correlation of <span class="math notranslate nohighlight">\(Q^i\)</span> or <span class="math notranslate nohighlight">\(Q^i_{\rm CG}\)</span> are also calculated by the module.</p>
 <ul class="simple">
