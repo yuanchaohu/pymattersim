@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Reading Computer Simulations Snapshots" href="reader.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>py_Matters_Simulations documentation</title>
+        <title>PyMatterSim documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="#"><div class="brand">py_Matters_Simulations  documentation</div></a>
+      <a href="#"><div class="brand">PyMatterSim  documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -196,7 +196,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
   
   
-  <span class="sidebar-brand-text">py_Matters_Simulations  documentation</span>
+  <span class="sidebar-brand-text">PyMatterSim  documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -263,89 +263,54 @@
 <div class="toctree-wrapper compound">
 <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="reader.html">Reading Computer Simulations Snapshots</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="reader.html#input-arguments">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reader.html#return">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reader.html#important-notes">Important Notes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="reader.html#example">Example</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="writer.html">Write LAMMPS dump/data format header</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="writer.html#input-arguments">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="writer.html#return">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="writer.html#example">Example</a></li>
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="reader.html">Reading Computer Simulations Snapshots</a></li>
+<li class="toctree-l1"><a class="reference internal" href="writer.html">Write LAMMPS dump/data format header</a></li>
 <li class="toctree-l1"><a class="reference internal" href="neighbors.html">Neighbors</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#i-reading-neighbors">I. Reading Neighbors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#input-arguments">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#return">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#important-notes">Important Notes</a></li>
-<li class="toctree-l2"><a class="reference internal" href="neighbors.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neighbors.html#ii-calculating-neighbors">II. Calculating Neighbors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#nnearests">1. Nnearests()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#cutoffneighbors">2. cutoffneighbors()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#cutoffneighbors-particletype">3. cutoffneighbors_particletype()</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#iii-freud-neighbors">III. Freud Neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neighbors.html#convert-configuration">1. convert_configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neighbors.html#cal-neighbors">2. cal_neighbors</a></li>
 <li class="toctree-l2"><a class="reference internal" href="neighbors.html#iv-voro-direct-neighbors">IV. Voro++ direct neighbors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="neighbors.html#get-input">1. <code class="docutils literal notranslate"><span class="pre">get_input()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="neighbors.html#cal-voro">2. <code class="docutils literal notranslate"><span class="pre">cal_voro()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="neighbors.html#voronowalls">3. <code class="docutils literal notranslate"><span class="pre">voronowalls()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="neighbors.html#indicehis">4. <code class="docutils literal notranslate"><span class="pre">indicehis()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="gr.html">Pair Correlation Function</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="gr.html#gr-class">1. <code class="docutils literal notranslate"><span class="pre">gr</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gr.html#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="gr.html#return">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gr.html#input-arguments">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gr.html#id1">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="gr.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gr.html#conditional-gr">2. <code class="docutils literal notranslate"><span class="pre">conditional_gr()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#sq-class">1. <code class="docutils literal notranslate"><span class="pre">sq</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="sq.html#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="sq.html#input-arguments">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sq.html#return">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="sq.html#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sq.html#conditional-sq">2. <code class="docutils literal notranslate"><span class="pre">conditional_sq()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="boo_2d.html#boo-2d-class">1. <code class="docutils literal notranslate"><span class="pre">boo_2d</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#input-arguments">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#return">Return:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#example">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id1">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id2">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id3">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id4">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id5">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id6">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id7">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id8">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id9">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id10">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id11">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#id12">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#lthorder">2. <code class="docutils literal notranslate"><span class="pre">lthorder()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#time-average">3. <code class="docutils literal notranslate"><span class="pre">time_average()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#spatial-corr">4. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_2d.html#time-corr">5. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="boo_3d.html#boo-3d-class">1. <code class="docutils literal notranslate"><span class="pre">boo_3d</span></code> class</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#input-arguments">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#return">Return:</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#example">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id1">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id2">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id3">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id4">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id5">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id6">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id7">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id8">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id9">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id10">Input Arguments</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id11">Return</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id12">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#qlm-qlm">2. <code class="docutils literal notranslate"><span class="pre">qlm_Qlm()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#ql-ql">3. <code class="docutils literal notranslate"><span class="pre">ql_Ql()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#sij-ql-ql">4. <code class="docutils literal notranslate"><span class="pre">sij_ql_Ql()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#w-w-cap">5. <code class="docutils literal notranslate"><span class="pre">w_W_cap()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#spatial-corr">6. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="boo_3d.html#inputs">Inputs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id13">Example</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id14">Inputs</a></li>
-<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id15">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#time-corr">7. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="boo_3d.html#id1">Inputs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a><ul>
@@ -361,7 +326,10 @@
 <li class="toctree-l2"><a class="reference internal" href="dynamics.html#dynamics-class">1. <code class="docutils literal notranslate"><span class="pre">Dynamics()</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dynamics.html#relaxation">1.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="dynamics.html#sq4">1.2 <code class="docutils literal notranslate"><span class="pre">sq4()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="dynamics.html#logdynamics-class">2. <code class="docutils literal notranslate"><span class="pre">LogDynamics()</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dynamics.html#id1">2.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="dynamics.html#time-correlation">3. <code class="docutils literal notranslate"><span class="pre">time_correlation()</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="dynamics.html#input">Input:</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a><ul>

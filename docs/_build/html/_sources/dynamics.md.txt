@@ -10,7 +10,7 @@ To calculate the atomic-scale dynamics, the absolute coordinates, for example, t
 2. Providing only 'xu' type trajectory to `xudump` and set `None` to `xdump`; the absolute positions from `xudump` will be used to calculate all the quantities.
 3. Providing only 'x' or 'xs' type trajectory to `xdump` and set `None` to `xudump`; the wrapped positions from `xdump` will be used to calculate all the quantities, by considering periodic boundary conditions (setting the correct `ppp` argument). This is not recommended and should be avoided for calculating mean-square displacements related quantities at long time scales.
 
-###### `cage_relative()`
+##### `cage_relative()`
 Getting the cage-relative or coarse-grained displacement vectors of the center particle with respect to the neighbors in a certain range for single configuration.
 The coarse-graining is done based on the given the neighboring particles, which are accessible by the `neighbors` module. Specifically,
 $$
@@ -18,14 +18,14 @@ $$
 $$
 in which $j$ is the center particle and $i$ is its neighbor.
 
-######## Input Arguments:
+**Input Arguments**:
 - `RII`(`npt.NDArray`): original (absolute) displacement matrix with shape `[num_of_particles, ndim]`                  
 - `cnlist`(`npt.NDArray`): neighbor list of the initial or reference configuration with shape `[num_of_particles, num_of_neighbors]`. This gives the particle identifiers ($i$) for each center ($j$). It available from the 'neighbors' module.
 
-######## Return:
+**Return**:
 - `RII_relative`(`npt.NDArray`): cage-relative displacement matrix with shape `[num_of_particles, ndim]` (the same as the input `RII`)
 
-######## Example
+**Example**
 ```python
 from dynamic.dynamics import cage_relative
 from neighbors.read_neighbors import read_neighbors
@@ -60,7 +60,7 @@ RII = pos_end - pos_init
 cage_relative(RII,neighborlists[10-1])
 ```
 
-###### 1. `Dynamics()` class
+##### 1. `Dynamics()` class
 
 This module calculates particle-level dynamical quantities with absolute or wrapped coordinates. It considers both two-dimensional systems and three-dimensional system, and for both absolute and cage-relative dynamics.
 
@@ -68,7 +68,7 @@ This module recommends to use absolute coordinates (like 'xu' in LAMMPS) to calc
 The functions are listed below.
 
 
-######## Input Arguments:
+**Input Arguments**:
 
 - `xu_snapshots`(`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
 - `x_snapshots`(`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
@@ -80,11 +80,11 @@ The functions are listed below.
 - `neighborfile`(`str`): neighbor list filename for coarse-graining, only provided when calculating (cage-)relative displacements.
 - `max_neighbors`(`int`): maximum of particle neighbors considered, default 30.
 
-######## Return:
+**Return**:
 - None
 
 
-######## Example:
+**Example**:
 
 ```python
 from dynamic.dynamics import Dynamics
@@ -156,15 +156,15 @@ $$
 $$
 which is usually used to measure the degree of dynamical heterogeneity in the disordered states revealed by the particle-level mobility.
 
-######## Input Arguments:
+**Input Arguments**:
 - `qconst`(`float`): the wavenumber factor for calculating self-intermediate scattering function. default $2\pi$, used internally as `qconst/diameters` to define the wavenumber for each particle. For example, if input `qconst=2PI` and `diamter=1.0` then the used wavenumber is `2PI/1.0`. This setting provides flexibility for polydisperse systems or considering dynamics differently for different particle types.
 - `condition`(`npt.NDArray`): particle-level selection with the shape `[num_of_snapshots, num_of_particles]` , preferring the `bool` type. Default `None`.
 - `outputfile`(`str`): file name to save the calculated dynamics results
 
-######## Return:
+**Return**:
 - `results`(`pd.DataFrame`): Calculated dynamics results
 
-######## Example
+**Example**
 ```python
 ###calculate the particle-level condition, can alos be None
 condition=[]
@@ -186,26 +186,26 @@ $$
 $$
 which is essentially the same as the quantity $Q(t)$ as above, accounting for the slow or fast dynamics at the particle level. The calculation is done in the same way as above.
 
-######## Input Arguments:
+**Input Arguments**:
 -   `t` (`float`): characteristic time, typically peak time of $\chi_4(t)$, see self.relaxation()
 -   `qrange` (`float`): the wave number range to be calculated, default 10.0. It determines how many wavevector is involved in the computation.
 -   `condition` (`npt.NDArray`): particle-level condition / property, shape `[num_of_snapshots, num_of_particles]`. This supplements the fast or slow dynamics, for example, to calculate the slow dynamics of particles with type=1 will require this `condition` to be a `bool` type with `True` only for particle type of 1.
 -   `outputfile` (`str`): output filename for the calculated dynamical structure factor
 
-######## Return:
+**Return**:
 - `results`(`pd.DataFrame`): calculated dynamical structure factor
 
-######## Example:
+**Example**:
 ```python
 dynamic.sq4(t=10,qrange=10,condition=condition, outputfile="")
 ```
 
-###### 2. `LogDynamics()` class
+##### 2. `LogDynamics()` class
 This module is designed to calculate the dynamical properties of a trajectory as above but dumped in a log scale. It uses the 'log' style to output the atomic trajectory. Therefore, no ensemble-average is performed. The first configuration is the only one used to consider the particle neighbors and as the reference for calculating the dynamics.
 
 Ensemble average is absent compared to the above `Dynamics()` class!
 
-######## Input Arguments:
+**Input Arguments**:
 
 - `xu_snapshots`(`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
 - `x_snapshots`(`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
@@ -217,10 +217,10 @@ Ensemble average is absent compared to the above `Dynamics()` class!
 - `neighborfile`(`str`): neighbor list filename for coarse-graining, only provided when calculating (cage-)relative displacements.
 - `max_neighbors`(`int`): maximum of particle neighbors considered, default 30.
 
-######## Return:
+**Return**:
 - None
 
-######## Example:
+**Example**:
 
 ```python     
 from dynamic.dynamics import LogDynamics
@@ -256,15 +256,15 @@ log_dynamic = LogDynamics(xu_snapshots=input_xu.snapshots,
 ##### 2.1 `relaxation()`
 Compute the self-intermediate scattering functions ISF, overlap function Qt and set its corresponding dynamical susceptibility X4_Qt ($\chi_4(t)$) as 0, mean-square displacements msd, and non-Gaussion parameter $\alpha_2(t)$
 
-######## Input Arguments:
+**Input Arguments**:
 - `qconst`(`float`): the wavenumber factor for calculating self-intermediate scattering function. default $2\pi$, used internally as `qconst/diameters` to define the wavenumber for each particle. For example, if input `qconst=2PI` and `diamter=1.0` then the used wavenumber is `2PI/1.0`. This setting provides flexibility for polydisperse systems or considering dynamics differently for different particle types.
 - `condition`(`npt.NDArray`): particle-level selection with the shape `[num_of_snapshots, num_of_particles]` , preferring the `bool` type. Default `None`.
 - `outputfile`(`str`): file name to save the calculated dynamics results
 
-######## Return:
+**Return**:
 - `results`(`pd.DataFrame`): Calculated dynamics results
 
-######## Example:
+**Example**:
 ```python
 ###calculate the particle-level condition, can alos be None
 condition=[]
@@ -274,7 +274,7 @@ result = dynamic.relaxation(qconst=2*np.pi, condition=condition, outputfile="")
 ```
 
 
-###### 3. `time_correlation()`
+##### 3. `time_correlation()`
 
 Calculate the time correlation of the input property given by condition
 
@@ -283,17 +283,17 @@ There are three cases considered, given by the shape of condition:
 2. condition is float vector type, for example, velocity
 3. condition is float tensor type, for example, nematic order
 
-######## Input:
+##### Input:
 - `snapshots` (`read.reader_utils.snapshots`): multiple trajectories dumped linearly or in logscale
 - `condition` (`npt.NDArray`): particle-level condition / property, type should be float
                             shape: `[num_of_snapshots, num_of_particles, xxx]`
 - `dt` (`float`): time step of input snapshots, default 0.002
 - `outputfile` (`str`): output file name, default "" (None)
     
-######## Return:
+**Return**:
 - calculated time-correlation information in pandas dataframe
 
-######## Example:
+**Example**:
 ```python
 ###example for random scalar condition
 from dynamic.time_corr import time_correlation

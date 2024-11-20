@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Write LAMMPS dump/data format header" href="writer.html" /><link rel="prev" title="Welcome to py_Matters_Simulations’s documentation!" href="index.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>Reading Computer Simulations Snapshots - py_Matters_Simulations documentation</title>
+        <title>Reading Computer Simulations Snapshots - PyMatterSim documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">py_Matters_Simulations  documentation</div></a>
+      <a href="index.html"><div class="brand">PyMatterSim  documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -184,7 +184,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -196,7 +196,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">py_Matters_Simulations  documentation</span>
+  <span class="sidebar-brand-text">PyMatterSim  documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -214,13 +214,10 @@
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#vii-coarse-graining">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -255,7 +252,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -296,8 +293,7 @@
 </div>
 </li>
 </ol>
-<section id="input-arguments">
-<h2>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h2>
+<p><strong>Input Arguments</strong></p>
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">filename</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the name of dump file</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ndim</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): dimensionality</p></li>
@@ -313,9 +309,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">moltypes</span></code> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>, optional): only used for molecular system in LAMMPS so far, default is <code class="docutils literal notranslate"><span class="pre">None</span></code>. To specify, for example, if the system has 5 types of atoms in which 1-3 is one type of molecules and 4-5 is the other, and type 3 and 5 are the center of mass. Then <code class="docutils literal notranslate"><span class="pre">moltypes</span></code> should be <code class="docutils literal notranslate"><span class="pre">{3:1,</span> <span class="pre">5:2}</span></code>. The keys <code class="docutils literal notranslate"><span class="pre">[3,</span> <span class="pre">5]</span></code> of  <code class="docutils literal notranslate"><span class="pre">moltypes</span></code> are used to select specific atoms to present the corresponding molecules. The values <code class="docutils literal notranslate"><span class="pre">[1,</span> <span class="pre">2]</span></code> is used to record the type of molecules.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">columnsids</span></code> (<code class="docutils literal notranslate"><span class="pre">list</span></code>): only used to read addtional columns in LAMMPS dump, default <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p></li>
 </ol>
-</section>
-<section id="return">
-<h2>Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h2>
+<p><strong>Return</strong></p>
 <p>The input simulation box will be transformed to a list of ‘digital’ snapshot, by returning <code class="docutils literal notranslate"><span class="pre">snapshots</span></code> object. It is a list of <code class="docutils literal notranslate"><span class="pre">snapshot</span></code> that has all of the configuration information. <code class="docutils literal notranslate"><span class="pre">snapshots</span></code> and <code class="docutils literal notranslate"><span class="pre">snapshot</span></code> are two data class defined in <code class="docutils literal notranslate"><span class="pre">reader.reader_utils</span></code>.  <code class="docutils literal notranslate"><span class="pre">snapshot</span></code> consists:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots[n].timestep</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): simulation timestep at each snapshot</p></li>
@@ -328,9 +322,7 @@
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots[n].hmatrix</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): h-matrix of the cells in each snapshot</p></li>
 </ul>
 <p>The information is stored in a list of which the elements are mainly numpy arrays. Particle-level information is referred by particle ID.</p>
-</section>
-<section id="important-notes">
-<h2>Important Notes<a class="headerlink" href="#important-notes" title="Link to this heading">¶</a></h2>
+<p><strong>Important Notes</strong></p>
 <ol class="arabic simple">
 <li><p>In LAMMPS, <em><strong>x</strong></em>, <em><strong>xs</strong></em>, and <em><strong>xu</strong></em> format coordinates are acceptable. Such as with format The reduced <em><strong>xs</strong></em> will be rescaled to the absolute coordinates <em><strong>x</strong></em>.</p></li>
 <li><p>For the <em><strong>xs</strong></em> and <em><strong>x</strong></em> types in orthogonal cells with periodic boundary conditions, particle coordinates are <strong>NOT</strong> warpped to the inside of the box by default, which could be changed by hand when necessary. In non-periodic boundary conditions, there should be no particles at the outside of the cell.</p></li>
@@ -338,9 +330,7 @@
 <li><p>In Hoomd-blue, GSD and DCD files are acceptable. GSD file has all the information with periodic boundary conditions, while DCD has the unwarpped coordinates. GSD file has all the information with periodic boundary conditions, while DCD only has the particle positions. Normally only GSD file is needed . But if one wants to analyze the dynamical properties, the DCD file should be dumped accompanying the GSD file to get the unwarp coordinates. More specifically, all the information about the trajectory will be obtained from the GSD file except the particle positions which will be obtained from the DCD file. Therefore, the DCD and GSD files shall be dumped with the same period or concurrently. Another important point in this case is the file name of GSD and DCD. They should share the same name with the only difference of the last three string, ie. ‘GSD ’or ‘DCD’. For example, if the file name of GSD is <em><strong>dumpfile.GSD</strong></em> then the DCD file name must be <em><strong>dumpfile.DCD</strong></em>. To read the Hoomd-blue outputs, two new modules should be installed first: i) GSD; ii) mdtraj. These modules are available by conda.</p></li>
 <li><p>The addtional columns are now readable from <code class="docutils literal notranslate"><span class="pre">DumpFileType.LAMMPSVECTOR</span></code> by specifying the column ids.</p></li>
 </ol>
-</section>
-<section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<p><strong>Example</strong></p>
 <p>Some dump files are provided in <code class="docutils literal notranslate"><span class="pre">tests/sample_test_data</span></code>.</p>
 <ul>
 <li><p>Call <code class="docutils literal notranslate"><span class="pre">dump_reader</span></code> and specify <code class="docutils literal notranslate"><span class="pre">filetype</span></code>:</p>
@@ -413,7 +403,6 @@
 </li>
 </ul>
 </section>
-</section>
 
         </article>
       </div>
@@ -458,30 +447,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Reading Computer Simulations Snapshots</a><ul>
-<li><a class="reference internal" href="#input-arguments">Input Arguments</a></li>
-<li><a class="reference internal" href="#return">Return</a></li>
-<li><a class="reference internal" href="#important-notes">Important Notes</a></li>
-<li><a class="reference internal" href="#example">Example</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>

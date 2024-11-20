@@ -83,9 +83,9 @@ In these calculations, one important input is the neighbor list of each particle
 Note that this module accounts for both orthogonal and triclinic cells.
 
 
-###### 1. `boo_3d` class
+##### 1. `boo_3d` class
 
-##### Input Arguments
+**Input Arguments**
 
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
 - `l` (`int`): degree of spherical harmonics
@@ -95,10 +95,10 @@ Note that this module accounts for both orthogonal and triclinic cells.
 - `ppp` (`npt.NDArray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([1,1,1])`,
 - `Nmax` (`int`): maximum number for neighbors, default 30
 
-##### Return:
+**Return**:
 - None
 
-##### Example
+**Example**
 ```python
 from reader.dump_reader import DumpReader
 from reader.reader_utils import DumpFileType
@@ -116,81 +116,81 @@ boo = boo_3d(readdump.snapshots,
              weightsfile='test.facearea.dat')
 ```
 
-###### 2. `qlm_Qlm()`
+##### 2. `qlm_Qlm()`
 `qlm_Qlm()` method gives $q_{lm}$ and $Q_{lm}$ values of different particles in complex vectors as numpy array. The results in
 different snapshots are stored in an array for each of them, separately. Both of them are returned as ($q_{lm}$, $Q_{lm}$). Note that this method will be called automatically when initiallizing the `boo_3d()` class.
 
-##### Input Arguments
+**Input Arguments**
 - None
 
-##### Return
+**Return**
 - `smallqlm` (`npt.NDArray`): $q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
 - `largeQlm` (`npt.NDArray`): $Q_{lm}$ in vector complex number, in numpy array with shape `[nsnapshots, nparticle, 2l+1]`
 
 
-##### Example
+**Example**
 ```python
 qlm, Qlm = boo.qlm_Qlm()
 ```
 
-###### 3. `ql_Ql()`
+##### 3. `ql_Ql()`
 `ql_Ql()` method calculates $q_l$ (local) or $Q_l$ (coarse-grained).
 
-##### Input Arguments
+**Input Arguments**
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
 - `outputfile` (`str`): file name for $q_l$ or $Q_l$ results, default `None`. To reduce storage size and ensure loading speed, save npy file as default with extension ".npy". If the file extension is ".dat" or ".txt", also saved a text file.
 
-##### Return
+**Return**
 - calculated $q_l$ or $Q_l$ in `npt.NDArray` with shape `[nsnapshots, nparticle]`
 
-##### Example
+**Example**
 ```python
 Ql = boo.ql_Ql(coarse_graining=True, outputfile='./results/Ql.npy')
 ```
 
-###### 4. `sij_ql_Ql()`
+##### 4. `sij_ql_Ql()`
 `sij_ql_Ql()` method calculates the orientation correlation of $q_{lm}$ or $Q_{lm}$, named as $s_{ij}$ or $S_{ij}$. 
 
-##### Input Arguments
+**Input Arguments**
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
 - `c` (`float`): cutoff defining bond property, such as solid or not, default 0.7
 - `outputqlQl` (`str`): csv file name of $q_l$ or $Q_l$, default `None`
 - `outputsij` (`str`): txt file name for $s_{ij}$ of $q_l$ or $Q_l$, default `None`
 
-##### Return
+**Return**
 - calculated $s_{ij}$ or $S_{ij}$ in `npt.NDArray` with shape `[nsnapshots*nparticle, 2+max_neighbors]`, where `max_neighbors` is the maximum number of neighbors and the first two columns are particle index and coordination number. The returned result is also stored in `outputsij` file for each pair
 
 In `outputqlQl` file, the first column is particle index, the second is the sum of $s_{ij}$, and third one is number of neighbors.
 
 `outputsij` file stores the $s_{ij}$ value of each particle with each of its neighbors. Results in different snapshots are written in sequence, with one header "id cn sij".
 
-##### Example
+**Example**
 ```python
 sij_Ql = boo.sij_ql_Ql(coarse_graining=True, 
                        outputqlQl='sum_sij.csv',
                        outputsij='sij_Ql.dat')
 ```
 
-###### 5. `w_W_cap()`
+##### 5. `w_W_cap()`
 `w_W_cap()` calculates the Wigner 3-j symbol boo based on qlm or Qlm.
 
-##### Input Arguments
+**Input Arguments**
 - `coarse_graining` (`bool`): whether use coarse-grained $Q_{lm}$ or local $q_{lm}$, default `False`
 - `outputw` (`str`): txt file name for w (original) based on $q_{lm}$ or $Q_{lm}$, default `None`
 - `outputwcap` (`str`): file name for wcap (normalized) based on qlm or Qlm, default None. To reduce storage size and ensure loading speed, save npy file as default with extension ".npy". If the file extension is ".dat" or ".txt", also saved a text file.
 
-##### Return
+**Return**
 - `w_W` (`np.adarray`), calculated $w$ or $W$ with shape `[nsnapshots, nparticle]`
 - `w_W_cap` (`np.adarray`), calculated $w_{cap}$ or $W_{cap}$ with shape `[nsnapshots, nparticle]`
 
-##### Example
+**Example**
 ```python
 W, W_cap = boo.w_W_cap(coarse_graining=True, 
                        outputw='W.dat',
                        outputwcap='W_cap.npy')
 ```
 
-###### 6. `spatial_corr()`
+##### 6. `spatial_corr()`
 `spatial_corr()` method calculates spatial correlation function of $q_{lm}$ or $Q_{lm}$
 
 ##### Inputs
@@ -198,12 +198,12 @@ W, W_cap = boo.w_W_cap(coarse_graining=True,
 - `rdelta` (`float`): bin size in calculating g(r) and Gl(r), default 0.01
 - `outputfile` (`str`): csv file name for $g_l$, default `None`
   
-##### Example
+**Example**
 ```python
 Gl_Q = boo.spatial_corr(coarse_graining=True, outputfile='Gl_Q.csv')
 ```
 
-###### 7. `time_corr()`
+##### 7. `time_corr()`
 `time_corr()` method calculates time correlation of $q_{lm}$ or $Q_{lm}$
 
 ##### Inputs
@@ -211,7 +211,7 @@ Gl_Q = boo.spatial_corr(coarse_graining=True, outputfile='Gl_Q.csv')
 - `dt` (`float`): timestep used in user simulations, default 0.002
 - `outputfile` (`str`): csv file name for time correlation results, default `None`
 
-##### Example
+**Example**
 ```python
 Gl_time = boo.time_corr(coarse_graining=True, outputfile='Gl_time.csv')
 ```

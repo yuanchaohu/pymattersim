@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'py_Matters_Simulations'
+project = 'PyMatterSim'
 copyright = '2024, Yuan-Chao Hu'
 author = 'Yuan-Chao Hu'
 

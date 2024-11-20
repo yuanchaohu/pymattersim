@@ -6,7 +6,7 @@
 <link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Neighbors" href="neighbors.html" /><link rel="prev" title="Reading Computer Simulations Snapshots" href="reader.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
-        <title>Write LAMMPS dump/data format header - py_Matters_Simulations documentation</title>
+        <title>Write LAMMPS dump/data format header - PyMatterSim documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=354aac6f" />
     <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=302659d7" />
@@ -172,7 +172,7 @@
       </label>
     </div>
     <div class="header-center">
-      <a href="index.html"><div class="brand">py_Matters_Simulations  documentation</div></a>
+      <a href="index.html"><div class="brand">PyMatterSim  documentation</div></a>
     </div>
     <div class="header-right">
       <div class="theme-toggle-container theme-toggle-header">
@@ -184,7 +184,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -196,7 +196,7 @@
       <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
   
   
-  <span class="sidebar-brand-text">py_Matters_Simulations  documentation</span>
+  <span class="sidebar-brand-text">PyMatterSim  documentation</span>
   
 </a><form class="sidebar-search-container" method="get" action="search.html" role="search">
   <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
@@ -214,13 +214,10 @@
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#vii-coarse-graining">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -255,7 +252,7 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
@@ -264,8 +261,7 @@
           <section id="write-lammps-dump-data-format-header">
 <h1>Write LAMMPS dump/data format header<a class="headerlink" href="#write-lammps-dump-data-format-header" title="Link to this heading">¶</a></h1>
 <p>This module is used to write the header of lammps dump and data files for conveniently rewriting snapshots.</p>
-<section id="input-arguments">
-<h2>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h2>
+<p><strong>Input Arguments</strong></p>
 <ol class="arabic simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">writer.lammps_writer.write_dump_header</span></code> writes the header of lammps dump file:</p>
 <ul class="simple">
@@ -283,13 +279,9 @@
 </ul>
 </li>
 </ol>
-</section>
-<section id="return">
-<h2>Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h2>
+<p><strong>Return</strong></p>
 <p>A string for the header will be returned.</p>
-</section>
-<section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<p><strong>Example</strong></p>
 <ul>
 <li><p>Write the header of lammps dump file:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">writer.lammps_writer</span> <span class="kn">import</span> <span class="n">write_dump_header</span>
@@ -306,7 +298,6 @@
 </div>
 </li>
 </ul>
-</section>
 </section>
 
         </article>
@@ -352,29 +343,8 @@
         
       </footer>
     </div>
-    <aside class="toc-drawer">
+    <aside class="toc-drawer no-toc">
       
-      
-      <div class="toc-sticky toc-scroll">
-        <div class="toc-title-container">
-          <span class="toc-title">
-            On this page
-          </span>
-        </div>
-        <div class="toc-tree-container">
-          <div class="toc-tree">
-            <ul>
-<li><a class="reference internal" href="#">Write LAMMPS dump/data format header</a><ul>
-<li><a class="reference internal" href="#input-arguments">Input Arguments</a></li>
-<li><a class="reference internal" href="#return">Return</a></li>
-<li><a class="reference internal" href="#example">Example</a></li>
-</ul>
-</li>
-</ul>
-
-          </div>
-        </div>
-      </div>
       
       
     </aside>
