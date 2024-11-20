@@ -10,13 +10,7 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/yuanchaohu/pymattersim",
     packages=find_packages(),  # Automatically discover packages
-    install_requires=[
-        "numpy==1.26.0",
-        "pandas==2.1.1",
-        "freud-analysis==3.1.0",
-        "scipy==1.11.4",
-        "sympy",
-    ],
+    install_requires=[i.strip("\n") for i in open("requirements.txt").readlines()],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: MIT License",
