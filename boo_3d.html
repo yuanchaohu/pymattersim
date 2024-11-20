@@ -91,9 +91,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#sij-ql-ql">4. <code class="docutils literal notranslate"><span class="pre">sij_ql_Ql()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#w-w-cap">5. <code class="docutils literal notranslate"><span class="pre">w_W_cap()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#spatial-corr">6. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#inputs">Inputs</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#time-corr">7. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="#id1">Inputs</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a><ul>
@@ -134,7 +132,6 @@
 <li class="toctree-l2"><a class="reference internal" href="dynamics.html#logdynamics-class">2. <code class="docutils literal notranslate"><span class="pre">LogDynamics()</span></code> class</a></li>
 <li class="toctree-l2"><a class="reference internal" href="dynamics.html#id1">2.1 <code class="docutils literal notranslate"><span class="pre">relaxation()</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="dynamics.html#time-correlation">3. <code class="docutils literal notranslate"><span class="pre">time_correlation()</span></code></a></li>
-<li class="toctree-l2"><a class="reference internal" href="dynamics.html#input">Input:</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a><ul>
@@ -430,9 +427,7 @@ different snapshots are stored in an array for each of them, separately. Both of
 <section id="spatial-corr">
 <h2>6. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code><a class="headerlink" href="#spatial-corr" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code> method calculates spatial correlation function of <span class="math notranslate nohighlight">\(q_{lm}\)</span> or <span class="math notranslate nohighlight">\(Q_{lm}\)</span></p>
-</section>
-<section id="inputs">
-<h2>Inputs<a class="headerlink" href="#inputs" title="Link to this heading"></a></h2>
+<p><strong>Input Arguments</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">coarse_graining</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether use coarse-grained <span class="math notranslate nohighlight">\(Q_{lm}\)</span> or local <span class="math notranslate nohighlight">\(q_{lm}\)</span>, default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">rdelta</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): bin size in calculating g(r) and Gl(r), default 0.01</p></li>
@@ -446,9 +441,7 @@ different snapshots are stored in an array for each of them, separately. Both of
 <section id="time-corr">
 <h2>7. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code><a class="headerlink" href="#time-corr" title="Link to this heading"></a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">time_corr()</span></code> method calculates time correlation of <span class="math notranslate nohighlight">\(q_{lm}\)</span> or <span class="math notranslate nohighlight">\(Q_{lm}\)</span></p>
-</section>
-<section id="id1">
-<h2>Inputs<a class="headerlink" href="#id1" title="Link to this heading"></a></h2>
+<p><strong>Input Arguments</strong></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">coarse_graining</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether use coarse-grained <span class="math notranslate nohighlight">\(Q_{lm}\)</span> or local <span class="math notranslate nohighlight">\(q_{lm}\)</span>, default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): timestep used in user simulations, default 0.002</p></li>

@@ -283,7 +283,7 @@ There are three cases considered, given by the shape of condition:
 2. condition is float vector type, for example, velocity
 3. condition is float tensor type, for example, nematic order
 
-##### Input:
+**Input Arguments**
 - `snapshots` (`read.reader_utils.snapshots`): multiple trajectories dumped linearly or in logscale
 - `condition` (`npt.NDArray`): particle-level condition / property, type should be float
                             shape: `[num_of_snapshots, num_of_particles, xxx]`
