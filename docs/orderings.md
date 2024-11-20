@@ -196,7 +196,11 @@ Q_{\rm CG}(i) = \frac{1}{1+N_i} \left( Q_{\alpha \beta}^i + \sum_{j}^{N_i} Q_{\a
 $$
 where $N_i$ is the number of neighbors of particle $i$. Thus, the particle-level scalar order parameters are calculated as:
 - $S_i$: calculated as the twice of the largest eigenvalue of $Q^i$ or $Q^i_{\rm CG}$. This calculation can be quite slow. An equivalent (equal) parameter Hi can be calculated as $H_i$.
-- $H_i$: $H_i = \sqrt{{\rm Tr}[Q^i \cdot Q^i] \cdot \frac{d}{d-1}}$ or the coarse-grained version accordingly for $Q^i_{\rm CG}$.
+- $H_i$: 
+$$
+H_i = \sqrt{{\rm Tr}[Q^i \cdot Q^i] \cdot \frac{d}{d-1}}
+$$
+or the coarse-grained version accordingly for $Q^i_{\rm CG}$.
 
 The time correlation and spatial correlation of $Q^i$ or $Q^i_{\rm CG}$ are also calculated by the module.
 - Time correlation: $C_{\rm Q}(t) = \langle Q(0) Q(t) \rangle$
