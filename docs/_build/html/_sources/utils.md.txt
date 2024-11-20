@@ -17,7 +17,7 @@ mathmatical functions for feasible computations
 
 **Example**
 ```python
-from utils import funcs
+from PyMatterSim.utils import funcs
 
 funcs.nidealfac(ndim=3)
 ```
@@ -35,7 +35,7 @@ funcs.nidealfac(ndim=3)
 
 **Example**
 ```python
-from utils import funcs
+from PyMatterSim.utils import funcs
 funcs.moment_of_inertia(positions, m=1, matrix=False)
 ```
 
@@ -54,7 +54,7 @@ The module `utils.pbc()` removes periodic boundary conditions (PBC).
 
 **Example**
 ```python
-from utils.pbc import remove_pbc
+from PyMatterSim.utils.pbc import remove_pbc
 
 remove_pbc(RIJ, hmatrix, ppp=np.array([1, 1, 1]))
 ```
@@ -76,7 +76,7 @@ remove_pbc(RIJ, hmatrix, ppp=np.array([1, 1, 1]))
 
 **Example**
 ```python
-from utils import geometry
+from PyMatterSim.utils import geometry
 
 geometry.triangle_area(positions, hmatrix, ppp)
 ```
@@ -93,7 +93,7 @@ geometry.triangle_area(positions, hmatrix, ppp)
 
 **Example**
 ```python
-from utils import geometry
+from PyMatterSim.utils import geometry
 
 geometry.triangle_angle(a=3, b=4, c=5)
 ```
@@ -117,7 +117,7 @@ geometry.triangle_angle(a=3, b=4, c=5)
 
 **Example**
 ```python
-from utils import geometry
+from PyMatterSim.utils import geometry
 
 geometry.lines_intersection(P1=np.array([0, 0]),
                             P2=np.array([1, 1]),
@@ -139,7 +139,7 @@ geometry.lines_intersection(P1=np.array([0, 0]),
 
 **Example**
 ```python
-from utils import wavevector
+from PyMatterSim.utils import wavevector
 wavevector.wavevector3d(numofq=100)
 ```
 
@@ -154,7 +154,7 @@ wavevector.wavevector3d(numofq=100)
 
 **Example**
 ```python
-from utils import wavevector
+from PyMatterSim.utils import wavevector
 wavevector.wavevector2d(numofq=100)
 ```
 
@@ -172,7 +172,7 @@ as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ 
 
 **Example**
 ```python
-from utils import wavevector
+from PyMatterSim.utils import wavevector
 wavevector.choosewavevector(ndim=3, numofq=100, onlypositive=False)
 ```
 
@@ -196,7 +196,7 @@ as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ 
 
 **Example**
 ```python
-from utils import wavevector
+from PyMatterSim.utils import wavevector
 wavevector.continuousvector(ndim=3, numofq=100, onlypositive=False)
 ```
 
@@ -214,7 +214,7 @@ wavevector.continuousvector(ndim=3, numofq=100, onlypositive=False)
 
 **Example**
 ```python
-from utils import fft
+from PyMatterSim.utils import fft
 fft.Filon_COS(C, t, a, outputfile)
 ```
 
@@ -235,7 +235,7 @@ fft.Filon_COS(C, t, a, outputfile)
 
 **Example**
 ```python
-from utils import spherical_harmonics
+from PyMatterSim.utils import spherical_harmonics
 
 spherical_harmonics.SphHarm4(theta=60*np.pi/180, phi=30*np.pi/180)
 
@@ -263,7 +263,7 @@ Calculate time average of the input property over a certain time window
 
 **Example**
 ```python
-from utils.coarse_graining import time_average
+from PyMatterSim.utils.coarse_graining import time_average
 
 time_average(snapshots, input_property, time_period, dt)
 ```
@@ -285,8 +285,8 @@ Calculate spatial average of the input property over a certain distance, which i
 **Example**
 ```python
 import numpy as np
-from reader.dump_reader import DumpReader
-from utils.coarse_graining import spatial_average 
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.utils.coarse_graining import spatial_average 
 
 test_file = "test.atom"
 readdump = DumpReader(test_file, ndim=2)
@@ -321,8 +321,8 @@ in which $\vec{r_j}$ is the position of the $j_{th}$ grid, and $\vec{r_i}$ is th
 **Example**
 ```python
 import numpy as np
-from reader.dump_reader import DumpReader
-from utils.coarse_graining import gaussian_blurring
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.utils.coarse_graining import gaussian_blurring
 
 test_file = "test.atom"
 readdump = DumpReader(test_file, ndim=2)

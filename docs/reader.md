@@ -77,8 +77,8 @@ Some dump files are provided in `tests/sample_test_data`.
 - Call `dump_reader` and specify `filetype`:
 
   ```python
-  from reader.dump_reader import DumpReader
-  from reader.reader_utils import DumpFileType
+  from PyMatterSim.reader.dump_reader import DumpReader
+  from PyMatterSim.reader.reader_utils import DumpFileType
   
   readdump=DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS)
   readdump.read_onefile()
@@ -117,7 +117,7 @@ Some dump files are provided in `tests/sample_test_data`.
 - The user can also directly call the wrapper functions, such as,
 
   ```python
-  from reader.lammps_reader_helper import read_lammps_wrapper
+  from PyMatterSim.reader.lammps_reader_helper import read_lammps_wrapper
   
   snapshots = read_lammps_wrapper(filename, ndim=3)
   
@@ -131,7 +131,7 @@ Some dump files are provided in `tests/sample_test_data`.
 - The `reader.lammps_reader_helper.read_additions` can read additional columns in the lammps dump file. `ncol` (`int`): specifying the column number starting from 0 (zero-based). `read_additions` returns a numpy array as shape [nsnapshots, nparticle] in float. For example, read ***order*** from ***id type x y z order***. This is used to read only one column at a time from a dump file.
 
   ```python
-  from reader.lammps_reader_helper import read_additions
+  from PyMatterSim.reader.lammps_reader_helper import read_additions
   
   ### ncol starts in python style, i.e. from 0
   dumpfile ='./tests/sample_test_data/test_additional_columns.dump'
@@ -141,7 +141,7 @@ Some dump files are provided in `tests/sample_test_data`.
 - The `reader.simulation_log.read_lammpslog` can extract the thermodynamic quantities from lammps log file, input with `filename` (`str`) lammps log file name, and return list of pandas `DataFrame` for each logging section:
 
   ```python
-  from reader.simulation_log import read_lammpslog
+  from PyMatterSim.reader.simulation_log import read_lammpslog
   
   read_lammpslog(filename)
   ```

@@ -27,10 +27,10 @@ in which $j$ is the center particle and $i$ is its neighbor.
 
 **Example**
 ```python
-from dynamic.dynamics import cage_relative
-from neighbors.read_neighbors import read_neighbors
-from neighbors.calculate_neighbors import Nnearests
-from reader.dump_reader import DumpReader
+from PyMatterSim.dynamic.dynamics import cage_relative
+from PyMatterSim.neighbors.read_neighbors import read_neighbors
+from PyMatterSim.neighbors.calculate_neighbors import Nnearests
+from PyMatterSim.reader.dump_reader import DumpReader
 import numpy as np
 
 ###here is a example of how it works, it used within Dynamics and LogDynamics class
@@ -87,9 +87,9 @@ The functions are listed below.
 **Example**:
 
 ```python
-from dynamic.dynamics import Dynamics
-from neighbors.calculate_neighbors import Nnearests
-from reader.dump_reader import DumpReader
+from PyMatterSim.dynamic.dynamics import Dynamics
+from PyMatterSim.neighbors.calculate_neighbors import Nnearests
+from PyMatterSim.reader.dump_reader import DumpReader
 
 ### example for 2d dump
 ### read the dump file
@@ -223,9 +223,9 @@ Ensemble average is absent compared to the above `Dynamics()` class!
 **Example**:
 
 ```python     
-from dynamic.dynamics import LogDynamics
-from neighbors.calculate_neighbors import Nnearests
-from reader.dump_reader import DumpReader
+from PyMatterSim.dynamic.dynamics import LogDynamics
+from PyMatterSim.neighbors.calculate_neighbors import Nnearests
+from PyMatterSim.reader.dump_reader import DumpReader
 
 ### example for 2d dump
 ### read the dump file
@@ -296,7 +296,7 @@ There are three cases considered, given by the shape of condition:
 **Example**:
 ```python
 ###example for random scalar condition
-from dynamic.time_corr import time_correlation
+from PyMatterSim.dynamic.time_corr import time_correlation
 readdump = DumpReader(test_file, ndim=2)
 readdump.read_onefile()
 condition = np.random.rand(readdump.snapshots.nsnapshots, readdump.snapshots.snapshots[0].positions)

@@ -306,8 +306,8 @@
 <p>Some dump files are provided in <code class="docutils literal notranslate"><span class="pre">tests/sample_test_data</span></code>.</p>
 <ul>
 <li><p>Call <code class="docutils literal notranslate"><span class="pre">dump_reader</span></code> and specify <code class="docutils literal notranslate"><span class="pre">filetype</span></code>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
 
 <span class="n">readdump</span><span class="o">=</span><span class="n">DumpReader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="n">DumpFileType</span><span class="o">.</span><span class="n">LAMMPS</span><span class="p">)</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
@@ -345,7 +345,7 @@
 </div>
 </li>
 <li><p>The user can also directly call the wrapper functions, such as,</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.lammps_reader_helper</span> <span class="kn">import</span> <span class="n">read_lammps_wrapper</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.reader.lammps_reader_helper</span> <span class="kn">import</span> <span class="n">read_lammps_wrapper</span>
 
 <span class="n">snapshots</span> <span class="o">=</span> <span class="n">read_lammps_wrapper</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
@@ -358,7 +358,7 @@
 </div>
 </li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">reader.lammps_reader_helper.read_additions</span></code> can read additional columns in the lammps dump file. <code class="docutils literal notranslate"><span class="pre">ncol</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): specifying the column number starting from 0 (zero-based). <code class="docutils literal notranslate"><span class="pre">read_additions</span></code> returns a numpy array as shape [nsnapshots, nparticle] in float. For example, read <em><strong>order</strong></em> from <em><strong>id type x y z order</strong></em>. This is used to read only one column at a time from a dump file.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.lammps_reader_helper</span> <span class="kn">import</span> <span class="n">read_additions</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.reader.lammps_reader_helper</span> <span class="kn">import</span> <span class="n">read_additions</span>
 
 <span class="c1">### ncol starts in python style, i.e. from 0</span>
 <span class="n">dumpfile</span> <span class="o">=</span><span class="s1">&#39;./tests/sample_test_data/test_additional_columns.dump&#39;</span>
@@ -367,7 +367,7 @@
 </div>
 </li>
 <li><p>The <code class="docutils literal notranslate"><span class="pre">reader.simulation_log.read_lammpslog</span></code> can extract the thermodynamic quantities from lammps log file, input with <code class="docutils literal notranslate"><span class="pre">filename</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) lammps log file name, and return list of pandas <code class="docutils literal notranslate"><span class="pre">DataFrame</span></code> for each logging section:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.simulation_log</span> <span class="kn">import</span> <span class="n">read_lammpslog</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.reader.simulation_log</span> <span class="kn">import</span> <span class="n">read_lammpslog</span>
 
 <span class="n">read_lammpslog</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>

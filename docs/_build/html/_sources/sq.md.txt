@@ -51,9 +51,9 @@ In addition, we design `static.sq.conditional_sq` to calculate the structure fac
 **Example**
 
 ```python
-from reader.dump_reader import DumpReader
-from reader.reader_utils import DumpFileType
-from static.sq import sq
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.reader.reader_utils import DumpFileType
+from PyMatterSim.static.sq import sq
 
 filename = 'dump.atom'
 readdump = DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS, moltypes=None)
@@ -93,8 +93,8 @@ Note that this calculation is only for single snapshot.
 
 **Example**
 ```python
-from static.sq import conditional_sq
-from utils.wavevector import choosewavevector
+from PyMatterSim.static.sq import conditional_sq
+from PyMatterSim.utils.wavevector import choosewavevector
 
 qrange = 10.0
 for snapshot in readdump.snapshots.snapshots:

@@ -160,8 +160,8 @@ This class calculates the hessian matrix of the simulation configuration and dia
 **Example**
 ```python
 import numpy as np 
-from static.hessians import  HessianMatrix, InteractionParams, ModelName
-from reader.dump_reader import DumpReader
+from PyMatterSim.static.hessians import  HessianMatrix, InteractionParams, ModelName
+from PyMatterSim.reader.dump_reader import DumpReader
 
 ### inverse-power law potential model in 2D
 dumpfile = "test.atom"

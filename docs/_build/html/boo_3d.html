@@ -328,10 +328,10 @@ one typical example is Voronoi face area of the polyhedron; this file should be 
 <li><p>None</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
-<span class="kn">from</span> <span class="nn">neighbors.voropp_neighbors</span> <span class="kn">import</span> <span class="n">cal_voro</span>
-<span class="kn">from</span> <span class="nn">static.boo</span> <span class="kn">import</span> <span class="n">boo_3d</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.neighbors.voropp_neighbors</span> <span class="kn">import</span> <span class="n">cal_voro</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.static.boo</span> <span class="kn">import</span> <span class="n">boo_3d</span>
 
 <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;dump.atom&#39;</span>
 <span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="n">DumpFileType</span><span class="o">.</span><span class="n">LAMMPS</span><span class="p">,</span> <span class="n">moltypes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>

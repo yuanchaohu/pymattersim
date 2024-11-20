@@ -99,10 +99,10 @@ Note that this module accounts for both orthogonal and triclinic cells.
 
 **Example**
 ```python
-from reader.dump_reader import DumpReader
-from reader.reader_utils import DumpFileType
-from neighbors.voropp_neighbors import cal_voro
-from static.boo import boo_3d
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.reader.reader_utils import DumpFileType
+from PyMatterSim.neighbors.voropp_neighbors import cal_voro
+from PyMatterSim.static.boo import boo_3d
 
 filename = 'dump.atom'
 readdump = DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS, moltypes=None)

@@ -20,9 +20,9 @@ where $e_{i,n}$ is the eigenvector of particle $i$ in mode $n$. $N$ is the parti
 **Example**
 ```python
 import numpy as np
-from reader.dump_reader import DumpReader
-from reader.reader_utils import DumpFileType
-from static.vector import participation_ratio
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.reader.reader_utils import DumpFileType
+from PyMatterSim.static.vector import participation_ratio
 
 test_file = "test.atom"
 Readdump =DumpReader(test_file, ndim=2,filetype=DumpFileType.LAMMPSVECTOR,columnsids=[5,6])
@@ -48,10 +48,10 @@ where ${\vec e_i}$ is the eigenvector of particle $i$ and ${CN_i}$ is the number
 **Example**
 ```python
 import numpy as np
-from reader.dump_reader import DumpReader
-from reader.reader_utils import DumpFileType
-from static.vector import local_vector_alignment
-from neighbors.calculate_neighbors import Nnearests
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.reader.reader_utils import DumpFileType
+from PyMatterSim.static.vector import local_vector_alignment
+from PyMatterSim.neighbors.calculate_neighbors import Nnearests
 
 
 test_file = "test.atom"
@@ -86,9 +86,9 @@ where $i$ and $j$ are atom indices, $N$ is the total atom number, ${CN_i}$ is th
 **Example**
 ```python
 import numpy as np
-from reader.dump_reader import DumpReader
-from static.vector import phase_quotient
-from neighbors.calculate_neighbors import Nnearests
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.vector import phase_quotient
+from PyMatterSim.neighbors.calculate_neighbors import Nnearests
 
 test_file = "test.atom"
 input_vp =DumpReader(test_file, ndim=2)
@@ -125,9 +125,9 @@ in which $\vec R_i$ is the position vector of atom $i$, $\vec u_i$ is the vector
 **Example**
 ```python
 import numpy as np
-from reader.dump_reader import DumpReader
-from static.vector import divergence_curl
-from neighbors.calculate_neighbors import Nnearests
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.vector import divergence_curl
+from PyMatterSim.neighbors.calculate_neighbors import Nnearests
 
 test_file = "test.atom"
 input_vp =DumpReader(test_file, ndim=2)
@@ -161,8 +161,8 @@ where $\omega_l^2$ is the eigenvalue of the lth mode, while ${\vec e}_{l, i}$ is
 **Example**
 ```python
 import numpy as np
-from reader.dump_reader import DumpReader
-from static.vector import vibrability
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.vector import vibrability
 
 ###example for 10x10 matrix
 a = np.array([[2, 3, 4, 1, 3, 3, 2, 2, 2, 2],
@@ -237,9 +237,9 @@ This new method is utilized in the calculation. Basically, the vector field is f
 **Example**
 ```python
 import numpy as np
-from reader.dump_reader import DumpReader
-from static.vector import vector_decomposition_sq
-from utils.wavevector import choosewavevector
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.vector import vector_decomposition_sq
+from PyMatterSim.utils.wavevector import choosewavevector
 
 test_file = "test.atom"
 
@@ -298,9 +298,9 @@ where $\alpha$ represents longitudinal ($L$) or transverse ($T$) current.
 **Example**
 ```python
 import numpy as np
-from reader.dump_reader import DumpReader
-from static.vector import vector_fft_corr
-from utils.wavevector import choosewavevector
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.vector import vector_fft_corr
+from PyMatterSim.utils.wavevector import choosewavevector
 
 test_file = "test.atom"
 input_vp =DumpReader(test_file, ndim=2)
