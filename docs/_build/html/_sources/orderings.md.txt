@@ -199,8 +199,8 @@ where $N_i$ is the number of neighbors of particle $i$. Thus, the particle-level
 - $H_i$: $H_i = \sqrt{Tr[Q^i \cdot Q^i] \cdot \frac{d}{d-1}}$ or the coarse-grained version accordingly for $Q^i_{\rm CG}$.
 
 The time correlation and spatial correlation of $Q^i$ or $Q^i_{\rm CG}$ are also calculated by the module.
-- Time correlation: $C_{\rm Q}(t) = \left<le Q(0) Q(t) \right>le$
-- Spatial correlation: $g_{\rm Q}(t) = \left<le Q(0) Q(r) \right>le$
+- Time correlation: $C_{\rm Q}(t) = \left< Q(0) Q(t) \right>$
+- Spatial correlation: $g_{\rm Q}(t) = \left< Q(0) Q(r) \right>$
 
 Currently, the module only supports the calcualtion of two-dimensional systems.
 
