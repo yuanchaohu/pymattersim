@@ -7,7 +7,7 @@ Welcome to Python for Matters Simulations documentation!
 ==================================================
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 2
    :caption: Contents:
 
    reader.md
