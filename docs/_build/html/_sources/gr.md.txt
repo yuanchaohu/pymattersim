@@ -1,4 +1,4 @@
-# Pair Correlation Function
+### Pair Correlation Function
 
 The module `static.gr.gr` calculates the overall and partial pair correlation functions (PCF) $g(r)$ in orthogonal and triclinic cells at various dimensional systems. This module is suitable for multi-component systems, from unary to quinary.  The overall $g(r)$ is defined as:
 
@@ -27,9 +27,9 @@ $$
 
 The spatial correlation function of particle-level quantity $A_i$ is $g_A(r) / g(r)$.
 
-## 1. `gr` class
+###### 1. `gr` class
 
-#### Input Arguments
+######## Input Arguments
 - `snapshots` (`reader.reader_utils.Snapshots`): `Snapshots` data class returned by `reader.dump_reader.DumpReader` from input configuration file
 - `ppp` (`npt.NDArray`): the periodic boundary conditions, setting 1 for yes and 0 for no.
   
@@ -37,7 +37,7 @@ The spatial correlation function of particle-level quantity $A_i$ is $g_A(r) / g
 - `rdelta` (`float`): bin size calculating g(r), default 0.01
 - `outputfile` (`str`): the name of csv file to save the calculated g(r), default `None`
 
-#### Example
+######## Example
 
 ```python
 from reader.dump_reader import DumpReader
@@ -51,25 +51,25 @@ readdump.read_onefile()
 gr_cal = gr(readdump.snapshots, ppp=np.array([1,1,1]), rdelta=0.01, outputfile='gr.csv')
 ```
 
-### `getresults()`
+##### `getresults()`
 `getresults()` determines which function to call to calculate $g(r)$ based on the component.
 
-#### Input Arguments
+######## Input Arguments
 - `None`
 
-#### Example
+######## Example
 ```python
 gr_cal.getresults()
 ```
 
-### Return
+##### Return
 `Optional[Callable]`. For the sytem with one particle type, calling `self.unary()` function to calculate $g(r)$, also including `self.binary()`, `self.ternary()`, `self.quarternary`, `self.quinary` for binary, ternary, quarternary, and quinary systems. For systems with more than five component, only overall $g(r)$ will be calcuated by calling `self.unary()` function.
 
 The calculated $g(r)$ is storted in the `outputfile`. Taken ternary sytem as an example, each column `outputfile` is "***r, gr, gr11, gr22, gr33, gr12, gr13, gr23***", respectively.
 
-## 2. `conditional_gr()`
+###### 2. `conditional_gr()`
 
-### Input Arguments
+##### Input Arguments
 - `snapshot` (`reader.reader_utils.SingleSnapshot`): single snapshot object of input trajectory
 - `condition` (`npt.NDArray`): particle-level property for g(r)
 - `condition_type` (`str`): whether condition is vector or tensor, choosing from None (default), 'vector', 'tensor'
@@ -78,7 +78,7 @@ The calculated $g(r)$ is storted in the `outputfile`. Taken ternary sytem as an 
   default `np.array([1,1,1])`, that is, PBC is applied in all three dimensions for 3D box. Set `np.array([1,1])` for two-dimensional system.
 - `rdelta` (`float`): bin size calculating g(r), default 0.01
 
-### Return
+##### Return
 - calculated conditional $g(r)$, `gA` (`pd.DataFrame`). For float-scalar physical quantity, `gA_norm` with normalization will be returned.
 
 Note that this calculation is for only one snapshot. For the float-type conditions, such as the structural ordering per particle, a normalization is performed for `gA` by doing
@@ -86,21 +86,21 @@ $$
 g_A^{\rm norm} = \frac{g_A - \lang A \rang^2}{\lang A^2 \rang - \lang A \rang^2}
 $$
 
-### Example
+##### Example
 ```python
 from static.gr import conditional_gr
 
 for snapshot in readdump.snapshots.snapshots: 
-    # Select particles with a particle type of 2 for g(r) calculation
-    # in the returned DataFrame, the column gA is actually gr22 in this case
+    ### Select particles with a particle type of 2 for g(r) calculation
+    ### in the returned DataFrame, the column gA is actually gr22 in this case
     grresults_selection = conditional_gr(snapshot, condition=snapshot.particle_type == 2)
 
-    # Randomly generating values for particle quantity, ranging from 0 to 1
+    ### Randomly generating values for particle quantity, ranging from 0 to 1
     particle_quantity = np.random.rand(snapshot.nparticle)
     
-    # particle level quantity as conditoin to calculate g(r), also support complex-number quantity
+    ### particle level quantity as conditoin to calculate g(r), also support complex-number quantity
     grresults_quantity = conditional_gr(snapshot, condition=particle_quantity)
     
-    # calculate the spatial correlation function of particle-level quantity
+    ### calculate the spatial correlation function of particle-level quantity
     grresults_quantity["gA"] /= grresults_quantity["gr"]
 ```

@@ -1,4 +1,4 @@
-# Bond Orientational Order Parameters at 2D
+### Bond Orientational Order Parameters at 2D
 
 The class `static.boo.boo_2d()` calculates the bond orientational order (BOO) parameters in two dimensions. All calculations start from measuring the $l$-th order as a complex number $\varphi_l(j)$ for particle $j$:
 
@@ -45,9 +45,9 @@ $$
   C_l(t)=\frac{\langle \sum_n \varphi_l^n(t) \varphi_l^{n*}(0) \rangle}{\langle \sum_n |\varphi_l^n(0)|^2 \rangle} \tag{6}
 $$
 
-## 1. `boo_2d` class
+###### 1. `boo_2d` class
 
-### Input Arguments
+##### Input Arguments
 
 - `snapshots` (`reader.reader_utils.Snapshots`): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)
 - `l` (`int`): degree of orientational order, like l=6 for hexatic order
@@ -56,10 +56,10 @@ $$
 - `ppp` (`npt.NDArray`): the periodic boundary conditions, setting `1` for yes and `0` for no, default `np.array([1,1])`,
 - `Nmax` (`int`): maximum number for neighbors, default 10
 
-### Return:
+##### Return:
 - None
 
-### Example
+##### Example
 ```python
 from reader.dump_reader import DumpReader
 from reader.reader_utils import DumpFileType
@@ -77,71 +77,71 @@ boo = boo_2d(readdump.snapshots,
              weightsfile='test.edgelength.dat')
 ```
 
-## 2. `lthorder()`
+###### 2. `lthorder()`
 Calculate $l$-th orientational order in 2D, such as hexatic order
 
-### Input Arguments
+##### Input Arguments
 - None
 
-### Return
+##### Return
 - Calculated $l$-th order in complex number (`npt.NDArray`) with shape `[nsnapshots, nparticle]`
 
-### Example
+##### Example
 ```python
 lthorder_results = boo2d.lthorder()
 ```
 
-## 3. `time_average()`
+###### 3. `time_average()`
 Calculate the time averaged $\varphi_l(j)$. There are two cases considered in this function:
 - return the original complex order parameter (`time_period=None` or as default)
 - return time averaged complex order parameter (`time_period` not `None`) by averaging complex number directly (`average_complex=True`, `default`) or by averaging mudulus and phase of the complex number first and then calculate complex order parameter (`average_complex=False`).
 
 As equation (3) and (4) shows, one snapshot is intended to be averaged from $-\tau/2$ to $\tau/2$, so the middle snapshot number (`average_snapshot_id`) is also returned for reference. 
 
-### Input Arguments
+##### Input Arguments
 
 - `time_period` (`float`): time average period, default `None`
 - `dt` (`float`): simulation snapshots time step, default 0.002
 - `average_complex` (`bool`): whether averaging the complex order parameter or not, default `True`
 - `outputfile` (`float`): file name of the output modulus and phase, default `None`
 
-### Return
+##### Return
 - `ParticlePhi` (`npt.NDArray`): the original complex order parameter if `time_period=None`
 - `average_quantity` (`npt.NDArray`): time averaged $\varphi_l(j)$ results if `time_period` not `None`
 - `average_snapshot_id` (`npt.NDArray`): middle snapshot number between time periods if `time_period` not `None`
 
-### Example
+##### Example
 ```python
 modulus, phase = boo2d.modulus_phase(time_period=0.0, dt=0.002, average_complex=False)
 ```
 
-## 4. `spatial_corr()`
+###### 4. `spatial_corr()`
 Calculate spatial correlation of the orientational order parameter
 
-### Input Arguments
+##### Input Arguments
 - `rdelta` (`float`): bin size in calculating g(r) and Gl(r), default 0.01
 - `outputfile` (`str`): csv file name for gl(r), default `None`
 
-### Return
+##### Return
 - calculated gl(r) based on phi (`pd.DataFrame`)
 
-### Example
+##### Example
 ```python
 spatial_corr_results = boo2d.spatial_corr()
 ```
 
-## 5. `time_corr()`
+###### 5. `time_corr()`
 Calculate time correlation of the orientational order parameter
 
-### Input Arguments
+##### Input Arguments
 - `dt` (`float`): timestep used in user simulations, default 0.002
 - `outputfile` (`str`): csv file name for time correlation results, default `None`
 
 
-### Return
+##### Return
 - time correlation quantity (`pd.DataFrame`)
 
-### Example
+##### Example
 ```python
 time_corr_results = boo2d.time_corr()
 ```

@@ -184,7 +184,7 @@
           <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
         </button>
       </div>
-      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
         <div class="visually-hidden">Toggle table of contents sidebar</div>
         <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
       </label>
@@ -213,34 +213,11 @@
 <li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html">static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#ii-hessian-matrix">II. Hessian matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id7">III. geometry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id17">IV. wavevector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id30">V. Fast Fourier Transformation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id34">VI. Spherical Harmonics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id38">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -275,20 +252,14 @@
               <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
             </button>
           </div>
-          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
             <div class="visually-hidden">Toggle table of contents sidebar</div>
             <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section class="tex2jax_ignore mathjax_ignore" id="hessian-matrix-calculation-and-diagonalization">
+          <section id="hessian-matrix-calculation-and-diagonalization">
 <h1>Hessian matrix calculation and diagonalization<a class="headerlink" href="#hessian-matrix-calculation-and-diagonalization" title="Link to this heading">¶</a></h1>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="pair-interactions">
-<h1><a class="reference internal" href="#i-pair-interactions"><span class="xref myst">1. Pair interactions</span></a><a class="headerlink" href="#pair-interactions" title="Link to this heading">¶</a></h1>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="hessian-matrix">
-<h1><a class="reference internal" href="#ii-hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a><a class="headerlink" href="#hessian-matrix" title="Link to this heading">¶</a></h1>
 <hr class="docutils" />
 <section id="i-pair-interactions">
 <h2>I. Pair interactions<a class="headerlink" href="#i-pair-interactions" title="Link to this heading">¶</a></h2>
@@ -354,12 +325,11 @@ s'' = \frac{d^2s}{dr^2} = \frac{ds'}{dr} = \frac{\epsilon}{\sigma^2} (\alpha-1) 
 </div>
 <p>After measuring the Hessian matrix, it can be diagonalized by numpy method and then provides eigenvalues and eigenvectors. For each eigenvector, the participation ratio (see the <code class="docutils literal notranslate"><span class="pre">vector</span></code> module) can be evaluated accompanied by its corresponding frequency.</p>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="pairinteractions-class">
-<h1>1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class<a class="headerlink" href="#pairinteractions-class" title="Link to this heading">¶</a></h1>
+<section id="pairinteractions-class">
+<h2>1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class<a class="headerlink" href="#pairinteractions-class" title="Link to this heading">¶</a></h2>
 <p>This class aims to calculate the pair potential and force between a pair of particles. The return will be used for hessian matrix calculation. For each of the above pair potential, a class method is defined that can be called independently and a <code class="docutils literal notranslate"><span class="pre">caller</span></code> function is used to easily access each potential.</p>
 <section id="input-arguments">
-<h2>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h2>
+<h3>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">r</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): pair distance</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">epsilon</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): cohesive enerrgy between the pair</p></li>
@@ -369,22 +339,23 @@ s'' = \frac{d^2s}{dr^2} = \frac{ds'}{dr} = \frac{\epsilon}{\sigma^2} (\alpha-1) 
 </ul>
 </section>
 <section id="return">
-<h2>Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h2>
+<h3>Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p>None</p></li>
 </ul>
 </section>
 <section id="example">
-<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hessians</span> <span class="kn">import</span> <span class="n">PairInteractions</span>
 
 <span class="n">pair_interaction</span> <span class="o">=</span> <span class="n">PairInteractions</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">epsilon</span><span class="p">,</span> <span class="n">sigma</span><span class="p">,</span> <span class="n">r_c</span><span class="p">,</span> <span class="n">shift</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
 <section id="caller">
-<h2>1.1 <code class="docutils literal notranslate"><span class="pre">caller()</span></code><a class="headerlink" href="#caller" title="Link to this heading">¶</a></h2>
+<h4>1.1 <code class="docutils literal notranslate"><span class="pre">caller()</span></code><a class="headerlink" href="#caller" title="Link to this heading">¶</a></h4>
 <p>Calculate pair potential and force based on model inputs</p>
+</section>
+</section>
 <section id="input">
 <h3>Input<a class="headerlink" href="#input" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -410,11 +381,11 @@ s'' = \frac{d^2s}{dr^2} = \frac{ds'}{dr} = \frac{\epsilon}{\sigma^2} (\alpha-1) 
 <span class="n">pair_interaction</span><span class="o">.</span><span class="n">caller</span><span class="p">(</span><span class="n">interaction_params</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="lennard-jones">
-<h2>1.2 <code class="docutils literal notranslate"><span class="pre">lennard_jones()</span></code><a class="headerlink" href="#lennard-jones" title="Link to this heading">¶</a></h2>
+<h4>1.2 <code class="docutils literal notranslate"><span class="pre">lennard_jones()</span></code><a class="headerlink" href="#lennard-jones" title="Link to this heading">¶</a></h4>
 <p>Lennard-Jones interaction</p>
+</section>
+</section>
 <section id="id3">
 <h3>Input<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -432,11 +403,11 @@ s'' = \frac{d^2s}{dr^2} = \frac{ds'}{dr} = \frac{\epsilon}{\sigma^2} (\alpha-1) 
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pair_interaction</span><span class="o">.</span><span class="n">lennard_jons</span><span class="p">()</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="inverse-power-law">
-<h2>1.3 <code class="docutils literal notranslate"><span class="pre">inverse_power_law()</span></code><a class="headerlink" href="#inverse-power-law" title="Link to this heading">¶</a></h2>
+<h4>1.3 <code class="docutils literal notranslate"><span class="pre">inverse_power_law()</span></code><a class="headerlink" href="#inverse-power-law" title="Link to this heading">¶</a></h4>
 <p>Inverse power-law potential</p>
+</section>
+</section>
 <section id="inputs">
 <h3>Inputs<a class="headerlink" href="#inputs" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -455,11 +426,11 @@ s'' = \frac{d^2s}{dr^2} = \frac{ds'}{dr} = \frac{\epsilon}{\sigma^2} (\alpha-1) 
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pair_interaction</span><span class="o">.</span><span class="n">inverse_power_law</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="harmonic-hertz">
-<h2>1.4 <code class="docutils literal notranslate"><span class="pre">harmonic_hertz()</span></code><a class="headerlink" href="#harmonic-hertz" title="Link to this heading">¶</a></h2>
+<h4>1.4 <code class="docutils literal notranslate"><span class="pre">harmonic_hertz()</span></code><a class="headerlink" href="#harmonic-hertz" title="Link to this heading">¶</a></h4>
 <p>harmonic or hertz potential</p>
+</section>
+</section>
 <section id="id8">
 <h3>Inputs<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -479,15 +450,14 @@ s'' = \frac{d^2s}{dr^2} = \frac{ds'}{dr} = \frac{\epsilon}{\sigma^2} (\alpha-1) 
 </div>
 </section>
 </section>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="ii-hessian-matrix">
-<h1>II. Hessian matrix<a class="headerlink" href="#ii-hessian-matrix" title="Link to this heading">¶</a></h1>
+<section id="ii-hessian-matrix">
+<h2>II. Hessian matrix<a class="headerlink" href="#ii-hessian-matrix" title="Link to this heading">¶</a></h2>
 <section id="hessianmatrix-class">
-<h2>2. <code class="docutils literal notranslate"><span class="pre">HessianMatrix</span></code> class<a class="headerlink" href="#hessianmatrix-class" title="Link to this heading">¶</a></h2>
+<h3>2. <code class="docutils literal notranslate"><span class="pre">HessianMatrix</span></code> class<a class="headerlink" href="#hessianmatrix-class" title="Link to this heading">¶</a></h3>
 <p>This class calculates the hessian matrix of the simulation configuration and diagonalize it with numpy. The eigenvalues and eigenvectors are given for further analysis, such as the frequency and participation ratio of each eigenvector.</p>
 </section>
 <section id="id11">
-<h2>Input Arguments<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h2>
+<h3>Input Arguments<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshot</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.SingleSnapshot</span></code>): single snapshot object of input trajectory</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">masses</span></code> (<code class="docutils literal notranslate"><span class="pre">dict</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code> to <code class="docutils literal notranslate"><span class="pre">float</span></code>): mass for each particle type, example <code class="docutils literal notranslate"><span class="pre">{1:1.0,</span> <span class="pre">2:2.0}</span></code></p></li>
@@ -499,18 +469,18 @@ s'' = \frac{d^2s}{dr^2} = \frac{ds'}{dr} = \frac{\epsilon}{\sigma^2} (\alpha-1) 
 </ul>
 </section>
 <section id="id12">
-<h2>Return<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h2>
+<h3>Return<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 </section>
 <section id="id13">
-<h2>Example<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h2>
+<h3>Example<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
 <span class="kn">from</span> <span class="nn">static.hessians</span> <span class="kn">import</span>  <span class="n">HessianMatrix</span><span class="p">,</span> <span class="n">InteractionParams</span><span class="p">,</span> <span class="n">ModelName</span>
 <span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 
-<span class="c1"># inverse-power law potential model in 2D</span>
+<span class="c1">### inverse-power law potential model in 2D</span>
 <span class="n">dumpfile</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
 <span class="n">masses</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">:</span><span class="mf">1.0</span><span class="p">,</span> <span class="mi">2</span><span class="p">:</span><span class="mf">1.0</span><span class="p">}</span>
 <span class="n">epsilons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
@@ -547,10 +517,11 @@ s'' = \frac{d^2s}{dr^2} = \frac{ds'}{dr} = \frac{\epsilon}{\sigma^2} (\alpha-1) 
 <span class="p">)</span>
 </pre></div>
 </div>
-</section>
 <section id="pair-matrix">
-<h2>2.1 <code class="docutils literal notranslate"><span class="pre">pair_matrix()</span></code><a class="headerlink" href="#pair-matrix" title="Link to this heading">¶</a></h2>
+<h4>2.1 <code class="docutils literal notranslate"><span class="pre">pair_matrix()</span></code><a class="headerlink" href="#pair-matrix" title="Link to this heading">¶</a></h4>
 <p>Hessian matrix block for a pair</p>
+</section>
+</section>
 <section id="id14">
 <h3>Inputs<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -571,11 +542,11 @@ Both have the shape [<code class="docutils literal notranslate"><span class="pre
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">h</span><span class="o">.</span><span class="n">pair_matrix</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="diagonalize-hessian">
-<h2>2.2 <code class="docutils literal notranslate"><span class="pre">diagonalize_hessian()</span></code><a class="headerlink" href="#diagonalize-hessian" title="Link to this heading">¶</a></h2>
+<h4>2.2 <code class="docutils literal notranslate"><span class="pre">diagonalize_hessian()</span></code><a class="headerlink" href="#diagonalize-hessian" title="Link to this heading">¶</a></h4>
 <p>This function is used to calculate the Hessian matrix of a simulation configuration and use numpy package to diagonalize the hessian matrix to get the eigenvalues and eigenvectors. The participation ratio of each eigenvector will be calculated as well. The limitation here is the particle number or system size to be considered as numpy cannot diagonalize very large matrix.</p>
+</section>
+</section>
 <section id="id17">
 <h3>Input Arguments<a class="headerlink" href="#id17" title="Link to this heading">¶</a></h3>
 <ul class="simple">
@@ -648,8 +619,76 @@ Both have the shape [<code class="docutils literal notranslate"><span class="pre
         
       </footer>
     </div>
-    <aside class="toc-drawer no-toc">
+    <aside class="toc-drawer">
       
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Hessian matrix calculation and diagonalization</a><ul>
+<li><a class="reference internal" href="#i-pair-interactions">I. Pair interactions</a></li>
+<li><a class="reference internal" href="#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a><ul>
+<li><a class="reference internal" href="#input-arguments">Input Arguments</a></li>
+<li><a class="reference internal" href="#return">Return</a></li>
+<li><a class="reference internal" href="#example">Example</a><ul>
+<li><a class="reference internal" href="#caller">1.1 <code class="docutils literal notranslate"><span class="pre">caller()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#input">Input</a></li>
+<li><a class="reference internal" href="#id1">Return</a></li>
+<li><a class="reference internal" href="#id2">Example</a><ul>
+<li><a class="reference internal" href="#lennard-jones">1.2 <code class="docutils literal notranslate"><span class="pre">lennard_jones()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id3">Input</a></li>
+<li><a class="reference internal" href="#id4">Return</a></li>
+<li><a class="reference internal" href="#id5">Example</a><ul>
+<li><a class="reference internal" href="#inverse-power-law">1.3 <code class="docutils literal notranslate"><span class="pre">inverse_power_law()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#inputs">Inputs</a></li>
+<li><a class="reference internal" href="#id6">Return</a></li>
+<li><a class="reference internal" href="#id7">Example</a><ul>
+<li><a class="reference internal" href="#harmonic-hertz">1.4 <code class="docutils literal notranslate"><span class="pre">harmonic_hertz()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id8">Inputs</a></li>
+<li><a class="reference internal" href="#id9">Return</a></li>
+<li><a class="reference internal" href="#id10">Example</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#ii-hessian-matrix">II. Hessian matrix</a><ul>
+<li><a class="reference internal" href="#hessianmatrix-class">2. <code class="docutils literal notranslate"><span class="pre">HessianMatrix</span></code> class</a></li>
+<li><a class="reference internal" href="#id11">Input Arguments</a></li>
+<li><a class="reference internal" href="#id12">Return</a></li>
+<li><a class="reference internal" href="#id13">Example</a><ul>
+<li><a class="reference internal" href="#pair-matrix">2.1 <code class="docutils literal notranslate"><span class="pre">pair_matrix()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id14">Inputs</a></li>
+<li><a class="reference internal" href="#id15">Return</a></li>
+<li><a class="reference internal" href="#id16">Example</a><ul>
+<li><a class="reference internal" href="#diagonalize-hessian">2.2 <code class="docutils literal notranslate"><span class="pre">diagonalize_hessian()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id17">Input Arguments</a></li>
+<li><a class="reference internal" href="#id18">Return</a></li>
+<li><a class="reference internal" href="#id19">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
       
       
     </aside>

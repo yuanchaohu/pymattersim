@@ -1,4 +1,4 @@
-# Reading Computer Simulations Snapshots
+### Reading Computer Simulations Snapshots
 
 This module read-in the static or time evolution of the particle positions (snapshots or trajectories) encapsulated in a simulation box from various simulators for materials science, chemistry, and physics etc. The popular ones includes but not limit yo LAMMPS and Hoomd-blue. This module is very flexible for future extension, just by adding suitable format reading of the simulation outputs. For example, the atomic/molecular configurations from *ab-initio* calculations (DFT) and Gromacs, and any others. This module is the base of all of the other physical calculations. As long as the simulation box information were read properly, they can be used for additional calculations. That means, we are trying to "forget about" the specific simulation box, but transform it to a specific data structures.
 
@@ -33,7 +33,7 @@ The typical features of `reader` are:
    zhi = zhi_bound
    ```
 
-## Input Arguments
+###### Input Arguments
 
 1. `filename` (`str`): the name of dump file
 2. `ndim` (`int`): dimensionality
@@ -47,7 +47,7 @@ The typical features of `reader` are:
 4. `moltypes` (`dict`, optional): only used for molecular system in LAMMPS so far, default is `None`. To specify, for example, if the system has 5 types of atoms in which 1-3 is one type of molecules and 4-5 is the other, and type 3 and 5 are the center of mass. Then `moltypes` should be `{3:1, 5:2}`. The keys `[3, 5]` of  `moltypes` are used to select specific atoms to present the corresponding molecules. The values `[1, 2]` is used to record the type of molecules.
 5. `columnsids` (`list`): only used to read addtional columns in LAMMPS dump, default `None`.
 
-## Return
+###### Return
 
 The input simulation box will be transformed to a list of 'digital' snapshot, by returning `snapshots` object. It is a list of `snapshot` that has all of the configuration information. `snapshots` and `snapshot` are two data class defined in `reader.reader_utils`.  `snapshot` consists:
 
@@ -62,7 +62,7 @@ The input simulation box will be transformed to a list of 'digital' snapshot, by
 
 The information is stored in a list of which the elements are mainly numpy arrays. Particle-level information is referred by particle ID.
 
-## Important Notes
+###### Important Notes
 
 1. In LAMMPS, ***x***, ***xs***, and ***xu*** format coordinates are acceptable. Such as with format The reduced ***xs*** will be rescaled to the absolute coordinates ***x***.
 2. For the ***xs*** and ***x*** types in orthogonal cells with periodic boundary conditions, particle coordinates are **NOT** warpped to the inside of the box by default, which could be changed by hand when necessary. In non-periodic boundary conditions, there should be no particles at the outside of the cell.
@@ -70,7 +70,7 @@ The information is stored in a list of which the elements are mainly numpy array
 4. In Hoomd-blue, GSD and DCD files are acceptable. GSD file has all the information with periodic boundary conditions, while DCD has the unwarpped coordinates. GSD file has all the information with periodic boundary conditions, while DCD only has the particle positions. Normally only GSD file is needed . But if one wants to analyze the dynamical properties, the DCD file should be dumped accompanying the GSD file to get the unwarp coordinates. More specifically, all the information about the trajectory will be obtained from the GSD file except the particle positions which will be obtained from the DCD file. Therefore, the DCD and GSD files shall be dumped with the same period or concurrently. Another important point in this case is the file name of GSD and DCD. They should share the same name with the only difference of the last three string, ie. ‘GSD ’or ‘DCD’. For example, if the file name of GSD is ***dumpfile.GSD*** then the DCD file name must be ***dumpfile.DCD***. To read the Hoomd-blue outputs, two new modules should be installed first: i) GSD; ii) mdtraj. These modules are available by conda. 
 5. The addtional columns are now readable from `DumpFileType.LAMMPSVECTOR` by specifying the column ids.
 
-## Example
+###### Example
 
 Some dump files are provided in `tests/sample_test_data`.
 
@@ -83,34 +83,34 @@ Some dump files are provided in `tests/sample_test_data`.
   readdump=DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS)
   readdump.read_onefile()
   
-  # return the number of snapshots
+  ### return the number of snapshots
   readdump.snapshots.nsnapshots
   
-  # return the timestep of the first snapshot
+  ### return the timestep of the first snapshot
   readdump.snapshots.snapshots[0].timestep
   
-  # return the particle number of the first snapshot
+  ### return the particle number of the first snapshot
   readdump.snapshots.snapshots[0].nparticle
   
-  # return the particle type of the first snapshot
+  ### return the particle type of the first snapshot
   readdump.snapshots.snapshots[0].particle_type
   
-  # return the particle positions of the first snapshot
+  ### return the particle positions of the first snapshot
   readdump.snapshots.snapshots[0].positions
   
-  # return the boxlength of the first snapshot
+  ### return the boxlength of the first snapshot
   readdump.snapshots.snapshots[0].boxlength
   
-  # return the boxbounds of the first snapshot
+  ### return the boxbounds of the first snapshot
   readdump.snapshots.snapshots[0].boxbounds
   
-  # return the realbounds of the first snapshot, for triclinic box
+  ### return the realbounds of the first snapshot, for triclinic box
   readdump.snapshots.snapshots[0].realbounds
   
-  # return the hmatrix of the first snapshot
+  ### return the hmatrix of the first snapshot
   readdump.snapshots.snapshots[0].hmatrix
   
-  # get all the timesteps
+  ### get all the timesteps
   [snapshot.timestep for snapshot in readdump.snapshots.snapshots]
   ```
 
@@ -121,10 +121,10 @@ Some dump files are provided in `tests/sample_test_data`.
   
   snapshots = read_lammps_wrapper(filename, ndim=3)
   
-  # return number of snapshots
+  ### return number of snapshots
   snapshots.nsnapshots
   
-  # return the particle positions of the first snapshot
+  ### return the particle positions of the first snapshot
   snapshots.snapshots[0].positions
   ```
 
@@ -133,7 +133,7 @@ Some dump files are provided in `tests/sample_test_data`.
   ```python
   from reader.lammps_reader_helper import read_additions
   
-  # ncol starts in python style, i.e. from 0
+  ### ncol starts in python style, i.e. from 0
   dumpfile ='./tests/sample_test_data/test_additional_columns.dump'
   read_additions(dumpfile, ncol=5)
   ```

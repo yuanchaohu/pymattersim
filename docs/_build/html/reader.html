@@ -213,34 +213,14 @@
 <li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html">static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id7">III. geometry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id17">IV. wavevector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id30">V. Fast Fourier Transformation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id34">VI. Spherical Harmonics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id38">VII. Coarse Graining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#vii-coarse-graining">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -281,7 +261,7 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section class="tex2jax_ignore mathjax_ignore" id="reading-computer-simulations-snapshots">
+          <section id="reading-computer-simulations-snapshots">
 <h1>Reading Computer Simulations Snapshots<a class="headerlink" href="#reading-computer-simulations-snapshots" title="Link to this heading">¶</a></h1>
 <p>This module read-in the static or time evolution of the particle positions (snapshots or trajectories) encapsulated in a simulation box from various simulators for materials science, chemistry, and physics etc. The popular ones includes but not limit yo LAMMPS and Hoomd-blue. This module is very flexible for future extension, just by adding suitable format reading of the simulation outputs. For example, the atomic/molecular configurations from <em>ab-initio</em> calculations (DFT) and Gromacs, and any others. This module is the base of all of the other physical calculations. As long as the simulation box information were read properly, they can be used for additional calculations. That means, we are trying to “forget about” the specific simulation box, but transform it to a specific data structures.</p>
 <p>The main functions are captured by the module <code class="docutils literal notranslate"><span class="pre">reader</span></code>, in which there are several reading methods, listed currently as:</p>
@@ -370,34 +350,34 @@
 <span class="n">readdump</span><span class="o">=</span><span class="n">DumpReader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="n">DumpFileType</span><span class="o">.</span><span class="n">LAMMPS</span><span class="p">)</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
 
-<span class="c1"># return the number of snapshots</span>
+<span class="c1">### return the number of snapshots</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">nsnapshots</span>
 
-<span class="c1"># return the timestep of the first snapshot</span>
+<span class="c1">### return the timestep of the first snapshot</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">timestep</span>
 
-<span class="c1"># return the particle number of the first snapshot</span>
+<span class="c1">### return the particle number of the first snapshot</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">nparticle</span>
 
-<span class="c1"># return the particle type of the first snapshot</span>
+<span class="c1">### return the particle type of the first snapshot</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">particle_type</span>
 
-<span class="c1"># return the particle positions of the first snapshot</span>
+<span class="c1">### return the particle positions of the first snapshot</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span>
 
-<span class="c1"># return the boxlength of the first snapshot</span>
+<span class="c1">### return the boxlength of the first snapshot</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">boxlength</span>
 
-<span class="c1"># return the boxbounds of the first snapshot</span>
+<span class="c1">### return the boxbounds of the first snapshot</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">boxbounds</span>
 
-<span class="c1"># return the realbounds of the first snapshot, for triclinic box</span>
+<span class="c1">### return the realbounds of the first snapshot, for triclinic box</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">realbounds</span>
 
-<span class="c1"># return the hmatrix of the first snapshot</span>
+<span class="c1">### return the hmatrix of the first snapshot</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">hmatrix</span>
 
-<span class="c1"># get all the timesteps</span>
+<span class="c1">### get all the timesteps</span>
 <span class="p">[</span><span class="n">snapshot</span><span class="o">.</span><span class="n">timestep</span> <span class="k">for</span> <span class="n">snapshot</span> <span class="ow">in</span> <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -407,10 +387,10 @@
 
 <span class="n">snapshots</span> <span class="o">=</span> <span class="n">read_lammps_wrapper</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
-<span class="c1"># return number of snapshots</span>
+<span class="c1">### return number of snapshots</span>
 <span class="n">snapshots</span><span class="o">.</span><span class="n">nsnapshots</span>
 
-<span class="c1"># return the particle positions of the first snapshot</span>
+<span class="c1">### return the particle positions of the first snapshot</span>
 <span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span>
 </pre></div>
 </div>
@@ -418,7 +398,7 @@
 <li><p>The <code class="docutils literal notranslate"><span class="pre">reader.lammps_reader_helper.read_additions</span></code> can read additional columns in the lammps dump file. <code class="docutils literal notranslate"><span class="pre">ncol</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): specifying the column number starting from 0 (zero-based). <code class="docutils literal notranslate"><span class="pre">read_additions</span></code> returns a numpy array as shape [nsnapshots, nparticle] in float. For example, read <em><strong>order</strong></em> from <em><strong>id type x y z order</strong></em>. This is used to read only one column at a time from a dump file.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.lammps_reader_helper</span> <span class="kn">import</span> <span class="n">read_additions</span>
 
-<span class="c1"># ncol starts in python style, i.e. from 0</span>
+<span class="c1">### ncol starts in python style, i.e. from 0</span>
 <span class="n">dumpfile</span> <span class="o">=</span><span class="s1">&#39;./tests/sample_test_data/test_additional_columns.dump&#39;</span>
 <span class="n">read_additions</span><span class="p">(</span><span class="n">dumpfile</span><span class="p">,</span> <span class="n">ncol</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>

@@ -213,34 +213,14 @@
 <li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_3d.html">Bond Orientational Order Parameters at 3D</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html">static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id7">III. geometry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id17">IV. wavevector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id30">V. Fast Fourier Transformation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id34">VI. Spherical Harmonics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id38">VII. Coarse Graining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#vii-coarse-graining">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -281,7 +261,7 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section class="tex2jax_ignore mathjax_ignore" id="pair-correlation-function">
+          <section id="pair-correlation-function">
 <h1>Pair Correlation Function<a class="headerlink" href="#pair-correlation-function" title="Link to this heading">¶</a></h1>
 <p>The module <code class="docutils literal notranslate"><span class="pre">static.gr.gr</span></code> calculates the overall and partial pair correlation functions (PCF) <span class="math notranslate nohighlight">\(g(r)\)</span> in orthogonal and triclinic cells at various dimensional systems. This module is suitable for multi-component systems, from unary to quinary.  The overall <span class="math notranslate nohighlight">\(g(r)\)</span> is defined as:</p>
 <div class="math-wrapper docutils container">
@@ -315,8 +295,7 @@ g_A(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i 
 <p>The spatial correlation function of particle-level quantity <span class="math notranslate nohighlight">\(A_i\)</span> is <span class="math notranslate nohighlight">\(g_A(r) / g(r)\)</span>.</p>
 <section id="gr-class">
 <h2>1. <code class="docutils literal notranslate"><span class="pre">gr</span></code> class<a class="headerlink" href="#gr-class" title="Link to this heading">¶</a></h2>
-<section id="input-arguments">
-<h3>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h3>
+<p>######## Input Arguments</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): <code class="docutils literal notranslate"><span class="pre">Snapshots</span></code> data class returned by <code class="docutils literal notranslate"><span class="pre">reader.dump_reader.DumpReader</span></code> from input configuration file</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ppp</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): the periodic boundary conditions, setting 1 for yes and 0 for no.</p>
@@ -325,9 +304,7 @@ g_A(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i 
 <li><p><code class="docutils literal notranslate"><span class="pre">rdelta</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): bin size calculating g(r), default 0.01</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the name of csv file to save the calculated g(r), default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
-</section>
-<section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+<p>######## Example</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
 <span class="kn">from</span> <span class="nn">static.gr</span> <span class="kn">import</span> <span class="n">gr</span>
@@ -341,31 +318,27 @@ g_A(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i 
 </div>
 </section>
 <section id="getresults">
-<h3><code class="docutils literal notranslate"><span class="pre">getresults()</span></code><a class="headerlink" href="#getresults" title="Link to this heading">¶</a></h3>
+<h2><code class="docutils literal notranslate"><span class="pre">getresults()</span></code><a class="headerlink" href="#getresults" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">getresults()</span></code> determines which function to call to calculate <span class="math notranslate nohighlight">\(g(r)\)</span> based on the component.</p>
-<section id="id1">
-<h4>Input Arguments<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h4>
+<p>######## Input Arguments</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
-</section>
-<section id="id2">
-<h4>Example<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h4>
+<p>######## Example</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">gr_cal</span><span class="o">.</span><span class="n">getresults</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
-</section>
 <section id="return">
-<h3>Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h3>
+<h2>Return<a class="headerlink" href="#return" title="Link to this heading">¶</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">Optional[Callable]</span></code>. For the sytem with one particle type, calling <code class="docutils literal notranslate"><span class="pre">self.unary()</span></code> function to calculate <span class="math notranslate nohighlight">\(g(r)\)</span>, also including <code class="docutils literal notranslate"><span class="pre">self.binary()</span></code>, <code class="docutils literal notranslate"><span class="pre">self.ternary()</span></code>, <code class="docutils literal notranslate"><span class="pre">self.quarternary</span></code>, <code class="docutils literal notranslate"><span class="pre">self.quinary</span></code> for binary, ternary, quarternary, and quinary systems. For systems with more than five component, only overall <span class="math notranslate nohighlight">\(g(r)\)</span> will be calcuated by calling <code class="docutils literal notranslate"><span class="pre">self.unary()</span></code> function.</p>
 <p>The calculated <span class="math notranslate nohighlight">\(g(r)\)</span> is storted in the <code class="docutils literal notranslate"><span class="pre">outputfile</span></code>. Taken ternary sytem as an example, each column <code class="docutils literal notranslate"><span class="pre">outputfile</span></code> is “<em><strong>r, gr, gr11, gr22, gr33, gr12, gr13, gr23</strong></em>”, respectively.</p>
-</section>
-</section>
 <section id="conditional-gr">
-<h2>2. <code class="docutils literal notranslate"><span class="pre">conditional_gr()</span></code><a class="headerlink" href="#conditional-gr" title="Link to this heading">¶</a></h2>
-<section id="id3">
-<h3>Input Arguments<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<h3>2. <code class="docutils literal notranslate"><span class="pre">conditional_gr()</span></code><a class="headerlink" href="#conditional-gr" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+<section id="input-arguments">
+<h2>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h2>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshot</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.SingleSnapshot</span></code>): single snapshot object of input trajectory</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">condition</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): particle-level property for g(r)</p></li>
@@ -376,8 +349,8 @@ g_A(r) = \frac{1}{N \rho} \langle \sum_{i \neq j} \delta (r - |\vec r_{ij}|)A_i 
 <li><p><code class="docutils literal notranslate"><span class="pre">rdelta</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): bin size calculating g(r), default 0.01</p></li>
 </ul>
 </section>
-<section id="id4">
-<h3>Return<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<section id="id1">
+<h2>Return<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>calculated conditional <span class="math notranslate nohighlight">\(g(r)\)</span>, <code class="docutils literal notranslate"><span class="pre">gA</span></code> (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>). For float-scalar physical quantity, <code class="docutils literal notranslate"><span class="pre">gA_norm</span></code> with normalization will be returned.</p></li>
 </ul>
@@ -386,26 +359,25 @@ $<span class="math notranslate nohighlight">\(
 g_A^{\rm norm} = \frac{g_A - \lang A \rang^2}{\lang A^2 \rang - \lang A \rang^2}
 \)</span>$</p>
 </section>
-<section id="id5">
-<h3>Example<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">static.gr</span> <span class="kn">import</span> <span class="n">conditional_gr</span>
 
 <span class="k">for</span> <span class="n">snapshot</span> <span class="ow">in</span> <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">:</span> 
-    <span class="c1"># Select particles with a particle type of 2 for g(r) calculation</span>
-    <span class="c1"># in the returned DataFrame, the column gA is actually gr22 in this case</span>
+    <span class="c1">### Select particles with a particle type of 2 for g(r) calculation</span>
+    <span class="c1">### in the returned DataFrame, the column gA is actually gr22 in this case</span>
     <span class="n">grresults_selection</span> <span class="o">=</span> <span class="n">conditional_gr</span><span class="p">(</span><span class="n">snapshot</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">snapshot</span><span class="o">.</span><span class="n">particle_type</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span>
 
-    <span class="c1"># Randomly generating values for particle quantity, ranging from 0 to 1</span>
+    <span class="c1">### Randomly generating values for particle quantity, ranging from 0 to 1</span>
     <span class="n">particle_quantity</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">snapshot</span><span class="o">.</span><span class="n">nparticle</span><span class="p">)</span>
     
-    <span class="c1"># particle level quantity as conditoin to calculate g(r), also support complex-number quantity</span>
+    <span class="c1">### particle level quantity as conditoin to calculate g(r), also support complex-number quantity</span>
     <span class="n">grresults_quantity</span> <span class="o">=</span> <span class="n">conditional_gr</span><span class="p">(</span><span class="n">snapshot</span><span class="p">,</span> <span class="n">condition</span><span class="o">=</span><span class="n">particle_quantity</span><span class="p">)</span>
     
-    <span class="c1"># calculate the spatial correlation function of particle-level quantity</span>
+    <span class="c1">### calculate the spatial correlation function of particle-level quantity</span>
     <span class="n">grresults_quantity</span><span class="p">[</span><span class="s2">&quot;gA&quot;</span><span class="p">]</span> <span class="o">/=</span> <span class="n">grresults_quantity</span><span class="p">[</span><span class="s2">&quot;gr&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
-</section>
 </section>
 </section>
 
@@ -465,23 +437,15 @@ g_A^{\rm norm} = \frac{g_A - \lang A \rang^2}{\lang A^2 \rang - \lang A \rang^2}
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Pair Correlation Function</a><ul>
-<li><a class="reference internal" href="#gr-class">1. <code class="docutils literal notranslate"><span class="pre">gr</span></code> class</a><ul>
+<li><a class="reference internal" href="#gr-class">1. <code class="docutils literal notranslate"><span class="pre">gr</span></code> class</a></li>
+<li><a class="reference internal" href="#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a></li>
+<li><a class="reference internal" href="#return">Return</a><ul>
+<li><a class="reference internal" href="#conditional-gr">2. <code class="docutils literal notranslate"><span class="pre">conditional_gr()</span></code></a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#input-arguments">Input Arguments</a></li>
+<li><a class="reference internal" href="#id1">Return</a></li>
 <li><a class="reference internal" href="#example">Example</a></li>
-<li><a class="reference internal" href="#getresults"><code class="docutils literal notranslate"><span class="pre">getresults()</span></code></a><ul>
-<li><a class="reference internal" href="#id1">Input Arguments</a></li>
-<li><a class="reference internal" href="#id2">Example</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#return">Return</a></li>
-</ul>
-</li>
-<li><a class="reference internal" href="#conditional-gr">2. <code class="docutils literal notranslate"><span class="pre">conditional_gr()</span></code></a><ul>
-<li><a class="reference internal" href="#id3">Input Arguments</a></li>
-<li><a class="reference internal" href="#id4">Return</a></li>
-<li><a class="reference internal" href="#id5">Example</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

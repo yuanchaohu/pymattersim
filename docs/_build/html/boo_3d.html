@@ -3,7 +3,7 @@
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
     <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="static orderings" href="orderings.html" /><link rel="prev" title="Bond Orientational Order Parameters at 2D" href="boo_2d.html" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Static orderings" href="orderings.html" /><link rel="prev" title="Bond Orientational Order Parameters at 2D" href="boo_2d.html" />
 
     <!-- Generated with Sphinx 8.1.3 and Furo 2024.08.06 -->
         <title>Bond Orientational Order Parameters at 3D - py_Matters_Simulations documentation</title>
@@ -213,34 +213,14 @@
 <li class="toctree-l1"><a class="reference internal" href="sq.html">Structure Factor</a></li>
 <li class="toctree-l1"><a class="reference internal" href="boo_2d.html">Bond Orientational Order Parameters at 2D</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Bond Orientational Order Parameters at 3D</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html">static orderings</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#local-tetrahedral-order-q-rm-tetra">1. Local tetrahedral order <span class="math notranslate nohighlight">\(q_{\rm tetra}\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a></li>
+<li class="toctree-l1"><a class="reference internal" href="orderings.html">Static orderings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="orderings.html#gyration-tensor-of-a-group">4. Gyration tensor of a group</a></li>
-<li class="toctree-l1"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dynamics.html">Dynamical properties at two &amp; three dimensions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html">Hessian matrix calculation and diagonalization</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#pair-interactions"><span class="xref myst">1. Pair interactions</span></a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#hessian-matrix"><span class="xref myst">2. Hessian matrix</span></a></li>
 <li class="toctree-l1"><a class="reference internal" href="hessian.html#pairinteractions-class">1. <code class="docutils literal notranslate"><span class="pre">PairInteractions</span></code> class</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hessian.html#ii-hessian-matrix">II. Hessian matrix</a></li>
 <li class="toctree-l1"><a class="reference internal" href="vectors.html">vector analysis</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#participation-ratio">1. participation ratio</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#local-vector-alignment">2. local vector alignment</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#phase-quotient">3. phase quotient</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#divergence-and-curl">4. divergence and curl</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vibrability">5. vibrability</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vector-decompostion-structure-factor">6. vector decompostion structure factor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="vectors.html#vectors-fourier-transformaiton-and-their-time-correlations">7. vectors Fourier transformaiton and their time correlations</a></li>
 <li class="toctree-l1"><a class="reference internal" href="utils.html">util functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#i-funcs">I. funcs</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#ii-remove-pbc">II. Remove PBC</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id7">III. geometry</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id17">IV. wavevector</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id30">V. Fast Fourier Transformation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id34">VI. Spherical Harmonics</a></li>
-<li class="toctree-l1"><a class="reference internal" href="utils.html#id38">VII. Coarse Graining</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utils.html#vii-coarse-graining">VII. Coarse Graining</a></li>
 </ul>
 
 </div>
@@ -281,7 +261,7 @@
           </label>
         </div>
         <article role="main" id="furo-main-content">
-          <section class="tex2jax_ignore mathjax_ignore" id="bond-orientational-order-parameters-at-3d">
+          <section id="bond-orientational-order-parameters-at-3d">
 <h1>Bond Orientational Order Parameters at 3D<a class="headerlink" href="#bond-orientational-order-parameters-at-3d" title="Link to this heading">¶</a></h1>
 <p>The class <code class="docutils literal notranslate"><span class="pre">static.boo.boo_3d()</span></code> calculates the bond orientational order (BOO) parameters in three-dimensions. All calculations start from measuring the <span class="math notranslate nohighlight">\(l\)</span>-fold symmetry BOO as a <span class="math notranslate nohighlight">\(2l+1\)</span> complex vector <span class="math notranslate nohighlight">\(q_{lm}\)</span>:</p>
 <div class="math-wrapper docutils container">
@@ -381,8 +361,9 @@ C_l(t)=\frac{4\pi}{2l+1} \frac {\langle \sum_i^N \sum_{m=-l}^l Q_{lm}(i, t) Q_{l
 <p>Note that this module accounts for both orthogonal and triclinic cells.</p>
 <section id="boo-3d-class">
 <h2>1. <code class="docutils literal notranslate"><span class="pre">boo_3d</span></code> class<a class="headerlink" href="#boo-3d-class" title="Link to this heading">¶</a></h2>
+</section>
 <section id="input-arguments">
-<h3>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h3>
+<h2>Input Arguments<a class="headerlink" href="#input-arguments" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">reader.reader_utils.Snapshots</span></code>): snapshot object of input trajectory (returned by reader.dump_reader.DumpReader)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">l</span></code> (<code class="docutils literal notranslate"><span class="pre">int</span></code>): degree of spherical harmonics</p></li>
@@ -394,13 +375,13 @@ one typical example is Voronoi face area of the polyhedron; this file should be 
 </ul>
 </section>
 <section id="return">
-<h3>Return:<a class="headerlink" href="#return" title="Link to this heading">¶</a></h3>
+<h2>Return:<a class="headerlink" href="#return" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>None</p></li>
 </ul>
 </section>
 <section id="example">
-<h3>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h3>
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 <span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
 <span class="kn">from</span> <span class="nn">neighbors.voropp_neighbors</span> <span class="kn">import</span> <span class="n">cal_voro</span>
@@ -417,60 +398,60 @@ one typical example is Voronoi face area of the polyhedron; this file should be 
              <span class="n">weightsfile</span><span class="o">=</span><span class="s1">&#39;test.facearea.dat&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="qlm-qlm">
-<h2>2. <code class="docutils literal notranslate"><span class="pre">qlm_Qlm()</span></code><a class="headerlink" href="#qlm-qlm" title="Link to this heading">¶</a></h2>
+<h3>2. <code class="docutils literal notranslate"><span class="pre">qlm_Qlm()</span></code><a class="headerlink" href="#qlm-qlm" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">qlm_Qlm()</span></code> method gives <span class="math notranslate nohighlight">\(q_{lm}\)</span> and <span class="math notranslate nohighlight">\(Q_{lm}\)</span> values of different particles in complex vectors as numpy array. The results in
 different snapshots are stored in an array for each of them, separately. Both of them are returned as (<span class="math notranslate nohighlight">\(q_{lm}\)</span>, <span class="math notranslate nohighlight">\(Q_{lm}\)</span>). Note that this method will be called automatically when initiallizing the <code class="docutils literal notranslate"><span class="pre">boo_3d()</span></code> class.</p>
+</section>
+</section>
 <section id="id1">
-<h3>Input Arguments<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+<h2>Input Arguments<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>None</p></li>
 </ul>
 </section>
 <section id="id2">
-<h3>Return<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+<h2>Return<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">smallqlm</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): <span class="math notranslate nohighlight">\(q_{lm}\)</span> in vector complex number, in numpy array with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots,</span> <span class="pre">nparticle,</span> <span class="pre">2l+1]</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">largeQlm</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): <span class="math notranslate nohighlight">\(Q_{lm}\)</span> in vector complex number, in numpy array with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots,</span> <span class="pre">nparticle,</span> <span class="pre">2l+1]</span></code></p></li>
 </ul>
 </section>
 <section id="id3">
-<h3>Example<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+<h2>Example<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qlm</span><span class="p">,</span> <span class="n">Qlm</span> <span class="o">=</span> <span class="n">boo</span><span class="o">.</span><span class="n">qlm_Qlm</span><span class="p">()</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="ql-ql">
-<h2>3. <code class="docutils literal notranslate"><span class="pre">ql_Ql()</span></code><a class="headerlink" href="#ql-ql" title="Link to this heading">¶</a></h2>
+<h3>3. <code class="docutils literal notranslate"><span class="pre">ql_Ql()</span></code><a class="headerlink" href="#ql-ql" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">ql_Ql()</span></code> method calculates <span class="math notranslate nohighlight">\(q_l\)</span> (local) or <span class="math notranslate nohighlight">\(Q_l\)</span> (coarse-grained).</p>
+</section>
+</section>
 <section id="id4">
-<h3>Input Arguments<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+<h2>Input Arguments<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">coarse_graining</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether use coarse-grained <span class="math notranslate nohighlight">\(Q_{lm}\)</span> or local <span class="math notranslate nohighlight">\(q_{lm}\)</span>, default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): file name for <span class="math notranslate nohighlight">\(q_l\)</span> or <span class="math notranslate nohighlight">\(Q_l\)</span> results, default <code class="docutils literal notranslate"><span class="pre">None</span></code>. To reduce storage size and ensure loading speed, save npy file as default with extension “.npy”. If the file extension is “.dat” or “.txt”, also saved a text file.</p></li>
 </ul>
 </section>
 <section id="id5">
-<h3>Return<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h3>
+<h2>Return<a class="headerlink" href="#id5" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>calculated <span class="math notranslate nohighlight">\(q_l\)</span> or <span class="math notranslate nohighlight">\(Q_l\)</span> in <code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots,</span> <span class="pre">nparticle]</span></code></p></li>
 </ul>
 </section>
 <section id="id6">
-<h3>Example<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h3>
+<h2>Example<a class="headerlink" href="#id6" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Ql</span> <span class="o">=</span> <span class="n">boo</span><span class="o">.</span><span class="n">ql_Ql</span><span class="p">(</span><span class="n">coarse_graining</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s1">&#39;./results/Ql.npy&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="sij-ql-ql">
-<h2>4. <code class="docutils literal notranslate"><span class="pre">sij_ql_Ql()</span></code><a class="headerlink" href="#sij-ql-ql" title="Link to this heading">¶</a></h2>
+<h3>4. <code class="docutils literal notranslate"><span class="pre">sij_ql_Ql()</span></code><a class="headerlink" href="#sij-ql-ql" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">sij_ql_Ql()</span></code> method calculates the orientation correlation of <span class="math notranslate nohighlight">\(q_{lm}\)</span> or <span class="math notranslate nohighlight">\(Q_{lm}\)</span>, named as <span class="math notranslate nohighlight">\(s_{ij}\)</span> or <span class="math notranslate nohighlight">\(S_{ij}\)</span>.</p>
+</section>
+</section>
 <section id="id7">
-<h3>Input Arguments<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h3>
+<h2>Input Arguments<a class="headerlink" href="#id7" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">coarse_graining</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether use coarse-grained <span class="math notranslate nohighlight">\(Q_{lm}\)</span> or local <span class="math notranslate nohighlight">\(q_{lm}\)</span>, default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">c</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): cutoff defining bond property, such as solid or not, default 0.7</p></li>
@@ -479,7 +460,7 @@ different snapshots are stored in an array for each of them, separately. Both of
 </ul>
 </section>
 <section id="id8">
-<h3>Return<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h3>
+<h2>Return<a class="headerlink" href="#id8" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p>calculated <span class="math notranslate nohighlight">\(s_{ij}\)</span> or <span class="math notranslate nohighlight">\(S_{ij}\)</span> in <code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots*nparticle,</span> <span class="pre">2+max_neighbors]</span></code>, where <code class="docutils literal notranslate"><span class="pre">max_neighbors</span></code> is the maximum number of neighbors and the first two columns are particle index and coordination number. The returned result is also stored in <code class="docutils literal notranslate"><span class="pre">outputsij</span></code> file for each pair</p></li>
 </ul>
@@ -487,19 +468,19 @@ different snapshots are stored in an array for each of them, separately. Both of
 <p><code class="docutils literal notranslate"><span class="pre">outputsij</span></code> file stores the <span class="math notranslate nohighlight">\(s_{ij}\)</span> value of each particle with each of its neighbors. Results in different snapshots are written in sequence, with one header “id cn sij”.</p>
 </section>
 <section id="id9">
-<h3>Example<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h3>
+<h2>Example<a class="headerlink" href="#id9" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">sij_Ql</span> <span class="o">=</span> <span class="n">boo</span><span class="o">.</span><span class="n">sij_ql_Ql</span><span class="p">(</span><span class="n">coarse_graining</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                        <span class="n">outputqlQl</span><span class="o">=</span><span class="s1">&#39;sum_sij.csv&#39;</span><span class="p">,</span>
                        <span class="n">outputsij</span><span class="o">=</span><span class="s1">&#39;sij_Ql.dat&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="w-w-cap">
-<h2>5. <code class="docutils literal notranslate"><span class="pre">w_W_cap()</span></code><a class="headerlink" href="#w-w-cap" title="Link to this heading">¶</a></h2>
+<h3>5. <code class="docutils literal notranslate"><span class="pre">w_W_cap()</span></code><a class="headerlink" href="#w-w-cap" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">w_W_cap()</span></code> calculates the Wigner 3-j symbol boo based on qlm or Qlm.</p>
+</section>
+</section>
 <section id="id10">
-<h3>Input Arguments<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h3>
+<h2>Input Arguments<a class="headerlink" href="#id10" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">coarse_graining</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether use coarse-grained <span class="math notranslate nohighlight">\(Q_{lm}\)</span> or local <span class="math notranslate nohighlight">\(q_{lm}\)</span>, default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">outputw</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): txt file name for w (original) based on <span class="math notranslate nohighlight">\(q_{lm}\)</span> or <span class="math notranslate nohighlight">\(Q_{lm}\)</span>, default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
@@ -507,26 +488,26 @@ different snapshots are stored in an array for each of them, separately. Both of
 </ul>
 </section>
 <section id="id11">
-<h3>Return<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h3>
+<h2>Return<a class="headerlink" href="#id11" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">w_W</span></code> (<code class="docutils literal notranslate"><span class="pre">np.adarray</span></code>), calculated <span class="math notranslate nohighlight">\(w\)</span> or <span class="math notranslate nohighlight">\(W\)</span> with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots,</span> <span class="pre">nparticle]</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">w_W_cap</span></code> (<code class="docutils literal notranslate"><span class="pre">np.adarray</span></code>), calculated <span class="math notranslate nohighlight">\(w_{cap}\)</span> or <span class="math notranslate nohighlight">\(W_{cap}\)</span> with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots,</span> <span class="pre">nparticle]</span></code></p></li>
 </ul>
 </section>
 <section id="id12">
-<h3>Example<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h3>
+<h2>Example<a class="headerlink" href="#id12" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">W</span><span class="p">,</span> <span class="n">W_cap</span> <span class="o">=</span> <span class="n">boo</span><span class="o">.</span><span class="n">w_W_cap</span><span class="p">(</span><span class="n">coarse_graining</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> 
                        <span class="n">outputw</span><span class="o">=</span><span class="s1">&#39;W.dat&#39;</span><span class="p">,</span>
                        <span class="n">outputwcap</span><span class="o">=</span><span class="s1">&#39;W_cap.npy&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="spatial-corr">
-<h2>6. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code><a class="headerlink" href="#spatial-corr" title="Link to this heading">¶</a></h2>
+<h3>6. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code><a class="headerlink" href="#spatial-corr" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code> method calculates spatial correlation function of <span class="math notranslate nohighlight">\(q_{lm}\)</span> or <span class="math notranslate nohighlight">\(Q_{lm}\)</span></p>
+</section>
+</section>
 <section id="inputs">
-<h3>Inputs<a class="headerlink" href="#inputs" title="Link to this heading">¶</a></h3>
+<h2>Inputs<a class="headerlink" href="#inputs" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">coarse_graining</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether use coarse-grained <span class="math notranslate nohighlight">\(Q_{lm}\)</span> or local <span class="math notranslate nohighlight">\(q_{lm}\)</span>, default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">rdelta</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): bin size in calculating g(r) and Gl(r), default 0.01</p></li>
@@ -534,17 +515,17 @@ different snapshots are stored in an array for each of them, separately. Both of
 </ul>
 </section>
 <section id="id13">
-<h3>Example<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h3>
+<h2>Example<a class="headerlink" href="#id13" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Gl_Q</span> <span class="o">=</span> <span class="n">boo</span><span class="o">.</span><span class="n">spatial_corr</span><span class="p">(</span><span class="n">coarse_graining</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s1">&#39;Gl_Q.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
-</section>
 <section id="time-corr">
-<h2>7. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code><a class="headerlink" href="#time-corr" title="Link to this heading">¶</a></h2>
+<h3>7. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code><a class="headerlink" href="#time-corr" title="Link to this heading">¶</a></h3>
 <p><code class="docutils literal notranslate"><span class="pre">time_corr()</span></code> method calculates time correlation of <span class="math notranslate nohighlight">\(q_{lm}\)</span> or <span class="math notranslate nohighlight">\(Q_{lm}\)</span></p>
+</section>
+</section>
 <section id="id14">
-<h3>Inputs<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h3>
+<h2>Inputs<a class="headerlink" href="#id14" title="Link to this heading">¶</a></h2>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">coarse_graining</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether use coarse-grained <span class="math notranslate nohighlight">\(Q_{lm}\)</span> or local <span class="math notranslate nohighlight">\(q_{lm}\)</span>, default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">dt</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>): timestep used in user simulations, default 0.002</p></li>
@@ -552,11 +533,10 @@ different snapshots are stored in an array for each of them, separately. Both of
 </ul>
 </section>
 <section id="id15">
-<h3>Example<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h3>
+<h2>Example<a class="headerlink" href="#id15" title="Link to this heading">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">Gl_time</span> <span class="o">=</span> <span class="n">boo</span><span class="o">.</span><span class="n">time_corr</span><span class="p">(</span><span class="n">coarse_graining</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">outputfile</span><span class="o">=</span><span class="s1">&#39;Gl_time.csv&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</section>
 </section>
 </section>
 
@@ -570,7 +550,7 @@ different snapshots are stored in an array for each of them, separately. Both of
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">static orderings</div>
+                <div class="title">Static orderings</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -616,46 +596,44 @@ different snapshots are stored in an array for each of them, separately. Both of
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Bond Orientational Order Parameters at 3D</a><ul>
-<li><a class="reference internal" href="#boo-3d-class">1. <code class="docutils literal notranslate"><span class="pre">boo_3d</span></code> class</a><ul>
+<li><a class="reference internal" href="#boo-3d-class">1. <code class="docutils literal notranslate"><span class="pre">boo_3d</span></code> class</a></li>
 <li><a class="reference internal" href="#input-arguments">Input Arguments</a></li>
 <li><a class="reference internal" href="#return">Return:</a></li>
-<li><a class="reference internal" href="#example">Example</a></li>
+<li><a class="reference internal" href="#example">Example</a><ul>
+<li><a class="reference internal" href="#qlm-qlm">2. <code class="docutils literal notranslate"><span class="pre">qlm_Qlm()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#qlm-qlm">2. <code class="docutils literal notranslate"><span class="pre">qlm_Qlm()</span></code></a><ul>
 <li><a class="reference internal" href="#id1">Input Arguments</a></li>
 <li><a class="reference internal" href="#id2">Return</a></li>
-<li><a class="reference internal" href="#id3">Example</a></li>
+<li><a class="reference internal" href="#id3">Example</a><ul>
+<li><a class="reference internal" href="#ql-ql">3. <code class="docutils literal notranslate"><span class="pre">ql_Ql()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#ql-ql">3. <code class="docutils literal notranslate"><span class="pre">ql_Ql()</span></code></a><ul>
 <li><a class="reference internal" href="#id4">Input Arguments</a></li>
 <li><a class="reference internal" href="#id5">Return</a></li>
-<li><a class="reference internal" href="#id6">Example</a></li>
+<li><a class="reference internal" href="#id6">Example</a><ul>
+<li><a class="reference internal" href="#sij-ql-ql">4. <code class="docutils literal notranslate"><span class="pre">sij_ql_Ql()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#sij-ql-ql">4. <code class="docutils literal notranslate"><span class="pre">sij_ql_Ql()</span></code></a><ul>
 <li><a class="reference internal" href="#id7">Input Arguments</a></li>
 <li><a class="reference internal" href="#id8">Return</a></li>
-<li><a class="reference internal" href="#id9">Example</a></li>
+<li><a class="reference internal" href="#id9">Example</a><ul>
+<li><a class="reference internal" href="#w-w-cap">5. <code class="docutils literal notranslate"><span class="pre">w_W_cap()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#w-w-cap">5. <code class="docutils literal notranslate"><span class="pre">w_W_cap()</span></code></a><ul>
 <li><a class="reference internal" href="#id10">Input Arguments</a></li>
 <li><a class="reference internal" href="#id11">Return</a></li>
-<li><a class="reference internal" href="#id12">Example</a></li>
+<li><a class="reference internal" href="#id12">Example</a><ul>
+<li><a class="reference internal" href="#spatial-corr">6. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#spatial-corr">6. <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a><ul>
 <li><a class="reference internal" href="#inputs">Inputs</a></li>
-<li><a class="reference internal" href="#id13">Example</a></li>
+<li><a class="reference internal" href="#id13">Example</a><ul>
+<li><a class="reference internal" href="#time-corr">7. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#time-corr">7. <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a><ul>
 <li><a class="reference internal" href="#id14">Inputs</a></li>
 <li><a class="reference internal" href="#id15">Example</a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>
