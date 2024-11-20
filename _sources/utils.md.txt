@@ -160,9 +160,11 @@ wavevector.wavevector2d(numofq=100)
 
 ##### 3. `choosewavevector()`
 `choosewavevector()` is used to define wave vector for 
+
 $$
 [n_x, n_y, n_z]
 $$ 
+
 as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ or from $[0, N/2]$ (`onlypositive=True`). Only get the sqrt-able wave vector.
 
 **Input Arguments**
@@ -180,10 +182,12 @@ wavevector.choosewavevector(ndim=3, numofq=100, onlypositive=False)
 - qvectors (`npt.NDArray`)
 
 ##### 4. `continuousvector()`
-`continuousvector()` is used to define wave vector for 
+`continuousvector()` is used to define wave vector for
+
 $$
 [n_x, n_y, n_z]
 $$ 
+
 as long as they are integers. Considering wave vector values from $[-N/2, N/2]$ or from $[0, N/2]$ (`onlypositive=True`).
 
 **Input Arguments**

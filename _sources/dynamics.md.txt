@@ -13,9 +13,11 @@ To calculate the atomic-scale dynamics, the absolute coordinates, for example, t
 ##### `cage_relative()`
 Getting the cage-relative or coarse-grained displacement vectors of the center particle with respect to the neighbors in a certain range for single configuration.
 The coarse-graining is done based on the given the neighboring particles, which are accessible by the `neighbors` module. Specifically,
+
 $$
 \Delta {\vec r_j} = \left[{\vec r_j} (t) - {\vec r_j}(0) \right] - \frac{1}{N_j}\sum_{i}^{N_j} \left[ {\vec r_i}(t) - {\vec r_i}(0) \right],
 $$
+
 in which $j$ is the center particle and $i$ is its neighbor.
 
 **Input Arguments**:
@@ -130,12 +132,14 @@ Overlap function $Q(t)$:
 $$
 Q(t) = \frac{1}{N} \left< \sum_{j = 1}^{N}\omega\left( \left| \mathbf{r}_j\left( t \right) - \mathbf{r}_j\left( 0 \right) \right| \right) \right> \tag{2},
 $$
+
 in which $\omega(x)=1$ if $x<cuoff$ for slow dynamics or $x>cutoff$ for fast dynamics, else $\omega(x)=0$. This is related to the input argument `cal_type`. Its corresponding dynamic susceptibility $X_4(t)$ is defined as:
 
 $$
 \chi_{4}\left( t \right) = N^{-1}\left( \left< {Q\left( t \right)}^{2} \right> - \left< Q\left( t \right) \right>^{2} \right)
 \tag{3},
 $$
+
 in which the quantity $Q(t)$ should be non-averaged value.
 
 The mean-squared displacement is defined by
@@ -144,6 +148,7 @@ $$
 \left< \Delta {r^2}(t)\right> = \frac{1}{N}  \left< \sum_{j=1}^{N} \left( {\bf r}_j(t)-{\bf r}_j(0) \right) ^2  \right>
 \tag{4},
 $$
+
 in which the prefered coordiantes are the absolute one, given by 'xudump'.
 
 The non-Gaussion parameter $\alpha_2(t)$ is defined as
@@ -177,13 +182,17 @@ result = dynamic.relaxation(qconst=2*np.pi, condition=condition, outputfile="")
 
 ##### 1.2 `sq4()`
 Compute four-point dynamical structure factor of specific atoms at a characteristic timescale. The atoms can exhibit fast or slow dynamics, given by the input argument `cal_type`. It is defined in the same spirit as the static structure factor as below:
+
 $$
 S_4\left( q,t \right) = N^{- 1}\left< W\left( \mathbf{q},t \right)W\left( - \mathbf{q},t \right) \right>, 
 $$
+
 in which 
+
 $$
   W\left( \mathbf{q},t \right) = \sum_{j = 1}^{N}{\exp\left\lbrack i\mathbf{q} \cdot \mathbf{r}_{j}\left( 0 \right) \right\rbrack\omega\left( \left| \mathbf{r}_j\left( t \right) - \mathbf{r}_j\left( 0 \right) \right| \right)}, 
 $$
+
 which is essentially the same as the quantity $Q(t)$ as above, accounting for the slow or fast dynamics at the particle level. The calculation is done in the same way as above.
 
 **Input Arguments**:
