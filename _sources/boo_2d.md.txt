@@ -61,10 +61,10 @@ $$
 
 **Example**
 ```python
-from reader.dump_reader import DumpReader
-from reader.reader_utils import DumpFileType
-from neighbors.freud_neighbors import cal_neighbors
-from static.boo import boo_2d
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.reader.reader_utils import DumpFileType
+from PyMatterSim.neighbors.freud_neighbors import cal_neighbors
+from PyMatterSim.static.boo import boo_2d
 
 filename = 'dump.atom'
 readdump = DumpReader(filename, ndim=2, filetype=DumpFileType.LAMMPS, moltypes=None)

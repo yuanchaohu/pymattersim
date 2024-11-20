@@ -26,8 +26,8 @@ In this calculation, only **4** nearest neighbors are taken into consideration. 
 
 ##### 1.3 Example
 ```python
-from reader.dump_reader import DumpReader
-from static.tetrahedral import q_tetra
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.tetrahedral import q_tetra
 
 readdump = DumpReader(filename='dump_3d.atom', ndim=3)
 readdump.read_onefile()
@@ -57,9 +57,9 @@ where $N_o$ is the unique nearest pair number around the center, which equals to
 
 ##### 2.3 Example
 ```python
-from reader.dump_reader import DumpReader
-from static.packing_capability import theta_2D
-from neighbors.freud_neighbors import cal_neighbors
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.packing_capability import theta_2D
+from PyMatterSim.neighbors.freud_neighbors import cal_neighbors
 
 filename = 'dump_2D.atom'
 readdump = DumpReader(filename, 2)
@@ -101,7 +101,7 @@ The integration in Eq. (1) is calculated numerically using the trapezoid rule.
 
 **Example**
 ```python
-from static.pairentropy import S2
+from PyMatterSim.static.pairentropy import S2
 s2 = S2(readdump.snapshots,
         sigmas=np.array([[0.3, 0.2], [0.2, 0.4]]))
 ```
@@ -175,8 +175,8 @@ This module calculates calculate gyration tensor of a cluster of atoms. This mod
 **Example**
 ``` python
 import numpy as np
-from reader.dump_reader import DumpReader
-from static.shape import gyration_tensor
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.shape import gyration_tensor
 
 test_file = "test.atom"
 input_v = DumpReader(test_file, ndim=2)
@@ -216,8 +216,8 @@ Currently, the module only supports the calcualtion of two-dimensional systems.
 **Example**
 ```python
 import numpy as np
-from reader.dump_reader import DumpReader
-from static.nematic import NematicOrder
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.static.nematic import NematicOrder
 test_file = "test.atom"
 
 input_x =DumpReader(test_file, ndim=2)

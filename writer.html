@@ -256,14 +256,14 @@
 <p><strong>Example</strong></p>
 <ul>
 <li><p>Write the header of lammps dump file:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">writer.lammps_writer</span> <span class="kn">import</span> <span class="n">write_dump_header</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.writer.lammps_writer</span> <span class="kn">import</span> <span class="n">write_dump_header</span>
 
 <span class="n">write_dump_header</span><span class="p">(</span><span class="n">timestep</span><span class="p">,</span> <span class="n">nparticle</span><span class="p">,</span> <span class="n">boxbounds</span><span class="p">,</span> <span class="n">addson</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
 <li><p>Write the header of lammps data file:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">writer.lammps_writer</span> <span class="kn">import</span> <span class="n">write_data_header</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.writer.lammps_writer</span> <span class="kn">import</span> <span class="n">write_data_header</span>
 
 <span class="n">write_data_header</span><span class="p">(</span><span class="n">nparticle</span><span class="p">,</span> <span class="n">nparticle_type</span><span class="p">,</span> <span class="n">boxbounds</span><span class="p">)</span>
 </pre></div>

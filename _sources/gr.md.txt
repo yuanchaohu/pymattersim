@@ -40,9 +40,9 @@ The spatial correlation function of particle-level quantity $A_i$ is $g_A(r) / g
 **Example**
 
 ```python
-from reader.dump_reader import DumpReader
-from reader.reader_utils import DumpFileType
-from static.gr import gr
+from PyMatterSim.reader.dump_reader import DumpReader
+from PyMatterSim.reader.reader_utils import DumpFileType
+from PyMatterSim.static.gr import gr
 
 filename = 'dump.atom'
 readdump = DumpReader(filename, ndim=3, filetype=DumpFileType.LAMMPS, moltypes=None)
@@ -89,7 +89,7 @@ $$
 
 **Example**
 ```python
-from static.gr import conditional_gr
+from PyMatterSim.static.gr import conditional_gr
 
 for snapshot in readdump.snapshots.snapshots: 
     ### Select particles with a particle type of 2 for g(r) calculation

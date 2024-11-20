@@ -28,7 +28,7 @@ A string for the header will be returned.
 - Write the header of lammps dump file:
 
   ```python
-  from writer.lammps_writer import write_dump_header
+  from PyMatterSim.writer.lammps_writer import write_dump_header
   
   write_dump_header(timestep, nparticle, boxbounds, addson = '')
   ```
@@ -36,7 +36,7 @@ A string for the header will be returned.
 - Write the header of lammps data file:
 
   ```python
-  from writer.lammps_writer import write_data_header
+  from PyMatterSim.writer.lammps_writer import write_data_header
   
   write_data_header(nparticle, nparticle_type, boxbounds)
   ```

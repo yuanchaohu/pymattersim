@@ -411,8 +411,8 @@ s'' = \frac{d^2s}{dr^2} = \frac{ds'}{dr} = \frac{\epsilon}{\sigma^2} (\alpha-1) 
 </ul>
 <p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span> 
-<span class="kn">from</span> <span class="nn">static.hessians</span> <span class="kn">import</span>  <span class="n">HessianMatrix</span><span class="p">,</span> <span class="n">InteractionParams</span><span class="p">,</span> <span class="n">ModelName</span>
-<span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.static.hessians</span> <span class="kn">import</span>  <span class="n">HessianMatrix</span><span class="p">,</span> <span class="n">InteractionParams</span><span class="p">,</span> <span class="n">ModelName</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
 
 <span class="c1">### inverse-power law potential model in 2D</span>
 <span class="n">dumpfile</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>

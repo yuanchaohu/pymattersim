@@ -249,7 +249,7 @@
 <li><p>Nideal (<code class="docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">funcs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">funcs</span>
 
 <span class="n">funcs</span><span class="o">.</span><span class="n">nidealfac</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 </pre></div>
@@ -269,7 +269,7 @@
 <li><p>moment of inertia (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">funcs</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">funcs</span>
 <span class="n">funcs</span><span class="o">.</span><span class="n">moment_of_inertia</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">m</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">matrix</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -289,7 +289,7 @@
 <li><p>A <code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code> for the position difference between particle pairs <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span> after removing PBC</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils.pbc</span> <span class="kn">import</span> <span class="n">remove_pbc</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils.pbc</span> <span class="kn">import</span> <span class="n">remove_pbc</span>
 
 <span class="n">remove_pbc</span><span class="p">(</span><span class="n">RIJ</span><span class="p">,</span> <span class="n">hmatrix</span><span class="p">,</span> <span class="n">ppp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
 </pre></div>
@@ -312,7 +312,7 @@
 <li><p>area of triangle (float)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">geometry</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">geometry</span>
 
 <span class="n">geometry</span><span class="o">.</span><span class="n">triangle_area</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">hmatrix</span><span class="p">,</span> <span class="n">ppp</span><span class="p">)</span>
 </pre></div>
@@ -330,7 +330,7 @@
 <li><p>corresponding angles <code class="docutils literal notranslate"><span class="pre">C</span></code> (<code class="docutils literal notranslate"><span class="pre">float</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">geometry</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">geometry</span>
 
 <span class="n">geometry</span><span class="o">.</span><span class="n">triangle_angle</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
 </pre></div>
@@ -355,7 +355,7 @@
 <li><p>intersection of two lines (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">geometry</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">geometry</span>
 
 <span class="n">geometry</span><span class="o">.</span><span class="n">lines_intersection</span><span class="p">(</span><span class="n">P1</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]),</span>
                             <span class="n">P2</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]),</span>
@@ -380,7 +380,7 @@
 <li><p>wavevector (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
 <span class="n">wavevector</span><span class="o">.</span><span class="n">wavevector3d</span><span class="p">(</span><span class="n">numofq</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -397,7 +397,7 @@
 <li><p>wavevector (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
 <span class="n">wavevector</span><span class="o">.</span><span class="n">wavevector2d</span><span class="p">(</span><span class="n">numofq</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -416,7 +416,7 @@ as long as they are integers. Considering wave vector values from \)</span>[-N/2
 <li><p><code class="docutils literal notranslate"><span class="pre">onlypositive</span></code> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>): whether only consider positive wave vectors, , default <code class="docutils literal notranslate"><span class="pre">False</span></code></p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
 <span class="n">wavevector</span><span class="o">.</span><span class="n">choosewavevector</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">numofq</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">onlypositive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -443,7 +443,7 @@ as long as they are integers. Considering wave vector values from \)</span>[-N/2
 <li><p>qvectors (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">wavevector</span>
 <span class="n">wavevector</span><span class="o">.</span><span class="n">continuousvector</span><span class="p">(</span><span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">numofq</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">onlypositive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -464,7 +464,7 @@ as long as they are integers. Considering wave vector values from \)</span>[-N/2
 <li><p>FFT results (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">fft</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">fft</span>
 <span class="n">fft</span><span class="o">.</span><span class="n">Filon_COS</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">outputfile</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -488,7 +488,7 @@ as long as they are integers. Considering wave vector values from \)</span>[-N/2
 <li><p>spherical harmonics (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils</span> <span class="kn">import</span> <span class="n">spherical_harmonics</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils</span> <span class="kn">import</span> <span class="n">spherical_harmonics</span>
 
 <span class="n">spherical_harmonics</span><span class="o">.</span><span class="n">SphHarm4</span><span class="p">(</span><span class="n">theta</span><span class="o">=</span><span class="mi">60</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">,</span> <span class="n">phi</span><span class="o">=</span><span class="mi">30</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">180</span><span class="p">)</span>
 
@@ -518,7 +518,7 @@ as long as they are integers. Considering wave vector values from \)</span>[-N/2
 <li><p><code class="docutils literal notranslate"><span class="pre">results_middle_snapshots</span></code> (<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): Corresponding snapshot id of the middle snapshot of each time period with shape <code class="docutils literal notranslate"><span class="pre">[nsnapshots_updated]</span></code></p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">utils.coarse_graining</span> <span class="kn">import</span> <span class="n">time_average</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.utils.coarse_graining</span> <span class="kn">import</span> <span class="n">time_average</span>
 
 <span class="n">time_average</span><span class="p">(</span><span class="n">snapshots</span><span class="p">,</span> <span class="n">input_property</span><span class="p">,</span> <span class="n">time_period</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
 </pre></div>
@@ -540,8 +540,8 @@ as long as they are integers. Considering wave vector values from \)</span>[-N/2
 </ul>
 <p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">utils.coarse_graining</span> <span class="kn">import</span> <span class="n">spatial_average</span> 
+<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.utils.coarse_graining</span> <span class="kn">import</span> <span class="n">spatial_average</span> 
 
 <span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
 <span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -577,8 +577,8 @@ in which \)</span>\vec{r_j}<span class="math notranslate nohighlight">\( is the 
 </ul>
 <p><strong>Example</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">utils.coarse_graining</span> <span class="kn">import</span> <span class="n">gaussian_blurring</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.utils.coarse_graining</span> <span class="kn">import</span> <span class="n">gaussian_blurring</span>
 
 <span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
 <span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>

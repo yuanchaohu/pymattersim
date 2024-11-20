@@ -270,9 +270,9 @@ g_A(r) = \frac{1}{N \rho} \left&lt;le \sum_{i \neq j} \delta (r - |\vec r_{ij}|)
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the name of csv file to save the calculated g(r), default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
-<span class="kn">from</span> <span class="nn">static.gr</span> <span class="kn">import</span> <span class="n">gr</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
+<span class="kn">from</span> <span class="nn">PyMatterSim.static.gr</span> <span class="kn">import</span> <span class="n">gr</span>
 
 <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;dump.atom&#39;</span>
 <span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="n">DumpFileType</span><span class="o">.</span><span class="n">LAMMPS</span><span class="p">,</span> <span class="n">moltypes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -319,7 +319,7 @@ g_A(r) = \frac{1}{N \rho} \left&lt;le \sum_{i \neq j} \delta (r - |\vec r_{ij}|)
 g_A^{\rm norm} = \frac{g_A - \left&lt; A \right&gt;^2}{\left&lt; A^2 \right&gt; - \left&lt; A \right&gt;^2}.
 \]</div>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">static.gr</span> <span class="kn">import</span> <span class="n">conditional_gr</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.static.gr</span> <span class="kn">import</span> <span class="n">conditional_gr</span>
 
 <span class="k">for</span> <span class="n">snapshot</span> <span class="ow">in</span> <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">:</span> 
     <span class="c1">### Select particles with a particle type of 2 for g(r) calculation</span>
