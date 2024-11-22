@@ -44,6 +44,14 @@ Some examples are provided from the unittest modules (`tests/`)
 ## Citation
 Working in progress
 
+## References
+- Hu, Y., & Tanaka, H. [Origin of the boson peak in amorphous solids](https://doi.org/10.1038/s41567-022-01628-6). **Nature Physics**, 18(6), 669-677 (2022) 
+- Hu, Y., & Tanaka, H. [Revealing the role of liquid preordering in crystallisation of supercooled liquids](https://doi.org/10.1038/s41467-022-32241-z). **Nature Communications**, 13(1), 4519 (2022)
+- Hu, C., & Tanaka, H. [Physical origin of glass formation from multicomponent systems](https://doi.org/abd2928). **Science Advances** 6 (50), eabd2928 (2020)
+- Hu, Y., Li, Y., Yang, Y., Guan, P., Bai, H., & Wang, W. [Configuration correlation governs slow dynamics of supercooled metallic liquids](https://doi.org/10.1073/pnas.1802300115). Proceedings of the National Academy of Sciences, 115(25), 6375-6380 (2018)
+- Hu, Y. C., Li, F. X., Li, M. Z., Bai, H. Y., & Wang, W. H. [Five-fold symmetry as indicator of dynamic arrest in metallic glass-forming liquids](https://doi.org/10.1038/ncomms9310). **Nature Communications**, 6(1), 8310 (2015) 
+
+
 ## UnitTest
 Please run the bash scripts available from `shell/` for unittests. As follows are test statistics:
 | Test              | # Tests and Runtime | Status |
