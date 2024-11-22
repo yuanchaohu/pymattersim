@@ -47,7 +47,7 @@ Working in progress
 ## References
 - Y.-C. Hu et al. [Origin of the boson peak in amorphous solids](https://doi.org/10.1038/s41567-022-01628-6). **Nature Physics**, 18(6), 669-677 (2022) 
 - Y.-C. Hu et al. [Revealing the role of liquid preordering in crystallisation of supercooled liquids](https://doi.org/10.1038/s41467-022-32241-z). **Nature Communications**, 13(1), 4519 (2022)
-- Y.-C. Hu et al. [Physical origin of glass formation from multicomponent systems](https://doi.org/abd2928). **Science Advances** 6 (50), eabd2928 (2020)
+- Y.-C. Hu et al. [Physical origin of glass formation from multicomponent systems](https://www.science.org/doi/10.1126/sciadv.abd2928). **Science Advances** 6 (50), eabd2928 (2020)
 - Y.-C. Hu et al. [Configuration correlation governs slow dynamics of supercooled metallic liquids](https://doi.org/10.1073/pnas.1802300115). Proceedings of the National Academy of Sciences, 115(25), 6375-6380 (2018)
 - Y.-C. Hu et al. [Five-fold symmetry as indicator of dynamic arrest in metallic glass-forming liquids](https://doi.org/10.1038/ncomms9310). **Nature Communications**, 6(1), 8310 (2015) 
 
