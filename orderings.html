@@ -309,7 +309,6 @@ theta = theta_2D(readdump.snapshots, sigmas=np.array([[1.5,1.5],[1.5,1.5]]), nei
 \[\begin{split}
 S_2^i = -2 \pi \rho k_B \int_0^{r_m} [g_m^i(r) \ln g_m^i(r) - g_m^i(r)+1] r^2 dr \quad (3D) \\
 S_2^i = -\pi \rho k_B \int_0^{r_m} [g_m^i(r) \ln g_m^i(r) - g_m^i(r)+1] r dr \quad (2D)
-\tag{1}
 \end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(r_m\)</span> is is an upper integration limit that, in principle, should
 be taken to infinity (<span class="math notranslate nohighlight">\(g(r_m \to \infty)=1\)</span>), and <span class="math notranslate nohighlight">\(g_m^i(r)\)</span> is the pair correlation function centered at the <span class="math notranslate nohighlight">\(i\)</span> th particle. We use a Gaussian smeared <span class="math notranslate nohighlight">\(g_m^i(r)\)</span> to obtain a continuous and differentiable quantity,</p>
@@ -318,10 +317,9 @@ be taken to infinity (<span class="math notranslate nohighlight">\(g(r_m \to \in
 g_m^i(r) = \frac{1}{4 \pi \rho r^2} \sum_j \frac{1}{\sqrt {2 \pi \sigma^2}} e^{-(r-r_{ij})^2/(2 \sigma ^2)} \quad (3D) 
 \\
 g_m^i(r) = \frac{1}{2 \pi \rho r} \sum_j \frac{1}{\sqrt {2 \pi \sigma^2}} e^{-(r-r_{ij})^2/(2 \sigma ^2)} \quad (2D)
-\tag{2}
 \end{split}\]</div>
 <p>where <span class="math notranslate nohighlight">\(j\)</span> are the neighbors of atom <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(r_{ij}\)</span> is the pair distance, and <span class="math notranslate nohighlight">\(\sigma\)</span> is a broadening parameter.
-The integration in Eq. (1) is calculated numerically using the trapezoid rule.</p>
+The integrations is calculated numerically using the trapezoid rule.</p>
 <section id="s2-class">
 <h3><code class="docutils literal notranslate"><span class="pre">S2</span></code> class<a class="headerlink" href="#s2-class" title="Link to this heading"></a></h3>
 <p><strong>Input Arguments</strong></p>

@@ -78,7 +78,6 @@ The module `static.pair_entropy` calculates the particle-level pair entropy $S_2
 $$
 S_2^i = -2 \pi \rho k_B \int_0^{r_m} [g_m^i(r) \ln g_m^i(r) - g_m^i(r)+1] r^2 dr \quad (3D) \\
 S_2^i = -\pi \rho k_B \int_0^{r_m} [g_m^i(r) \ln g_m^i(r) - g_m^i(r)+1] r dr \quad (2D)
-\tag{1}
 $$
 
 where $r_m$ is is an upper integration limit that, in principle, should
@@ -88,11 +87,10 @@ $$
 g_m^i(r) = \frac{1}{4 \pi \rho r^2} \sum_j \frac{1}{\sqrt {2 \pi \sigma^2}} e^{-(r-r_{ij})^2/(2 \sigma ^2)} \quad (3D) 
 \\
 g_m^i(r) = \frac{1}{2 \pi \rho r} \sum_j \frac{1}{\sqrt {2 \pi \sigma^2}} e^{-(r-r_{ij})^2/(2 \sigma ^2)} \quad (2D)
-\tag{2}
 $$
 
 where $j$ are the neighbors of atom $i$, $r_{ij}$ is the pair distance, and $\sigma$ is a broadening parameter. 
-The integration in Eq. (1) is calculated numerically using the trapezoid rule.
+The integrations is calculated numerically using the trapezoid rule.
 
 ##### `S2` class
 
