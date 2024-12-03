@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyMatterSim
-Version: 0.0.2
+Version: 0.0.3
 Summary: A python data analysis library for computer simulations
 Home-page: https://github.com/yuanchaohu/pymattersim
 Author: Yuan-Chao Hu
@@ -13,7 +13,7 @@ Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: numpy
 Requires-Dist: pandas
-Requires-Dist: freud-analysis==3.1.0
+Requires-Dist: freud-analysis
 Requires-Dist: scipy
 Requires-Dist: sympy
 
