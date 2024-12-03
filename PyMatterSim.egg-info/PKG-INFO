@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyMatterSim
-Version: 0.0.1
+Version: 0.0.2
 Summary: A python data analysis library for computer simulations
 Home-page: https://github.com/yuanchaohu/pymattersim
 Author: Yuan-Chao Hu
@@ -11,10 +11,10 @@ Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
 License-File: LICENSE
-Requires-Dist: numpy==1.26.0
-Requires-Dist: pandas==2.1.1
+Requires-Dist: numpy
+Requires-Dist: pandas
 Requires-Dist: freud-analysis==3.1.0
-Requires-Dist: scipy==1.11.4
+Requires-Dist: scipy
 Requires-Dist: sympy
 
 # pymattersim
@@ -23,6 +23,12 @@ Requires-Dist: sympy
 Physics-driven data analyis of computer simulations for materials science, chemistry, physics, and beyond.
 
 ## Installation
+`pip install PyMatterSim`
+
+`pip install git@github.com:yuanchaohu/pymattersim.git`
+
+## Documentation
+The [documentation](https://yuanchaohu.github.io/pymattersim/) is now available online.
 
 ## Requirements
 - python 3.6 or higher
@@ -55,6 +61,14 @@ Some examples are provided from the unittest modules (`tests/`)
 [Voro++](https://math.lbl.gov/voro++/) is recommend to install separately for specific Voronoi analysis. Some of the analysis from the original voro++ is maintained from the [freud-analysis package](https://freud.readthedocs.io/en/stable/gettingstarted/installation.html) developed by the Glozter group.
 
 ## Citation
+Working in progress
+
+## References
+- Y.-C. Hu et al. [Origin of the boson peak in amorphous solids](https://doi.org/10.1038/s41567-022-01628-6). **Nature Physics**, 18(6), 669-677 (2022) 
+- Y.-C. Hu et al. [Revealing the role of liquid preordering in crystallisation of supercooled liquids](https://doi.org/10.1038/s41467-022-32241-z). **Nature Communications**, 13(1), 4519 (2022)
+- Y.-C. Hu et al. [Physical origin of glass formation from multicomponent systems](https://www.science.org/doi/10.1126/sciadv.abd2928). **Science Advances** 6 (50), eabd2928 (2020)
+- Y.-C. Hu et al. [Configuration correlation governs slow dynamics of supercooled metallic liquids](https://doi.org/10.1073/pnas.1802300115). **Proceedings of the National Academy of Sciences U.S.A.**, 115(25), 6375-6380 (2018)
+- Y.-C. Hu et al. [Five-fold symmetry as indicator of dynamic arrest in metallic glass-forming liquids](https://doi.org/10.1038/ncomms9310). **Nature Communications**, 6(1), 8310 (2015) 
 
 
 ## UnitTest
