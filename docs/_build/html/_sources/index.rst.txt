@@ -53,6 +53,19 @@ The documentation for **PyMatterSim** is `hosted online <https://yuanchaohu.gith
 Citation
 ----------------
 
+.. code:: bash
+
+   @article{hu2024pymattersimpythondataanalysis,
+         title={PyMatterSim: a Python Data Analysis Library for Computer Simulations of Materials Science, Physics, Chemistry, and Beyond}, 
+         author={Y. -C. Hu and J. Tian},
+         year={2024},
+         eprint={2411.17970},
+         archivePrefix={arXiv},
+         primaryClass={cond-mat.mtrl-sci},
+         url={https://arxiv.org/abs/2411.17970}, 
+   }
+
+
 Working in progress.
 
 References

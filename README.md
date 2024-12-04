@@ -42,7 +42,17 @@ Some examples are provided from the unittest modules (`tests/`)
 [Voro++](https://math.lbl.gov/voro++/) is recommend to install separately for specific Voronoi analysis. Some of the analysis from the original voro++ is maintained from the [freud-analysis package](https://freud.readthedocs.io/en/stable/gettingstarted/installation.html) developed by the Glozter group.
 
 ## Citation
-Working in progress
+```
+@article{hu2024pymattersimpythondataanalysis,
+      title={PyMatterSim: a Python Data Analysis Library for Computer Simulations of Materials Science, Physics, Chemistry, and Beyond}, 
+      author={Y. -C. Hu and J. Tian},
+      year={2024},
+      eprint={2411.17970},
+      archivePrefix={arXiv},
+      primaryClass={cond-mat.mtrl-sci},
+      url={https://arxiv.org/abs/2411.17970}, 
+}
+```
 
 ## References
 - Y.-C. Hu et al. [Origin of the boson peak in amorphous solids](https://doi.org/10.1038/s41567-022-01628-6). **Nature Physics**, 18(6), 669-677 (2022) 
