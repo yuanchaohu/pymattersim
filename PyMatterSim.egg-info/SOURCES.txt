@@ -58,6 +58,7 @@ tests/reader/__init__.py
 tests/reader/dump_reader_test.py
 tests/reader/gsd_reader_helper_test.py
 tests/reader/lammps_reader_helper_test.py
+tests/reader/log_reader_test.py
 tests/static/__init__.py
 tests/static/boo_test.py
 tests/static/geometric_test.py

@@ -24,8 +24,8 @@ def read_lammpslog(filename) -> [pd.DataFrame]:
         data = f.readlines()
 
     # ----get how many sections are there----
-    start = [i for i, val in enumerate(data) if val.startswith("Step ")]
-    end = [i for i, val in enumerate(data) if val.startswith("Loop time of ")]
+    start = [i for i, val in enumerate(data) if val.lstrip().startswith("Step ")]
+    end = [i for i, val in enumerate(data) if val.lstrip().startswith("Loop time of ")]
 
     if data[-1] != "\n":
         if data[-1].split()[0].isnumeric():  # incomplete log file
