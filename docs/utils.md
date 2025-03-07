@@ -304,9 +304,11 @@ sa = spatial_average(input_property,neighborfile)
 
 ##### 3. `gaussian_blurring()`
 Project input properties into a grid made from the simulation box. Basically, the calculation is to define a grid based on the simulation box, and then project the particle-level property to the grids based on the gaussian distribution function:
+
 $$
 p(\vec{r_j}) = \sum_i \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left(-\frac{(\vec{r_j}-\vec{r}_i)^2}{2\sigma^2}\right) p_i,
 $$
+
 in which $\vec{r_j}$ is the position of the $j_{th}$ grid, and $\vec{r_i}$ is the position of the $i_{th}$ particle. $p_i$ is the particle-level property of the $i_{th}$ particle, which can be a scalar, vector or tensor.
 
 **Input Arguments**
