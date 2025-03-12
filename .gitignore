@@ -1,5 +1,6 @@
 .devcontainer/
 .venv/
+.venvdoc
 venv
 .vscode/
 __pycache__/
