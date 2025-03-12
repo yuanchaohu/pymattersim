@@ -7,4 +7,6 @@ twine upload dist/*
 # push changes to master
 # cd docs/
 # make html
+# cd ../
 # git subtree push --prefix docs/_build/html origin gh-pages
+# requirements: sphinx myst-parser sphinx-rtd-theme furo sphinx-material
