@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyMatterSim
-Version: 0.0.7
+Version: 0.0.8
 Summary: A python data analysis library for computer simulations
 Home-page: https://github.com/yuanchaohu/pymattersim
 Author: Yuan-Chao Hu
@@ -8,7 +8,7 @@ Author-email: ychu0213@gmail.com
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
-Requires-Python: >=3.6,<=3.10
+Requires-Python: >=3.6,<3.11
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: numpy

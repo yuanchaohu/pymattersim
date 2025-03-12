@@ -2,7 +2,7 @@ from setuptools import find_packages, setup
 
 setup(
     name="PyMatterSim",  # Replace with your project name
-    version="0.0.7",
+    version="0.0.8",
     author="Yuan-Chao Hu",
     author_email="ychu0213@gmail.com",
     description="A python data analysis library for computer simulations",
@@ -16,5 +16,5 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires=">=3.6,<=3.10",
+    python_requires=">=3.6,<3.11",
 )
