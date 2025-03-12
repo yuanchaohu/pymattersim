@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyMatterSim
-Version: 0.0.4
+Version: 0.0.5
 Summary: A python data analysis library for computer simulations
 Home-page: https://github.com/yuanchaohu/pymattersim
 Author: Yuan-Chao Hu
@@ -8,7 +8,7 @@ Author-email: ychu0213@gmail.com
 Classifier: Programming Language :: Python :: 3
 Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
-Requires-Python: >=3.6
+Requires-Python: >=3.6,<=3.10
 Description-Content-Type: text/markdown
 License-File: LICENSE
 Requires-Dist: numpy
@@ -25,16 +25,14 @@ Physics-driven data analyis of computer simulations for materials science, chemi
 ## Installation
 `pip install PyMatterSim`
 
-`pip install git@github.com:yuanchaohu/pymattersim.git`
-
 ## Documentation
 The [documentation](https://yuanchaohu.github.io/pymattersim/) is now available online.
 
 ## Requirements
-- python 3.6 or higher
+- python 3.6-3.10 (recommend **3.10**)
 - numpy
 - pandas
-- freud-analysis
+- freud-analysis (3.1.0, 3.2.0)
 - scipy
 - sympy
 - gsd (optional)
