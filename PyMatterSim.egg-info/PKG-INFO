@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: PyMatterSim
-Version: 0.0.5
+Version: 0.0.6
 Summary: A python data analysis library for computer simulations
 Home-page: https://github.com/yuanchaohu/pymattersim
 Author: Yuan-Chao Hu
@@ -22,7 +22,9 @@ Requires-Dist: sympy
 ## Summary
 Physics-driven data analyis of computer simulations for materials science, chemistry, physics, and beyond.
 
-## Installation
+## Installation [in a virtual environment]
+`python3.10 -m venv .venv`
+`source .venv/bin/activate`
 `pip install PyMatterSim`
 
 ## Documentation
