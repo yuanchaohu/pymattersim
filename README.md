@@ -3,7 +3,9 @@
 ## Summary
 Physics-driven data analyis of computer simulations for materials science, chemistry, physics, and beyond.
 
-## Installation
+## Installation [in a virtual environment]
+`python3.10 -m venv .venv`
+`source .venv/bin/activate`
 `pip install PyMatterSim`
 
 ## Documentation
