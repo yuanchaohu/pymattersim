@@ -12,10 +12,10 @@ Physics-driven data analyis of computer simulations for materials science, chemi
 The [documentation](https://yuanchaohu.github.io/pymattersim/) is now available online.
 
 ## Requirements
-- python 3.6 or higher
+- python 3.6-3.10 (recommend 3.10)
 - numpy
 - pandas
-- freud-analysis
+- freud-analysis (3.1.0, 3.2.0)
 - scipy
 - sympy
 - gsd (optional)
