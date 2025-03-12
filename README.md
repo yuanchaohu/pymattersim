@@ -6,13 +6,11 @@ Physics-driven data analyis of computer simulations for materials science, chemi
 ## Installation
 `pip install PyMatterSim`
 
-`pip install git@github.com:yuanchaohu/pymattersim.git`
-
 ## Documentation
 The [documentation](https://yuanchaohu.github.io/pymattersim/) is now available online.
 
 ## Requirements
-- python 3.6-3.10 (recommend 3.10)
+- python 3.6-3.10 (recommend **3.10**)
 - numpy
 - pandas
 - freud-analysis (3.1.0, 3.2.0)
