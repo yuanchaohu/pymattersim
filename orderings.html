@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Static orderings &mdash; PyMatterSim  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
@@ -256,8 +256,8 @@ If the file extension is “.dat” or “.txt”, also saved a text file.</p></
 </section>
 <section id="example">
 <h3>1.3 Example<a class="headerlink" href="#example" title="Link to this heading"></a></h3>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.tetrahedral</span> <span class="kn">import</span> <span class="n">q_tetra</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.tetrahedral</span><span class="w"> </span><span class="kn">import</span> <span class="n">q_tetra</span>
 
 <span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="s1">&#39;dump_3d.atom&#39;</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
@@ -335,7 +335,7 @@ The integrations is calculated numerically using the trapezoid rule.</p>
 <li><p>None</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.static.pairentropy</span> <span class="kn">import</span> <span class="n">S2</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.pairentropy</span><span class="w"> </span><span class="kn">import</span> <span class="n">S2</span>
 <span class="n">s2</span> <span class="o">=</span> <span class="n">S2</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="p">,</span>
         <span class="n">sigmas</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">]]))</span>
 </pre></div>
@@ -415,9 +415,9 @@ g_s(t) = &lt;S_2(0)S_2(t)&gt;
 <code class="docutils literal notranslate"><span class="pre">3D</span></code>: <code class="docutils literal notranslate"><span class="pre">radius_of_gyration</span></code>, <code class="docutils literal notranslate"><span class="pre">asphericity</span></code>, <code class="docutils literal notranslate"><span class="pre">acylindricity</span></code>, <code class="docutils literal notranslate"><span class="pre">shape_anisotropy</span></code>, <code class="docutils literal notranslate"><span class="pre">fractal_dimension</span></code></p>
 <p><code class="docutils literal notranslate"><span class="pre">2D</span></code>: <code class="docutils literal notranslate"><span class="pre">radius_of_gyration</span></code>, <code class="docutils literal notranslate"><span class="pre">acylindricity</span></code>, <code class="docutils literal notranslate"><span class="pre">fractal_dimension</span></code></p>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.shape</span> <span class="kn">import</span> <span class="n">gyration_tensor</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.shape</span><span class="w"> </span><span class="kn">import</span> <span class="n">gyration_tensor</span>
 
 <span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
 <span class="n">input_v</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -462,9 +462,9 @@ Q_{\rm CG}(i) = \frac{1}{1+N_i} \left( Q_{\alpha \beta}^i + \sum_{j}^{N_i} Q_{\a
 <li><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.nematic</span> <span class="kn">import</span> <span class="n">NematicOrder</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.nematic</span><span class="w"> </span><span class="kn">import</span> <span class="n">NematicOrder</span>
 <span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
 
 <span class="n">input_x</span> <span class="o">=</span><span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>

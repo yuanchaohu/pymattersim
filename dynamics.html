@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Dynamical properties at two &amp; three dimensions &mdash; PyMatterSim  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
@@ -258,11 +258,11 @@ The coarse-graining is done based on the given the neighboring particles, which 
 <li><p><code class="docutils literal notranslate"><span class="pre">RII_relative</span></code>(<code class="docutils literal notranslate"><span class="pre">npt.NDArray</span></code>): cage-relative displacement matrix with shape <code class="docutils literal notranslate"><span class="pre">[num_of_particles,</span> <span class="pre">ndim]</span></code> (the same as the input <code class="docutils literal notranslate"><span class="pre">RII</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.dynamic.dynamics</span> <span class="kn">import</span> <span class="n">cage_relative</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.neighbors.read_neighbors</span> <span class="kn">import</span> <span class="n">read_neighbors</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.dynamic.dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">cage_relative</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.neighbors.read_neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">read_neighbors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.neighbors.calculate_neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Nnearests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
 <span class="c1">###here is a example of how it works, it used within Dynamics and LogDynamics class</span>
 <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;dump.atom&#39;</span>
@@ -314,9 +314,9 @@ The functions are listed below.</p>
 <li><p>None</p></li>
 </ul>
 <p><strong>Example</strong>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.dynamic.dynamics</span> <span class="kn">import</span> <span class="n">Dynamics</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.dynamic.dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">Dynamics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.neighbors.calculate_neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Nnearests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
 
 <span class="c1">### example for 2d dump</span>
 <span class="c1">### read the dump file</span>
@@ -450,9 +450,9 @@ S_4\left( q,t \right) = N^{- 1}\left&lt; W\left( \mathbf{q},t \right)W\left( - \
 <li><p>None</p></li>
 </ul>
 <p><strong>Example</strong>:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.dynamic.dynamics</span> <span class="kn">import</span> <span class="n">LogDynamics</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.dynamic.dynamics</span><span class="w"> </span><span class="kn">import</span> <span class="n">LogDynamics</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.neighbors.calculate_neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Nnearests</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
 
 <span class="c1">### example for 2d dump</span>
 <span class="c1">### read the dump file</span>
@@ -525,7 +525,7 @@ shape: <code class="docutils literal notranslate"><span class="pre">[num_of_snap
 </ul>
 <p><strong>Example</strong>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1">###example for random scalar condition</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.dynamic.time_corr</span> <span class="kn">import</span> <span class="n">time_correlation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.dynamic.time_corr</span><span class="w"> </span><span class="kn">import</span> <span class="n">time_correlation</span>
 <span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">readdump</span><span class="o">.</span><span class="n">read_onefile</span><span class="p">()</span>
 <span class="n">condition</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">nsnapshots</span><span class="p">,</span> <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">positions</span><span class="p">)</span>

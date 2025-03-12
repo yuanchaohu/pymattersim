@@ -34,11 +34,13 @@ and supercooled liquids from the open source simulator LAMMPS. But the
 analyis is in principle useful for any simulations, and it is straightforward
 to make extensions.
 
-Installation
+Installation [recommend in a virtual environment]
 ----------------
 
 .. code:: bash
 
+   python3.10 -m venv .venv
+   source .venv/bin/activate
    pip install PyMatterSim
 
 

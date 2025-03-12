@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vector Analysis &mdash; PyMatterSim  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
@@ -248,10 +248,10 @@ PR_n = \frac{\left[ \sum_i^N |\vec e_{i,n}|^2 \right]^2}
 <li><p>participation ratio of the vector field (float)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.vector</span> <span class="kn">import</span> <span class="n">participation_ratio</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.reader_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpFileType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">participation_ratio</span>
 
 <span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
 <span class="n">Readdump</span> <span class="o">=</span><span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span><span class="n">filetype</span><span class="o">=</span><span class="n">DumpFileType</span><span class="o">.</span><span class="n">LAMMPSVECTOR</span><span class="p">,</span><span class="n">columnsids</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">])</span>
@@ -281,11 +281,11 @@ PR_n = \frac{\left[ \sum_i^N |\vec e_{i,n}|^2 \right]^2}
 <li><p>phase quotient measured as a <code class="docutils literal notranslate"><span class="pre">float</span></code></p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.vector</span> <span class="kn">import</span> <span class="n">local_vector_alignment</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.reader_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpFileType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">local_vector_alignment</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.neighbors.calculate_neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Nnearests</span>
 
 
 <span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
@@ -323,10 +323,10 @@ PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\su
 <li><p>phase quotient measured as a float</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.vector</span> <span class="kn">import</span> <span class="n">phase_quotient</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">phase_quotient</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.neighbors.calculate_neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Nnearests</span>
 
 <span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
 <span class="n">input_vp</span> <span class="o">=</span><span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -365,10 +365,10 @@ PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\su
 <li><p>divergence and curl (only 3D) in numpy array of the input vector</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.vector</span> <span class="kn">import</span> <span class="n">divergence_curl</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.neighbors.calculate_neighbors</span> <span class="kn">import</span> <span class="n">Nnearests</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">divergence_curl</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.neighbors.calculate_neighbors</span><span class="w"> </span><span class="kn">import</span> <span class="n">Nnearests</span>
 
 <span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
 <span class="n">input_vp</span> <span class="o">=</span><span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
@@ -403,9 +403,9 @@ PQ_n = \frac{\sum_i^{N} \sum_j^{CN_i} {\vec e_{i, n}} \cdot {\vec e_{j, n}}}{\su
 <li><p>particle-level vibrability in a numpy array</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.vector</span> <span class="kn">import</span> <span class="n">vibrability</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">vibrability</span>
 
 <span class="c1">###example for 10x10 matrix</span>
 <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span>
@@ -478,10 +478,10 @@ E_{\lambda, T} (\bf{q}) = \frac{1}{N} \left| \hat{\bf{q}} \times \tilde e \right
 <li><p><code class="docutils literal notranslate"><span class="pre">ave_sqresults</span></code>: the ensemble averaged <code class="docutils literal notranslate"><span class="pre">S(q)</span></code> over the same wavenumber (<code class="docutils literal notranslate"><span class="pre">pd.DataFrame</span></code>)</p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.vector</span> <span class="kn">import</span> <span class="n">vector_decomposition_sq</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.utils.wavevector</span> <span class="kn">import</span> <span class="n">choosewavevector</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">vector_decomposition_sq</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.utils.wavevector</span><span class="w"> </span><span class="kn">import</span> <span class="n">choosewavevector</span>
 
 <span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
 
@@ -543,10 +543,10 @@ C_\alpha(q, t)= \frac{1}{N} \left&lt; \vec j_\alpha({\vec q}, t) \cdot \vec j_\a
 <li><p>time correlation of FFT of vectors in full, transverse, and longitudinal mode. Dict as <code class="docutils literal notranslate"><span class="pre">{&quot;FFT&quot;:</span> <span class="pre">pd.DataFrame,</span> <span class="pre">&quot;T_FFT&quot;:</span> <span class="pre">pd.DataFrame,</span> <span class="pre">&quot;L_FFT&quot;:</span> <span class="pre">pd.DataFrame}</span></code></p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.vector</span> <span class="kn">import</span> <span class="n">vector_fft_corr</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.utils.wavevector</span> <span class="kn">import</span> <span class="n">choosewavevector</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.vector</span><span class="w"> </span><span class="kn">import</span> <span class="n">vector_fft_corr</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.utils.wavevector</span><span class="w"> </span><span class="kn">import</span> <span class="n">choosewavevector</span>
 
 <span class="n">test_file</span> <span class="o">=</span> <span class="s2">&quot;test.atom&quot;</span>
 <span class="n">input_vp</span> <span class="o">=</span><span class="n">DumpReader</span><span class="p">(</span><span class="n">test_file</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>

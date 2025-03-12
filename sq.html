@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Structure Factors &mdash; PyMatterSim  documentation</title>
-      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=e59714d7" />
 
   
@@ -102,12 +102,6 @@
 <li class="toctree-l3"><a class="reference internal" href="orderings.html#example">1.3 Example</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="orderings.html#packing-capability-theta-o">2. Packing capability <span class="math notranslate nohighlight">\(\Theta_o\)</span></a><ul>
-<li class="toctree-l3"><a class="reference internal" href="orderings.html#id1">2.1 Input Arguments</a></li>
-<li class="toctree-l3"><a class="reference internal" href="orderings.html#id2">2.2 Return</a></li>
-<li class="toctree-l3"><a class="reference internal" href="orderings.html#id3">2.3 Example</a></li>
-</ul>
-</li>
 <li class="toctree-l2"><a class="reference internal" href="orderings.html#pair-entropy-s-2">3. Pair entropy <span class="math notranslate nohighlight">\(S_2\)</span></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="orderings.html#s2-class"><code class="docutils literal notranslate"><span class="pre">S2</span></code> class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orderings.html#particle-s2"><code class="docutils literal notranslate"><span class="pre">particle_S2()</span></code></a></li>
@@ -119,8 +113,8 @@
 <li class="toctree-l2"><a class="reference internal" href="orderings.html#nematic-order">5. Nematic order</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="orderings.html#nematicorder-class">5.1 <code class="docutils literal notranslate"><span class="pre">NematicOrder()</span></code> class</a></li>
 <li class="toctree-l3"><a class="reference internal" href="orderings.html#tensor">5.2 <code class="docutils literal notranslate"><span class="pre">tensor()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="orderings.html#id4">5.3 <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="orderings.html#id5">5.4 <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="orderings.html#id1">5.3 <code class="docutils literal notranslate"><span class="pre">spatial_corr()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="orderings.html#id2">5.4 <code class="docutils literal notranslate"><span class="pre">time_corr()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -278,9 +272,9 @@ S_{\alpha\beta}({\vec q}) = \left&lt; \rho_\alpha({\vec q}) \rho_\beta({-\vec q}
 <li><p><code class="docutils literal notranslate"><span class="pre">outputfile</span></code> (<code class="docutils literal notranslate"><span class="pre">str</span></code>): the name of csv file to save the ensemble- and direction-average <em><strong>S(q)</strong></em>, default <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
 </ul>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.reader.dump_reader</span> <span class="kn">import</span> <span class="n">DumpReader</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.reader.reader_utils</span> <span class="kn">import</span> <span class="n">DumpFileType</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.static.sq</span> <span class="kn">import</span> <span class="n">sq</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.dump_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpReader</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.reader.reader_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">DumpFileType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.sq</span><span class="w"> </span><span class="kn">import</span> <span class="n">sq</span>
 
 <span class="n">filename</span> <span class="o">=</span> <span class="s1">&#39;dump.atom&#39;</span>
 <span class="n">readdump</span> <span class="o">=</span> <span class="n">DumpReader</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ndim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">filetype</span><span class="o">=</span><span class="n">DumpFileType</span><span class="o">.</span><span class="n">LAMMPS</span><span class="p">,</span> <span class="n">moltypes</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -318,8 +312,8 @@ S_{\alpha\beta}({\vec q}) = \left&lt; \rho_\alpha({\vec q}) \rho_\beta({-\vec q}
 </ul>
 <p>Note that this calculation is only for single snapshot.</p>
 <p><strong>Example</strong></p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PyMatterSim.static.sq</span> <span class="kn">import</span> <span class="n">conditional_sq</span>
-<span class="kn">from</span> <span class="nn">PyMatterSim.utils.wavevector</span> <span class="kn">import</span> <span class="n">choosewavevector</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.static.sq</span><span class="w"> </span><span class="kn">import</span> <span class="n">conditional_sq</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PyMatterSim.utils.wavevector</span><span class="w"> </span><span class="kn">import</span> <span class="n">choosewavevector</span>
 
 <span class="n">qrange</span> <span class="o">=</span> <span class="mf">10.0</span>
 <span class="k">for</span> <span class="n">snapshot</span> <span class="ow">in</span> <span class="n">readdump</span><span class="o">.</span><span class="n">snapshots</span><span class="o">.</span><span class="n">snapshots</span><span class="p">:</span>
